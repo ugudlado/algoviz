@@ -5,13 +5,7 @@
   const sizeInput = document.getElementById("sizeInput");
   const btnRandom = document.getElementById("btnRandom");
   const btnVisualize = document.getElementById("btnVisualize");
-  const playbackDiv = document.getElementById("playback");
-  const btnReset = document.getElementById("btnReset");
-  const btnStepBack = document.getElementById("btnStepBack");
-  const btnPlay = document.getElementById("btnPlay");
-  const btnPause = document.getElementById("btnPause");
-  const btnStep = document.getElementById("btnStep");
-  const speedSlider = document.getElementById("speed");
+  const pb = document.getElementById("pb");
   const infoEl = document.getElementById("info");
   const resultEl = document.getElementById("result");
   const currentArrayEl = document.getElementById("currentArray");
@@ -29,8 +23,6 @@
   let sortResult = null;
   let steps = [];
   let stepIdx = -1;
-  let timer = null;
-  let isPlaying = false;
 
   function generateRandom() {
     const size = Math.max(
@@ -122,8 +114,8 @@
     return DIGIT_NAMES[pos] || "10^" + pos;
   }
 
-  function renderStep() {
-    if (stepIdx < 0 || stepIdx >= steps.length) {
+  function renderStep(idx) {
+    if (idx < 0 || idx >= steps.length) {
       if (sortResult) {
         renderArray(currentArrayEl, sortResult.steps[0].arr, -1, null);
         renderBuckets([[], [], [], [], [], [], [], [], [], []], -1, false);
@@ -139,8 +131,8 @@
       return;
     }
 
-    const step = steps[stepIdx];
-    const isLastStep = stepIdx === steps.length - 1;
+    const step = steps[idx];
+    const isLastStep = idx === steps.length - 1;
 
     if (isLastStep && step.phase === "collect") {
       renderArray(currentArrayEl, step.arr, -1, "rs-sorted");
@@ -179,40 +171,13 @@
       ")";
     digitStat.textContent =
       step.digitPosition + " (" + digitName(step.digitPosition) + ")";
-    stepStat.textContent = stepIdx + 1 + " / " + steps.length;
+    stepStat.textContent = idx + 1 + " / " + steps.length;
     maxDigitsStat.textContent = sortResult ? String(sortResult.maxDigits) : "—";
     roundStat.textContent =
       String(step.digitPosition + 1) +
       " / " +
       (sortResult ? sortResult.maxDigits : "?");
     infoEl.textContent = step.explanation;
-  }
-
-  function stopPlayback() {
-    if (timer !== null) {
-      clearTimeout(timer);
-      timer = null;
-    }
-    isPlaying = false;
-    btnPlay.disabled = false;
-    btnPause.disabled = true;
-  }
-
-  function getDelay() {
-    const speed = parseInt(speedSlider.value, 10) || 5;
-    return Math.max(50, 1100 - speed * 100);
-  }
-
-  function playStep() {
-    if (!isPlaying) return;
-    if (stepIdx < steps.length - 1) {
-      stepIdx++;
-      renderStep();
-      timer = setTimeout(playStep, getDelay());
-    } else {
-      stopPlayback();
-      showResult();
-    }
   }
 
   function showResult() {
@@ -223,10 +188,25 @@
     }
   }
 
+  // --- Playback component event handlers ---
+  pb.addEventListener("pc-step", (e) => {
+    stepIdx = e.detail.index;
+    renderStep(stepIdx);
+  });
+
+  pb.addEventListener("pc-reset", () => {
+    stepIdx = -1;
+    resultEl.classList.add("hidden");
+    renderStep(-1);
+  });
+
+  pb.addEventListener("pc-complete", () => {
+    showResult();
+  });
+
   btnRandom.addEventListener("click", generateRandom);
 
   btnVisualize.addEventListener("click", () => {
-    stopPlayback();
     const parsed = parseInputs();
     if (parsed.error) {
       infoEl.textContent = parsed.error;
@@ -236,51 +216,9 @@
     steps = sortResult.steps;
     stepIdx = -1;
     resultEl.classList.add("hidden");
-    playbackDiv.classList.remove("hidden");
-    renderStep();
+    renderStep(-1);
+    pb.setSteps(steps);
   });
-
-  btnPlay.addEventListener("click", () => {
-    if (steps.length === 0) return;
-    if (stepIdx >= steps.length - 1) {
-      stepIdx = -1;
-    }
-    isPlaying = true;
-    btnPlay.disabled = true;
-    btnPause.disabled = false;
-    playStep();
-  });
-
-  btnPause.addEventListener("click", stopPlayback);
-
-  btnStep.addEventListener("click", () => {
-    stopPlayback();
-    if (stepIdx < steps.length - 1) {
-      stepIdx++;
-      renderStep();
-      if (stepIdx === steps.length - 1) {
-        showResult();
-      }
-    }
-  });
-
-  btnStepBack.addEventListener("click", () => {
-    stopPlayback();
-    if (stepIdx > -1) {
-      stepIdx--;
-      renderStep();
-      resultEl.classList.add("hidden");
-    }
-  });
-
-  btnReset.addEventListener("click", () => {
-    stopPlayback();
-    stepIdx = -1;
-    resultEl.classList.add("hidden");
-    renderStep();
-  });
-
-  window.addEventListener("beforeunload", stopPlayback);
 
   // Pre-populate arrays on page load
   function renderInitialState() {

@@ -175,80 +175,7 @@
         <div id="result" class="result hidden"></div>
 
         <!-- Playback -->
-        <div class="bs-playback hidden" id="playback">
-          <div class="playback-btns">
-            <button class="icon-btn" id="btnReset" title="Reset">
-              <svg
-                width="15"
-                height="15"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                ></path>
-                <path d="M3 3v5h5"></path>
-              </svg>
-            </button>
-            <button class="icon-btn" id="btnStepBack" title="Step back">
-              <svg
-                width="15"
-                height="15"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <polygon points="19 20 9 12 19 4 19 20"></polygon>
-                <line x1="5" y1="19" x2="5" y2="5"></line>
-              </svg>
-            </button>
-            <button class="icon-btn icon-btn-play" id="btnPlay" title="Play">
-              <svg
-                width="15"
-                height="15"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <polygon points="5 3 19 12 5 21 5 3"></polygon>
-              </svg>
-            </button>
-            <button class="icon-btn" id="btnPause" disabled title="Pause">
-              <svg
-                width="15"
-                height="15"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <rect x="6" y="4" width="4" height="16"></rect>
-                <rect x="14" y="4" width="4" height="16"></rect>
-              </svg>
-            </button>
-            <button class="icon-btn" id="btnStep" title="Step forward">
-              <svg
-                width="15"
-                height="15"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <polygon points="5 4 15 12 5 20 5 4"></polygon>
-                <line x1="19" y1="5" x2="19" y2="19"></line>
-              </svg>
-            </button>
-          </div>
-          <span class="step-counter" id="stepStat">0 / 0</span>
-          <div class="speed-control">
-            <span class="speed-label">Speed</span>
-            <input type="range" id="speed" min="1" max="10" value="5" />
-            <span class="speed-value" id="speedVal">5</span>
-          </div>
-        </div>
+        <playback-controller id="pb"></playback-controller>
       </section>
 
       <!-- Right Sidebar: Stats & Analysis -->
@@ -323,6 +250,7 @@
       </aside>
     </main>
 
+    <script src="../../playback-controller.js"></script>
     <script src="./algorithm.js"></script>
     <script src="./page.js"></script>
   </body>
