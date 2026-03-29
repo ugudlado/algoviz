@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlgoViz — Union-Find (Disjoint Set Union)</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="union-find-style.css" />
+  </head>
+  <body data-category="ds">
+    <nav class="algo-nav">
+      <a href="index.html" class="nav-home">AlgoViz</a>
+      <div class="nav-category">
+        <button class="nav-category-btn">Sorting</button>
+        <div class="nav-dropdown">
+          <a href="bubble-sort.html">Bubble Sort</a>
+          <a href="merge-sort.html">Merge Sort</a>
+          <a href="quicksort.html">Quick Sort</a>
+          <a href="radix-sort.html">Radix Sort</a>
+          <a href="topo-sort.html">Topological Sort</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Searching</button>
+        <div class="nav-dropdown">
+          <a href="binary-search.html">Binary Search</a>
+          <a href="bfs.html">BFS Pathfinding</a>
+          <a href="dfs.html">DFS Pathfinding</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Graph</button>
+        <div class="nav-dropdown">
+          <a href="dijkstra.html">Dijkstra</a>
+          <a href="astar.html">A* Pathfinding</a>
+          <a href="floyd-warshall.html">Floyd-Warshall</a>
+          <a href="prims.html">Prim's MST</a>
+          <a href="kruskal.html">Kruskal's MST</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">DP</button>
+        <div class="nav-dropdown">
+          <a href="knapsack.html">Knapsack (0/1)</a>
+          <a href="lcs.html">LCS</a>
+          <a href="levenshtein.html">Levenshtein Distance</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">String</button>
+        <div class="nav-dropdown">
+          <a href="kmp.html">KMP Search</a>
+          <a href="huffman.html">Huffman Coding</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn current-category">
+          Data Structures
+        </button>
+        <div class="nav-dropdown">
+          <a href="bst.html">BST Traversal</a>
+          <a href="hash-table.html">Hash Table</a>
+          <a href="heap.html">Min-Heap</a>
+          <a href="lru-cache.html">LRU Cache</a>
+          <a href="bloom-filter.html">Bloom Filter</a>
+          <a href="trie.html">Trie</a>
+          <a href="union-find.html" class="active">Union-Find</a>
+          <a href="sliding-window.html">Sliding Window</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">More</button>
+        <div class="nav-dropdown">
+          <a href="convex-hull.html">Convex Hull</a>
+          <a href="elevator.html">Elevator (SCAN)</a>
+          <a href="minimax.html">Minimax</a>
+        </div>
+      </div>
+      <button
+        class="nav-hamburger"
+        onclick="this.closest('.algo-nav').classList.toggle('nav-open')"
+      >
+        ☰
+      </button>
+    </nav>
+
+    <header class="page-header">
+      <div class="title-group">
+        <h1>Union-Find (Disjoint Set Union)</h1>
+        <div class="title-meta">
+          <span class="badge">Data Structures</span>
+          <span class="badge badge-accent">O(&alpha;(n))</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="content-grid">
+      <section class="main-column">
+        <div class="uf-layout">
+          <!-- Left: Controls + Forest Visualization -->
+          <div class="uf-left-col">
+            <!-- Node count slider -->
+            <div class="uf-control-panel">
+              <label class="uf-slider-label" for="uf-nodeCount">
+                Nodes: <span id="uf-nodeCountDisplay">8</span>
+              </label>
+              <input
+                type="range"
+                id="uf-nodeCount"
+                min="2"
+                max="16"
+                value="8"
+                class="uf-slider"
+              />
+              <button id="uf-btnReset" class="uf-btn">Reset</button>
+            </div>
+
+            <!-- Operation input -->
+            <div class="uf-op-panel">
+              <div class="uf-op-row">
+                <select id="uf-opType" class="uf-select">
+                  <option value="union">Union</option>
+                  <option value="find">Find</option>
+                  <option value="connected">Connected?</option>
+                </select>
+                <label class="uf-node-label" for="uf-nodeX">Node X:</label>
+                <input
+                  type="number"
+                  id="uf-nodeX"
+                  min="0"
+                  max="15"
+                  value="0"
+                  class="uf-node-input"
+                />
+                <label class="uf-node-label uf-node-y-label" for="uf-nodeY"
+                  >Node Y:</label
+                >
+                <input
+                  type="number"
+                  id="uf-nodeY"
+                  min="0"
+                  max="15"
+                  value="1"
+                  class="uf-node-input uf-node-y-input"
+                />
+                <button id="uf-btnExecute" class="uf-btn uf-btn-primary">
+                  Execute
+                </button>
+              </div>
+              <div class="uf-error" id="uf-error"></div>
+            </div>
+
+            <!-- Step playback controls -->
+            <div class="uf-playback-row" id="uf-playbackControls">
+              <button id="uf-btnStepBack" disabled>&larr; Prev</button>
+              <button id="uf-btnPlay" disabled>Play</button>
+              <button id="uf-btnPause" disabled>Pause</button>
+              <button id="uf-btnStepNext" disabled>Next &rarr;</button>
+              <label class="uf-speed-label" for="uf-speed">Speed:</label>
+              <input
+                type="range"
+                id="uf-speed"
+                min="1"
+                max="10"
+                value="5"
+                class="uf-speed-slider"
+              />
+            </div>
+
+            <!-- Narrative bar -->
+            <div class="uf-narrative" id="uf-narrative">
+              Execute an operation to begin.
+            </div>
+
+            <!-- Forest SVG canvas -->
+            <div class="uf-forest-wrapper">
+              <svg
+                id="uf-forestSvg"
+                class="uf-forest-svg"
+                aria-label="Union-Find forest visualization"
+              ></svg>
+            </div>
+          </div>
+
+          <!-- Right: Info panel -->
+          <div class="uf-right-col">
+            <!-- Component count -->
+            <div class="uf-stat-panel">
+              <div class="uf-stat-label">Components</div>
+              <div class="uf-stat-value" id="uf-componentCount">8</div>
+            </div>
+
+            <!-- Component membership -->
+            <div class="uf-membership-panel">
+              <div class="uf-panel-title">Component Membership</div>
+              <div id="uf-membershipList" class="uf-membership-list"></div>
+            </div>
+
+            <!-- Operation history log -->
+            <div class="uf-history-panel">
+              <div class="uf-panel-title">Operation History</div>
+              <ol id="uf-historyLog" class="uf-history-log"></ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-value" id="uf-componentCountSidebar">8</span>
+            <span class="stat-label">Components</span>
+          </div>
+        </div>
+
+        <!-- Pseudocode -->
+        <div class="panel">
+          <div class="panel-title">Pseudocode</div>
+          <div class="code-panel" id="pseudocode">
+            <span class="code-line" data-line="0">find(x):</span>
+            <span class="code-line" data-line="1"> if parent[x] != x:</span>
+            <span class="code-line" data-line="2">
+              parent[x] = find(parent[x])</span
+            >
+            <span class="code-line" data-line="3"> return parent[x]</span>
+            <span class="code-line" data-line="4"></span>
+            <span class="code-line" data-line="5">union(x, y):</span>
+            <span class="code-line" data-line="6">
+              rx, ry = find(x), find(y)</span
+            >
+            <span class="code-line" data-line="7"> if rx == ry: return</span>
+            <span class="code-line" data-line="8">
+              attach smaller rank to larger</span
+            >
+          </div>
+        </div>
+
+        <!-- Real-world Analogy -->
+        <div class="panel-title">Real-world Analogy</div>
+        <div class="analogy-card">
+          <p>
+            <strong>Social network friend groups</strong> &mdash; each person
+            starts as their own group. When two people become friends, their
+            entire friend circles merge into one. To check if two people are
+            connected, follow the chain of introductions back to each group's
+            representative.
+          </p>
+        </div>
+      </aside>
+    </main>
+
+    <script src="union-find-algorithm.js"></script>
+    <script src="union-find.js"></script>
+  </body>
+</html>

@@ -1,0 +1,69 @@
+{
+  "env": {
+    "browser": true,
+    "es2022": true
+  },
+  "globals": {
+    "ScanAlgorithm": "readonly",
+    "KnapsackAlgorithm": "readonly",
+    "BubbleSortAlgorithm": "readonly",
+    "BSTAlgorithm": "readonly",
+    "MergeSortAlgorithm": "readonly",
+    "BinarySearchAlgorithm": "readonly",
+    "DFSAlgorithm": "readonly",
+    "LCSAlgorithm": "readonly",
+    "DijkstraAlgorithm": "readonly",
+    "HashTableAlgorithm": "readonly",
+    "HuffmanAlgorithm": "readonly",
+    "AStarAlgorithm": "readonly",
+    "TopoSortAlgorithm": "readonly",
+    "LRUCacheAlgorithm": "readonly",
+    "ConvexHullAlgorithm": "readonly",
+    "BloomFilterAlgorithm": "readonly",
+    "levenshteinCompute": "readonly",
+    "BFSAlgorithm": "readonly",
+    "KMPAlgorithm": "readonly",
+    "QuickSortAlgorithm": "readonly",
+    "FloydWarshallAlgorithm": "readonly",
+    "MinimaxAlgorithm": "readonly",
+    "UnionFindAlgorithm": "readonly",
+    "HeapAlgorithm": "readonly",
+    "SlidingWindowAlgorithm": "readonly",
+    "PrimsAlgorithm": "readonly",
+    "TrieAlgorithm": "readonly",
+    "RadixSortAlgorithm": "readonly",
+    "KruskalAlgorithm": "readonly"
+  },
+  "rules": {
+    "no-undef": "error",
+    "no-unused-vars": "warn"
+  },
+  "ignorePatterns": [
+    "node_modules"
+  ],
+  "overrides": [
+    {
+      "files": ["*-algorithm.js"],
+      "env": {
+        "browser": true,
+        "node": true,
+        "es2022": true
+      },
+      "rules": {
+        "no-undef": "error",
+        "no-unused-vars": ["warn", { "varsIgnorePattern": "Algorithm$|^levenshteinCompute$" }]
+      }
+    },
+    {
+      "files": ["*-algorithm.test.js", "run-tests.js"],
+      "env": {
+        "node": true,
+        "es2022": true
+      },
+      "rules": {
+        "no-undef": "error",
+        "no-unused-vars": "warn"
+      }
+    }
+  ]
+}

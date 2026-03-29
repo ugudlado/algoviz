@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlgoViz — Elevator (SCAN)</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="elevator-style.css" />
+  </head>
+  <body data-category="scheduling">
+    <nav class="algo-nav">
+      <a href="index.html" class="nav-home">AlgoViz</a>
+      <div class="nav-category">
+        <button class="nav-category-btn">Sorting</button>
+        <div class="nav-dropdown">
+          <a href="bubble-sort.html">Bubble Sort</a>
+          <a href="merge-sort.html">Merge Sort</a>
+          <a href="quicksort.html">Quick Sort</a>
+          <a href="radix-sort.html">Radix Sort</a>
+          <a href="topo-sort.html">Topological Sort</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Searching</button>
+        <div class="nav-dropdown">
+          <a href="binary-search.html">Binary Search</a>
+          <a href="bfs.html">BFS Pathfinding</a>
+          <a href="dfs.html">DFS Pathfinding</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Graph</button>
+        <div class="nav-dropdown">
+          <a href="dijkstra.html">Dijkstra</a>
+          <a href="astar.html">A* Pathfinding</a>
+          <a href="floyd-warshall.html">Floyd-Warshall</a>
+          <a href="prims.html">Prim's MST</a>
+          <a href="kruskal.html">Kruskal's MST</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">DP</button>
+        <div class="nav-dropdown">
+          <a href="knapsack.html">Knapsack (0/1)</a>
+          <a href="lcs.html">LCS</a>
+          <a href="levenshtein.html">Levenshtein Distance</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">String</button>
+        <div class="nav-dropdown">
+          <a href="kmp.html">KMP Search</a>
+          <a href="huffman.html">Huffman Coding</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Data Structures</button>
+        <div class="nav-dropdown">
+          <a href="bst.html">BST Traversal</a>
+          <a href="hash-table.html">Hash Table</a>
+          <a href="heap.html">Min-Heap</a>
+          <a href="lru-cache.html">LRU Cache</a>
+          <a href="bloom-filter.html">Bloom Filter</a>
+          <a href="trie.html">Trie</a>
+          <a href="union-find.html">Union-Find</a>
+          <a href="sliding-window.html">Sliding Window</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn current-category">More</button>
+        <div class="nav-dropdown">
+          <a href="convex-hull.html">Convex Hull</a>
+          <a href="elevator.html" class="active">Elevator (SCAN)</a>
+          <a href="minimax.html">Minimax</a>
+        </div>
+      </div>
+      <button
+        class="nav-hamburger"
+        onclick="this.closest('.algo-nav').classList.toggle('nav-open')"
+      >
+        ☰
+      </button>
+    </nav>
+
+    <header class="page-header">
+      <div class="title-group">
+        <h1>Elevator (SCAN) Disk Scheduling</h1>
+        <div class="title-meta">
+          <span class="badge">Scheduling</span>
+          <span class="badge badge-accent">O(n log n)</span>
+        </div>
+      </div>
+      <div class="elev-legend">
+        <span class="swatch elev-pending-swatch"></span> Pending
+        <span class="swatch elev-active-swatch"></span> Active
+        <span class="swatch elev-completed-swatch"></span> Completed
+        <span class="swatch elev-car-swatch"></span> Elevator
+      </div>
+    </header>
+
+    <main class="content-grid">
+      <section class="main-column">
+        <!-- Input Panel -->
+        <div class="panel">
+          <div class="inputs">
+            <label
+              >Requests:
+              <input
+                type="text"
+                id="requestsInput"
+                value="2, 9, 6, 4, 1"
+                placeholder="e.g. 2, 9, 6, 4, 1"
+            /></label>
+            <label
+              >Start:
+              <input type="number" id="startInput" value="5" min="0" max="20"
+            /></label>
+            <label
+              >Direction:
+              <select id="directionInput">
+                <option value="up" selected>Up</option>
+                <option value="down">Down</option>
+              </select>
+            </label>
+            <label
+              >Max Floor:
+              <input
+                type="number"
+                id="maxFloorInput"
+                value="10"
+                min="1"
+                max="30"
+            /></label>
+            <button id="btnVisualize">Visualize</button>
+          </div>
+        </div>
+
+        <!-- Step Info -->
+        <div id="info" class="info">
+          Enter floor requests and click <strong>Visualize</strong> to begin.
+        </div>
+
+        <!-- Visualization Area -->
+        <div class="elev-layout">
+          <div class="elev-shaft-container" id="shaftContainer">
+            <div class="elev-shaft" id="shaft"></div>
+            <div class="elev-car" id="elevatorCar">
+              <span class="elev-direction-arrow" id="dirArrow">&#9650;</span>
+            </div>
+          </div>
+          <div class="elev-queue-panel">
+            <h3>Request Queue</h3>
+            <div class="elev-queue-list" id="queueList"></div>
+          </div>
+        </div>
+
+        <div id="result" class="result hidden"></div>
+
+        <!-- Playback Controls -->
+        <div class="playback-controls hidden" id="playback">
+          <div class="playback-btns">
+            <button class="icon-btn" id="btnReset" title="Reset">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                ></path>
+                <path d="M3 3v5h5"></path>
+              </svg>
+            </button>
+            <button class="icon-btn" id="btnStepBack" title="Step Back">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                <line x1="5" y1="19" x2="5" y2="5"></line>
+              </svg>
+            </button>
+            <button class="icon-btn active" id="btnPlay" title="Play">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+            </button>
+            <button class="icon-btn" id="btnPause" disabled title="Pause">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+              </svg>
+            </button>
+            <button class="icon-btn" id="btnStep" title="Step Forward">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                <line x1="19" y1="5" x2="19" y2="19"></line>
+              </svg>
+            </button>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem">
+            <span
+              style="
+                font-size: 0.75rem;
+                color: var(--text-muted);
+                font-weight: 600;
+              "
+              >Speed</span
+            >
+            <input type="range" id="speed" min="1" max="10" value="5" />
+          </div>
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <!-- Stats Grid -->
+        <div class="stats-grid" id="statsPanel">
+          <div class="stat-card">
+            <span class="stat-value" id="distanceStat">0</span>
+            <span class="stat-label">Distance Traveled</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="servicedStat">0 / 0</span>
+            <span class="stat-label">Requests Serviced</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="directionStat">--</span>
+            <span class="stat-label">Direction</span>
+          </div>
+        </div>
+
+        <!-- Pseudocode -->
+        <div class="panel">
+          <div class="panel-title">Pseudocode</div>
+          <!-- prettier-ignore -->
+          <div class="code-panel">
+            <span class="code-line">sort requests by floor</span>
+            <span class="code-line">while requests remain:</span>
+            <span class="code-line"> move in current direction</span>
+            <span class="code-line"> if floor has request:</span>
+            <span class="code-line"> service request</span>
+            <span class="code-line"> if at boundary (0 or max):</span>
+            <span class="code-line"> reverse direction</span>
+            <span class="code-line"> if no more requests ahead:</span>
+            <span class="code-line"> reverse direction</span>
+          </div>
+        </div>
+
+        <!-- Real-world Analogy -->
+        <div class="panel-title">Real-world Analogy</div>
+        <div class="analogy-card">
+          <p>
+            <strong>An elevator in a building</strong> &mdash; instead of
+            jumping to each requested floor in order received, the elevator
+            moves in one direction, stopping at all requested floors along the
+            way, then reverses. This is exactly how real elevators work and how
+            disk heads sweep across platters in the SCAN algorithm.
+          </p>
+        </div>
+      </aside>
+    </main>
+
+    <script src="scan-algorithm.js"></script>
+    <script src="elevator.js"></script>
+  </body>
+</html>

@@ -1,0 +1,1124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlgoViz — Interactive Algorithm Visualizations</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* ==============================
+         Homepage-specific styles (G2)
+         ============================== */
+
+      body[data-category="home"] {
+        --accent: #00e5ff;
+        --accent-dim: #00e5ff15;
+        --accent-glow: rgba(0, 229, 255, 0.15);
+        display: block;
+        padding: 0;
+      }
+
+      /* --- Navigation (homepage override) --- */
+      .home-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 2rem;
+        height: 56px;
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        background: rgba(3, 3, 3, 0.8);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        z-index: 100;
+      }
+
+      .home-nav .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 700;
+        font-size: 1.1rem;
+        letter-spacing: -0.02em;
+        text-decoration: none;
+        color: var(--text-primary);
+      }
+
+      .logo-icon {
+        width: 24px;
+        height: 24px;
+        background: var(--accent);
+        border-radius: 4px;
+        display: grid;
+        place-items: center;
+        box-shadow: 0 0 15px var(--accent-glow);
+      }
+
+      .home-nav .nav-links {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .home-nav .nav-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.2s ease;
+      }
+
+      .home-nav .nav-links a:hover {
+        color: var(--accent);
+      }
+
+      .search-bar {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border);
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        width: 240px;
+        cursor: pointer;
+        transition: border-color 0.2s;
+      }
+
+      .search-bar:hover {
+        border-color: var(--border-hover);
+      }
+
+      .kbd {
+        background: var(--border);
+        padding: 2px 5px;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        font-family: var(--font-mono);
+      }
+
+      /* --- Hero --- */
+      .home-hero {
+        max-width: 1200px;
+        margin: 6rem auto 4rem;
+        padding: 0 2rem;
+        text-align: center;
+        position: relative;
+      }
+
+      .hero-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        background: var(--accent-dim);
+        border: 1px solid rgba(0, 229, 255, 0.2);
+        color: var(--accent);
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .hero-title {
+        font-family: var(--font-display);
+        font-size: clamp(3rem, 8vw, 4rem);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(to bottom, #fff 0%, #a1a1a1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1.1;
+      }
+
+      .hero-subtitle {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        max-width: 600px;
+        margin: 0 auto 3rem;
+        line-height: 1.6;
+      }
+
+      .hero-actions {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 3rem;
+      }
+
+      .hero-btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        border: none;
+      }
+
+      .hero-btn-primary {
+        background: var(--text-primary);
+        color: var(--bg-primary);
+      }
+
+      .hero-btn-primary:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+
+      .hero-btn-secondary {
+        background: transparent;
+        color: var(--text-primary);
+        border: 1px solid var(--border);
+      }
+
+      .hero-btn-secondary:hover {
+        border-color: var(--text-secondary);
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .hero-meta {
+        display: flex;
+        gap: 3rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .hero-stat {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+      }
+
+      .hero-stat-value {
+        font-family: var(--font-mono);
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+
+      .hero-stat-label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      /* --- Main content area --- */
+      .home-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem 8rem;
+      }
+
+      /* --- Category section --- */
+      .category-section {
+        margin-bottom: 5rem;
+      }
+
+      .category-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 0.75rem;
+      }
+
+      .category-name {
+        font-family: var(--font-display);
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      .category-count {
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+        color: var(--accent);
+        opacity: 0.7;
+      }
+
+      /* --- Algorithm card grid --- */
+      .algo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+      }
+
+      /* --- Algorithm card --- */
+      .algo-card {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1.5rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 160px;
+        text-decoration: none;
+        color: var(--text-primary);
+      }
+
+      .algo-card:hover {
+        border-color: var(--border-hover);
+        background: var(--bg-tertiary);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+      }
+
+      .algo-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 2px;
+        height: 0;
+        background: var(--cat-color);
+        transition: height 0.3s ease;
+      }
+
+      .algo-card:hover::before {
+        height: 100%;
+      }
+
+      .algo-card-name {
+        font-family: var(--font-display);
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.01em;
+      }
+
+      .algo-card-complexity {
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .complexity-tag {
+        padding: 2px 6px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+        color: var(--text-secondary);
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+      }
+
+      .algo-card-meta {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .algo-card-tag {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        color: var(--cat-color);
+        opacity: 0.7;
+      }
+
+      .view-link {
+        font-size: 0.8rem;
+        color: var(--accent);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        opacity: 0;
+        transform: translateX(-10px);
+        transition: all 0.2s ease;
+      }
+
+      .algo-card:hover .view-link {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      /* --- Category color per section --- */
+      .cat-sorting {
+        --cat-color: var(--cat-sorting);
+      }
+      .cat-searching {
+        --cat-color: var(--cat-searching);
+      }
+      .cat-graph {
+        --cat-color: var(--cat-graph);
+      }
+      .cat-dp {
+        --cat-color: var(--cat-dp);
+      }
+      .cat-string {
+        --cat-color: var(--cat-string);
+      }
+      .cat-ds {
+        --cat-color: var(--cat-ds);
+      }
+      .cat-geometry {
+        --cat-color: var(--cat-geometry);
+      }
+      .cat-scheduling {
+        --cat-color: var(--cat-scheduling);
+      }
+      .cat-gametheory {
+        --cat-color: #f85149;
+      }
+
+      /* --- Footer --- */
+      .home-footer {
+        border-top: 1px solid var(--border);
+        padding: 4rem 2rem;
+        background: #050505;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 4rem;
+      }
+
+      .footer-brand p {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        margin-top: 1rem;
+        max-width: 300px;
+      }
+
+      .footer-links h4 {
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .footer-links ul {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 0.75rem;
+      }
+
+      .footer-links a {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.2s ease;
+      }
+
+      .footer-links a:hover {
+        color: var(--text-primary);
+      }
+
+      .footer-bottom {
+        max-width: 1200px;
+        margin: 4rem auto 0;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+      }
+
+      .footer-bottom a {
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .footer-bottom a:hover {
+        color: var(--text-primary);
+      }
+
+      /* --- Responsive --- */
+      @media (max-width: 900px) {
+        .hero-title {
+          font-size: 2.5rem;
+        }
+        .footer-content {
+          grid-template-columns: 1fr 1fr;
+        }
+        .home-nav .nav-links,
+        .search-bar {
+          display: none;
+        }
+        .algo-grid {
+          grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        }
+      }
+
+      @media (max-width: 600px) {
+        .home-hero {
+          margin: 3rem auto 2rem;
+        }
+        .hero-title {
+          font-size: 2rem;
+        }
+        .hero-actions {
+          flex-direction: column;
+          align-items: center;
+        }
+        .hero-meta {
+          gap: 1.5rem;
+        }
+        .algo-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 0.75rem;
+        }
+        .algo-card {
+          min-height: auto;
+          padding: 1rem;
+        }
+        .algo-card-name {
+          font-size: 0.9rem;
+        }
+        .category-section {
+          margin-bottom: 3rem;
+        }
+        .footer-content {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+      }
+
+      @media (max-width: 400px) {
+        .algo-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body data-category="home">
+    <!-- Navigation -->
+    <nav class="home-nav">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="black"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+        </div>
+        AlgoViz
+      </a>
+      <div class="nav-links">
+        <a href="#sorting">Algorithms</a>
+        <a href="#ds">Data Structures</a>
+      </div>
+      <div class="search-bar">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        Search algorithms...
+        <span style="margin-left: auto" class="kbd">&#8984;K</span>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="home-hero">
+      <span class="hero-badge">29 Algorithms &middot; Interactive</span>
+      <h1 class="hero-title">Master Complexity.</h1>
+      <p class="hero-subtitle">
+        Step through classic algorithms one frame at a time. Every visualization
+        is interactive &mdash; control the pace, inspect intermediate state, and
+        build genuine intuition.
+      </p>
+      <div class="hero-actions">
+        <a href="#sorting" class="hero-btn hero-btn-primary">Start Exploring</a>
+        <a href="https://github.com" class="hero-btn hero-btn-secondary"
+          >View Source</a
+        >
+      </div>
+      <div class="hero-meta">
+        <div class="hero-stat">
+          <span class="hero-stat-value">29</span>
+          <span class="hero-stat-label">Algorithms</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">9</span>
+          <span class="hero-stat-label">Categories</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">100%</span>
+          <span class="hero-stat-label">Client-side</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Algorithm Grid -->
+    <main class="home-content">
+      <!-- Sorting -->
+      <section id="sorting" class="category-section cat-sorting">
+        <div class="category-header">
+          <h2 class="category-name">Sorting</h2>
+          <span class="category-count">05</span>
+        </div>
+        <div class="algo-grid">
+          <a href="bubble-sort.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Bubble Sort</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(n&sup2;)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Stable</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="merge-sort.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Merge Sort</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(n log n)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Divide &amp; Conquer</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="quicksort.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Quick Sort</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(n log n)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >In-place</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="radix-sort.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Radix Sort</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(nk)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Non-comparative</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="topo-sort.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Topological Sort</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(V + E)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem">DAG</span>
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Searching -->
+      <section class="category-section cat-searching">
+        <div class="category-header">
+          <h2 class="category-name">Searching</h2>
+          <span class="category-count">03</span>
+        </div>
+        <div class="algo-grid">
+          <a href="binary-search.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Binary Search</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(log n)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Sorted Array</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="bfs.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">BFS Pathfinding</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(V + E)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Queue-based</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="dfs.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">DFS Pathfinding</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(V + E)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Stack-based</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Graph -->
+      <section class="category-section cat-graph">
+        <div class="category-header">
+          <h2 class="category-name">Graph</h2>
+          <span class="category-count">05</span>
+        </div>
+        <div class="algo-grid">
+          <a href="dijkstra.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Dijkstra</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(E + V log V)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Shortest Path</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="astar.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">A* Search</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(E)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Heuristic</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="floyd-warshall.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Floyd-Warshall</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(V&sup3;)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >All-pairs</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="prims.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Prim's MST</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(E log V)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Greedy</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="kruskal.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Kruskal's MST</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(E log E)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Disjoint Set</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Dynamic Programming -->
+      <section class="category-section cat-dp">
+        <div class="category-header">
+          <h2 class="category-name">Dynamic Programming</h2>
+          <span class="category-count">03</span>
+        </div>
+        <div class="algo-grid">
+          <a href="knapsack.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">0/1 Knapsack</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(nW)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Optimization</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="lcs.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">LCS</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(nm)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Subsequence</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="levenshtein.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Levenshtein Distance</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(nm)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Edit Distance</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- String -->
+      <section class="category-section cat-string">
+        <div class="category-header">
+          <h2 class="category-name">String</h2>
+          <span class="category-count">02</span>
+        </div>
+        <div class="algo-grid">
+          <a href="kmp.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">KMP Search</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(n + m)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Pattern Matching</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="huffman.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Huffman Coding</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(n log n)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Compression</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Data Structures -->
+      <section id="ds" class="category-section cat-ds">
+        <div class="category-header">
+          <h2 class="category-name">Data Structures</h2>
+          <span class="category-count">08</span>
+        </div>
+        <div class="algo-grid">
+          <a href="bst.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">BST Traversal</div>
+              <div class="algo-card-complexity">
+                Search: <span class="complexity-tag">O(log n)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Ordered</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="hash-table.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Hash Table</div>
+              <div class="algo-card-complexity">
+                Access: <span class="complexity-tag">O(1)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Amortized</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="heap.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Min-Heap</div>
+              <div class="algo-card-complexity">
+                Peek: <span class="complexity-tag">O(1)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Priority Queue</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="lru-cache.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">LRU Cache</div>
+              <div class="algo-card-complexity">
+                Get/Put: <span class="complexity-tag">O(1)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Eviction</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="bloom-filter.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Bloom Filter</div>
+              <div class="algo-card-complexity">
+                Check: <span class="complexity-tag">O(k)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Probabilistic</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="trie.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Trie</div>
+              <div class="algo-card-complexity">
+                Find: <span class="complexity-tag">O(L)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Prefix Tree</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="union-find.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Union-Find</div>
+              <div class="algo-card-complexity">
+                Find: <span class="complexity-tag">O(&alpha;(n))</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Connectivity</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="sliding-window.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Sliding Window</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(n)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Pointers</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Geometry, Scheduling & Game Theory -->
+      <section class="category-section cat-geometry">
+        <div class="category-header">
+          <h2 class="category-name">Geometry, Scheduling &amp; Game Theory</h2>
+          <span class="category-count">03</span>
+        </div>
+        <div class="algo-grid">
+          <a href="convex-hull.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Convex Hull</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(n log n)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Geometry</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="elevator.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Elevator SCAN</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(n log n)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Scheduling</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="minimax.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Minimax</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(b^d)</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Game Theory</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="home-footer">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="index.html" class="logo" style="display: inline-flex">
+            <div class="logo-icon">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="black"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+            </div>
+            AlgoViz
+          </a>
+          <p>
+            Interactive algorithm visualizations designed for learning. Step
+            through every operation, one frame at a time.
+          </p>
+        </div>
+        <div class="footer-links">
+          <h4>Algorithms</h4>
+          <ul>
+            <li><a href="bubble-sort.html">Sorting</a></li>
+            <li><a href="binary-search.html">Searching</a></li>
+            <li><a href="dijkstra.html">Graph</a></li>
+            <li><a href="knapsack.html">Dynamic Programming</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Data Structures</h4>
+          <ul>
+            <li><a href="bst.html">BST</a></li>
+            <li><a href="heap.html">Heap</a></li>
+            <li><a href="trie.html">Trie</a></li>
+            <li><a href="bloom-filter.html">Bloom Filter</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>More</h4>
+          <ul>
+            <li><a href="convex-hull.html">Geometry</a></li>
+            <li><a href="elevator.html">Scheduling</a></li>
+            <li><a href="minimax.html">Game Theory</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>AlgoViz &mdash; built for learning, one step at a time</p>
+        <div style="display: flex; gap: 1.5rem">
+          <a href="https://github.com">GitHub</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

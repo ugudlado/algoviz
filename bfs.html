@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlgoViz — BFS Pathfinding</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="bfs-style.css" />
+  </head>
+  <body data-category="searching">
+    <nav class="algo-nav">
+      <a href="index.html" class="nav-home">AlgoViz</a>
+      <div class="nav-category">
+        <button class="nav-category-btn">Sorting</button>
+        <div class="nav-dropdown">
+          <a href="bubble-sort.html">Bubble Sort</a>
+          <a href="merge-sort.html">Merge Sort</a>
+          <a href="quicksort.html">Quick Sort</a>
+          <a href="radix-sort.html">Radix Sort</a>
+          <a href="topo-sort.html">Topological Sort</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn current-category">Searching</button>
+        <div class="nav-dropdown">
+          <a href="binary-search.html">Binary Search</a>
+          <a href="bfs.html" class="active">BFS Pathfinding</a>
+          <a href="dfs.html">DFS Pathfinding</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Graph</button>
+        <div class="nav-dropdown">
+          <a href="dijkstra.html">Dijkstra</a>
+          <a href="astar.html">A* Pathfinding</a>
+          <a href="floyd-warshall.html">Floyd-Warshall</a>
+          <a href="prims.html">Prim's MST</a>
+          <a href="kruskal.html">Kruskal's MST</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">DP</button>
+        <div class="nav-dropdown">
+          <a href="knapsack.html">Knapsack (0/1)</a>
+          <a href="lcs.html">LCS</a>
+          <a href="levenshtein.html">Levenshtein Distance</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">String</button>
+        <div class="nav-dropdown">
+          <a href="kmp.html">KMP Search</a>
+          <a href="huffman.html">Huffman Coding</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Data Structures</button>
+        <div class="nav-dropdown">
+          <a href="bst.html">BST Traversal</a>
+          <a href="hash-table.html">Hash Table</a>
+          <a href="heap.html">Min-Heap</a>
+          <a href="lru-cache.html">LRU Cache</a>
+          <a href="bloom-filter.html">Bloom Filter</a>
+          <a href="trie.html">Trie</a>
+          <a href="union-find.html">Union-Find</a>
+          <a href="sliding-window.html">Sliding Window</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">More</button>
+        <div class="nav-dropdown">
+          <a href="convex-hull.html">Convex Hull</a>
+          <a href="elevator.html">Elevator (SCAN)</a>
+          <a href="minimax.html">Minimax</a>
+        </div>
+      </div>
+      <button
+        class="nav-hamburger"
+        onclick="this.closest('.algo-nav').classList.toggle('nav-open')"
+      >
+        ☰
+      </button>
+    </nav>
+
+    <header class="page-header">
+      <div class="title-group">
+        <h1>BFS Pathfinding</h1>
+        <div class="title-meta">
+          <span class="badge">Searching</span>
+          <span class="badge badge-accent">O(V + E)</span>
+        </div>
+      </div>
+      <div class="legend">
+        <span class="swatch bfs-empty"></span> Empty
+        <span class="swatch bfs-wall"></span> Wall
+        <span class="swatch bfs-start"></span> Start
+        <span class="swatch bfs-end"></span> End
+        <span class="swatch bfs-visited"></span> Visited
+        <span class="swatch bfs-frontier"></span> Frontier
+        <span class="swatch bfs-path"></span> Path
+      </div>
+    </header>
+
+    <main class="content-grid">
+      <section class="main-column">
+        <!-- Input Panel -->
+        <div class="panel">
+          <div class="inputs">
+            <label
+              >Grid:
+              <select id="gridSize">
+                <option value="10">10 &times; 10</option>
+                <option value="15">15 &times; 15</option>
+                <option value="20" selected>20 &times; 20</option>
+                <option value="25">25 &times; 25</option>
+              </select>
+            </label>
+            <div class="bfs-mode-buttons">
+              <button id="btnModeWall" class="bfs-mode-btn bfs-active-mode">
+                Wall
+              </button>
+              <button id="btnModeStart" class="bfs-mode-btn">Start</button>
+              <button id="btnModeEnd" class="bfs-mode-btn">End</button>
+            </div>
+            <button id="btnClearWalls">Clear Walls</button>
+            <button id="btnClearAll">Clear All</button>
+            <button id="btnRunBFS" class="bfs-btn-primary">Run BFS</button>
+          </div>
+        </div>
+
+        <!-- Step Info -->
+        <div id="info" class="info">
+          Click cells to place walls, then set start &amp; end points and click
+          <strong>Run BFS</strong>.
+        </div>
+
+        <!-- Visualization Area -->
+        <div class="bfs-layout">
+          <div id="grid-container" class="bfs-grid-container"></div>
+          <div id="queue-sidebar" class="bfs-queue-sidebar">
+            <h3>Queue</h3>
+            <div id="queue-list" class="bfs-queue-list">
+              <div class="bfs-queue-empty">Run BFS to see the queue</div>
+            </div>
+            <div id="stats" class="bfs-stats">
+              <div>Step: <span id="stepCount">0</span></div>
+              <div>Visited: <span id="visitedCount">0</span></div>
+              <div>Queue size: <span id="queueSize">0</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Playback Controls -->
+        <div class="playback-controls hidden" id="playback">
+          <div class="playback-btns">
+            <button class="icon-btn" id="btnReset" title="Reset">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                ></path>
+                <path d="M3 3v5h5"></path>
+              </svg>
+            </button>
+            <button class="icon-btn" id="btnStepBack" title="Step Back">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                <line x1="5" y1="19" x2="5" y2="5"></line>
+              </svg>
+            </button>
+            <button class="icon-btn active" id="btnPlay" title="Play">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+            </button>
+            <button class="icon-btn" id="btnPause" disabled title="Pause">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+              </svg>
+            </button>
+            <button class="icon-btn" id="btnStep" title="Step Forward">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                <line x1="19" y1="5" x2="19" y2="19"></line>
+              </svg>
+            </button>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem">
+            <span
+              style="
+                font-size: 0.75rem;
+                color: var(--text-muted);
+                font-weight: 600;
+              "
+              >Speed</span
+            >
+            <input type="range" id="speed" min="1" max="10" value="5" />
+          </div>
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <!-- Stats Grid -->
+        <div class="stats-grid" id="statsPanel">
+          <div class="stat-card">
+            <span class="stat-value" id="stepsStat">0</span>
+            <span class="stat-label">Steps</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="visitedStat">0</span>
+            <span class="stat-label">Visited</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="queueSizeStat">0</span>
+            <span class="stat-label">Queue Size</span>
+          </div>
+        </div>
+
+        <!-- Pseudocode -->
+        <div class="panel">
+          <div class="panel-title">Pseudocode</div>
+          <!-- prettier-ignore -->
+          <div class="code-panel">
+            <span class="code-line">queue = [start]</span>
+            <span class="code-line">visited = {start}</span>
+            <span class="code-line">while queue is not empty:</span>
+            <span class="code-line"> node = queue.dequeue()</span>
+            <span class="code-line"> if node == goal:</span>
+            <span class="code-line"> return reconstruct_path()</span>
+            <span class="code-line"> for neighbor of node:</span>
+            <span class="code-line"> if neighbor not in visited:</span>
+            <span class="code-line"> visited.add(neighbor)</span>
+            <span class="code-line"> queue.enqueue(neighbor)</span>
+          </div>
+        </div>
+
+        <!-- Real-world Analogy -->
+        <div class="panel-title">Real-world Analogy</div>
+        <div class="analogy-card">
+          <p>
+            <strong>Ripples in a pond</strong> &mdash; drop a stone at the start
+            point; waves spread outward one layer at a time, reaching every cell
+            at the shortest distance first. BFS explores all neighbors before
+            moving deeper.
+          </p>
+        </div>
+      </aside>
+    </main>
+
+    <script src="bfs-algorithm.js"></script>
+    <script src="bfs.js"></script>
+  </body>
+</html>

@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlgoViz — Bloom Filter</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="bloom-filter-style.css" />
+  </head>
+  <body data-category="ds">
+    <nav class="algo-nav">
+      <a href="index.html" class="nav-home">AlgoViz</a>
+      <div class="nav-category">
+        <button class="nav-category-btn">Sorting</button>
+        <div class="nav-dropdown">
+          <a href="bubble-sort.html">Bubble Sort</a>
+          <a href="merge-sort.html">Merge Sort</a>
+          <a href="quicksort.html">Quick Sort</a>
+          <a href="radix-sort.html">Radix Sort</a>
+          <a href="topo-sort.html">Topological Sort</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Searching</button>
+        <div class="nav-dropdown">
+          <a href="binary-search.html">Binary Search</a>
+          <a href="bfs.html">BFS Pathfinding</a>
+          <a href="dfs.html">DFS Pathfinding</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Graph</button>
+        <div class="nav-dropdown">
+          <a href="dijkstra.html">Dijkstra</a>
+          <a href="astar.html">A* Pathfinding</a>
+          <a href="floyd-warshall.html">Floyd-Warshall</a>
+          <a href="prims.html">Prim's MST</a>
+          <a href="kruskal.html">Kruskal's MST</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">DP</button>
+        <div class="nav-dropdown">
+          <a href="knapsack.html">Knapsack (0/1)</a>
+          <a href="lcs.html">LCS</a>
+          <a href="levenshtein.html">Levenshtein Distance</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">String</button>
+        <div class="nav-dropdown">
+          <a href="kmp.html">KMP Search</a>
+          <a href="huffman.html">Huffman Coding</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn current-category">
+          Data Structures
+        </button>
+        <div class="nav-dropdown">
+          <a href="bst.html">BST Traversal</a>
+          <a href="hash-table.html">Hash Table</a>
+          <a href="heap.html">Min-Heap</a>
+          <a href="lru-cache.html">LRU Cache</a>
+          <a href="bloom-filter.html" class="active">Bloom Filter</a>
+          <a href="trie.html">Trie</a>
+          <a href="union-find.html">Union-Find</a>
+          <a href="sliding-window.html">Sliding Window</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">More</button>
+        <div class="nav-dropdown">
+          <a href="convex-hull.html">Convex Hull</a>
+          <a href="elevator.html">Elevator (SCAN)</a>
+          <a href="minimax.html">Minimax</a>
+        </div>
+      </div>
+      <button
+        class="nav-hamburger"
+        onclick="this.closest('.algo-nav').classList.toggle('nav-open')"
+      >
+        ☰
+      </button>
+    </nav>
+
+    <header class="page-header">
+      <div class="title-group">
+        <h1>Bloom Filter</h1>
+        <div class="title-meta">
+          <span class="badge">Data Structures</span>
+          <span class="badge badge-accent">O(k)</span>
+        </div>
+      </div>
+      <div class="bloom-legend">
+        <span
+          ><span class="bloom-swatch bloom-swatch-off"></span> Unset (0)</span
+        >
+        <span><span class="bloom-swatch bloom-swatch-on"></span> Set (1)</span>
+        <span
+          ><span class="bloom-swatch bloom-swatch-insert"></span> Just
+          Hashed</span
+        >
+        <span
+          ><span class="bloom-swatch bloom-swatch-negative"></span> Miss</span
+        >
+        <span
+          ><span class="bloom-swatch bloom-swatch-fp"></span> False
+          Positive</span
+        >
+      </div>
+    </header>
+
+    <main class="content-grid">
+      <section class="main-column">
+        <div class="panel">
+          <div class="inputs">
+            <label
+              >Word:
+              <input
+                type="text"
+                id="bloom-wordInput"
+                value=""
+                maxlength="30"
+                placeholder="e.g. hello"
+            /></label>
+            <button id="bloom-btnInsert" class="bloom-btn-primary">
+              Insert
+            </button>
+            <button id="bloom-btnQuery" class="bloom-btn-query">Query</button>
+          </div>
+          <div class="inputs bloom-param-group">
+            <label
+              >Bits (m):
+              <input
+                type="number"
+                id="bloom-mInput"
+                value="32"
+                min="16"
+                max="128"
+                step="1"
+            /></label>
+            <label
+              >Hashes (k):
+              <input
+                type="number"
+                id="bloom-kInput"
+                value="3"
+                min="1"
+                max="7"
+                step="1"
+            /></label>
+            <button id="bloom-btnPreset" class="bloom-btn-preset">
+              Password Blacklist
+            </button>
+            <button id="bloom-btnReset">Reset</button>
+          </div>
+        </div>
+
+        <div id="bloom-error" class="bloom-error hidden"></div>
+        <div id="bloom-result" class="bloom-result"></div>
+
+        <div id="bloom-info" class="info">
+          Type a word and click Insert to add it to the bloom filter. Click
+          Query to check membership.
+        </div>
+
+        <div class="bloom-bit-array-container">
+          <div id="bloom-bitArray" class="bloom-bit-array"></div>
+        </div>
+
+        <div class="bloom-words" id="bloom-wordsPanel">
+          Inserted words:
+          <span class="bloom-words-list" id="bloom-wordsList">none</span>
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-value" id="bloom-itemCount">0</span>
+            <span class="stat-label">Items Inserted</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="bloom-fpRate">0.0000%</span>
+            <span class="stat-label">False Positive Rate</span>
+          </div>
+        </div>
+
+        <div class="bloom-stat-card">
+          <div class="bloom-stat-title">Fill Level</div>
+          <div class="bloom-stat-value" id="bloom-fillValue">
+            0 / 32 bits (0.0%)
+          </div>
+          <div class="bloom-fill-meter-track">
+            <div
+              class="bloom-fill-meter-bar"
+              id="bloom-fillBar"
+              style="width: 0%"
+            ></div>
+          </div>
+          <div
+            id="bloom-fillWarning"
+            class="bloom-fill-warning"
+            style="display: none"
+          ></div>
+        </div>
+
+        <div class="bloom-formula" id="bloom-fpFormula">
+          P(fp) = (1 - e^(-kn/m))^k
+        </div>
+
+        <!-- Pseudocode -->
+        <div class="panel">
+          <div class="panel-title">Pseudocode</div>
+          <!-- prettier-ignore -->
+          <div class="code-panel">
+            <span class="code-line">insert(word):</span>
+            <span class="code-line"> for i from 1 to k:</span>
+            <span class="code-line"> idx = hash_i(word) mod m</span>
+            <span class="code-line"> bits[idx] = 1</span>
+            <span class="code-line"></span>
+            <span class="code-line">query(word):</span>
+            <span class="code-line"> for i from 1 to k:</span>
+            <span class="code-line"> idx = hash_i(word) mod m</span>
+            <span class="code-line"> if bits[idx] == 0:</span>
+            <span class="code-line"> return "definitely not"</span>
+            <span class="code-line"> return "probably yes"</span>
+          </div>
+        </div>
+
+        <!-- Real-world Analogy -->
+        <div class="panel-title">Real-world Analogy</div>
+        <div class="analogy-card">
+          <p>
+            <strong>A password breach checker</strong> &mdash; a website checks
+            if your password has been seen in known data breaches. Instead of
+            storing billions of passwords, it uses a bloom filter: fast
+            &ldquo;definitely not compromised&rdquo; answers, with rare false
+            alarms.
+          </p>
+        </div>
+      </aside>
+    </main>
+
+    <script src="bloom-filter-algorithm.js"></script>
+    <script src="bloom-filter.js"></script>
+  </body>
+</html>

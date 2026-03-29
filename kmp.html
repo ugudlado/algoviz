@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlgoViz — KMP String Search</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="kmp-style.css" />
+  </head>
+  <body data-category="string">
+    <nav class="algo-nav">
+      <a href="index.html" class="nav-home">AlgoViz</a>
+      <div class="nav-category">
+        <button class="nav-category-btn">Sorting</button>
+        <div class="nav-dropdown">
+          <a href="bubble-sort.html">Bubble Sort</a>
+          <a href="merge-sort.html">Merge Sort</a>
+          <a href="quicksort.html">Quick Sort</a>
+          <a href="radix-sort.html">Radix Sort</a>
+          <a href="topo-sort.html">Topological Sort</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Searching</button>
+        <div class="nav-dropdown">
+          <a href="binary-search.html">Binary Search</a>
+          <a href="bfs.html">BFS Pathfinding</a>
+          <a href="dfs.html">DFS Pathfinding</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Graph</button>
+        <div class="nav-dropdown">
+          <a href="dijkstra.html">Dijkstra</a>
+          <a href="astar.html">A* Pathfinding</a>
+          <a href="floyd-warshall.html">Floyd-Warshall</a>
+          <a href="prims.html">Prim's MST</a>
+          <a href="kruskal.html">Kruskal's MST</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">DP</button>
+        <div class="nav-dropdown">
+          <a href="knapsack.html">Knapsack (0/1)</a>
+          <a href="lcs.html">LCS</a>
+          <a href="levenshtein.html">Levenshtein Distance</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn current-category">String</button>
+        <div class="nav-dropdown">
+          <a href="kmp.html" class="active">KMP Search</a>
+          <a href="huffman.html">Huffman Coding</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Data Structures</button>
+        <div class="nav-dropdown">
+          <a href="bst.html">BST Traversal</a>
+          <a href="hash-table.html">Hash Table</a>
+          <a href="heap.html">Min-Heap</a>
+          <a href="lru-cache.html">LRU Cache</a>
+          <a href="bloom-filter.html">Bloom Filter</a>
+          <a href="trie.html">Trie</a>
+          <a href="union-find.html">Union-Find</a>
+          <a href="sliding-window.html">Sliding Window</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">More</button>
+        <div class="nav-dropdown">
+          <a href="convex-hull.html">Convex Hull</a>
+          <a href="elevator.html">Elevator (SCAN)</a>
+          <a href="minimax.html">Minimax</a>
+        </div>
+      </div>
+      <button
+        class="nav-hamburger"
+        onclick="this.closest('.algo-nav').classList.toggle('nav-open')"
+      >
+        ☰
+      </button>
+    </nav>
+
+    <header class="page-header">
+      <div class="title-group">
+        <h1>KMP String Search</h1>
+        <div class="title-meta">
+          <span class="badge">String</span>
+          <span class="badge badge-accent">O(n+m)</span>
+        </div>
+      </div>
+      <div class="kmp-legend" id="kmpLegend"></div>
+    </header>
+
+    <main class="content-grid">
+      <section class="main-column">
+        <!-- Controls -->
+        <div class="panel">
+          <div class="inputs">
+            <label
+              >Text:
+              <input
+                type="text"
+                id="kmpTextInput"
+                value="AABAACAADAABAABA"
+                maxlength="100"
+                placeholder="Search text (max 100 chars)"
+            /></label>
+            <label
+              >Pattern:
+              <input
+                type="text"
+                id="kmpPatternInput"
+                value="AABA"
+                maxlength="20"
+                placeholder="Pattern (max 20 chars)"
+            /></label>
+            <button id="kmpBtnVisualize">Search</button>
+            <button id="kmpBtnRandom">Random</button>
+          </div>
+        </div>
+
+        <!-- Step Info -->
+        <div id="kmpInfo" class="info">
+          Enter text and a pattern, then click <strong>Search</strong> to begin.
+        </div>
+
+        <!-- Visualization Area -->
+        <div class="kmp-panels">
+          <div class="kmp-panel" id="kmpFailurePanel">
+            <div class="kmp-panel-title">Phase 1 — Failure Function</div>
+            <p style="color: #8b949e; font-size: 0.82rem">
+              Run a search to see the prefix table.
+            </p>
+          </div>
+          <div class="kmp-panel" id="kmpSearchPanel">
+            <div class="kmp-panel-title">Phase 2 — KMP Search</div>
+            <p style="color: #8b949e; font-size: 0.82rem">
+              Run a search to see step-by-step matching.
+            </p>
+          </div>
+        </div>
+
+        <div class="kmp-matches-display" id="kmpMatchesDisplay"></div>
+
+        <!-- Playback Controls -->
+        <div class="playback-controls hidden" id="kmpPlayback">
+          <div class="playback-btns">
+            <button class="icon-btn" id="kmpBtnReset" title="Reset">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                ></path>
+                <path d="M3 3v5h5"></path>
+              </svg>
+            </button>
+            <button class="icon-btn" id="kmpBtnStepBack" title="Step Back">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                <line x1="5" y1="19" x2="5" y2="5"></line>
+              </svg>
+            </button>
+            <button class="icon-btn active" id="kmpBtnPlay" title="Play">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+            </button>
+            <button class="icon-btn" id="kmpBtnPause" disabled title="Pause">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+              </svg>
+            </button>
+            <button class="icon-btn" id="kmpBtnStep" title="Step Forward">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                <line x1="19" y1="5" x2="19" y2="19"></line>
+              </svg>
+            </button>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem">
+            <span
+              style="
+                font-size: 0.75rem;
+                color: var(--text-muted);
+                font-weight: 600;
+              "
+              >Speed</span
+            >
+            <input type="range" id="kmpSpeed" min="1" max="10" value="5" />
+          </div>
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <!-- Stats Grid -->
+        <div class="stats-grid" id="statsPanel">
+          <div class="stat-card">
+            <span class="stat-value" id="kmpStatKmp">&mdash;</span>
+            <span class="stat-label">KMP Comparisons</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="kmpStatNaive">&mdash;</span>
+            <span class="stat-label">Naive Comparisons</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="kmpStatSavings">&mdash;</span>
+            <span class="stat-label">Comparisons Saved</span>
+          </div>
+        </div>
+
+        <!-- Pseudocode -->
+        <div class="panel">
+          <div class="panel-title">Pseudocode</div>
+          <!-- prettier-ignore -->
+          <div class="code-panel">
+            <span class="code-line">// Build failure table</span>
+            <span class="code-line">fail[0] = 0; len = 0; i = 1</span>
+            <span class="code-line">while i &lt; m:</span>
+            <span class="code-line"> if P[i] == P[len]:</span>
+            <span class="code-line"> fail[i++] = ++len</span>
+            <span class="code-line"> else if len &gt; 0:</span>
+            <span class="code-line"> len = fail[len-1]</span>
+            <span class="code-line"> else: fail[i++] = 0</span>
+            <span class="code-line"></span>
+            <span class="code-line">// Search using failure fn</span>
+            <span class="code-line">i = 0; j = 0</span>
+            <span class="code-line">while i &lt; n:</span>
+            <span class="code-line"> if T[i] == P[j]: i++; j++</span>
+            <span class="code-line"> if j == m: match at i-j</span>
+            <span class="code-line"> else if T[i] != P[j]:</span>
+            <span class="code-line"> j = j&gt;0 ? fail[j-1] : 0</span>
+          </div>
+        </div>
+
+        <!-- Real-world Analogy -->
+        <div class="panel-title">Real-world Analogy</div>
+        <div class="analogy-card">
+          <p>
+            <strong>grep and find-replace in text editors</strong> &mdash; KMP
+            powers fast file searching. The key insight: when a mismatch occurs,
+            the failure function tells you how far back in the pattern to
+            restart, avoiding backtracking in the text. This reduces worst-case
+            from O(n&middot;m) to O(n+m).
+          </p>
+        </div>
+      </aside>
+    </main>
+
+    <script src="kmp-algorithm.js"></script>
+    <script src="kmp.js"></script>
+  </body>
+</html>

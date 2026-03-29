@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlgoViz — Minimax with Alpha-Beta Pruning</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="minimax-style.css" />
+  </head>
+  <body data-category="game">
+    <nav class="algo-nav">
+      <a href="index.html" class="nav-home">AlgoViz</a>
+      <div class="nav-category">
+        <button class="nav-category-btn">Sorting</button>
+        <div class="nav-dropdown">
+          <a href="bubble-sort.html">Bubble Sort</a>
+          <a href="merge-sort.html">Merge Sort</a>
+          <a href="quicksort.html">Quick Sort</a>
+          <a href="radix-sort.html">Radix Sort</a>
+          <a href="topo-sort.html">Topological Sort</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Searching</button>
+        <div class="nav-dropdown">
+          <a href="binary-search.html">Binary Search</a>
+          <a href="bfs.html">BFS Pathfinding</a>
+          <a href="dfs.html">DFS Pathfinding</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Graph</button>
+        <div class="nav-dropdown">
+          <a href="dijkstra.html">Dijkstra</a>
+          <a href="astar.html">A* Pathfinding</a>
+          <a href="floyd-warshall.html">Floyd-Warshall</a>
+          <a href="prims.html">Prim's MST</a>
+          <a href="kruskal.html">Kruskal's MST</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">DP</button>
+        <div class="nav-dropdown">
+          <a href="knapsack.html">Knapsack (0/1)</a>
+          <a href="lcs.html">LCS</a>
+          <a href="levenshtein.html">Levenshtein Distance</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">String</button>
+        <div class="nav-dropdown">
+          <a href="kmp.html">KMP Search</a>
+          <a href="huffman.html">Huffman Coding</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Data Structures</button>
+        <div class="nav-dropdown">
+          <a href="bst.html">BST Traversal</a>
+          <a href="hash-table.html">Hash Table</a>
+          <a href="heap.html">Min-Heap</a>
+          <a href="lru-cache.html">LRU Cache</a>
+          <a href="bloom-filter.html">Bloom Filter</a>
+          <a href="trie.html">Trie</a>
+          <a href="union-find.html">Union-Find</a>
+          <a href="sliding-window.html">Sliding Window</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn current-category">More</button>
+        <div class="nav-dropdown">
+          <a href="convex-hull.html">Convex Hull</a>
+          <a href="elevator.html">Elevator (SCAN)</a>
+          <a href="minimax.html" class="active">Minimax</a>
+        </div>
+      </div>
+      <button
+        class="nav-hamburger"
+        onclick="this.closest('.algo-nav').classList.toggle('nav-open')"
+      >
+        ☰
+      </button>
+    </nav>
+
+    <header class="page-header">
+      <div class="title-group">
+        <h1>Minimax with Alpha-Beta Pruning</h1>
+        <div class="title-meta">
+          <span class="badge">Game Theory</span>
+          <span class="badge badge-accent">O(b<sup>d/2</sup>)</span>
+        </div>
+      </div>
+      <div class="mm-legend">
+        <div class="mm-legend-item">
+          <span class="mm-swatch mm-swatch-max"></span> MAX (X)
+        </div>
+        <div class="mm-legend-item">
+          <span class="mm-swatch mm-swatch-min"></span> MIN (O)
+        </div>
+        <div class="mm-legend-item">
+          <span class="mm-swatch mm-swatch-pruned"></span> Pruned
+        </div>
+        <div class="mm-legend-item">
+          <span class="mm-swatch mm-swatch-win"></span> Win
+        </div>
+        <div class="mm-legend-item">
+          <span class="mm-swatch mm-swatch-lose"></span> Lose
+        </div>
+        <div class="mm-legend-item">
+          <span class="mm-swatch mm-swatch-draw"></span> Draw
+        </div>
+      </div>
+    </header>
+
+    <main class="content-grid">
+      <section class="main-column">
+        <!-- Game Board -->
+        <div class="mm-board-panel">
+          <div class="mm-board-title">Tic-Tac-Toe</div>
+
+          <div class="mm-board">
+            <div class="mm-cell" data-idx="0"></div>
+            <div class="mm-cell" data-idx="1"></div>
+            <div class="mm-cell" data-idx="2"></div>
+            <div class="mm-cell" data-idx="3"></div>
+            <div class="mm-cell" data-idx="4"></div>
+            <div class="mm-cell" data-idx="5"></div>
+            <div class="mm-cell" data-idx="6"></div>
+            <div class="mm-cell" data-idx="7"></div>
+            <div class="mm-cell" data-idx="8"></div>
+          </div>
+
+          <div class="mm-status" id="mmStatus">Loading...</div>
+
+          <div class="mm-controls-row">
+            <button id="mmBtnNewGame">New Game</button>
+            <button class="mm-toggle" id="mmBtnAiFirst">AI Goes First</button>
+            <button class="mm-toggle mm-toggle-active" id="mmBtnPruning">
+              &alpha;-&beta; Pruning: ON
+            </button>
+          </div>
+
+          <div class="mm-speed-row">
+            <label for="mmSpeed">Step speed:</label>
+            <input type="range" id="mmSpeed" min="1" max="10" value="5" />
+            <span id="mmSpeedLabel">5</span>
+          </div>
+        </div>
+
+        <!-- Game Tree -->
+        <div class="mm-tree-panel">
+          <div class="mm-tree-panel-title">Game Tree</div>
+          <div id="mmTreeContainer">
+            <p class="mm-tree-empty">Make a move to see the game tree.</p>
+          </div>
+        </div>
+
+        <div class="mm-step-controls">
+          <button id="mmBtnStepBack" disabled>&larr; Prev</button>
+          <button id="mmBtnStepPlay" disabled>Play</button>
+          <button id="mmBtnStepPause" disabled>Pause</button>
+          <button id="mmBtnStepNext" disabled>Next &rarr;</button>
+        </div>
+        <div class="mm-step-info" id="mmStepInfo">
+          Run a game to enable step-through.
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-value mm-stat-highlight" id="mmStatWithPruning"
+              >&mdash;</span
+            >
+            <span class="stat-label">With Pruning</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value mm-stat-muted" id="mmStatWithoutPruning"
+              >&mdash;</span
+            >
+            <span class="stat-label">Without Pruning</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value mm-stat-saved" id="mmStatSaved"
+              >&mdash;</span
+            >
+            <span class="stat-label">Nodes Saved</span>
+          </div>
+        </div>
+
+        <!-- Pseudocode -->
+        <div class="panel">
+          <div class="panel-title">Pseudocode</div>
+          <!-- prettier-ignore -->
+          <div class="code-panel">
+            <span class="code-line"
+              >minimax(node, depth, isMax, &alpha;, &beta;):</span
+            >
+            <span class="code-line"> if terminal: return score</span>
+            <span class="code-line"> if isMax:</span>
+            <span class="code-line"> val = -&infin;</span>
+            <span class="code-line"> for child in children:</span>
+            <span class="code-line"> val = max(val, minimax(child))</span>
+            <span class="code-line"> &alpha; = max(&alpha;, val)</span>
+            <span class="code-line"> if &beta; &le; &alpha;: break</span>
+            <span class="code-line"> else:</span>
+            <span class="code-line"> val = +&infin;</span>
+            <span class="code-line"> for child in children:</span>
+            <span class="code-line"> val = min(val, minimax(child))</span>
+            <span class="code-line"> &beta; = min(&beta;, val)</span>
+            <span class="code-line"> if &beta; &le; &alpha;: break</span>
+            <span class="code-line"> return val</span>
+          </div>
+        </div>
+
+        <!-- Real-world Analogy -->
+        <div class="panel-title">Real-world Analogy</div>
+        <div class="analogy-card">
+          <p>
+            <strong>Chess grandmasters thinking ahead</strong> &mdash; each
+            player assumes the opponent will make their best move. You think
+            &ldquo;if I go here, they&rsquo;ll go there, then I&rsquo;ll
+            go...&rdquo; &mdash; exploring the game tree. Alpha-beta pruning is
+            like realizing &ldquo;no matter what I do in this branch, the
+            opponent already has a better option elsewhere&rdquo; &mdash; so you
+            stop exploring it.
+          </p>
+        </div>
+      </aside>
+    </main>
+
+    <script src="minimax-algorithm.js"></script>
+    <script src="minimax.js"></script>
+  </body>
+</html>

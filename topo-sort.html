@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlgoViz — Topological Sort</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="topo-sort-style.css" />
+  </head>
+  <body data-category="sorting">
+    <nav class="algo-nav">
+      <a href="index.html" class="nav-home">AlgoViz</a>
+      <div class="nav-category">
+        <button class="nav-category-btn current-category">Sorting</button>
+        <div class="nav-dropdown">
+          <a href="bubble-sort.html">Bubble Sort</a>
+          <a href="merge-sort.html">Merge Sort</a>
+          <a href="quicksort.html">Quick Sort</a>
+          <a href="radix-sort.html">Radix Sort</a>
+          <a href="topo-sort.html" class="active">Topological Sort</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Searching</button>
+        <div class="nav-dropdown">
+          <a href="binary-search.html">Binary Search</a>
+          <a href="bfs.html">BFS Pathfinding</a>
+          <a href="dfs.html">DFS Pathfinding</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Graph</button>
+        <div class="nav-dropdown">
+          <a href="dijkstra.html">Dijkstra</a>
+          <a href="astar.html">A* Pathfinding</a>
+          <a href="floyd-warshall.html">Floyd-Warshall</a>
+          <a href="prims.html">Prim's MST</a>
+          <a href="kruskal.html">Kruskal's MST</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">DP</button>
+        <div class="nav-dropdown">
+          <a href="knapsack.html">Knapsack (0/1)</a>
+          <a href="lcs.html">LCS</a>
+          <a href="levenshtein.html">Levenshtein Distance</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">String</button>
+        <div class="nav-dropdown">
+          <a href="kmp.html">KMP Search</a>
+          <a href="huffman.html">Huffman Coding</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Data Structures</button>
+        <div class="nav-dropdown">
+          <a href="bst.html">BST Traversal</a>
+          <a href="hash-table.html">Hash Table</a>
+          <a href="heap.html">Min-Heap</a>
+          <a href="lru-cache.html">LRU Cache</a>
+          <a href="bloom-filter.html">Bloom Filter</a>
+          <a href="trie.html">Trie</a>
+          <a href="union-find.html">Union-Find</a>
+          <a href="sliding-window.html">Sliding Window</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">More</button>
+        <div class="nav-dropdown">
+          <a href="convex-hull.html">Convex Hull</a>
+          <a href="elevator.html">Elevator (SCAN)</a>
+          <a href="minimax.html">Minimax</a>
+        </div>
+      </div>
+      <button
+        class="nav-hamburger"
+        onclick="this.closest('.algo-nav').classList.toggle('nav-open')"
+      >
+        ☰
+      </button>
+    </nav>
+
+    <header class="page-header">
+      <div class="title-group">
+        <h1>Topological Sort (Kahn's Algorithm)</h1>
+        <div class="title-meta">
+          <span class="badge">Sorting</span>
+          <span class="badge badge-accent">O(V + E)</span>
+        </div>
+      </div>
+      <div class="topo-legend">
+        <span class="topo-swatch topo-swatch-queued"></span> In Queue
+        <span class="topo-swatch topo-swatch-processing"></span> Processing
+        <span class="topo-swatch topo-swatch-completed"></span> Completed
+        <span class="topo-swatch topo-swatch-cycle"></span> Cycle (Stuck)
+        <span class="topo-swatch topo-swatch-default"></span> Pending
+      </div>
+    </header>
+
+    <main class="content-grid">
+      <section class="main-column">
+        <!-- Input Panel -->
+        <div class="panel">
+          <div class="inputs">
+            <label
+              >Node name:
+              <input
+                type="text"
+                id="topo-nodeInput"
+                maxlength="12"
+                placeholder="e.g. A"
+              />
+            </label>
+            <button id="topo-btnAddNode" class="topo-btn-primary">
+              Add Node
+            </button>
+
+            <label
+              >Edge from:
+              <select id="topo-edgeFrom">
+                <option value="">--</option>
+              </select>
+            </label>
+            <label
+              >to:
+              <select id="topo-edgeTo">
+                <option value="">--</option>
+              </select>
+            </label>
+            <button id="topo-btnAddEdge">Add Edge</button>
+          </div>
+          <div class="inputs">
+            <label
+              >Preset:
+              <select id="topo-presetSelect">
+                <option value="">Custom</option>
+                <option value="buildSystem">Build System</option>
+                <option value="coursePrerequisites">
+                  Course Prerequisites
+                </option>
+              </select>
+            </label>
+            <button id="topo-btnRun" class="topo-btn-primary">
+              Run Kahn's
+            </button>
+            <button id="topo-btnReset">Reset</button>
+            <button id="topo-btnClear">Clear Graph</button>
+          </div>
+        </div>
+
+        <!-- Step Info -->
+        <div id="topo-info" class="info">
+          Add nodes and edges to build a DAG, then run Kahn's algorithm to find
+          a topological ordering.
+        </div>
+
+        <div id="topo-error" class="topo-error hidden"></div>
+
+        <!-- Visualization Area -->
+        <div class="topo-main-layout">
+          <div class="topo-graph-panel">
+            <h3>Dependency Graph</h3>
+            <svg id="topo-svg" width="600" height="400"></svg>
+          </div>
+          <div class="topo-side-panel">
+            <div class="topo-indegree-panel">
+              <h3>In-Degree Counters</h3>
+              <div id="topo-indegrees" class="topo-indegree-list"></div>
+            </div>
+            <div class="topo-queue-panel">
+              <h3>Queue</h3>
+              <div id="topo-queue" class="topo-queue-list"></div>
+            </div>
+            <div class="topo-order-panel">
+              <h3>Sorted Order</h3>
+              <div id="topo-order" class="topo-order-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Playback Controls -->
+        <div class="playback-controls hidden" id="topo-playback">
+          <div class="playback-btns">
+            <button class="icon-btn" id="topo-btnStepBack" title="Step Back">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                <line x1="5" y1="19" x2="5" y2="5"></line>
+              </svg>
+            </button>
+            <button class="icon-btn active" id="topo-btnPlay" title="Play">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+            </button>
+            <button class="icon-btn" id="topo-btnPause" disabled title="Pause">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+              </svg>
+            </button>
+            <button class="icon-btn" id="topo-btnStep" title="Step Forward">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                <line x1="19" y1="5" x2="19" y2="19"></line>
+              </svg>
+            </button>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem">
+            <span
+              style="
+                font-size: 0.75rem;
+                color: var(--text-muted);
+                font-weight: 600;
+              "
+              >Speed</span
+            >
+            <input type="range" id="topo-speed" min="1" max="10" value="5" />
+          </div>
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-value" id="topo-stepCount">0</span>
+            <span class="stat-label">Step</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="topo-nodeCount">0</span>
+            <span class="stat-label">Nodes</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="topo-edgeCount">0</span>
+            <span class="stat-label">Edges</span>
+          </div>
+        </div>
+
+        <!-- Pseudocode -->
+        <div class="panel">
+          <div class="panel-title">Pseudocode</div>
+          <!-- prettier-ignore -->
+          <div class="code-panel">
+            <span class="code-line">kahn(graph):</span>
+            <span class="code-line"> compute in-degree for each node</span>
+            <span class="code-line"> queue = nodes with in-degree 0</span>
+            <span class="code-line"> while queue not empty:</span>
+            <span class="code-line"> node = queue.dequeue()</span>
+            <span class="code-line"> add node to sorted order</span>
+            <span class="code-line"> for each neighbor of node:</span>
+            <span class="code-line"> decrement in-degree</span>
+            <span class="code-line"> if in-degree == 0: enqueue</span>
+            <span class="code-line"> if sorted &lt; all nodes: cycle!</span>
+          </div>
+        </div>
+
+        <!-- Real-world Analogy -->
+        <div class="panel-title">Real-world Analogy</div>
+        <div class="analogy-card">
+          <p>
+            <strong>Course prerequisites</strong> &mdash; before taking Advanced
+            Algorithms, you need Data Structures, which requires Intro to CS.
+            Topological sort finds a valid order to take all courses so that
+            every prerequisite is completed first.
+          </p>
+        </div>
+      </aside>
+    </main>
+
+    <script src="topo-sort-algorithm.js"></script>
+    <script src="topo-sort.js"></script>
+  </body>
+</html>

@@ -1,0 +1,510 @@
+/* Sliding Window visualization styles — extends base dark theme from style.css */
+
+/* ============================================================
+   Shared panel layout
+   ============================================================ */
+
+.sw-panel {
+  width: 100%;
+  max-width: 860px;
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
+.sw-panel-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #a1a1a1;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.8rem;
+}
+
+/* ============================================================
+   Fixed Window panel
+   ============================================================ */
+
+.sw-fixed-inputs {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 0.8rem;
+}
+
+.sw-fixed-inputs label {
+  font-size: 0.82rem;
+}
+
+.sw-k-value {
+  font-weight: 700;
+  color: #58a6ff;
+  min-width: 1.2rem;
+  display: inline-block;
+}
+
+.sw-array-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+  padding: 0.5rem 0.2rem;
+  min-height: 100px;
+  flex-wrap: wrap;
+}
+
+.sw-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  height: 52px;
+  border-radius: 4px;
+  border: 2px solid #1f1f1f;
+  background: #111111;
+  position: relative;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.sw-cell-value {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #c9d1d9;
+}
+
+.sw-cell-index {
+  font-size: 0.52rem;
+  color: #a1a1a1;
+  margin-top: 1px;
+}
+
+/* Cell state: inside current window */
+.sw-cell.sw-in-window {
+  background: #1c2d4f;
+  border-color: #388bfd;
+}
+
+/* Cell state: max sum window */
+.sw-cell.sw-max-window {
+  background: #1a4d2e;
+  border-color: #3fb950;
+  box-shadow: 0 0 8px rgba(63, 185, 80, 0.35);
+}
+
+/* Window bracket labels */
+.sw-bracket-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 20px;
+  flex-wrap: wrap;
+}
+
+.sw-bracket-slot {
+  min-width: 42px;
+  text-align: center;
+}
+
+.sw-bracket-label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: #388bfd;
+  padding: 1px 3px;
+  border-radius: 3px;
+  background: #1c2d4f;
+}
+
+.sw-bracket-label.sw-bracket-right {
+  color: #bc8cff;
+  background: #2d1f6e;
+}
+
+/* Sum display */
+.sw-sum-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 0.6rem;
+  font-size: 0.82rem;
+  flex-wrap: wrap;
+}
+
+.sw-sum-label {
+  color: #a1a1a1;
+}
+
+.sw-sum-value {
+  color: #58a6ff;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.sw-max-label {
+  color: #a1a1a1;
+}
+
+.sw-max-value {
+  color: #3fb950;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+/* Fixed window legend */
+.sw-fixed-legend {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.sw-swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  vertical-align: middle;
+  margin-right: 3px;
+}
+
+.sw-swatch.sw-swatch-window {
+  background: #1c2d4f;
+  border: 1px solid #388bfd;
+}
+
+.sw-swatch.sw-swatch-max {
+  background: #1a4d2e;
+  border: 1px solid #3fb950;
+}
+
+.sw-swatch.sw-swatch-inactive {
+  background: #111111;
+  border: 1px solid #1f1f1f;
+}
+
+/* ============================================================
+   Variable Window panel
+   ============================================================ */
+
+.sw-var-inputs {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 0.8rem;
+}
+
+.sw-var-inputs label {
+  font-size: 0.82rem;
+}
+
+.sw-char-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+  padding: 0.5rem 0.2rem;
+  min-height: 90px;
+  flex-wrap: wrap;
+}
+
+.sw-char-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 46px;
+  border-radius: 4px;
+  border: 2px solid #1f1f1f;
+  background: #111111;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.sw-char-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #c9d1d9;
+}
+
+.sw-char-idx {
+  font-size: 0.5rem;
+  color: #a1a1a1;
+  margin-top: 1px;
+}
+
+/* Char cell states */
+.sw-char-cell.sw-char-in-window {
+  background: #1c2d4f;
+  border-color: #388bfd;
+}
+
+.sw-char-cell.sw-char-left-ptr {
+  border-color: #f0883e;
+  box-shadow: 0 0 6px rgba(240, 136, 62, 0.4);
+}
+
+.sw-char-cell.sw-char-right-ptr {
+  border-color: #bc8cff;
+  box-shadow: 0 0 6px rgba(188, 140, 255, 0.4);
+}
+
+.sw-char-cell.sw-char-shrink {
+  background: #3d1a1a;
+  border-color: #f85149;
+  box-shadow: 0 0 6px rgba(248, 81, 73, 0.35);
+}
+
+/* Pointer labels row */
+.sw-ptr-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 20px;
+  flex-wrap: wrap;
+}
+
+.sw-ptr-slot {
+  min-width: 34px;
+  text-align: center;
+}
+
+.sw-ptr-label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  padding: 1px 3px;
+  border-radius: 3px;
+}
+
+.sw-ptr-label.sw-ptr-left {
+  color: #f0883e;
+  background: #3d2a0f;
+}
+
+.sw-ptr-label.sw-ptr-right {
+  color: #bc8cff;
+  background: #2d1f6e;
+}
+
+.sw-ptr-label.sw-ptr-both {
+  color: #58a6ff;
+  background: #1c2d4f;
+}
+
+/* Frequency map */
+.sw-freq-section {
+  margin-top: 0.6rem;
+}
+
+.sw-freq-title {
+  font-size: 0.72rem;
+  color: #a1a1a1;
+  margin-bottom: 0.3rem;
+  text-align: center;
+}
+
+.sw-freq-map {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-height: 28px;
+}
+
+.sw-freq-entry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #111111;
+  border: 1px solid #1f1f1f;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.72rem;
+}
+
+.sw-freq-char {
+  font-weight: 700;
+  color: #c9d1d9;
+}
+
+.sw-freq-count {
+  color: #58a6ff;
+  font-size: 0.68rem;
+}
+
+/* Window content display */
+.sw-window-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 0.5rem;
+  font-size: 0.82rem;
+  flex-wrap: wrap;
+}
+
+.sw-window-label {
+  color: #a1a1a1;
+}
+
+.sw-window-content {
+  font-weight: 700;
+  color: #58a6ff;
+  font-family: inherit;
+  background: #1c2d4f;
+  border: 1px solid #388bfd;
+  border-radius: 4px;
+  padding: 2px 8px;
+  min-width: 2rem;
+  text-align: center;
+}
+
+.sw-best-label {
+  color: #a1a1a1;
+}
+
+.sw-best-value {
+  font-weight: 700;
+  color: #3fb950;
+}
+
+/* Variable window action display */
+.sw-action-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+  font-size: 0.78rem;
+}
+
+.sw-action-badge {
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+}
+
+.sw-action-badge.sw-action-expand {
+  background: #1c2d4f;
+  color: #58a6ff;
+  border: 1px solid #388bfd;
+}
+
+.sw-action-badge.sw-action-shrink {
+  background: #3d1a1a;
+  color: #f85149;
+  border: 1px solid #f85149;
+}
+
+.sw-action-reason {
+  color: #a1a1a1;
+  font-size: 0.75rem;
+}
+
+/* Variable window legend */
+.sw-var-legend {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.sw-swatch.sw-swatch-left {
+  background: #3d2a0f;
+  border: 1px solid #f0883e;
+}
+
+.sw-swatch.sw-swatch-right {
+  background: #2d1f6e;
+  border: 1px solid #bc8cff;
+}
+
+.sw-swatch.sw-swatch-shrink {
+  background: #3d1a1a;
+  border: 1px solid #f85149;
+}
+
+/* ============================================================
+   Shared playback step info
+   ============================================================ */
+
+.sw-step-info {
+  width: 100%;
+  max-width: 860px;
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 0.8rem;
+}
+
+.sw-stat {
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  min-width: 80px;
+}
+
+.sw-stat-label {
+  font-size: 0.68rem;
+  color: #a1a1a1;
+  margin-bottom: 0.2rem;
+}
+
+.sw-stat-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #58a6ff;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (max-width: 600px) {
+  .sw-panel {
+    padding: 0.7rem 0.8rem;
+  }
+
+  .sw-cell {
+    min-width: 32px;
+    height: 42px;
+  }
+
+  .sw-cell-value {
+    font-size: 0.75rem;
+  }
+
+  .sw-char-cell {
+    min-width: 26px;
+    height: 38px;
+  }
+
+  .sw-char-value {
+    font-size: 0.85rem;
+  }
+
+  .sw-bracket-slot,
+  .sw-ptr-slot {
+    min-width: 32px;
+  }
+}

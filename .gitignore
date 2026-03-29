@@ -1,0 +1,10 @@
+node_modules/
+openspec/
+designs/
+*.test.html
+.DS_Store
+BACKLOG.md
+FEATURE_IDEAS_2026.md
+FEATURE_PROPOSAL.md
+IDEATION_SUMMARY.md
+README_IDEATION.md

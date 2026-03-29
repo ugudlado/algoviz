@@ -1,0 +1,377 @@
+/* --- Union-Find (Disjoint Set Union) Styles — all classes prefixed uf- --- */
+
+/* Layout */
+.uf-layout {
+  display: flex;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1100px;
+  align-items: flex-start;
+}
+
+.uf-left-col {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.uf-right-col {
+  width: 220px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+/* Control panel */
+.uf-control-panel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.uf-slider-label {
+  font-size: 0.85rem;
+  color: #c9d1d9;
+  white-space: nowrap;
+}
+
+.uf-slider {
+  width: 120px;
+  accent-color: #58a6ff;
+}
+
+/* Operation panel */
+.uf-op-panel {
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  padding: 0.7rem 0.9rem;
+}
+
+.uf-op-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.uf-select {
+  background: #030303;
+  border: 1px solid #1f1f1f;
+  color: #c9d1d9;
+  border-radius: 4px;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+}
+
+.uf-node-label {
+  font-size: 0.82rem;
+  color: #a1a1a1;
+  white-space: nowrap;
+}
+
+.uf-node-input {
+  width: 52px;
+  background: #030303;
+  border: 1px solid #1f1f1f;
+  color: #c9d1d9;
+  border-radius: 4px;
+  padding: 0.3rem 0.4rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+  text-align: center;
+}
+
+.uf-error {
+  font-size: 0.78rem;
+  color: #f85149;
+  min-height: 1.1rem;
+  margin-top: 0.3rem;
+}
+
+/* Buttons */
+.uf-btn {
+  background: #111111;
+  border: 1px solid #1f1f1f;
+  color: #c9d1d9;
+  border-radius: 4px;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.uf-btn:hover:not(:disabled) {
+  background: #1f1f1f;
+}
+
+.uf-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.uf-btn-primary {
+  background: #238636;
+  border-color: #2ea043;
+  font-weight: 600;
+}
+
+.uf-btn-primary:hover:not(:disabled) {
+  background: #2ea043;
+}
+
+/* Playback row */
+.uf-playback-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.uf-playback-row button {
+  background: #111111;
+  border: 1px solid #1f1f1f;
+  color: #c9d1d9;
+  border-radius: 4px;
+  padding: 0.28rem 0.7rem;
+  font-size: 0.82rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.uf-playback-row button:hover:not(:disabled) {
+  background: #1f1f1f;
+}
+
+.uf-playback-row button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.uf-speed-label {
+  font-size: 0.78rem;
+  color: #a1a1a1;
+  margin-left: 0.4rem;
+}
+
+.uf-speed-slider {
+  width: 80px;
+  accent-color: #58a6ff;
+}
+
+/* Narrative bar */
+.uf-narrative {
+  min-height: 1.5rem;
+  font-size: 0.82rem;
+  color: #e3b341;
+  background: #0a0a0a;
+  border: 1px solid #111111;
+  border-radius: 4px;
+  padding: 0.4rem 0.8rem;
+  text-align: center;
+}
+
+/* Forest SVG */
+.uf-forest-wrapper {
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.uf-forest-svg {
+  width: 100%;
+  height: 380px;
+  display: block;
+}
+
+/* SVG elements (set via JS setAttribute) */
+.uf-node-circle {
+  fill: #111111;
+  stroke: #58a6ff;
+  stroke-width: 2;
+  transition:
+    fill 0.2s,
+    stroke 0.2s;
+}
+
+.uf-node-circle-root {
+  fill: #0d2a3e;
+  stroke: #58a6ff;
+  stroke-width: 3;
+}
+
+.uf-node-circle-active {
+  fill: #1a3a1a;
+  stroke: #3fb950;
+  stroke-width: 3;
+}
+
+.uf-node-circle-compressed {
+  fill: #3a2200;
+  stroke: #e3b341;
+  stroke-width: 3;
+}
+
+.uf-node-circle-query {
+  fill: #2a1a3a;
+  stroke: #bc8cff;
+  stroke-width: 3;
+}
+
+.uf-node-label-text {
+  fill: #c9d1d9;
+  font-size: 12px;
+  font-family: "SF Mono", "Fira Code", monospace;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+
+.uf-edge-line {
+  stroke: #1f1f1f;
+  stroke-width: 1.5;
+}
+
+.uf-edge-line-active {
+  stroke: #3fb950;
+  stroke-width: 2.5;
+}
+
+.uf-edge-line-compressed {
+  stroke: #e3b341;
+  stroke-width: 2;
+  stroke-dasharray: 5 3;
+}
+
+/* Right panel: stat box */
+.uf-stat-panel {
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  text-align: center;
+}
+
+.uf-stat-label {
+  font-size: 0.75rem;
+  color: #a1a1a1;
+  margin-bottom: 0.25rem;
+}
+
+.uf-stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #58a6ff;
+}
+
+/* Panel title */
+.uf-panel-title {
+  font-size: 0.78rem;
+  color: #a1a1a1;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+}
+
+/* Membership list */
+.uf-membership-panel {
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+}
+
+.uf-membership-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.uf-component-row {
+  font-size: 0.78rem;
+  color: #c9d1d9;
+  display: flex;
+  gap: 0.4rem;
+  align-items: flex-start;
+}
+
+.uf-component-root {
+  color: #58a6ff;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.uf-component-members {
+  color: #a1a1a1;
+}
+
+/* History log */
+.uf-history-panel {
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.uf-history-log {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.uf-history-entry {
+  font-size: 0.75rem;
+  color: #a1a1a1;
+  padding: 0.25rem 0.4rem;
+  border-radius: 3px;
+  background: #030303;
+}
+
+.uf-history-entry-union {
+  border-left: 2px solid #3fb950;
+}
+
+.uf-history-entry-find {
+  border-left: 2px solid #58a6ff;
+}
+
+.uf-history-entry-connected {
+  border-left: 2px solid #bc8cff;
+}
+
+/* Context box */
+.uf-context-box {
+  max-width: 1100px;
+  width: 100%;
+  margin-top: 1.2rem;
+  font-size: 0.82rem;
+  color: #a1a1a1;
+  background: #0a0a0a;
+  border: 1px solid #111111;
+  border-radius: 6px;
+  padding: 0.8rem 1.2rem;
+  line-height: 1.6;
+}
+
+.uf-context-box strong {
+  color: #c9d1d9;
+}
+
+.uf-context-box em {
+  color: #e3b341;
+  font-style: normal;
+}

@@ -1,0 +1,544 @@
+/* --- Minimax with Alpha-Beta Pruning — algorithm-specific styles --- */
+/* All classes prefixed with mm- to avoid global collisions */
+
+/* =========================================================
+   Layout
+   ========================================================= */
+
+.mm-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .mm-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   Tic-Tac-Toe Board
+   ========================================================= */
+
+.mm-board-panel {
+  background: #0a0a0a;
+  border: 1px solid #111111;
+  border-radius: 6px;
+  padding: 1.25rem;
+}
+
+.mm-board-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #58a6ff;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 1rem;
+}
+
+.mm-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  width: 210px;
+  margin: 0 auto;
+}
+
+.mm-cell {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #030303;
+  border: 2px solid #111111;
+  border-radius: 6px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+  user-select: none;
+}
+
+.mm-cell:hover:not(.mm-cell-filled):not(.mm-cell-disabled) {
+  background: #1c2128;
+  border-color: #388bfd;
+}
+
+.mm-cell-x {
+  color: #58a6ff;
+}
+
+.mm-cell-o {
+  color: #f78166;
+}
+
+.mm-cell-filled {
+  cursor: default;
+}
+
+.mm-cell-disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.mm-cell-win {
+  background: #2ea04330;
+  border-color: #2ea043;
+}
+
+.mm-cell-ai {
+  animation: mm-ai-pulse 0.4s ease-out;
+}
+
+@keyframes mm-ai-pulse {
+  0% {
+    background: #388bfd30;
+    border-color: #388bfd;
+  }
+  100% {
+    background: #030303;
+    border-color: #111111;
+  }
+}
+
+/* =========================================================
+   Game Status & Controls
+   ========================================================= */
+
+.mm-status {
+  margin-top: 1rem;
+  font-size: 0.88rem;
+  color: #c9d1d9;
+  min-height: 1.4em;
+  text-align: center;
+}
+
+.mm-status-win {
+  color: #7ee787;
+  font-weight: 600;
+}
+
+.mm-status-lose {
+  color: #ffa198;
+  font-weight: 600;
+}
+
+.mm-status-draw {
+  color: #e3b341;
+  font-weight: 600;
+}
+
+.mm-controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.mm-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: #a1a1a1;
+  cursor: pointer;
+  user-select: none;
+  background: #030303;
+  border: 1px solid #111111;
+  border-radius: 4px;
+  padding: 0.3rem 0.6rem;
+  transition: border-color 0.15s;
+}
+
+.mm-toggle:hover {
+  border-color: #388bfd;
+  color: #c9d1d9;
+}
+
+.mm-toggle-active {
+  border-color: #58a6ff;
+  color: #58a6ff;
+  background: #1f6feb20;
+}
+
+/* =========================================================
+   Node Count Stats
+   ========================================================= */
+
+.mm-stats {
+  margin-top: 1rem;
+  background: #030303;
+  border: 1px solid #111111;
+  border-radius: 6px;
+  padding: 0.65rem 0.8rem;
+  font-size: 0.78rem;
+  color: #a1a1a1;
+}
+
+.mm-stats-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.mm-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 80px;
+}
+
+.mm-stat-label {
+  font-size: 0.68rem;
+  color: #666666;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.2rem;
+}
+
+.mm-stat-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-family: "Fira Mono", "Cascadia Code", monospace;
+  color: #c9d1d9;
+}
+
+.mm-stat-highlight {
+  color: #7ee787;
+}
+
+.mm-stat-muted {
+  color: #ffa198;
+}
+
+.mm-stat-saved {
+  color: #e3b341;
+}
+
+/* =========================================================
+   Speed control
+   ========================================================= */
+
+.mm-speed-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: #a1a1a1;
+  margin-top: 0.5rem;
+  justify-content: center;
+}
+
+/* =========================================================
+   Game Tree Visualization Panel
+   ========================================================= */
+
+.mm-tree-panel {
+  background: #0a0a0a;
+  border: 1px solid #111111;
+  border-radius: 6px;
+  padding: 1.25rem;
+  overflow: auto;
+  max-height: 600px;
+}
+
+.mm-tree-panel-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #58a6ff;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 1rem;
+}
+
+.mm-tree-empty {
+  color: #4d5566;
+  font-size: 0.82rem;
+  font-style: italic;
+}
+
+/* Tree node container */
+.mm-tree-node {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding: 0 4px;
+}
+
+/* Connector lines between parent and children */
+.mm-tree-children {
+  display: flex;
+  gap: 4px;
+  position: relative;
+  padding-top: 20px;
+}
+
+.mm-tree-children::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 20px;
+  border-left: 1px solid #1f1f1f;
+  transform: translateX(-50%);
+}
+
+/* Individual node box */
+.mm-tree-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #030303;
+  border: 1px solid #111111;
+  border-radius: 5px;
+  padding: 4px;
+  min-width: 72px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.mm-tree-box:hover {
+  border-color: #388bfd;
+}
+
+.mm-tree-box-maximizer {
+  border-color: #1f6feb60;
+}
+
+.mm-tree-box-minimizer {
+  border-color: #da363360;
+}
+
+.mm-tree-box-pruned {
+  opacity: 0.4;
+  border-style: dashed;
+  border-color: #4d5566;
+  cursor: default;
+}
+
+.mm-tree-box-terminal-win {
+  border-color: #2ea043;
+  background: #2ea04315;
+}
+
+.mm-tree-box-terminal-lose {
+  border-color: #da3633;
+  background: #da363315;
+}
+
+.mm-tree-box-terminal-draw {
+  border-color: #e3b341;
+  background: #e3b34115;
+}
+
+/* Mini board inside tree node */
+.mm-mini-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  width: 48px;
+  height: 48px;
+}
+
+.mm-mini-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0a0a0a;
+  font-size: 0.65rem;
+  font-weight: 700;
+  border: 1px solid #111111;
+}
+
+.mm-mini-cell-x {
+  color: #58a6ff;
+}
+
+.mm-mini-cell-o {
+  color: #f78166;
+}
+
+.mm-mini-cell-highlight {
+  background: #388bfd20;
+  border-color: #388bfd;
+}
+
+/* Score label under mini board */
+.mm-tree-score {
+  font-size: 0.65rem;
+  font-weight: 700;
+  font-family: "Fira Mono", "Cascadia Code", monospace;
+  margin-top: 2px;
+  color: #c9d1d9;
+}
+
+.mm-tree-score-pos {
+  color: #7ee787;
+}
+
+.mm-tree-score-neg {
+  color: #ffa198;
+}
+
+.mm-tree-score-zero {
+  color: #e3b341;
+}
+
+.mm-tree-score-pruned {
+  color: #4d5566;
+}
+
+/* Alpha-beta values */
+.mm-tree-ab {
+  font-size: 0.58rem;
+  color: #666666;
+  font-family: "Fira Mono", "Cascadia Code", monospace;
+  margin-top: 1px;
+}
+
+/* Move label */
+.mm-tree-move {
+  font-size: 0.6rem;
+  color: #a1a1a1;
+  margin-top: 1px;
+}
+
+/* Player label */
+.mm-tree-player {
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+
+.mm-tree-player-max {
+  color: #58a6ff;
+}
+
+.mm-tree-player-min {
+  color: #f78166;
+}
+
+/* Collapse/expand indicator */
+.mm-tree-toggle {
+  font-size: 0.6rem;
+  color: #4d5566;
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+/* Step-through highlight */
+.mm-tree-box-active {
+  border-color: #e3b341;
+  box-shadow: 0 0 0 2px #e3b34140;
+}
+
+/* =========================================================
+   Step-through controls
+   ========================================================= */
+
+.mm-step-controls {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 0.75rem;
+  justify-content: center;
+}
+
+.mm-step-info {
+  font-size: 0.75rem;
+  color: #a1a1a1;
+  margin-top: 0.4rem;
+  text-align: center;
+  min-height: 1.2em;
+}
+
+/* =========================================================
+   Context box
+   ========================================================= */
+
+.mm-context-box {
+  margin-top: 1rem;
+  padding: 0.7rem 1rem;
+  background: #0a0a0a;
+  border: 1px solid #111111;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  color: #a1a1a1;
+}
+
+.mm-context-box strong {
+  color: #c9d1d9;
+}
+
+/* =========================================================
+   Legend
+   ========================================================= */
+
+.mm-legend {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 0.72rem;
+  color: #a1a1a1;
+  margin-top: 0.75rem;
+}
+
+.mm-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.mm-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  border: 1px solid transparent;
+}
+
+.mm-swatch-max {
+  background: #1f6feb20;
+  border-color: #1f6feb60;
+}
+
+.mm-swatch-min {
+  background: #da363320;
+  border-color: #da363360;
+}
+
+.mm-swatch-pruned {
+  background: transparent;
+  border: 1px dashed #4d5566;
+  opacity: 0.6;
+}
+
+.mm-swatch-win {
+  background: #2ea04320;
+  border-color: #2ea043;
+}
+
+.mm-swatch-lose {
+  background: #da363320;
+  border-color: #da3633;
+}
+
+.mm-swatch-draw {
+  background: #e3b34120;
+  border-color: #e3b341;
+}
