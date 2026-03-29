@@ -32,7 +32,8 @@
     "PrimsAlgorithm": "readonly",
     "TrieAlgorithm": "readonly",
     "RadixSortAlgorithm": "readonly",
-    "KruskalAlgorithm": "readonly"
+    "KruskalAlgorithm": "readonly",
+    "AVLAlgorithm": "readonly"
   },
   "rules": {
     "no-undef": "error",

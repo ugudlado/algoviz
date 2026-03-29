@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AlgoViz — BFS Pathfinding</title>
+    <title>AlgoViz — AVL Tree</title>
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="bfs-style.css" />
+    <link rel="stylesheet" href="avl-tree-style.css" />
   </head>
-  <body data-category="searching">
+  <body data-category="ds">
     <nav class="algo-nav">
       <a href="index.html" class="nav-home">AlgoViz</a>
       <div class="nav-category">
@@ -21,10 +21,10 @@
         </div>
       </div>
       <div class="nav-category">
-        <button class="nav-category-btn current-category">Searching</button>
+        <button class="nav-category-btn">Searching</button>
         <div class="nav-dropdown">
           <a href="binary-search.html">Binary Search</a>
-          <a href="bfs.html" class="active">BFS Pathfinding</a>
+          <a href="bfs.html">BFS Pathfinding</a>
           <a href="dfs.html">DFS Pathfinding</a>
         </div>
       </div>
@@ -54,9 +54,11 @@
         </div>
       </div>
       <div class="nav-category">
-        <button class="nav-category-btn">Data Structures</button>
+        <button class="nav-category-btn current-category">
+          Data Structures
+        </button>
         <div class="nav-dropdown">
-          <a href="avl-tree.html">AVL Tree</a>
+          <a href="avl-tree.html" class="active">AVL Tree</a>
           <a href="bst.html">BST Traversal</a>
           <a href="hash-table.html">Hash Table</a>
           <a href="heap.html">Min-Heap</a>
@@ -79,80 +81,72 @@
         class="nav-hamburger"
         onclick="this.closest('.algo-nav').classList.toggle('nav-open')"
       >
-        ☰
+        &#9776;
       </button>
     </nav>
 
     <header class="page-header">
       <div class="title-group">
-        <h1>BFS Pathfinding</h1>
+        <h1>AVL Tree</h1>
         <div class="title-meta">
-          <span class="badge">Searching</span>
-          <span class="badge badge-accent">O(V + E)</span>
+          <span class="badge">Data Structures</span>
+          <span class="badge badge-accent">O(log n)</span>
         </div>
       </div>
-      <div class="legend">
-        <span class="swatch bfs-empty"></span> Empty
-        <span class="swatch bfs-wall"></span> Wall
-        <span class="swatch bfs-start"></span> Start
-        <span class="swatch bfs-end"></span> End
-        <span class="swatch bfs-visited"></span> Visited
-        <span class="swatch bfs-frontier"></span> Frontier
-        <span class="swatch bfs-path"></span> Path
+      <div class="avl-legend">
+        <span class="avl-swatch avl-swatch-normal"></span> Normal
+        <span class="avl-swatch avl-swatch-imbalanced"></span> Imbalanced
+        <span class="avl-swatch avl-swatch-rotating"></span> Rotating
+        <span class="avl-legend-item">
+          <span class="avl-badge-example">+2</span> Balance Factor
+        </span>
       </div>
     </header>
 
     <main class="content-grid">
       <section class="main-column">
-        <!-- Input Panel -->
+        <!-- Controls panel -->
         <div class="panel">
           <div class="inputs">
-            <label
-              >Grid:
-              <select id="gridSize">
-                <option value="10">10 &times; 10</option>
-                <option value="15">15 &times; 15</option>
-                <option value="20" selected>20 &times; 20</option>
-                <option value="25">25 &times; 25</option>
-              </select>
+            <label>
+              Insert:
+              <input
+                type="number"
+                id="insertInput"
+                value="10"
+                min="-99"
+                max="99"
+                step="1"
+              />
             </label>
-            <div class="bfs-mode-buttons">
-              <button id="btnModeWall" class="bfs-mode-btn bfs-active-mode">
-                Wall
-              </button>
-              <button id="btnModeStart" class="bfs-mode-btn">Start</button>
-              <button id="btnModeEnd" class="bfs-mode-btn">End</button>
-            </div>
-            <button id="btnClearWalls">Clear Walls</button>
-            <button id="btnClearAll">Clear All</button>
-            <button id="btnRunBFS" class="bfs-btn-primary">Run BFS</button>
+            <button id="btnInsert">Insert</button>
+            <label>
+              Delete:
+              <input
+                type="number"
+                id="deleteInput"
+                min="-99"
+                max="99"
+                step="1"
+              />
+            </label>
+            <button id="btnDelete">Delete</button>
+            <button id="btnRandom">Random</button>
+            <button id="btnClear">Clear</button>
           </div>
         </div>
 
-        <!-- Step Info -->
-        <div id="info" class="info">
-          Click cells to place walls, then set start &amp; end points and click
-          <strong>Run BFS</strong>.
+        <!-- Info panel -->
+        <div id="avlInfo" class="info">
+          Insert values to build an AVL tree. Rotations will be shown step by
+          step.
         </div>
 
-        <!-- Visualization Area -->
-        <div class="bfs-layout">
-          <div id="grid-container" class="bfs-grid-container"></div>
-          <div id="queue-sidebar" class="bfs-queue-sidebar">
-            <h3>Queue</h3>
-            <div id="queue-list" class="bfs-queue-list">
-              <div class="bfs-queue-empty">Run BFS to see the queue</div>
-            </div>
-            <div id="stats" class="bfs-stats">
-              <div>Step: <span id="stepCount">0</span></div>
-              <div>Visited: <span id="visitedCount">0</span></div>
-              <div>Queue size: <span id="queueSize">0</span></div>
-            </div>
-          </div>
-        </div>
+        <!-- SVG tree canvas -->
+        <svg id="avlSvg" class="avl-tree-svg" width="700" height="420"></svg>
 
-        <!-- Playback Controls -->
-        <div class="playback-controls hidden" id="playback">
+        <!-- Playback controls -->
+        <div class="playback-controls hidden" id="avlPlayback">
           <div class="playback-btns">
             <button class="icon-btn" id="btnReset" title="Reset">
               <svg
@@ -228,25 +222,52 @@
               "
               >Speed</span
             >
-            <input type="range" id="speed" min="1" max="10" value="5" />
+            <input type="range" id="avlSpeed" min="1" max="10" value="5" />
           </div>
         </div>
       </section>
 
       <aside class="sidebar">
-        <!-- Stats Grid -->
-        <div class="stats-grid" id="statsPanel">
+        <!-- Stats -->
+        <div class="stats-grid" id="avlStats">
           <div class="stat-card">
-            <span class="stat-value" id="stepsStat">0</span>
-            <span class="stat-label">Steps</span>
+            <span class="stat-value" id="statNodes">0</span>
+            <span class="stat-label">Nodes</span>
           </div>
           <div class="stat-card">
-            <span class="stat-value" id="visitedStat">0</span>
-            <span class="stat-label">Visited</span>
+            <span class="stat-value" id="statHeight">0</span>
+            <span class="stat-label">Height</span>
           </div>
           <div class="stat-card">
-            <span class="stat-value" id="queueSizeStat">0</span>
-            <span class="stat-label">Queue Size</span>
+            <span class="stat-value" id="statStep">0 / 0</span>
+            <span class="stat-label">Step</span>
+          </div>
+        </div>
+
+        <!-- Rotation Legend -->
+        <div class="panel">
+          <div class="panel-title">Rotation Types</div>
+          <div class="avl-rotation-legend">
+            <div class="avl-rotation-item">
+              <span class="avl-rot-badge avl-rot-ll">LL</span>
+              <span>Left-Left: right rotation at imbalanced node</span>
+            </div>
+            <div class="avl-rotation-item">
+              <span class="avl-rot-badge avl-rot-rr">RR</span>
+              <span>Right-Right: left rotation at imbalanced node</span>
+            </div>
+            <div class="avl-rotation-item">
+              <span class="avl-rot-badge avl-rot-lr">LR</span>
+              <span
+                >Left-Right: left rotation on child, then right rotation</span
+              >
+            </div>
+            <div class="avl-rotation-item">
+              <span class="avl-rot-badge avl-rot-rl">RL</span>
+              <span
+                >Right-Left: right rotation on child, then left rotation</span
+              >
+            </div>
           </div>
         </div>
 
@@ -255,33 +276,32 @@
           <div class="panel-title">Pseudocode</div>
           <!-- prettier-ignore -->
           <div class="code-panel">
-            <span class="code-line">queue = [start]</span>
-            <span class="code-line">visited = {start}</span>
-            <span class="code-line">while queue is not empty:</span>
-            <span class="code-line"> node = queue.dequeue()</span>
-            <span class="code-line"> if node == goal:</span>
-            <span class="code-line"> return reconstruct_path()</span>
-            <span class="code-line"> for neighbor of node:</span>
-            <span class="code-line"> if neighbor not in visited:</span>
-            <span class="code-line"> visited.add(neighbor)</span>
-            <span class="code-line"> queue.enqueue(neighbor)</span>
+            <span class="code-line">insert(node, val):</span>
+            <span class="code-line"> BST insert as usual</span>
+            <span class="code-line"> updateHeight(node)</span>
+            <span class="code-line"> bf = height(left) - height(right)</span>
+            <span class="code-line"> if |bf| &gt; 1:</span>
+            <span class="code-line">  determine rotation type</span>
+            <span class="code-line">  apply rotation</span>
+            <span class="code-line"> return balanced node</span>
           </div>
         </div>
 
         <!-- Real-world Analogy -->
         <div class="panel-title">Real-world Analogy</div>
-        <div class="analogy-card">
+        <div class="avl-analogy">
           <p>
-            <strong>Ripples in a pond</strong> &mdash; drop a stone at the start
-            point; waves spread outward one layer at a time, reaching every cell
-            at the shortest distance first. BFS explores all neighbors before
-            moving deeper.
+            <strong>Real-world analogy:</strong> A bookshelf organizer who keeps
+            books sorted but also ensures the shelf is never lopsided. After
+            every addition or removal, they rebalance by rotating sections left
+            or right so no stack is more than one book taller than its neighbor
+            — keeping search time fast no matter how many books you add.
           </p>
         </div>
       </aside>
     </main>
 
-    <script src="bfs-algorithm.js"></script>
-    <script src="bfs.js"></script>
+    <script src="avl-tree-algorithm.js"></script>
+    <script src="avl-tree.js"></script>
   </body>
 </html>
