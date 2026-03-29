@@ -86,12 +86,17 @@
   }
 
   function resetWatch() {
-    [watchPass, watchPos, watchLeft, watchRight, watchAction, watchSorted].forEach(
-      function (el) {
-        el.textContent = "\u2014";
-        el.className = "watch-val";
-      },
-    );
+    [
+      watchPass,
+      watchPos,
+      watchLeft,
+      watchRight,
+      watchAction,
+      watchSorted,
+    ].forEach(function (el) {
+      el.textContent = "\u2014";
+      el.className = "watch-val";
+    });
   }
 
   // --- State ---

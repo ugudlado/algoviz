@@ -6,7 +6,10 @@
     <title>AlgoViz — Bubble Sort</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="bubble-sort-style.css" />
   </head>
@@ -108,7 +111,12 @@
         <div class="bs-inputs-row">
           <label>
             <span class="bs-input-label">Values</span>
-            <input type="text" id="valuesInput" value="8, 3, 5, 1, 9, 2, 7, 4, 6" placeholder="e.g. 8, 3, 5, 1" />
+            <input
+              type="text"
+              id="valuesInput"
+              value="8, 3, 5, 1, 9, 2, 7, 4, 6"
+              placeholder="e.g. 8, 3, 5, 1"
+            />
           </label>
           <label>
             <span class="bs-input-label">Size</span>
@@ -127,19 +135,68 @@
         <div class="bs-playback hidden" id="playback">
           <div class="playback-btns">
             <button class="icon-btn" id="btnReset" title="Reset">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                ></path>
+                <path d="M3 3v5h5"></path>
+              </svg>
             </button>
             <button class="icon-btn" id="btnStepBack" title="Step back">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5"></line></svg>
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                <line x1="5" y1="19" x2="5" y2="5"></line>
+              </svg>
             </button>
             <button class="icon-btn icon-btn-play" id="btnPlay" title="Play">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
             </button>
             <button class="icon-btn" id="btnPause" disabled title="Pause">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+              </svg>
             </button>
             <button class="icon-btn" id="btnStep" title="Step forward">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                <line x1="19" y1="5" x2="19" y2="19"></line>
+              </svg>
             </button>
           </div>
           <span class="step-counter" id="stepStat">0 / 0</span>
@@ -153,11 +210,15 @@
 
       <!-- Right: 2-column info sidebar -->
       <aside class="bs-sidebar">
-
         <!-- Problem — spans both columns -->
         <div class="bs-block bs-block-full bs-problem">
           <div class="bs-block-title">The problem</div>
-          <p>You have a shelf of <strong>books in random order</strong> and need to sort them by height. You can only <strong>compare two neighboring books</strong> at a time and swap if they're out of order.</p>
+          <p>
+            You have a shelf of <strong>books in random order</strong> and need
+            to sort them by height. You can only
+            <strong>compare two neighboring books</strong> at a time and swap if
+            they're out of order.
+          </p>
         </div>
 
         <!-- Watch + Metrics — two columns -->
@@ -180,7 +241,9 @@
             <div class="bs-block-title">Watch</div>
             <div class="bs-metric-row">
               <span class="bs-metric-key">pass</span>
-              <span class="bs-metric-val bs-watch-accent" id="watchPass">&mdash;</span>
+              <span class="bs-metric-val bs-watch-accent" id="watchPass"
+                >&mdash;</span
+              >
             </div>
             <div class="bs-metric-row">
               <span class="bs-metric-key">comparing</span>
@@ -224,12 +287,25 @@
         <div class="bs-block bs-block-full">
           <div class="bs-block-title">Why O(n&sup2;)?</div>
           <div class="complexity-explain">
-            <p>Each pass walks the unsorted portion comparing every neighbor. With <strong>n</strong> elements: <strong>n&minus;1</strong> comparisons first pass, then <strong>n&minus;2</strong>, and so on.</p>
-            <p>Total: <code>(n&minus;1) + (n&minus;2) + &hellip; + 1 = n(n&minus;1)/2</code> &mdash; grows as <strong>O(n&sup2;)</strong>.</p>
-            <p>Early-termination gives <strong>O(n)</strong> best case (already sorted). <strong>Space:</strong> O(1) &mdash; in-place.</p>
+            <p>
+              Each pass walks the unsorted portion comparing every neighbor.
+              With <strong>n</strong> elements:
+              <strong>n&minus;1</strong> comparisons first pass, then
+              <strong>n&minus;2</strong>, and so on.
+            </p>
+            <p>
+              Total:
+              <code
+                >(n&minus;1) + (n&minus;2) + &hellip; + 1 = n(n&minus;1)/2</code
+              >
+              &mdash; grows as <strong>O(n&sup2;)</strong>.
+            </p>
+            <p>
+              Early-termination gives <strong>O(n)</strong> best case (already
+              sorted). <strong>Space:</strong> O(1) &mdash; in-place.
+            </p>
           </div>
         </div>
-
       </aside>
     </main>
 

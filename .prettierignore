@@ -1,0 +1,2 @@
+# huffman.html has a known EOF parse issue with prettier's HTML parser
+huffman.html

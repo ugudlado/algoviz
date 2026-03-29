@@ -7,31 +7,34 @@
 /* ─── Page-level overrides ───────────────────────────────── */
 body[data-category="sorting"] {
   /* OKLCH: warm-tinted near-blacks */
-  --bs-bg:          oklch(10% 0.012 52);   /* base surface, amber hint */
-  --bs-bg-raised:   oklch(12.5% 0.012 52); /* slightly lighter panels */
-  --bs-bg-input:    oklch(15% 0.010 52);   /* inputs */
-  --bs-rule:        oklch(22% 0.010 52);   /* hairlines */
-  --bs-rule-strong: oklch(30% 0.010 52);   /* section dividers */
+  --bs-bg: oklch(10% 0.012 52); /* base surface, amber hint */
+  --bs-bg-raised: oklch(12.5% 0.012 52); /* slightly lighter panels */
+  --bs-bg-input: oklch(15% 0.01 52); /* inputs */
+  --bs-rule: oklch(22% 0.01 52); /* hairlines */
+  --bs-rule-strong: oklch(30% 0.01 52); /* section dividers */
 
   /* Text scale */
-  --bs-ink:         oklch(93% 0.006 52);   /* primary text, warm white */
-  --bs-ink-mid:     oklch(68% 0.010 52);   /* secondary */
-  --bs-ink-dim:     oklch(46% 0.010 52);   /* muted / labels */
-  --bs-ink-faint:   oklch(38% 0.010 52);   /* dim (lifted for readability) */
-  --bs-chart-bg:    oklch(7.5% 0.008 52);  /* chart — cooler/darker than page */
+  --bs-ink: oklch(93% 0.006 52); /* primary text, warm white */
+  --bs-ink-mid: oklch(68% 0.01 52); /* secondary */
+  --bs-ink-dim: oklch(46% 0.01 52); /* muted / labels */
+  --bs-ink-faint: oklch(38% 0.01 52); /* dim (lifted for readability) */
+  --bs-chart-bg: oklch(7.5% 0.008 52); /* chart — cooler/darker than page */
 
   /* Accent (sorting orange — category color) */
-  --bs-accent:      oklch(68% 0.17 52);    /* same hue as --cat-sorting */
-  --bs-accent-dim:  oklch(68% 0.17 52 / 0.12);
-  --bs-accent-text: oklch(10% 0.012 52);   /* text on accent bg */
+  --bs-accent: oklch(68% 0.17 52); /* same hue as --cat-sorting */
+  --bs-accent-dim: oklch(68% 0.17 52 / 0.12);
+  --bs-accent-text: oklch(10% 0.012 52); /* text on accent bg */
 
   /* Semantic — warm palette harmony */
-  --bs-blue:        oklch(60% 0.12 225);   /* comparing — desaturated blue-teal, less jarring */
-  --bs-green:       oklch(56% 0.14 145);   /* sorted */
+  --bs-blue: oklch(
+    60% 0.12 225
+  ); /* comparing — desaturated blue-teal, less jarring */
+  --bs-green: oklch(56% 0.14 145); /* sorted */
 
   /* Typography — matches G2 design reference */
-  --bs-font-display: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --bs-font-data:    'JetBrains Mono', 'Fira Code', monospace;
+  --bs-font-display:
+    "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --bs-font-data: "JetBrains Mono", "Fira Code", monospace;
 
   background: var(--bs-bg);
   color: var(--bs-ink);
@@ -42,7 +45,9 @@ body[data-category="sorting"] {
 
 /* Kill shared glow — not appropriate here */
 body[data-category="sorting"]::before,
-body[data-category="sorting"]::after { display: none; }
+body[data-category="sorting"]::after {
+  display: none;
+}
 
 /* ─── Nav: warm override ─────────────────────────────────── */
 body[data-category="sorting"] .algo-nav {
@@ -82,7 +87,7 @@ body[data-category="sorting"] .algo-nav .nav-dropdown a {
 }
 
 body[data-category="sorting"] .algo-nav .nav-dropdown a:hover {
-  background: oklch(18% 0.010 52);
+  background: oklch(18% 0.01 52);
   color: var(--bs-ink);
 }
 
@@ -124,7 +129,7 @@ body[data-category="sorting"] .badge {
 body[data-category="sorting"] .badge-accent {
   color: var(--bs-accent);
   background: var(--bs-accent-dim);
-  border-color: oklch(68% 0.17 52 / 0.30);
+  border-color: oklch(68% 0.17 52 / 0.3);
   font-family: var(--bs-font-data);
   font-size: 0.72rem;
 }
@@ -148,10 +153,18 @@ body[data-category="sorting"] .badge-accent {
   flex-shrink: 0;
 }
 
-.bs-legend .swatch.bs-unsorted-swatch  { background: oklch(30% 0.012 52); }
-.bs-legend .swatch.bs-comparing-swatch { background: var(--bs-blue); }
-.bs-legend .swatch.bs-swapping-swatch  { background: var(--bs-accent); }
-.bs-legend .swatch.bs-sorted-swatch    { background: var(--bs-green); }
+.bs-legend .swatch.bs-unsorted-swatch {
+  background: oklch(30% 0.012 52);
+}
+.bs-legend .swatch.bs-comparing-swatch {
+  background: var(--bs-blue);
+}
+.bs-legend .swatch.bs-swapping-swatch {
+  background: var(--bs-accent);
+}
+.bs-legend .swatch.bs-sorted-swatch {
+  background: var(--bs-green);
+}
 
 /* ─── Main grid: viz left + sidebar right ────────────────── */
 .bs-main {
@@ -192,7 +205,10 @@ body[data-category="sorting"] .badge-accent {
   margin-bottom: 0.22rem;
 }
 
-.bs-inputs-row label { display: flex; flex-direction: column; }
+.bs-inputs-row label {
+  display: flex;
+  flex-direction: column;
+}
 
 .bs-inputs-row input[type="text"] {
   background: var(--bs-bg-input);
@@ -233,13 +249,16 @@ body[data-category="sorting"] button {
   padding: 0.38rem 0.85rem;
   border-radius: 3px;
   cursor: pointer;
-  transition: color 0.12s, background 0.12s, border-color 0.12s;
+  transition:
+    color 0.12s,
+    background 0.12s,
+    border-color 0.12s;
 }
 
 body[data-category="sorting"] button:hover:not(:disabled) {
   color: var(--bs-ink);
-  background: oklch(18% 0.010 52);
-  border-color: oklch(38% 0.010 52);
+  background: oklch(18% 0.01 52);
+  border-color: oklch(38% 0.01 52);
 }
 
 body[data-category="sorting"] button:disabled {
@@ -302,9 +321,15 @@ body[data-category="sorting"] #btnVisualize:hover {
   opacity: 0.7;
 }
 
-.bs-bar.bsort-comparing { background: var(--bs-blue); }
-.bs-bar.bsort-swapping  { background: var(--bs-accent); }
-.bs-bar.bsort-sorted    { background: var(--bs-green); }
+.bs-bar.bsort-comparing {
+  background: var(--bs-blue);
+}
+.bs-bar.bsort-swapping {
+  background: var(--bs-accent);
+}
+.bs-bar.bsort-sorted {
+  background: var(--bs-green);
+}
 
 /* ─── Playback ───────────────────────────────────────────── */
 .bs-playback {
@@ -316,9 +341,14 @@ body[data-category="sorting"] #btnVisualize:hover {
   padding-top: 0.65rem;
 }
 
-.bs-playback.hidden { display: none; }
+.bs-playback.hidden {
+  display: none;
+}
 
-.playback-btns { display: flex; gap: 0.3rem; }
+.playback-btns {
+  display: flex;
+  gap: 0.3rem;
+}
 
 .icon-btn {
   width: 30px;
@@ -335,12 +365,15 @@ body[data-category="sorting"] #btnVisualize:hover {
 }
 
 .icon-btn:hover:not(:disabled) {
-  background: oklch(18% 0.010 52);
-  border-color: oklch(38% 0.010 52);
+  background: oklch(18% 0.01 52);
+  border-color: oklch(38% 0.01 52);
   color: var(--bs-ink-mid);
 }
 
-.icon-btn:disabled { opacity: 0.25; cursor: default; }
+.icon-btn:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
 
 .icon-btn-play {
   background: var(--bs-accent);
@@ -470,10 +503,12 @@ body[data-category="sorting"] input[type="range"] {
   justify-content: space-between;
   align-items: baseline;
   padding: 0.28rem 0;
-  border-bottom: 1px solid oklch(20% 0.010 52);
+  border-bottom: 1px solid oklch(20% 0.01 52);
 }
 
-.bs-metric-row:last-child { border-bottom: none; }
+.bs-metric-row:last-child {
+  border-bottom: none;
+}
 
 .bs-metric-key {
   font-family: var(--bs-font-data);
@@ -490,10 +525,18 @@ body[data-category="sorting"] input[type="range"] {
 }
 
 /* Watch state colors */
-.bs-watch-accent   { color: var(--bs-accent); }
-.watch-swap        { color: var(--bs-accent); }
-.watch-ok          { color: var(--bs-green); }
-.watch-val-neutral { color: var(--bs-ink-mid); }
+.bs-watch-accent {
+  color: var(--bs-accent);
+}
+.watch-swap {
+  color: var(--bs-accent);
+}
+.watch-ok {
+  color: var(--bs-green);
+}
+.watch-val-neutral {
+  color: var(--bs-ink-mid);
+}
 
 /* ─── Pseudocode ─────────────────────────────────────────── */
 .bs-block .code-panel {
@@ -511,7 +554,9 @@ body[data-category="sorting"] input[type="range"] {
   color: var(--bs-ink-dim);
   border-left: 2px solid transparent;
   font-family: var(--bs-font-data);
-  transition: background 0.1s, color 0.1s;
+  transition:
+    background 0.1s,
+    color 0.1s;
 }
 
 .bs-block .code-line.highlight {
@@ -528,13 +573,17 @@ body[data-category="sorting"] input[type="range"] {
   line-height: 1.8;
 }
 
-.complexity-explain p { margin-bottom: 0.5rem; }
-.complexity-explain p:last-child { margin-bottom: 0; }
+.complexity-explain p {
+  margin-bottom: 0.5rem;
+}
+.complexity-explain p:last-child {
+  margin-bottom: 0;
+}
 
 .complexity-explain code {
   font-family: var(--bs-font-data);
   font-size: 0.71rem;
-  background: oklch(16% 0.010 52);
+  background: oklch(16% 0.01 52);
   padding: 2px 5px;
   border-radius: 2px;
   color: var(--bs-accent);
@@ -569,7 +618,9 @@ body[data-category="sorting"] input[type="range"] {
   flex-shrink: 0;
 }
 
-.result.hidden { display: none; }
+.result.hidden {
+  display: none;
+}
 
 /* ─── Responsive ─────────────────────────────────────────── */
 @media (max-width: 1100px) {
@@ -591,6 +642,10 @@ body[data-category="sorting"] input[type="range"] {
 }
 
 @media (max-width: 600px) {
-  .bs-duo { grid-template-columns: 1fr; }
-  .bs-duo .bs-block:first-child { border-bottom: 1px solid var(--bs-rule); }
+  .bs-duo {
+    grid-template-columns: 1fr;
+  }
+  .bs-duo .bs-block:first-child {
+    border-bottom: 1px solid var(--bs-rule);
+  }
 }
