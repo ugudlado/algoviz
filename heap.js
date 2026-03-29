@@ -52,6 +52,73 @@
   const minValEl = document.getElementById("hp-minVal");
   const historyLogEl = document.getElementById("hp-historyLog");
 
+  // Watch panel refs
+  const hpWatchOp = document.getElementById("hp-watch-op");
+  const hpWatchCurr = document.getElementById("hp-watch-curr");
+  const hpWatchParent = document.getElementById("hp-watch-parent");
+  const hpWatchAction = document.getElementById("hp-watch-action");
+  const hpWatchSize = document.getElementById("hp-watch-size");
+
+  // --- Watch panel ---
+  function updateWatch(step) {
+    var em = "\u2014";
+    if (!step) {
+      hpWatchOp.textContent = em;
+      hpWatchOp.className = "algo-watch-value";
+      hpWatchCurr.textContent = em;
+      hpWatchCurr.className = "algo-watch-value";
+      hpWatchParent.textContent = em;
+      hpWatchParent.className = "algo-watch-value";
+      hpWatchAction.textContent = em;
+      hpWatchAction.className = "algo-watch-value";
+      hpWatchSize.textContent = em;
+      hpWatchSize.className = "algo-watch-value";
+      return;
+    }
+    hpWatchOp.textContent = step.type;
+    hpWatchOp.className = "algo-watch-value aw-neutral";
+    var i0 =
+      step.indices && step.indices[0] !== undefined ? step.indices[0] : -1;
+    var i1 =
+      step.indices && step.indices[1] !== undefined ? step.indices[1] : -1;
+    var v0 = step.values && step.values[0] !== undefined ? step.values[0] : em;
+    var v1 = step.values && step.values[1] !== undefined ? step.values[1] : em;
+    if (i0 >= 0) {
+      hpWatchCurr.textContent = i0 + " / " + v0;
+      hpWatchCurr.className = "algo-watch-value aw-highlight";
+    } else {
+      hpWatchCurr.textContent = em;
+      hpWatchCurr.className = "algo-watch-value";
+    }
+    if (i1 >= 0) {
+      hpWatchParent.textContent = i1 + " / " + v1;
+      hpWatchParent.className = "algo-watch-value aw-neutral";
+    } else {
+      hpWatchParent.textContent = em;
+      hpWatchParent.className = "algo-watch-value";
+    }
+    if (step.type === "swap") {
+      hpWatchAction.textContent = "swap";
+      hpWatchAction.className = "algo-watch-value aw-error";
+    } else if (step.type === "compare") {
+      hpWatchAction.textContent = "compare";
+      hpWatchAction.className = "algo-watch-value aw-warn";
+    } else if (step.type === "extract") {
+      hpWatchAction.textContent = "extract min";
+      hpWatchAction.className = "algo-watch-value aw-success";
+    } else if (step.type === "insert") {
+      hpWatchAction.textContent = "insert";
+      hpWatchAction.className = "algo-watch-value aw-highlight";
+    } else {
+      hpWatchAction.textContent = step.type;
+      hpWatchAction.className = "algo-watch-value aw-neutral";
+    }
+    hpWatchSize.textContent = step.heapSnapshot
+      ? String(step.heapSnapshot.length)
+      : em;
+    hpWatchSize.className = "algo-watch-value aw-neutral";
+  }
+
   // --- Timer cleanup ---
   function clearPlayTimer() {
     if (playTimer !== null) {
@@ -364,6 +431,7 @@
     const step = pendingSteps[currentStepIdx];
     applyStep(step);
     narrativeEl.textContent = narrativeForStep(step);
+    updateWatch(step);
     renderAll();
   }
 
@@ -375,6 +443,7 @@
       const step = pendingSteps[currentStepIdx];
       applyStep(step);
       narrativeEl.textContent = narrativeForStep(step);
+      updateWatch(step);
     } else {
       // Back to pre-operation state: first step's snapshot is post-first-action,
       // so use the snapshot before first step if available
@@ -385,6 +454,7 @@
         heap.data = pendingSteps[0].heapSnapshot.slice();
         narrativeEl.textContent = "Ready.";
       }
+      updateWatch(null);
     }
     renderAll();
   }
@@ -432,6 +502,7 @@
       historyLogEl.removeChild(historyLogEl.firstChild);
     errorEl.textContent = "";
     narrativeEl.textContent = "Insert a value or build a heap to begin.";
+    updateWatch(null);
     renderAll();
   }
 

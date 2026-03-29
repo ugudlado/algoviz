@@ -28,6 +28,7 @@
 
   // --- DOM refs ---
   const stringAEl = document.getElementById("stringA");
+
   const stringBEl = document.getElementById("stringB");
   const btnVisualize = document.getElementById("btnVisualize");
   const btnRandom = document.getElementById("btnRandom");
@@ -41,6 +42,54 @@
   const matrixEl = document.getElementById("matrix-container");
   const resultEl = document.getElementById("result");
   const speedEl = document.getElementById("speed");
+
+  // Watch panel refs
+  const lcsWatchIj = document.getElementById("lcs-watch-ij");
+  const lcsWatchChars = document.getElementById("lcs-watch-chars");
+  const lcsWatchMatch = document.getElementById("lcs-watch-match");
+  const lcsWatchCell = document.getElementById("lcs-watch-cell");
+  const lcsWatchLcslen = document.getElementById("lcs-watch-lcslen");
+
+  // --- Watch panel ---
+  function updateWatch(step) {
+    var em = "\u2014";
+    if (!step) {
+      lcsWatchIj.textContent = em;
+      lcsWatchIj.className = "algo-watch-value";
+      lcsWatchChars.textContent = em;
+      lcsWatchChars.className = "algo-watch-value";
+      lcsWatchMatch.textContent = em;
+      lcsWatchMatch.className = "algo-watch-value";
+      lcsWatchCell.textContent = em;
+      lcsWatchCell.className = "algo-watch-value";
+      lcsWatchLcslen.textContent = em;
+      lcsWatchLcslen.className = "algo-watch-value";
+      return;
+    }
+    lcsWatchIj.textContent = "(" + step.row + ", " + step.col + ")";
+    lcsWatchIj.className = "algo-watch-value aw-neutral";
+    var strA = stringAEl.value;
+    var strB = stringBEl.value;
+    var charA =
+      step.row > 0 && step.row <= strA.length ? strA[step.row - 1] : em;
+    var charB =
+      step.col > 0 && step.col <= strB.length ? strB[step.col - 1] : em;
+    lcsWatchChars.textContent = charA + " vs " + charB;
+    lcsWatchChars.className = "algo-watch-value aw-neutral";
+    if (step.isMatch) {
+      lcsWatchMatch.textContent = "match!";
+      lcsWatchMatch.className = "algo-watch-value aw-success";
+    } else {
+      lcsWatchMatch.textContent = "no match";
+      lcsWatchMatch.className = "algo-watch-value aw-warn";
+    }
+    lcsWatchCell.textContent = String(step.value);
+    lcsWatchCell.className = "algo-watch-value aw-highlight";
+    lcsWatchLcslen.textContent = solveResult
+      ? String(solveResult.lcsString.length)
+      : em;
+    lcsWatchLcslen.className = "algo-watch-value aw-neutral";
+  }
 
   // --- Input validation ---
   function validateInputs() {
@@ -139,6 +188,7 @@
     solveResult = LCSAlgorithm.solve(input.a, input.b);
     currentStep = -1;
     stepCount = 0;
+    updateWatch(null);
 
     buildTable(input.a, input.b);
 
@@ -245,6 +295,7 @@
       currentStep++;
       stepCount++;
       renderStep(currentStep);
+      updateWatch(solveResult.steps[currentStep]);
       if (currentStep === solveResult.steps.length - 1) {
         stopAnimation();
         showTraceback();
@@ -273,6 +324,7 @@
       const prevStep = solveResult.steps[currentStep];
       const prevCell = cellMap[prevStep.row + "," + prevStep.col];
       if (prevCell) prevCell.classList.add("lcs-current");
+      updateWatch(prevStep);
       infoEl.textContent =
         "Step " +
         stepCount +
@@ -285,6 +337,7 @@
         const prevCurrent = tableEl.querySelector("td.lcs-current");
         if (prevCurrent) prevCurrent.classList.remove("lcs-current");
       }
+      updateWatch(null);
       infoEl.textContent =
         "Ready. " +
         solveResult.steps.length +
@@ -324,6 +377,7 @@
     if (!solveResult) return;
     currentStep = -1;
     stepCount = 0;
+    updateWatch(null);
     // Rebuild clean table
     const input = validateInputs();
     if (input) {

@@ -17,6 +17,76 @@
   const stepStat = document.getElementById("stepStat");
   const worstCaseWarning = document.getElementById("worstCaseWarning");
 
+  // Watch panel refs
+  const qsWatchPivot = document.getElementById("qs-watch-pivot");
+  const qsWatchBounds = document.getElementById("qs-watch-bounds");
+  const qsWatchI = document.getElementById("qs-watch-i");
+  const qsWatchJ = document.getElementById("qs-watch-j");
+  const qsWatchAction = document.getElementById("qs-watch-action");
+
+  // --- Watch panel ---
+  function updateWatch(step) {
+    var em = "\u2014";
+    if (!step) {
+      qsWatchPivot.textContent = em;
+      qsWatchPivot.className = "algo-watch-value";
+      qsWatchBounds.textContent = em;
+      qsWatchBounds.className = "algo-watch-value";
+      qsWatchI.textContent = em;
+      qsWatchI.className = "algo-watch-value";
+      qsWatchJ.textContent = em;
+      qsWatchJ.className = "algo-watch-value";
+      qsWatchAction.textContent = em;
+      qsWatchAction.className = "algo-watch-value";
+      return;
+    }
+    if (step.type === "complete") {
+      qsWatchPivot.textContent = em;
+      qsWatchPivot.className = "algo-watch-value";
+      qsWatchBounds.textContent = em;
+      qsWatchBounds.className = "algo-watch-value";
+      qsWatchI.textContent = em;
+      qsWatchI.className = "algo-watch-value";
+      qsWatchJ.textContent = em;
+      qsWatchJ.className = "algo-watch-value";
+      qsWatchAction.textContent = "sorted!";
+      qsWatchAction.className = "algo-watch-value aw-success";
+      return;
+    }
+    var pVal =
+      step.pivotValue !== undefined
+        ? String(step.pivotValue)
+        : step.pivotIndex !== undefined && step.array
+          ? String(step.array[step.pivotIndex])
+          : em;
+    qsWatchPivot.textContent = pVal;
+    qsWatchPivot.className = "algo-watch-value aw-highlight";
+    var lo = step.low !== undefined ? step.low : em;
+    var hi = step.high !== undefined ? step.high : em;
+    qsWatchBounds.textContent = lo + " / " + hi;
+    qsWatchBounds.className = "algo-watch-value aw-neutral";
+    qsWatchI.textContent = step.i !== undefined ? String(step.i) : em;
+    qsWatchI.className = "algo-watch-value aw-neutral";
+    qsWatchJ.textContent = step.j !== undefined ? String(step.j) : em;
+    qsWatchJ.className = "algo-watch-value aw-neutral";
+    if (step.type === "pivot-select") {
+      qsWatchAction.textContent = "pivot selected";
+      qsWatchAction.className = "algo-watch-value aw-highlight";
+    } else if (step.type === "compare") {
+      qsWatchAction.textContent = "comparing";
+      qsWatchAction.className = "algo-watch-value aw-warn";
+    } else if (step.type === "swap") {
+      qsWatchAction.textContent = "swapping";
+      qsWatchAction.className = "algo-watch-value aw-error";
+    } else if (step.type === "partition-done") {
+      qsWatchAction.textContent = "partition done";
+      qsWatchAction.className = "algo-watch-value aw-success";
+    } else {
+      qsWatchAction.textContent = step.type;
+      qsWatchAction.className = "algo-watch-value aw-neutral";
+    }
+  }
+
   // --- State ---
   let sortResult = null;
   let steps = [];
@@ -237,6 +307,7 @@
   pb.addEventListener("pc-step", (e) => {
     stepIdx = e.detail.index;
     renderStep(stepIdx);
+    updateWatch(stepIdx >= 0 ? steps[stepIdx] : null);
     updateStats();
     updateInfo();
   });
@@ -248,6 +319,7 @@
     resultEl.classList.add("hidden");
     worstCaseWarning.classList.remove("qs-visible");
     comparisonsStat.classList.remove("qs-stat-warn");
+    updateWatch(null);
     updateStats();
     updateInfo();
   });
@@ -284,6 +356,7 @@
     resultEl.classList.add("hidden");
     worstCaseWarning.classList.remove("qs-visible");
     comparisonsStat.classList.remove("qs-stat-warn");
+    updateWatch(null);
     pb.setSteps(steps);
     updateStats();
     updateInfo();

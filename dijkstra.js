@@ -46,6 +46,65 @@
   const btnStep = document.getElementById("dijk-btnStep");
   const speedSlider = document.getElementById("dijk-speed");
 
+  // Watch panel refs
+  const dijkWatchCurrent = document.getElementById("dijk-watch-current");
+  const dijkWatchEdge = document.getElementById("dijk-watch-edge");
+  const dijkWatchOlddist = document.getElementById("dijk-watch-olddist");
+  const dijkWatchNewdist = document.getElementById("dijk-watch-newdist");
+  const dijkWatchImproved = document.getElementById("dijk-watch-improved");
+
+  // --- Watch panel ---
+  function updateWatch(stepIdx) {
+    var em = "\u2014";
+    if (stepIdx < 0 || stepIdx >= snapshots.length) {
+      dijkWatchCurrent.textContent = em;
+      dijkWatchCurrent.className = "algo-watch-value";
+      dijkWatchEdge.textContent = em;
+      dijkWatchEdge.className = "algo-watch-value";
+      dijkWatchOlddist.textContent = em;
+      dijkWatchOlddist.className = "algo-watch-value";
+      dijkWatchNewdist.textContent = em;
+      dijkWatchNewdist.className = "algo-watch-value";
+      dijkWatchImproved.textContent = em;
+      dijkWatchImproved.className = "algo-watch-value";
+      return;
+    }
+    var snap = snapshots[stepIdx];
+    dijkWatchCurrent.textContent = snap.current || em;
+    dijkWatchCurrent.className = "algo-watch-value aw-highlight";
+    if (snap.relaxedEdge) {
+      dijkWatchEdge.textContent =
+        snap.relaxedEdge.from + " \u2192 " + snap.relaxedEdge.to;
+      dijkWatchEdge.className = "algo-watch-value aw-neutral";
+      var newDist = snap.distances[snap.relaxedEdge.to];
+      var newDistStr = newDist === Infinity ? "\u221E" : String(newDist);
+      dijkWatchNewdist.textContent = newDistStr;
+      dijkWatchNewdist.className = "algo-watch-value aw-success";
+      // Old dist from previous snapshot
+      var oldDistStr = em;
+      if (stepIdx > 0) {
+        var prevDist = snapshots[stepIdx - 1].distances[snap.relaxedEdge.to];
+        oldDistStr =
+          prevDist === undefined || prevDist === Infinity
+            ? "\u221E"
+            : String(prevDist);
+      }
+      dijkWatchOlddist.textContent = oldDistStr;
+      dijkWatchOlddist.className = "algo-watch-value aw-neutral";
+      dijkWatchImproved.textContent = "yes";
+      dijkWatchImproved.className = "algo-watch-value aw-success";
+    } else {
+      dijkWatchEdge.textContent = em;
+      dijkWatchEdge.className = "algo-watch-value";
+      dijkWatchOlddist.textContent = em;
+      dijkWatchOlddist.className = "algo-watch-value";
+      dijkWatchNewdist.textContent = em;
+      dijkWatchNewdist.className = "algo-watch-value";
+      dijkWatchImproved.textContent = em;
+      dijkWatchImproved.className = "algo-watch-value";
+    }
+  }
+
   // --- Helpers ---
   function getDelay() {
     return 800 - (speedSlider.value - 1) * 75;
@@ -449,6 +508,7 @@
       " steps. Use playback to animate.";
     render();
     resetPQSidebar();
+    updateWatch(-1);
   }
 
   // --- Snapshot rendering ---
@@ -568,6 +628,8 @@
       infoEl.textContent =
         "Complete! All reachable nodes have shortest distances. Green edges show the shortest path tree.";
     }
+
+    updateWatch(stepIdx);
   }
 
   function renderPQ(pq) {
@@ -711,6 +773,7 @@
 
     render();
     resetPQSidebar();
+    updateWatch(-1);
     while (distRows.firstChild) {
       distRows.removeChild(distRows.firstChild);
     }
