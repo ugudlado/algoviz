@@ -15,6 +15,73 @@
   const mergesStat = document.getElementById("mergesStat");
   const stepStat = document.getElementById("stepStat");
 
+  // Watch panel refs
+  const msWatchDepth = document.getElementById("ms-watch-depth");
+  const msWatchPhase = document.getElementById("ms-watch-phase");
+  const msWatchLeft = document.getElementById("ms-watch-left");
+  const msWatchRight = document.getElementById("ms-watch-right");
+  const msWatchAction = document.getElementById("ms-watch-action");
+
+  // --- Watch panel ---
+  function updateWatch(step) {
+    var em = "\u2014";
+    if (!step) {
+      msWatchDepth.textContent = em;
+      msWatchDepth.className = "algo-watch-value";
+      msWatchPhase.textContent = em;
+      msWatchPhase.className = "algo-watch-value";
+      msWatchLeft.textContent = em;
+      msWatchLeft.className = "algo-watch-value";
+      msWatchRight.textContent = em;
+      msWatchRight.className = "algo-watch-value";
+      msWatchAction.textContent = em;
+      msWatchAction.className = "algo-watch-value";
+      return;
+    }
+    if (step.type === "complete") {
+      msWatchDepth.textContent = "0";
+      msWatchDepth.className = "algo-watch-value aw-neutral";
+      msWatchPhase.textContent = "done";
+      msWatchPhase.className = "algo-watch-value aw-success";
+      msWatchLeft.textContent = em;
+      msWatchLeft.className = "algo-watch-value";
+      msWatchRight.textContent = em;
+      msWatchRight.className = "algo-watch-value";
+      msWatchAction.textContent = "sorted!";
+      msWatchAction.className = "algo-watch-value aw-success";
+      return;
+    }
+    msWatchDepth.textContent = String(step.depth);
+    msWatchDepth.className = "algo-watch-value aw-neutral";
+    if (step.type === "split") {
+      msWatchPhase.textContent = "split";
+      msWatchPhase.className = "algo-watch-value aw-warn";
+      msWatchLeft.textContent = "[" + step.left.join(", ") + "]";
+      msWatchLeft.className = "algo-watch-value aw-neutral";
+      msWatchRight.textContent = "[" + step.right.join(", ") + "]";
+      msWatchRight.className = "algo-watch-value aw-neutral";
+      msWatchAction.textContent = "splitting";
+      msWatchAction.className = "algo-watch-value aw-warn";
+    } else if (step.type === "merge") {
+      msWatchPhase.textContent = "merge";
+      msWatchPhase.className = "algo-watch-value aw-highlight";
+      var li = step.leftIndex;
+      var ri = step.rightIndex;
+      var lVal = li < step.left.length ? String(step.left[li]) : em;
+      var rVal = ri < step.right.length ? String(step.right[ri]) : em;
+      msWatchLeft.textContent = lVal + " (L[" + li + "])";
+      msWatchLeft.className =
+        "algo-watch-value" +
+        (step.selected === "left" ? " aw-highlight" : " aw-neutral");
+      msWatchRight.textContent = rVal + " (R[" + ri + "])";
+      msWatchRight.className =
+        "algo-watch-value" +
+        (step.selected === "right" ? " aw-highlight" : " aw-neutral");
+      msWatchAction.textContent = "took " + step.selected;
+      msWatchAction.className = "algo-watch-value aw-highlight";
+    }
+  }
+
   // --- State ---
   let sortResult = null;
   let steps = [];
@@ -397,6 +464,7 @@
       // treeSnapshots[0] is the initial state, steps map to treeSnapshots[stepIdx+1]
       renderSnapshot(stepIdx + 1);
     }
+    updateWatch(stepIdx >= 0 ? steps[stepIdx] : null);
     updateStats();
     updateInfo();
   });
@@ -405,6 +473,7 @@
     stepIdx = -1;
     renderSnapshot(0);
     resultEl.classList.add("hidden");
+    updateWatch(null);
     updateStats();
     updateInfo();
   });
@@ -434,6 +503,7 @@
     // Render initial state
     renderSnapshot(0);
     resultEl.classList.add("hidden");
+    updateWatch(null);
     pb.setSteps(steps);
     updateStats();
     updateInfo();

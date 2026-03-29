@@ -52,6 +52,95 @@
   const statsSavings = document.getElementById("kmpStatSavings");
   const matchesDisplay = document.getElementById("kmpMatchesDisplay");
 
+  // Watch panel refs
+  const kmpWatchI = document.getElementById("kmp-watch-i");
+  const kmpWatchJ = document.getElementById("kmp-watch-j");
+  const kmpWatchChars = document.getElementById("kmp-watch-chars");
+  const kmpWatchMatch = document.getElementById("kmp-watch-match");
+  const kmpWatchAction = document.getElementById("kmp-watch-action");
+
+  // --- Watch panel ---
+  function updateWatch() {
+    var em = "\u2014";
+    if (!kmpResult) {
+      kmpWatchI.textContent = em;
+      kmpWatchI.className = "algo-watch-value";
+      kmpWatchJ.textContent = em;
+      kmpWatchJ.className = "algo-watch-value";
+      kmpWatchChars.textContent = em;
+      kmpWatchChars.className = "algo-watch-value";
+      kmpWatchMatch.textContent = em;
+      kmpWatchMatch.className = "algo-watch-value";
+      kmpWatchAction.textContent = em;
+      kmpWatchAction.className = "algo-watch-value";
+      return;
+    }
+    if (currentPhase === "failure") {
+      kmpWatchI.textContent = em;
+      kmpWatchI.className = "algo-watch-value";
+      kmpWatchJ.textContent = failureStepIdx >= 0 ? String(failureStepIdx) : em;
+      kmpWatchJ.className = "algo-watch-value aw-neutral";
+      kmpWatchChars.textContent =
+        failureStepIdx >= 0 ? currentPattern[failureStepIdx] : em;
+      kmpWatchChars.className = "algo-watch-value aw-neutral";
+      kmpWatchMatch.textContent = em;
+      kmpWatchMatch.className = "algo-watch-value";
+      kmpWatchAction.textContent = "building failure fn";
+      kmpWatchAction.className = "algo-watch-value aw-warn";
+      return;
+    }
+    // Search phase
+    if (searchStepIdx < 0 || searchStepIdx >= kmpResult.steps.length) {
+      kmpWatchI.textContent = em;
+      kmpWatchI.className = "algo-watch-value";
+      kmpWatchJ.textContent = em;
+      kmpWatchJ.className = "algo-watch-value";
+      kmpWatchChars.textContent = em;
+      kmpWatchChars.className = "algo-watch-value";
+      kmpWatchMatch.textContent = em;
+      kmpWatchMatch.className = "algo-watch-value";
+      kmpWatchAction.textContent =
+        searchStepIdx >= kmpResult.steps.length ? "done" : "ready";
+      kmpWatchAction.className =
+        searchStepIdx >= kmpResult.steps.length
+          ? "algo-watch-value aw-success"
+          : "algo-watch-value";
+      return;
+    }
+    var step = kmpResult.steps[searchStepIdx];
+    kmpWatchI.textContent = String(step.textIdx);
+    kmpWatchI.className = "algo-watch-value aw-neutral";
+    kmpWatchJ.textContent = String(step.patternIdx);
+    kmpWatchJ.className = "algo-watch-value aw-neutral";
+    var tc = currentText[step.textIdx] || em;
+    var pc = currentPattern[step.patternIdx] || em;
+    kmpWatchChars.textContent = tc + " vs " + pc;
+    kmpWatchChars.className = "algo-watch-value aw-neutral";
+    if (step.isFound) {
+      kmpWatchMatch.textContent = "found!";
+      kmpWatchMatch.className = "algo-watch-value aw-success";
+    } else if (step.isMatch) {
+      kmpWatchMatch.textContent = "match";
+      kmpWatchMatch.className = "algo-watch-value aw-success";
+    } else {
+      kmpWatchMatch.textContent = "mismatch";
+      kmpWatchMatch.className = "algo-watch-value aw-error";
+    }
+    if (step.shift) {
+      kmpWatchAction.textContent =
+        "shift j: " + step.shiftFrom + " \u2192 " + step.shiftTo;
+      kmpWatchAction.className = "algo-watch-value aw-warn";
+    } else if (step.isFound) {
+      kmpWatchAction.textContent = "pattern found";
+      kmpWatchAction.className = "algo-watch-value aw-success";
+    } else {
+      kmpWatchAction.textContent = step.isMatch ? "advance" : "mismatch";
+      kmpWatchAction.className = step.isMatch
+        ? "algo-watch-value aw-neutral"
+        : "algo-watch-value aw-error";
+    }
+  }
+
   // --- Input validation ---
   function validateInputs() {
     const text = textInput.value;
@@ -457,6 +546,7 @@
       updateMatchesDisplay(searchStepIdx);
     }
 
+    updateWatch();
     updateStats();
     updateButtons();
   }
@@ -598,6 +688,7 @@
     playbackEl.classList.remove("hidden");
     infoEl.classList.remove("kmp-error");
 
+    updateWatch();
     render();
   }
 

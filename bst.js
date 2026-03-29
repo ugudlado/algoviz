@@ -25,6 +25,44 @@
   const stepStat = document.getElementById("stepStat");
   const visitedStat = document.getElementById("visitedStat");
 
+  // Watch panel refs
+  const bstWatchCurrent = document.getElementById("bst-watch-current");
+  const bstWatchVisited = document.getElementById("bst-watch-visited");
+  const bstWatchOperation = document.getElementById("bst-watch-operation");
+  const bstWatchOrder = document.getElementById("bst-watch-order");
+
+  // --- Watch panel ---
+  function updateWatch(step) {
+    var em = "\u2014";
+    if (!step) {
+      bstWatchCurrent.textContent = em;
+      bstWatchCurrent.className = "algo-watch-value";
+      bstWatchVisited.textContent = em;
+      bstWatchVisited.className = "algo-watch-value";
+      bstWatchOperation.textContent = em;
+      bstWatchOperation.className = "algo-watch-value";
+      bstWatchOrder.textContent = em;
+      bstWatchOrder.className = "algo-watch-value";
+      return;
+    }
+    if (step.currentNode !== null) {
+      bstWatchCurrent.textContent = String(step.currentNode);
+      bstWatchCurrent.className = "algo-watch-value aw-highlight";
+    } else {
+      bstWatchCurrent.textContent = "done";
+      bstWatchCurrent.className = "algo-watch-value aw-success";
+    }
+    bstWatchVisited.textContent = String(step.visitedValues.length);
+    bstWatchVisited.className = "algo-watch-value aw-neutral";
+    bstWatchOperation.textContent = traversalType.value;
+    bstWatchOperation.className = "algo-watch-value aw-neutral";
+    bstWatchOrder.textContent =
+      step.visitedValues.length > 0
+        ? "[" + step.visitedValues.join(", ") + "]"
+        : em;
+    bstWatchOrder.className = "algo-watch-value aw-neutral";
+  }
+
   // --- State ---
   let tree = BSTAlgorithm.createTree();
   let traversalResult = null;
@@ -194,6 +232,7 @@
         : step.visitedValues;
 
     renderTree(prevVisited, step.currentNode);
+    updateWatch(step);
     updateStats();
     updateInfo();
     updateButtons();
@@ -214,6 +253,7 @@
 
     if (stepIdx < 0) {
       renderTree([], null);
+      updateWatch(null);
     } else {
       const step = steps[stepIdx];
       const prevVisited =
@@ -221,6 +261,7 @@
           ? step.visitedValues.slice(0, -1)
           : step.visitedValues;
       renderTree(prevVisited, step.currentNode);
+      updateWatch(step);
     }
 
     resultEl.classList.add("hidden");
@@ -263,6 +304,7 @@
     stopPlay();
     stepIdx = -1;
     renderTree([], null);
+    updateWatch(null);
     resultEl.classList.add("hidden");
     updateStats();
     updateInfo();
@@ -387,6 +429,7 @@
     stepIdx = -1;
 
     renderTree([], null);
+    updateWatch(null);
     playbackDiv.classList.remove("hidden");
     resultEl.classList.add("hidden");
     updateStats();

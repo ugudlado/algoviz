@@ -1047,6 +1047,79 @@ td.traceback {
   display: block;
 }
 
+/* --- Watch Panel (shared across algorithm pages) --- */
+.algo-watch {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1.25rem;
+}
+
+.algo-watch-title {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.65rem;
+}
+
+.algo-watch-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.2rem 0;
+  border-bottom: 1px solid var(--border);
+  gap: 0.5rem;
+}
+
+.algo-watch-row:last-child {
+  border-bottom: none;
+}
+
+.algo-watch-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.algo-watch-value {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 160px;
+}
+
+.algo-watch-value.aw-neutral {
+  color: var(--text-primary);
+}
+
+.algo-watch-value.aw-highlight {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.algo-watch-value.aw-success {
+  color: #3fb950;
+  font-weight: 600;
+}
+
+.algo-watch-value.aw-warn {
+  color: #d29922;
+  font-weight: 600;
+}
+
+.algo-watch-value.aw-error {
+  color: #f85149;
+  font-weight: 600;
+}
+
 /* Input validation */
 .algo-error {
   color: #f85149;

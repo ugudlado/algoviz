@@ -22,6 +22,56 @@
   const remainingStat = document.getElementById("remainingStat");
   const stepStat = document.getElementById("stepStat");
 
+  // Watch panel refs
+  const bsrchWatchLeft = document.getElementById("bsrch-watch-left");
+  const bsrchWatchRight = document.getElementById("bsrch-watch-right");
+  const bsrchWatchMid = document.getElementById("bsrch-watch-mid");
+  const bsrchWatchMidval = document.getElementById("bsrch-watch-midval");
+  const bsrchWatchResult = document.getElementById("bsrch-watch-result");
+
+  // --- Watch panel ---
+  function updateWatch(step) {
+    var em = "\u2014";
+    if (!step) {
+      bsrchWatchLeft.textContent = em;
+      bsrchWatchLeft.className = "algo-watch-value";
+      bsrchWatchRight.textContent = em;
+      bsrchWatchRight.className = "algo-watch-value";
+      bsrchWatchMid.textContent = em;
+      bsrchWatchMid.className = "algo-watch-value";
+      bsrchWatchMidval.textContent = em;
+      bsrchWatchMidval.className = "algo-watch-value";
+      bsrchWatchResult.textContent = em;
+      bsrchWatchResult.className = "algo-watch-value";
+      return;
+    }
+    bsrchWatchLeft.textContent = step.low >= 0 ? String(step.low) : em;
+    bsrchWatchLeft.className = "algo-watch-value aw-neutral";
+    bsrchWatchRight.textContent = step.high >= 0 ? String(step.high) : em;
+    bsrchWatchRight.className = "algo-watch-value aw-neutral";
+    bsrchWatchMid.textContent = step.mid >= 0 ? String(step.mid) : em;
+    bsrchWatchMid.className = "algo-watch-value aw-highlight";
+    bsrchWatchMidval.textContent =
+      step.mid >= 0 && step.arr ? String(step.arr[step.mid]) : em;
+    bsrchWatchMidval.className = "algo-watch-value aw-highlight";
+    if (step.found) {
+      bsrchWatchResult.textContent = "found!";
+      bsrchWatchResult.className = "algo-watch-value aw-success";
+    } else if (step.comparison === "greater") {
+      bsrchWatchResult.textContent = "too high \u2192 go left";
+      bsrchWatchResult.className = "algo-watch-value aw-warn";
+    } else if (step.comparison === "less") {
+      bsrchWatchResult.textContent = "too low \u2192 go right";
+      bsrchWatchResult.className = "algo-watch-value aw-warn";
+    } else if (step.comparison === "none") {
+      bsrchWatchResult.textContent = "not found";
+      bsrchWatchResult.className = "algo-watch-value aw-error";
+    } else {
+      bsrchWatchResult.textContent = em;
+      bsrchWatchResult.className = "algo-watch-value";
+    }
+  }
+
   // --- Constants ---
   const MAX_ARRAY_SIZE = 30;
   const MAX_VALUE = 9999;
@@ -280,6 +330,7 @@
     renderArray(currentArr, step);
     renderPointers(currentArr, step);
     updateAnalogy(step);
+    updateWatch(step);
     updateStats();
     updateInfo();
     updateButtons();
@@ -303,12 +354,14 @@
       renderArray(currentArr, null);
       renderPointers(currentArr, null);
       updateAnalogy(null);
+      updateWatch(null);
     } else {
       updateEliminated();
       const step = steps[stepIdx];
       renderArray(currentArr, step);
       renderPointers(currentArr, step);
       updateAnalogy(step);
+      updateWatch(step);
     }
 
     resultEl.classList.add("hidden");
@@ -354,6 +407,7 @@
     renderArray(currentArr, null);
     renderPointers(currentArr, null);
     updateAnalogy(null);
+    updateWatch(null);
     resultEl.classList.add("hidden");
     updateStats();
     updateInfo();
@@ -431,6 +485,7 @@
     renderArray(currentArr, null);
     renderPointers(currentArr, null);
     updateAnalogy(null);
+    updateWatch(null);
     playbackDiv.classList.remove("hidden");
     resultEl.classList.add("hidden");
     updateStats();
