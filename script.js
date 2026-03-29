@@ -15,6 +15,11 @@
   const container = document.getElementById("matrix-container");
   const infoEl = document.getElementById("info");
   const resultEl = document.getElementById("result");
+  const errorEl = document.getElementById("lev-error");
+
+  // --- Wire up auto-clear on input ---
+  InputValidator.autoClearOnInput(elA, errorEl);
+  InputValidator.autoClearOnInput(elB, errorEl);
 
   // --- State ---
   let source = "";
@@ -340,6 +345,16 @@
   // --- Visualize ---
   function visualize() {
     stopPlay();
+    InputValidator.clearError(elA, errorEl);
+    InputValidator.clearError(elB, errorEl);
+    if (elA.value.length === 0 || elB.value.length === 0) {
+      InputValidator.showError(
+        elA.value.length === 0 ? elA : elB,
+        errorEl,
+        "Both source and target strings must be non-empty.",
+      );
+      return;
+    }
     compute();
     renderTable();
     stepIdx = -1;
