@@ -1,0 +1,239 @@
+/* AVL Tree visualization styles — extends base dark theme from style.css */
+
+/* --- Tree SVG Container --- */
+.avl-tree-svg {
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  width: 100%;
+  max-width: 720px;
+  margin-bottom: 1rem;
+  overflow: visible;
+}
+
+/* --- Tree Edges --- */
+.avl-edge {
+  stroke: #30363d;
+  stroke-width: 2;
+  transition: stroke 0.2s;
+}
+
+/* --- Tree Nodes --- */
+.avl-node-circle {
+  fill: #1f6feb;
+  stroke: #388bfd;
+  stroke-width: 2;
+  transition:
+    fill 0.3s,
+    stroke 0.3s;
+}
+
+.avl-node-label {
+  fill: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+
+.avl-node-bf {
+  fill: #8b949e;
+  font-size: 9px;
+  font-weight: 600;
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+
+/* --- Node States --- */
+.avl-node-imbalanced .avl-node-circle {
+  fill: #da3633;
+  stroke: #f85149;
+  stroke-width: 3;
+}
+
+.avl-node-imbalanced .avl-node-bf {
+  fill: #ff7b72;
+}
+
+.avl-node-rotating .avl-node-circle {
+  fill: #9e6a03;
+  stroke: #d29922;
+  stroke-width: 3;
+}
+
+.avl-node-rotating .avl-node-bf {
+  fill: #e3b341;
+}
+
+.avl-node-balanced .avl-node-circle {
+  fill: #238636;
+  stroke: #2ea043;
+  stroke-width: 2;
+}
+
+/* --- Legend --- */
+.avl-legend {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  font-size: 0.78rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.avl-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.avl-swatch-normal {
+  background: #1f6feb;
+  border: 1px solid #388bfd;
+}
+
+.avl-swatch-imbalanced {
+  background: #da3633;
+  border: 1px solid #f85149;
+}
+
+.avl-swatch-rotating {
+  background: #9e6a03;
+  border: 1px solid #d29922;
+}
+
+.avl-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.avl-badge-example {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 3px;
+  padding: 1px 4px;
+  font-size: 0.7rem;
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+  color: #58a6ff;
+}
+
+/* --- Rotation Type Legend --- */
+.avl-rotation-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.avl-rotation-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.avl-rot-badge {
+  display: inline-block;
+  min-width: 28px;
+  text-align: center;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+  flex-shrink: 0;
+}
+
+.avl-rot-ll {
+  background: #1f3d7a;
+  color: #79c0ff;
+  border: 1px solid #388bfd;
+}
+
+.avl-rot-rr {
+  background: #1f3d7a;
+  color: #79c0ff;
+  border: 1px solid #388bfd;
+}
+
+.avl-rot-lr {
+  background: #3d1f7a;
+  color: #d2a8ff;
+  border: 1px solid #a371f7;
+}
+
+.avl-rot-rl {
+  background: #3d1f7a;
+  color: #d2a8ff;
+  border: 1px solid #a371f7;
+}
+
+/* --- Real-world Analogy Card --- */
+.avl-analogy {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 0.9rem 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.avl-analogy strong {
+  color: var(--text-primary);
+}
+
+/* --- Controls --- */
+#btnInsert {
+  background: #238636;
+  border-color: #2ea043;
+  font-weight: 600;
+}
+
+#btnInsert:hover {
+  background: #2ea043;
+}
+
+#btnDelete {
+  background: #9e3240;
+  border-color: #da3633;
+  font-weight: 600;
+}
+
+#btnDelete:hover {
+  background: #da3633;
+}
+
+#btnClear {
+  background: #21262d;
+  border-color: #30363d;
+}
+
+#btnClear:hover {
+  background: #30363d;
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+  .avl-tree-svg {
+    height: 300px;
+  }
+
+  .avl-node-label {
+    font-size: 9px;
+  }
+
+  .avl-node-bf {
+    font-size: 7px;
+  }
+}
