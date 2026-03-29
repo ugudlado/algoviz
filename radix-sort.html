@@ -165,6 +165,35 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              Comparison-based sorts can't beat O(n log n). But what if your
+              data is integers with bounded digits? Can you exploit that
+              structure?
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Sort by least significant digit first, then next digit, and so on.
+              Each pass is stable and O(n). After d passes (d = max digits), the
+              array is sorted.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              Integer keys with bounded range (phone numbers, zip codes,
+              timestamps). Beats O(n log n) comparison sorts when d is small
+              relative to n.
+            </p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid">
           <div class="stat-card">

@@ -246,6 +246,32 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              You want to explore every reachable node in a graph — perhaps to
+              detect cycles, find connected components, or solve a maze.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Go as deep as possible down one path before backtracking. Use a
+              stack (or recursion). Mark nodes visited to avoid infinite loops.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              Cycle detection, topological sort, maze solving, finding connected
+              components. Uses less memory than BFS for deep graphs.
+            </p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid" id="dfs-statsPanel">
           <div class="stat-card">

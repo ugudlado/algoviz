@@ -180,6 +180,35 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              You're programming a chess AI. Each move branches into many
+              possible opponent responses. How do you find the move that leads
+              to the best outcome?
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Build a game tree. Maximizing player picks the highest-value
+              branch; minimizing player picks the lowest. Alpha-beta pruning
+              skips branches that can't change the outcome.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              Two-player zero-sum games: chess, checkers, tic-tac-toe, Go. Any
+              adversarial decision problem where you need to anticipate opponent
+              moves.
+            </p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid">
           <div class="stat-card">

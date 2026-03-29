@@ -1004,6 +1004,49 @@ td.traceback {
   line-height: 1.45;
 }
 
+/* --- Problem Framing Panel (shared across all algorithm pages) --- */
+.algo-problem-panel {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.algo-problem-panel h3 {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1rem;
+}
+
+.algo-problem-panel p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.algo-problem-panel .app-section {
+  margin-bottom: 1rem;
+}
+
+.algo-problem-panel .app-section:last-child {
+  margin-bottom: 0;
+}
+
+.algo-problem-panel .app-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-variant: small-caps;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
 /* Input validation */
 .algo-error {
   color: #f85149;

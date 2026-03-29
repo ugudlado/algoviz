@@ -271,6 +271,34 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              Your app caches database results, but memory is limited. When the
+              cache is full and a new item arrives, which cached item do you
+              evict?
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Evict the Least Recently Used item — the one not accessed for the
+              longest time. Combine a HashMap (O(1) lookup) with a doubly-linked
+              list (O(1) eviction).
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              Browser caches, CPU caches, database query caches, CDN content
+              eviction, OS page replacement.
+            </p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid">
           <div class="stat-card">

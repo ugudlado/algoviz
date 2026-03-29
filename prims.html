@@ -279,6 +279,35 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              You're laying fiber optic cable to connect 50 cities. Each
+              potential cable segment has a cost. How do you connect all cities
+              with minimum total cable?
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Grow a tree one edge at a time. Always add the cheapest edge that
+              connects a new city to the already-connected group. The result
+              spans all cities optimally.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              Minimum Spanning Tree for dense graphs. Network design
+              (telecommunications, electrical grids, water pipes). Cluster
+              analysis.
+            </p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid" id="pm-statsPanel">
           <div class="stat-card">

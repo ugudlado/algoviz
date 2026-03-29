@@ -195,6 +195,23 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>You want to compress a text file. The letter 'e' appears 1000 times; 'z' appears 3 times. Should they both use 8 bits? Can you do better?</p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>Assign shorter bit codes to frequent characters, longer to rare ones. Build a binary tree where frequent chars are near the root. The code for each char is its path in the tree.</p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>Lossless data compression. Used in ZIP, JPEG, MP3, and PNG formats. Optimal prefix-free encoding for known symbol frequencies.</p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid" id="statsPanel">
           <div class="stat-card">

@@ -230,6 +230,34 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              You're packing a hiking bag with a weight limit. Each item has a
+              weight and value. How do you maximize value without exceeding the
+              weight limit?
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Build a table: for each item and each possible weight limit,
+              decide: skip this item (same value as without it) or include it
+              (add its value + best for remaining weight).
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              Resource allocation under constraints. Budget optimization, cargo
+              loading, project selection, cutting stock problems.
+            </p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid" id="statsPanel">
           <div class="stat-card">

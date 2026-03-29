@@ -252,6 +252,34 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              An elevator serves requests at floors 1-10. Naively serving each
+              request in arrival order causes excessive back-and-forth. How do
+              you minimize total movement?
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Move in one direction, serving all requests along the way. At the
+              end, reverse direction. Like a scanner head — sweep back and forth
+              instead of jumping around.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              Disk I/O scheduling (hard drives), elevator controllers, any
+              system where sequential access is cheaper than random access.
+            </p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid" id="statsPanel">
           <div class="stat-card">

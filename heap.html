@@ -265,6 +265,34 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              You need to repeatedly find and remove the smallest (or largest)
+              element from a growing collection — like a task scheduler picking
+              the highest-priority job.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Store elements in a complete binary tree where every parent is
+              smaller than its children. Insert at the bottom and bubble up.
+              Extract-min swaps root with last, then sinks down.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              Priority queues, heap sort, Dijkstra's algorithm, task scheduling,
+              median maintenance.
+            </p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid">
           <div class="stat-card">

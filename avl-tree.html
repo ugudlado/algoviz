@@ -240,6 +240,34 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              A BST degrades to O(n) when data is inserted in sorted order. How
+              do you guarantee O(log n) always?
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              After every insert or delete, check the balance factor (left
+              height − right height) at each node. If |balance| > 1, rotate to
+              restore balance.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              When guaranteed O(log n) operations matter more than insert speed.
+              Database engines, memory allocators, any ordered collection
+              needing predictable performance.
+            </p>
+          </div>
+        </div>
+
         <!-- Stats -->
         <div class="stats-grid" id="avlStats">
           <div class="stat-card">
