@@ -88,7 +88,18 @@
         <h1>Dijkstra's Shortest Path</h1>
         <div class="title-meta">
           <span class="badge">Graph</span>
-          <span class="badge badge-accent">O((V+E) log V)</span>
+          <span
+            class="badge badge-accent complexity-badge"
+            data-best="O(E log V)"
+            data-best-note="Dense graph"
+            data-avg="O(E log V)"
+            data-avg-note="Typical graph"
+            data-worst="O(E log V)"
+            data-worst-note="All edges relaxed"
+            data-space="O(V)"
+            data-space-note="Distance table"
+            >O((V+E) log V)</span
+          >
         </div>
       </div>
       <div class="legend">
@@ -286,5 +297,6 @@
 
     <script src="dijkstra-algorithm.js"></script>
     <script src="dijkstra.js"></script>
+    <script src="complexity-popover.js"></script>
   </body>
 </html>

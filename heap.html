@@ -90,7 +90,18 @@
         <h1>Min-Heap (Priority Queue)</h1>
         <div class="title-meta">
           <span class="badge">Data Structures</span>
-          <span class="badge badge-accent">O(log n)</span>
+          <span
+            class="badge badge-accent complexity-badge"
+            data-best="O(1)"
+            data-best-note="Peek min"
+            data-avg="O(log n)"
+            data-avg-note="Insert / extract"
+            data-worst="O(log n)"
+            data-worst-note="Insert / extract"
+            data-space="O(n)"
+            data-space-note="Array storage"
+            >O(log n)</span
+          >
         </div>
       </div>
     </header>
@@ -319,5 +330,6 @@
 
     <script src="heap-algorithm.js"></script>
     <script src="heap.js"></script>
+    <script src="complexity-popover.js"></script>
   </body>
 </html>

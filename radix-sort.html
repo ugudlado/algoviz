@@ -88,7 +88,18 @@
         <h1>Radix Sort (LSD)</h1>
         <div class="title-meta">
           <span class="badge">Sorting</span>
-          <span class="badge badge-accent">O(d &middot; n)</span>
+          <span
+            class="badge badge-accent complexity-badge"
+            data-best="O(d*n)"
+            data-best-note="d = digits"
+            data-avg="O(d*n)"
+            data-avg-note="d = digits"
+            data-worst="O(d*n)"
+            data-worst-note="d = digits"
+            data-space="O(n+k)"
+            data-space-note="Buckets"
+            >O(d &middot; n)</span
+          >
         </div>
       </div>
       <div class="rs-legend">
@@ -206,5 +217,6 @@
     <script src="playback-controller.js"></script>
     <script src="radix-sort-algorithm.js"></script>
     <script src="radix-sort.js"></script>
+    <script src="complexity-popover.js"></script>
   </body>
 </html>

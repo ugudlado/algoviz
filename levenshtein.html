@@ -87,7 +87,18 @@
         <h1>Levenshtein Distance</h1>
         <div class="title-meta">
           <span class="badge">Dynamic Programming</span>
-          <span class="badge badge-accent">O(mn)</span>
+          <span
+            class="badge badge-accent complexity-badge"
+            data-best="O(m*n)"
+            data-best-note="All cases"
+            data-avg="O(m*n)"
+            data-avg-note="All cases"
+            data-worst="O(m*n)"
+            data-worst-note="All cases"
+            data-space="O(m*n)"
+            data-space-note="DP table"
+            >O(mn)</span
+          >
         </div>
       </div>
       <div class="lev-legend">
@@ -259,5 +270,6 @@
 
     <script src="levenshtein-algorithm.js"></script>
     <script src="script.js"></script>
+    <script src="complexity-popover.js"></script>
   </body>
 </html>

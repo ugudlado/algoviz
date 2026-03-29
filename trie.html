@@ -90,7 +90,18 @@
         <h1>Trie (Prefix Tree)</h1>
         <div class="title-meta">
           <span class="badge">Data Structures</span>
-          <span class="badge badge-accent">O(m) per op</span>
+          <span
+            class="badge badge-accent complexity-badge"
+            data-best="O(m)"
+            data-best-note="m = key length"
+            data-avg="O(m)"
+            data-avg-note="m = key length"
+            data-worst="O(m)"
+            data-worst-note="m = key length"
+            data-space="O(n*m)"
+            data-space-note="All keys stored"
+            >O(m) per op</span
+          >
         </div>
       </div>
       <div class="tr-legend">
@@ -285,5 +296,6 @@
 
     <script src="trie-algorithm.js"></script>
     <script src="trie.js"></script>
+    <script src="complexity-popover.js"></script>
   </body>
 </html>

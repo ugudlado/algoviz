@@ -88,7 +88,18 @@
         <h1>Elevator (SCAN) Disk Scheduling</h1>
         <div class="title-meta">
           <span class="badge">Scheduling</span>
-          <span class="badge badge-accent">O(n log n)</span>
+          <span
+            class="badge badge-accent complexity-badge"
+            data-best="O(n)"
+            data-best-note="Sorted floors"
+            data-avg="O(n*f)"
+            data-avg-note="f = floor range"
+            data-worst="O(n*f)"
+            data-worst-note="Max floor spread"
+            data-space="O(n)"
+            data-space-note="Request queue"
+            >O(n log n)</span
+          >
         </div>
       </div>
       <div class="elev-legend">
@@ -289,5 +300,6 @@
 
     <script src="scan-algorithm.js"></script>
     <script src="elevator.js"></script>
+    <script src="complexity-popover.js"></script>
   </body>
 </html>
