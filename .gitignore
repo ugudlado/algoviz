@@ -1,6 +1,6 @@
 node_modules/
-openspec/
 designs/
+openspec/changes/*/state.yaml
 *.test.html
 .DS_Store
 BACKLOG.md
