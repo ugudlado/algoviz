@@ -6,19 +6,11 @@
   const sizeInput = document.getElementById("sizeInput");
   const btnRandom = document.getElementById("btnRandom");
   const btnVisualize = document.getElementById("btnVisualize");
-  const playbackDiv = document.getElementById("playback");
-  const btnReset = document.getElementById("btnReset");
-  const btnStepBack = document.getElementById("btnStepBack");
-  const btnPlay = document.getElementById("btnPlay");
-  const btnPause = document.getElementById("btnPause");
-  const btnStep = document.getElementById("btnStep");
-  const speedSlider = document.getElementById("speed");
-  const speedVal = document.getElementById("speedVal");
+  const pb = document.getElementById("pb");
   const resultEl = document.getElementById("result");
   const barChart = document.getElementById("barChart");
   const comparisonsStat = document.getElementById("comparisonsStat");
   const swapsStat = document.getElementById("swapsStat");
-  const stepStat = document.getElementById("stepStat");
   const codeLines = document.querySelectorAll("#pseudocode .code-line");
 
   // Watch panel refs
@@ -103,8 +95,6 @@
   let sortResult = null;
   let steps = [];
   let stepIdx = -1;
-  let timer = null;
-  let isPlaying = false;
   let currentArr = [];
   let maxVal = 1;
 
@@ -167,120 +157,26 @@
     if (stepIdx < 0 || !sortResult) {
       comparisonsStat.textContent = "0";
       swapsStat.textContent = "0";
-      stepStat.textContent = "0 / " + steps.length;
       return;
     }
 
     const step = steps[stepIdx];
     comparisonsStat.textContent = step.comparisons;
     swapsStat.textContent = step.swaps;
-    stepStat.textContent = stepIdx + 1 + " / " + steps.length;
   }
 
-  // --- Playback controls ---
-  function getDelay() {
-    const spd = parseInt(speedSlider.value, 10);
-    return Math.round(800 / spd);
-  }
-
-  function updateButtons() {
-    const atEnd = stepIdx >= steps.length - 1;
-    const atStart = stepIdx < 0;
-
-    btnPlay.disabled = isPlaying;
-    btnPause.disabled = !isPlaying;
-    btnStep.disabled = isPlaying || atEnd;
-    btnStepBack.disabled = isPlaying || atStart;
-    btnReset.disabled = isPlaying;
-  }
-
-  function stepForward() {
-    if (stepIdx >= steps.length - 1) {
-      stopPlay();
-      showResult();
-      return;
-    }
-
-    stepIdx++;
-    const step = steps[stepIdx];
-
-    const boundary = step.comparing[0] === -1 ? 0 : step.sortedBoundary;
-    renderBars(step.arr, step.comparing, step.swapped, boundary);
-    highlightCode(step.codeLine);
-    updateWatch(step);
-    updateStats();
-    updateButtons();
-
-    if (stepIdx === steps.length - 1) {
-      setTimeout(() => {
-        showResult();
-        stopPlay();
-        updateButtons();
-      }, getDelay());
-    }
-  }
-
-  function stepBackward() {
-    if (stepIdx < 0) return;
-
-    stepIdx--;
-
-    if (stepIdx < 0) {
+  function renderAtIndex(idx) {
+    if (idx < 0) {
       renderBars(currentArr, [-1, -1], false, currentArr.length);
       highlightCode(-1);
       resetWatch();
     } else {
-      const step = steps[stepIdx];
+      const step = steps[idx];
       const boundary = step.comparing[0] === -1 ? 0 : step.sortedBoundary;
       renderBars(step.arr, step.comparing, step.swapped, boundary);
       highlightCode(step.codeLine);
       updateWatch(step);
     }
-
-    resultEl.classList.add("hidden");
-    updateStats();
-    updateButtons();
-  }
-
-  function startPlay() {
-    if (stepIdx >= steps.length - 1) {
-      resetViz();
-    }
-    isPlaying = true;
-    updateButtons();
-    tick();
-  }
-
-  function tick() {
-    if (!isPlaying) return;
-    if (stepIdx >= steps.length - 1) {
-      stopPlay();
-      return;
-    }
-    stepForward();
-    if (stepIdx < steps.length - 1) {
-      timer = setTimeout(tick, getDelay());
-    }
-  }
-
-  function stopPlay() {
-    isPlaying = false;
-    if (timer !== null) {
-      clearTimeout(timer);
-      timer = null;
-    }
-    updateButtons();
-  }
-
-  function resetViz() {
-    stopPlay();
-    stepIdx = -1;
-    renderBars(currentArr, [-1, -1], false, currentArr.length);
-    highlightCode(-1);
-    resetWatch();
-    resultEl.classList.add("hidden");
-    updateStats();
-    updateButtons();
   }
 
   function showResult() {
@@ -295,10 +191,26 @@
     resultEl.classList.remove("hidden");
   }
 
+  // --- Playback component event handlers ---
+  pb.addEventListener("pc-step", (e) => {
+    stepIdx = e.detail.index;
+    renderAtIndex(stepIdx);
+    updateStats();
+  });
+
+  pb.addEventListener("pc-reset", () => {
+    stepIdx = -1;
+    renderAtIndex(-1);
+    resultEl.classList.add("hidden");
+    updateStats();
+  });
+
+  pb.addEventListener("pc-complete", () => {
+    showResult();
+  });
+
   // --- Visualize ---
   function visualize() {
-    stopPlay();
-
     const arr = parseInputs();
     if (arr.length < 1) {
       return;
@@ -314,15 +226,15 @@
     const emptyEl = barChart.querySelector(".bs-chart-empty");
     if (emptyEl) emptyEl.remove();
     renderBars(currentArr, [-1, -1], false, currentArr.length);
-    playbackDiv.classList.remove("hidden");
     resultEl.classList.add("hidden");
     resetWatch();
     updateStats();
-    updateButtons();
+    pb.setSteps(steps);
 
     // Auto-start playback for better UX
     setTimeout(() => {
-      startPlay();
+      const playBtn = pb.shadowRoot && pb.shadowRoot.getElementById("btnPlay");
+      if (playBtn && !playBtn.disabled) playBtn.click();
     }, 100);
   }
 
@@ -332,28 +244,6 @@
     generateRandom();
     visualize();
   });
-  btnPlay.addEventListener("click", startPlay);
-  btnPause.addEventListener("click", stopPlay);
-  btnStep.addEventListener("click", () => {
-    stopPlay();
-    stepForward();
-  });
-  btnStepBack.addEventListener("click", () => {
-    stopPlay();
-    stepBackward();
-  });
-  btnReset.addEventListener("click", resetViz);
-
-  speedSlider.addEventListener("input", () => {
-    if (speedVal) speedVal.textContent = speedSlider.value;
-    if (isPlaying) {
-      if (timer !== null) {
-        clearTimeout(timer);
-        timer = null;
-      }
-      timer = setTimeout(tick, getDelay());
-    }
-  });
 
   valuesInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") visualize();
@@ -362,14 +252,6 @@
     if (e.key === "Enter") {
       generateRandom();
       visualize();
-    }
-  });
-
-  // --- Cleanup on page unload ---
-  window.addEventListener("beforeunload", function () {
-    if (timer !== null) {
-      clearTimeout(timer);
-      timer = null;
     }
   });
 

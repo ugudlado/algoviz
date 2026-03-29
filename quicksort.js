@@ -8,13 +8,7 @@
   const strategySelect = document.getElementById("strategySelect");
   const btnRandom = document.getElementById("btnRandom");
   const btnVisualize = document.getElementById("btnVisualize");
-  const playbackDiv = document.getElementById("playback");
-  const btnReset = document.getElementById("btnReset");
-  const btnStepBack = document.getElementById("btnStepBack");
-  const btnPlay = document.getElementById("btnPlay");
-  const btnPause = document.getElementById("btnPause");
-  const btnStep = document.getElementById("btnStep");
-  const speedSlider = document.getElementById("speed");
+  const pb = document.getElementById("pb");
   const infoEl = document.getElementById("info");
   const resultEl = document.getElementById("result");
   const vizContainer = document.getElementById("vizContainer");
@@ -27,8 +21,6 @@
   let sortResult = null;
   let steps = [];
   let stepIdx = -1;
-  let timer = null;
-  let isPlaying = false;
   let currentArr = [];
   let sortedPositions = new Set();
 
@@ -228,106 +220,6 @@
     infoEl.textContent = step.explanation || "";
   }
 
-  // --- Playback speed ---
-  function getDelay() {
-    const spd = parseInt(speedSlider.value, 10);
-    return Math.round(800 / spd);
-  }
-
-  // --- Update button states ---
-  function updateButtons() {
-    const atEnd = stepIdx >= steps.length - 1;
-    const atStart = stepIdx < 0;
-
-    btnPlay.disabled = isPlaying;
-    btnPause.disabled = !isPlaying;
-    btnStep.disabled = isPlaying || atEnd;
-    btnStepBack.disabled = isPlaying || atStart;
-    btnReset.disabled = isPlaying;
-  }
-
-  // --- Step forward ---
-  function stepForward() {
-    if (stepIdx >= steps.length - 1) {
-      stopPlay();
-      showResult();
-      return;
-    }
-
-    stepIdx++;
-    renderStep(stepIdx);
-    updateStats();
-    updateInfo();
-    updateButtons();
-
-    if (stepIdx === steps.length - 1) {
-      setTimeout(() => {
-        showResult();
-        stopPlay();
-        updateButtons();
-      }, getDelay());
-    }
-  }
-
-  // --- Step backward ---
-  function stepBackward() {
-    if (stepIdx < 0) return;
-
-    stepIdx--;
-    renderStep(stepIdx);
-    resultEl.classList.add("hidden");
-    updateStats();
-    updateInfo();
-    updateButtons();
-  }
-
-  // --- Play tick ---
-  function tick() {
-    if (!isPlaying) return;
-    if (stepIdx >= steps.length - 1) {
-      stopPlay();
-      return;
-    }
-    stepForward();
-    if (stepIdx < steps.length - 1) {
-      timer = setTimeout(tick, getDelay());
-    }
-  }
-
-  // --- Start playback ---
-  function startPlay() {
-    if (stepIdx >= steps.length - 1) {
-      resetViz();
-    }
-    isPlaying = true;
-    updateButtons();
-    tick();
-  }
-
-  // --- Stop playback ---
-  function stopPlay() {
-    isPlaying = false;
-    if (timer !== null) {
-      clearTimeout(timer);
-      timer = null;
-    }
-    updateButtons();
-  }
-
-  // --- Reset visualization ---
-  function resetViz() {
-    stopPlay();
-    stepIdx = -1;
-    sortedPositions = new Set();
-    renderStep(-1);
-    resultEl.classList.add("hidden");
-    worstCaseWarning.classList.remove("qs-visible");
-    comparisonsStat.classList.remove("qs-stat-warn");
-    updateStats();
-    updateInfo();
-    updateButtons();
-  }
-
   // --- Show result ---
   function showResult() {
     if (!sortResult) return;
@@ -341,10 +233,31 @@
     resultEl.classList.remove("hidden");
   }
 
+  // --- Playback component event handlers ---
+  pb.addEventListener("pc-step", (e) => {
+    stepIdx = e.detail.index;
+    renderStep(stepIdx);
+    updateStats();
+    updateInfo();
+  });
+
+  pb.addEventListener("pc-reset", () => {
+    stepIdx = -1;
+    sortedPositions = new Set();
+    renderStep(-1);
+    resultEl.classList.add("hidden");
+    worstCaseWarning.classList.remove("qs-visible");
+    comparisonsStat.classList.remove("qs-stat-warn");
+    updateStats();
+    updateInfo();
+  });
+
+  pb.addEventListener("pc-complete", () => {
+    showResult();
+  });
+
   // --- Main visualize ---
   function visualize() {
-    stopPlay();
-
     const arr = parseInputs();
     if (arr.length < 1) {
       infoEl.textContent = "Error: Enter at least one value.";
@@ -368,13 +281,12 @@
     stepIdx = -1;
 
     renderStep(-1);
-    playbackDiv.classList.remove("hidden");
     resultEl.classList.add("hidden");
     worstCaseWarning.classList.remove("qs-visible");
     comparisonsStat.classList.remove("qs-stat-warn");
+    pb.setSteps(steps);
     updateStats();
     updateInfo();
-    updateButtons();
   }
 
   // --- Event listeners ---
@@ -383,31 +295,6 @@
   btnRandom.addEventListener("click", () => {
     generateRandom();
     visualize();
-  });
-
-  btnPlay.addEventListener("click", startPlay);
-  btnPause.addEventListener("click", stopPlay);
-
-  btnStep.addEventListener("click", () => {
-    stopPlay();
-    stepForward();
-  });
-
-  btnStepBack.addEventListener("click", () => {
-    stopPlay();
-    stepBackward();
-  });
-
-  btnReset.addEventListener("click", resetViz);
-
-  speedSlider.addEventListener("input", () => {
-    if (isPlaying) {
-      if (timer !== null) {
-        clearTimeout(timer);
-        timer = null;
-      }
-      timer = setTimeout(tick, getDelay());
-    }
   });
 
   // Re-visualize when scheme or strategy changes
@@ -429,14 +316,6 @@
     if (e.key === "Enter") {
       generateRandom();
       visualize();
-    }
-  });
-
-  // --- Cleanup on page unload ---
-  window.addEventListener("beforeunload", function () {
-    if (timer !== null) {
-      clearTimeout(timer);
-      timer = null;
     }
   });
 

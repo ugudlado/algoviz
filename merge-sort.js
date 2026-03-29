@@ -6,13 +6,7 @@
   const sizeInput = document.getElementById("sizeInput");
   const btnRandom = document.getElementById("btnRandom");
   const btnVisualize = document.getElementById("btnVisualize");
-  const playbackDiv = document.getElementById("playback");
-  const btnReset = document.getElementById("btnReset");
-  const btnStepBack = document.getElementById("btnStepBack");
-  const btnPlay = document.getElementById("btnPlay");
-  const btnPause = document.getElementById("btnPause");
-  const btnStep = document.getElementById("btnStep");
-  const speedSlider = document.getElementById("speed");
+  const pb = document.getElementById("pb");
   const infoEl = document.getElementById("info");
   const resultEl = document.getElementById("result");
   const vizContainer = document.getElementById("vizContainer");
@@ -25,8 +19,6 @@
   let sortResult = null;
   let steps = [];
   let stepIdx = -1;
-  let timer = null;
-  let isPlaying = false;
   let currentArr = [];
 
   // --- Build the tree structure from steps ---
@@ -123,7 +115,7 @@
 
   // --- Render a snapshot ---
   function renderSnapshot(snapIdx) {
-    vizContainer.innerHTML = "";
+    vizContainer.textContent = "";
 
     if (snapIdx < 0 || snapIdx >= treeSnapshots.length) {
       // Show initial array
@@ -365,109 +357,23 @@
   // --- Update info ---
   function updateInfo() {
     if (stepIdx < 0) {
-      infoEl.innerHTML =
-        "Click <strong>Play</strong> or <strong>Step &rarr;</strong> to start.";
+      infoEl.textContent = "";
+      const t1 = document.createTextNode("Click ");
+      const s1 = document.createElement("strong");
+      s1.textContent = "Play";
+      const t2 = document.createTextNode(" or ");
+      const s2 = document.createElement("strong");
+      s2.textContent = "Step \u2192";
+      const t3 = document.createTextNode(" to start.");
+      infoEl.appendChild(t1);
+      infoEl.appendChild(s1);
+      infoEl.appendChild(t2);
+      infoEl.appendChild(s2);
+      infoEl.appendChild(t3);
       return;
     }
     const step = steps[stepIdx];
     infoEl.textContent = step.explanation;
-  }
-
-  // --- Playback controls ---
-  function getDelay() {
-    const spd = parseInt(speedSlider.value, 10);
-    return Math.round(800 / spd);
-  }
-
-  function updateButtons() {
-    const atEnd = stepIdx >= steps.length - 1;
-    const atStart = stepIdx < 0;
-
-    btnPlay.disabled = isPlaying;
-    btnPause.disabled = !isPlaying;
-    btnStep.disabled = isPlaying || atEnd;
-    btnStepBack.disabled = isPlaying || atStart;
-    btnReset.disabled = isPlaying;
-  }
-
-  function stepForward() {
-    if (stepIdx >= steps.length - 1) {
-      stopPlay();
-      showResult();
-      return;
-    }
-
-    stepIdx++;
-    // treeSnapshots[0] is the initial state, steps map to treeSnapshots[stepIdx+1]
-    renderSnapshot(stepIdx + 1);
-    updateStats();
-    updateInfo();
-    updateButtons();
-
-    if (stepIdx === steps.length - 1) {
-      setTimeout(() => {
-        showResult();
-        stopPlay();
-        updateButtons();
-      }, getDelay());
-    }
-  }
-
-  function stepBackward() {
-    if (stepIdx < 0) return;
-
-    stepIdx--;
-
-    if (stepIdx < 0) {
-      renderSnapshot(0);
-    } else {
-      renderSnapshot(stepIdx + 1);
-    }
-
-    resultEl.classList.add("hidden");
-    updateStats();
-    updateInfo();
-    updateButtons();
-  }
-
-  function startPlay() {
-    if (stepIdx >= steps.length - 1) {
-      resetViz();
-    }
-    isPlaying = true;
-    updateButtons();
-    tick();
-  }
-
-  function tick() {
-    if (!isPlaying) return;
-    if (stepIdx >= steps.length - 1) {
-      stopPlay();
-      return;
-    }
-    stepForward();
-    if (stepIdx < steps.length - 1) {
-      timer = setTimeout(tick, getDelay());
-    }
-  }
-
-  function stopPlay() {
-    isPlaying = false;
-    if (timer !== null) {
-      clearTimeout(timer);
-      timer = null;
-    }
-    updateButtons();
-  }
-
-  function resetViz() {
-    stopPlay();
-    stepIdx = -1;
-    renderSnapshot(0);
-    resultEl.classList.add("hidden");
-    updateStats();
-    updateInfo();
-    updateButtons();
   }
 
   function showResult() {
@@ -482,10 +388,33 @@
     resultEl.classList.remove("hidden");
   }
 
+  // --- Playback component event handlers ---
+  pb.addEventListener("pc-step", (e) => {
+    stepIdx = e.detail.index;
+    if (stepIdx < 0) {
+      renderSnapshot(0);
+    } else {
+      // treeSnapshots[0] is the initial state, steps map to treeSnapshots[stepIdx+1]
+      renderSnapshot(stepIdx + 1);
+    }
+    updateStats();
+    updateInfo();
+  });
+
+  pb.addEventListener("pc-reset", () => {
+    stepIdx = -1;
+    renderSnapshot(0);
+    resultEl.classList.add("hidden");
+    updateStats();
+    updateInfo();
+  });
+
+  pb.addEventListener("pc-complete", () => {
+    showResult();
+  });
+
   // --- Visualize ---
   function visualize() {
-    stopPlay();
-
     const arr = parseInputs();
     if (arr.length < 1) {
       infoEl.textContent = "Error: Enter at least one value.";
@@ -504,11 +433,10 @@
 
     // Render initial state
     renderSnapshot(0);
-    playbackDiv.classList.remove("hidden");
     resultEl.classList.add("hidden");
+    pb.setSteps(steps);
     updateStats();
     updateInfo();
-    updateButtons();
   }
 
   // --- Event listeners ---
@@ -516,27 +444,6 @@
   btnRandom.addEventListener("click", () => {
     generateRandom();
     visualize();
-  });
-  btnPlay.addEventListener("click", startPlay);
-  btnPause.addEventListener("click", stopPlay);
-  btnStep.addEventListener("click", () => {
-    stopPlay();
-    stepForward();
-  });
-  btnStepBack.addEventListener("click", () => {
-    stopPlay();
-    stepBackward();
-  });
-  btnReset.addEventListener("click", resetViz);
-
-  speedSlider.addEventListener("input", () => {
-    if (isPlaying) {
-      if (timer !== null) {
-        clearTimeout(timer);
-        timer = null;
-      }
-      timer = setTimeout(tick, getDelay());
-    }
   });
 
   // Enter key triggers visualize
@@ -547,14 +454,6 @@
     if (e.key === "Enter") {
       generateRandom();
       visualize();
-    }
-  });
-
-  // --- Cleanup on page unload ---
-  window.addEventListener("beforeunload", function () {
-    if (timer !== null) {
-      clearTimeout(timer);
-      timer = null;
     }
   });
 
