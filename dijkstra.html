@@ -98,6 +98,7 @@
             data-worst-note="All edges relaxed"
             data-space="O(V)"
             data-space-note="Distance table"
+            data-why="Each vertex is extracted from the min-heap once (V × log V). Each edge relaxation may update the heap (E × log V). Total: (V + E) log V."
             >O((V+E) log V)</span
           >
         </div>
