@@ -982,3 +982,19 @@ td.traceback {
   color: var(--text-secondary);
   font-size: 0.72rem;
 }
+
+/* Input validation */
+.algo-error {
+  color: #f85149;
+  font-size: 0.8rem;
+  margin-top: 0.35rem;
+  min-height: 1.1em;
+  display: none;
+}
+.algo-error.visible {
+  display: block;
+}
+.algo-input-invalid {
+  border-color: #f85149 !important;
+  outline-color: #f85149 !important;
+}
