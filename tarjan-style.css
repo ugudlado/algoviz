@@ -1,0 +1,294 @@
+/* Tarjan's SCC visualization styles — all classes use tj- prefix */
+
+/* ── Legend ─────────────────────────────────────────────────────────── */
+.tj-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.tj-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #8b949e;
+}
+
+.tj-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.tj-swatch-current {
+  background: #f0a500;
+  border: 2px solid #ffcc00;
+}
+
+.tj-swatch-on-stack {
+  background: #1f6feb;
+  border: 2px solid #58a6ff;
+}
+
+/* Edge swatches — rectangles */
+.tj-edge-tree,
+.tj-edge-back,
+.tj-edge-cross {
+  width: 24px;
+  height: 4px;
+  border-radius: 2px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.tj-edge-tree {
+  background: #3fb950;
+}
+
+.tj-edge-back {
+  background: #f85149;
+}
+
+.tj-edge-cross {
+  background: #8b949e;
+}
+
+/* ── Controls ────────────────────────────────────────────────────────── */
+.tj-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tj-preset-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.tj-control-label {
+  font-size: 0.85rem;
+  color: #8b949e;
+}
+
+.tj-preset-btn {
+  padding: 4px 12px;
+  background: #21262d;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  color: #c9d1d9;
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: background 0.15s;
+}
+
+.tj-preset-btn:hover {
+  background: #30363d;
+}
+
+.tj-preset-btn.tj-preset-active {
+  background: #1f6feb33;
+  border-color: #58a6ff;
+  color: #58a6ff;
+}
+
+.tj-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tj-speed-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: #8b949e;
+}
+
+.tj-hint {
+  font-size: 0.78rem;
+  color: #6e7681;
+  margin-top: 2px;
+}
+
+/* ── Info bar ─────────────────────────────────────────────────────────── */
+.tj-info {
+  padding: 10px 14px;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  color: #8b949e;
+  min-height: 42px;
+  line-height: 1.5;
+}
+
+/* ── Playback controls ───────────────────────────────────────────────── */
+.tj-playback {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.tj-icon-btn {
+  background: #21262d;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  color: #8b949e;
+  padding: 6px 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.tj-icon-btn:hover:not(:disabled) {
+  background: #30363d;
+  color: #c9d1d9;
+}
+
+.tj-icon-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.tj-btn-play {
+  color: #3fb950;
+  border-color: #3fb950;
+}
+
+.tj-btn-play:hover:not(:disabled) {
+  background: #1a3a1a;
+  color: #56d364;
+}
+
+.tj-step-counter {
+  font-size: 0.82rem;
+  color: #6e7681;
+  margin-left: auto;
+}
+
+/* ── Canvas wrapper ──────────────────────────────────────────────────── */
+.tj-canvas-wrapper {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.tj-canvas-wrapper canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  cursor: crosshair;
+}
+
+/* ── Stack panel ─────────────────────────────────────────────────────── */
+.tj-stack-panel {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 14px;
+  margin-top: 12px;
+}
+
+.tj-stack-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8b949e;
+  margin-bottom: 10px;
+}
+
+.tj-stack-contents {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 36px;
+  align-items: center;
+}
+
+.tj-stack-empty {
+  font-size: 0.82rem;
+  color: #6e7681;
+  font-style: italic;
+}
+
+.tj-stack-node {
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: #1f6feb33;
+  border: 1px solid #58a6ff;
+  color: #58a6ff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.tj-stack-node-new {
+  animation: tj-pop-in 0.25s ease-out;
+}
+
+.tj-stack-node-scc {
+  border-color: #f0a500;
+  background: #f0a50022;
+  color: #f0a500;
+}
+
+@keyframes tj-pop-in {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ── Why-text ─────────────────────────────────────────────────────────── */
+.tj-why-text {
+  font-size: 0.85rem;
+  color: #8b949e;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Real-world analogy ──────────────────────────────────────────────── */
+.tj-analogy {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 0.85rem;
+  color: #8b949e;
+  line-height: 1.6;
+}
+
+.tj-analogy strong {
+  color: #c9d1d9;
+}
+
+/* ── SCC color palette ───────────────────────────────────────────────── */
+/* Applied dynamically via JS, but define CSS variables for consistency */
+:root {
+  --tj-scc-0: #3fb950;
+  --tj-scc-1: #f0a500;
+  --tj-scc-2: #a371f7;
+  --tj-scc-3: #f85149;
+  --tj-scc-4: #58a6ff;
+  --tj-scc-5: #e3b341;
+  --tj-scc-6: #39d353;
+  --tj-scc-7: #ff7b72;
+}

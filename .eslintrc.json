@@ -34,6 +34,8 @@
     "RadixSortAlgorithm": "readonly",
     "KruskalAlgorithm": "readonly",
     "AVLAlgorithm": "readonly",
+    "NQueensAlgorithm": "readonly",
+    "TarjanAlgorithm": "readonly",
     "InputValidator": "readonly"
   },
   "rules": {

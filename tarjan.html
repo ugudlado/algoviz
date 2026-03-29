@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlgoViz — Tarjan's SCC</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="tarjan-style.css" />
+  </head>
+  <body data-category="graph">
+    <nav class="algo-nav">
+      <a href="index.html" class="nav-home">AlgoViz</a>
+      <div class="nav-category">
+        <button class="nav-category-btn">Sorting</button>
+        <div class="nav-dropdown">
+          <a href="algorithms/bubble-sort/">Bubble Sort</a>
+          <a href="merge-sort.html">Merge Sort</a>
+          <a href="quicksort.html">Quick Sort</a>
+          <a href="radix-sort.html">Radix Sort</a>
+          <a href="topo-sort.html">Topological Sort</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Searching</button>
+        <div class="nav-dropdown">
+          <a href="binary-search.html">Binary Search</a>
+          <a href="bfs.html">BFS Pathfinding</a>
+          <a href="dfs.html">DFS Pathfinding</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn current-category">Graph</button>
+        <div class="nav-dropdown">
+          <a href="dijkstra.html">Dijkstra</a>
+          <a href="astar.html">A* Pathfinding</a>
+          <a href="floyd-warshall.html">Floyd-Warshall</a>
+          <a href="prims.html">Prim's MST</a>
+          <a href="kruskal.html">Kruskal's MST</a>
+          <a href="tarjan.html" class="active">Tarjan's SCC</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">DP</button>
+        <div class="nav-dropdown">
+          <a href="knapsack.html">Knapsack (0/1)</a>
+          <a href="lcs.html">LCS</a>
+          <a href="levenshtein.html">Levenshtein Distance</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">String</button>
+        <div class="nav-dropdown">
+          <a href="kmp.html">KMP Search</a>
+          <a href="huffman.html">Huffman Coding</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Data Structures</button>
+        <div class="nav-dropdown">
+          <a href="avl-tree.html">AVL Tree</a>
+          <a href="bst.html">BST Traversal</a>
+          <a href="hash-table.html">Hash Table</a>
+          <a href="heap.html">Min-Heap</a>
+          <a href="lru-cache.html">LRU Cache</a>
+          <a href="bloom-filter.html">Bloom Filter</a>
+          <a href="trie.html">Trie</a>
+          <a href="union-find.html">Union-Find</a>
+          <a href="sliding-window.html">Sliding Window</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">More</button>
+        <div class="nav-dropdown">
+          <a href="convex-hull.html">Convex Hull</a>
+          <a href="elevator.html">Elevator (SCAN)</a>
+          <a href="minimax.html">Minimax</a>
+          <a href="n-queens.html">N-Queens</a>
+        </div>
+      </div>
+      <button
+        class="nav-hamburger"
+        onclick="this.closest('.algo-nav').classList.toggle('nav-open')"
+      >
+        &#9776;
+      </button>
+    </nav>
+
+    <header class="page-header">
+      <div class="title-group">
+        <h1>Tarjan's SCC</h1>
+        <div class="title-meta">
+          <span class="badge">Graph</span>
+          <span
+            class="badge badge-accent complexity-badge"
+            data-best="O(V+E)"
+            data-best-note="Single DFS pass"
+            data-avg="O(V+E)"
+            data-avg-note="Linear in graph size"
+            data-worst="O(V+E)"
+            data-worst-note="Always linear"
+            data-space="O(V)"
+            data-space-note="Stack + discovery arrays"
+            data-why="One DFS pass visits every vertex and edge exactly once — O(V+E). The stack, discovery, and low-link arrays each require O(V) space. No sorting or repeated passes needed."
+            >O(V+E)</span
+          >
+        </div>
+      </div>
+      <div class="tj-legend">
+        <div class="tj-legend-item">
+          <span class="tj-swatch tj-swatch-current"></span> Current node
+        </div>
+        <div class="tj-legend-item">
+          <span class="tj-swatch tj-swatch-on-stack"></span> On stack
+        </div>
+        <div class="tj-legend-item">
+          <span class="tj-swatch tj-edge-tree"></span> Tree edge
+        </div>
+        <div class="tj-legend-item">
+          <span class="tj-swatch tj-edge-back"></span> Back edge
+        </div>
+        <div class="tj-legend-item">
+          <span class="tj-swatch tj-edge-cross"></span> Cross edge
+        </div>
+      </div>
+    </header>
+
+    <main class="content-grid">
+      <section class="main-column">
+        <!-- Controls panel -->
+        <div class="panel">
+          <div class="tj-controls">
+            <div class="tj-preset-row">
+              <label class="tj-control-label">Preset:</label>
+              <button class="tj-preset-btn" id="tjPresetClassic">
+                Classic 3-SCC
+              </button>
+              <button class="tj-preset-btn" id="tjPresetCycle">
+                Simple Cycle
+              </button>
+              <button class="tj-preset-btn" id="tjPresetDag">DAG</button>
+            </div>
+            <div class="tj-btn-row">
+              <button id="tjBtnRun">Run Algorithm</button>
+              <button id="tjBtnReset">Reset</button>
+              <button id="tjBtnClear" title="Clear graph">Clear Graph</button>
+            </div>
+          </div>
+          <div class="tj-speed-row">
+            <label for="tjSpeed">Speed:</label>
+            <input type="range" id="tjSpeed" min="1" max="10" value="5" />
+            <span id="tjSpeedLabel">5</span>
+          </div>
+          <div class="tj-hint">
+            Click canvas to add node &bull; Drag from node to node to add edge
+            &bull; Double-click node to remove
+          </div>
+        </div>
+
+        <!-- Status info -->
+        <div class="tj-info" id="tjInfo">
+          Select a preset or build your own graph, then press Run Algorithm.
+        </div>
+
+        <!-- Playback controls -->
+        <div class="tj-playback" id="tjPlayback">
+          <button
+            class="tj-icon-btn"
+            id="tjBtnStepBack"
+            title="Step Back"
+            disabled
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polygon points="19 20 9 12 19 4 19 20"></polygon>
+              <line x1="5" y1="19" x2="5" y2="5"></line>
+            </svg>
+          </button>
+          <button class="tj-icon-btn tj-btn-play" id="tjBtnPlay" title="Play">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+          </button>
+          <button class="tj-icon-btn" id="tjBtnPause" title="Pause" disabled>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+          </button>
+          <button
+            class="tj-icon-btn"
+            id="tjBtnStepFwd"
+            title="Step Forward"
+            disabled
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polygon points="5 4 15 12 5 20 5 4"></polygon>
+              <line x1="19" y1="5" x2="19" y2="19"></line>
+            </svg>
+          </button>
+          <span class="tj-step-counter" id="tjStepCounter">Step: 0 / 0</span>
+        </div>
+
+        <!-- Graph canvas -->
+        <div class="tj-canvas-wrapper">
+          <canvas id="tjCanvas" width="700" height="420"></canvas>
+        </div>
+
+        <!-- Stack panel -->
+        <div class="tj-stack-panel">
+          <div class="tj-stack-title">Algorithm Stack</div>
+          <div class="tj-stack-contents" id="tjStackContents">
+            <span class="tj-stack-empty">Stack is empty</span>
+          </div>
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              Find all Strongly Connected Components (SCCs) in a directed graph.
+              An SCC is a maximal set of vertices where every vertex is
+              reachable from every other vertex.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Run DFS while tracking each node's discovery time and low-link
+              value (the smallest discovery time reachable via its subtree).
+              When a node's low-link equals its own discovery time, it is an SCC
+              root — pop everything above it on the stack.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              Compiler dependency analysis, detecting cycles in directed graphs,
+              solving 2-SAT problems, finding circular dependencies in package
+              managers, and decomposing graphs into DAGs.
+            </p>
+          </div>
+        </div>
+
+        <!-- Why-this-complexity -->
+        <div class="panel">
+          <div class="panel-title">Why O(V+E)?</div>
+          <p class="tj-why-text">
+            Tarjan's makes a single DFS pass: each vertex is visited once
+            (O(V)), and each edge is examined once (O(E)). The stack push/pop
+            operations are amortized O(1) per vertex. Total: O(V+E) — optimal
+            for graph traversal.
+          </p>
+        </div>
+
+        <!-- Real-world analogy -->
+        <div class="tj-analogy">
+          <strong>Real-world analogy:</strong>
+          Imagine a city where every street is one-way. An SCC is a neighborhood
+          where you can drive from any intersection to any other using only
+          those one-way streets — you can always find your way home. Tarjan's
+          algorithm finds all such self-contained neighborhoods in one efficient
+          sweep of the street map.
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-value" id="tjStatNodes">&mdash;</span>
+            <span class="stat-label">Nodes</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="tjStatEdges">&mdash;</span>
+            <span class="stat-label">Edges</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="tjStatSccs">&mdash;</span>
+            <span class="stat-label">SCCs Found</span>
+          </div>
+        </div>
+
+        <!-- Pseudocode -->
+        <div class="panel">
+          <div class="panel-title">Pseudocode</div>
+          <!-- prettier-ignore -->
+          <pre class="pseudocode">function strongConnect(v):
+  disc[v] = low[v] = index++
+  push v onto stack
+  onStack[v] = true
+
+  for each neighbor w of v:
+    if w not visited:
+      strongConnect(w)        // tree edge
+      low[v] = min(low[v], low[w])
+    elif w is onStack:
+      low[v] = min(low[v], disc[w]) // back edge
+
+  if low[v] == disc[v]:       // v is SCC root
+    pop stack until v
+    report SCC</pre>
+        </div>
+      </aside>
+    </main>
+
+    <script src="tarjan-algorithm.js"></script>
+    <script src="tarjan.js"></script>
+  </body>
+</html>
