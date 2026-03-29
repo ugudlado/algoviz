@@ -236,6 +236,33 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              You have a sorted list of 1 million names. Finding one by scanning
+              from the start takes up to 1 million steps. Can you do better?
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Check the middle element. If too high, search the left half; if
+              too low, search the right half. Each step eliminates half the
+              remaining candidates.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              Any time you need fast lookup in a sorted collection. Foundation
+              of database indexes, dictionary lookups, and numeric root-finding.
+            </p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid" id="statsPanel">
           <div class="stat-card">

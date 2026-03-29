@@ -248,6 +248,34 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              You're building a GPS app. Roads have different travel times. How
+              do you find the fastest route from A to B through hundreds of
+              intersections?
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Always expand the cheapest unvisited node. Use a priority queue to
+              efficiently pick the minimum. Update neighbors' distances when a
+              shorter path is found.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              Shortest paths in weighted graphs with non-negative edges. GPS
+              routing, network packet routing, game AI pathfinding.
+            </p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid" id="dijk-statsPanel">
           <div class="stat-card">

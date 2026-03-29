@@ -150,6 +150,34 @@
       </section>
 
       <aside class="sidebar">
+        <!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              You have a pile of unsorted records — invoices, names, scores.
+              Sorting them one by one is slow. How do you sort a million records
+              efficiently?
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Divide the list in half repeatedly until you have single elements
+              (already sorted). Then merge pairs back together in order —
+              merging two sorted lists is fast.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              When you need guaranteed O(n log n) performance. Preferred for
+              linked lists and external sorting (data too large for RAM).
+            </p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid" id="statsPanel">
           <div class="stat-card">

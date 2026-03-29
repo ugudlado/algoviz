@@ -247,6 +247,34 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              You're building autocomplete for a search box. Checking every word
+              in a dictionary for each prefix is too slow. How do you find all
+              words with prefix 'alg' instantly?
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Store words character by character in a tree. Each node represents
+              one character. All words sharing a prefix share the same path from
+              root.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              Autocomplete, spell checking, IP routing (longest prefix match),
+              word games, dictionary compression.
+            </p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid">
           <div class="stat-card">

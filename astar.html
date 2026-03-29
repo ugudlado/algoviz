@@ -259,6 +259,35 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              Dijkstra finds optimal paths but explores in all directions
+              equally. Can you guide the search toward the goal to find it
+              faster?
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Combine actual cost from start (g) with estimated cost to goal
+              (h). Always expand the node with lowest f = g + h. The heuristic
+              guides search direction.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              Game maps, robot navigation, puzzle solving. Faster than Dijkstra
+              when a good distance heuristic exists. Used in Google Maps, game
+              engines.
+            </p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid" id="astar-statsPanel">
           <div class="stat-card">

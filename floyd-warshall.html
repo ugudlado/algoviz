@@ -268,6 +268,35 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              You need the shortest path between EVERY pair of cities in a road
+              network — not just from one source. Running Dijkstra n times works
+              but is there a cleaner way?
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              For every pair (i,j), try every intermediate vertex k. If going
+              through k is shorter, update the distance. Three nested loops
+              cover all possibilities.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              All-pairs shortest paths in dense graphs. Detecting negative
+              cycles. Computing transitive closure. Network analysis where all
+              distances are needed.
+            </p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid" id="fw-statsPanel">
           <div class="stat-card">

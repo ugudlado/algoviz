@@ -260,6 +260,34 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              You have a list of tasks where some must complete before others
+              start (like build dependencies or course prerequisites). In what
+              order do you execute them?
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Find nodes with no incoming edges (nothing depends on them).
+              Process them first, removing their outgoing edges. Repeat until
+              all nodes are processed.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              Build systems (Make, Gradle), course scheduling, spreadsheet
+              evaluation order, package dependency resolution.
+            </p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid">
           <div class="stat-card">

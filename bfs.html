@@ -245,6 +245,33 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              You're navigating a maze and want the shortest path to the exit —
+              measured in number of steps, not distance.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Explore all neighbors at distance 1 first, then distance 2, then
+              3. Use a queue. The first time you reach the target is guaranteed
+              to be the shortest path.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              Shortest path in unweighted graphs. Social network degrees of
+              separation. Web crawling. Level-order tree traversal.
+            </p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid" id="statsPanel">
           <div class="stat-card">

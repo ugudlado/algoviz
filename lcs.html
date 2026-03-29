@@ -222,6 +222,34 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              Two versions of a document exist. You want to find what they share
+              — the longest sequence of lines that appear in both, in order
+              (like git diff).
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Build a table where cell (i,j) = length of LCS of first i chars of
+              A and first j chars of B. Each cell uses the cell above, left, or
+              diagonal.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              Version control (diff), DNA sequence alignment, plagiarism
+              detection, file comparison tools.
+            </p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid" id="statsPanel">
           <div class="stat-card">

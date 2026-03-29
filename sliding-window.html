@@ -404,6 +404,35 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              Given an array, find the maximum sum of any contiguous subarray of
+              length k. The brute force checks every window — can you do it in
+              one pass?
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Maintain a window of size k. On each step, add the new right
+              element and remove the leftmost element. The window slides forward
+              without recomputing from scratch.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              Subarray problems (max/min/average), string substring problems
+              (longest without repeats), network traffic analysis, time series
+              processing.
+            </p>
+          </div>
+        </div>
+
         <!-- Pseudocode — Fixed Window -->
         <div class="panel">
           <div class="panel-title">Pseudocode (Fixed Window)</div>

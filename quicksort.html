@@ -173,6 +173,34 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              You need to sort data in place without extra memory. Merge sort
+              uses O(n) extra space — can you do better?
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Pick a pivot element. Rearrange so everything smaller is left,
+              everything larger is right. Recursively sort both halves. The
+              pivot is now in its final position.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              General-purpose in-place sorting. Fastest in practice for random
+              data despite O(n²) worst case. Used in most standard library sort
+              implementations.
+            </p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid" id="statsPanel">
           <div class="stat-card">

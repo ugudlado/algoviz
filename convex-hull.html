@@ -237,6 +237,35 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              You have a set of GPS coordinates for cities. You want to find the
+              smallest polygon that contains all of them — useful for defining a
+              region's boundary.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Sort points by angle from the leftmost point. Add each point to
+              the hull; if it makes a right turn with the last two points,
+              remove the middle one (it's inside the hull).
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              Geographic boundary computation, collision detection in games,
+              image processing, robotics path planning, statistical outlier
+              detection.
+            </p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid" id="statsPanel">
           <div class="stat-card">

@@ -236,6 +236,34 @@
       </section>
 
       <aside class="sidebar">
+        <\!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              Same cable-laying problem as Prim's — but your data is a list of
+              edges sorted by cost. Can you solve it by processing edges in
+              order?
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Sort all edges by weight. Add each edge if it connects two
+              previously disconnected components (use Union-Find to check). Stop
+              when all nodes are connected.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              Minimum Spanning Tree for sparse graphs. Works well when edges are
+              pre-sorted. Used in image segmentation and network design.
+            </p>
+          </div>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid">
           <div class="stat-card">
