@@ -72,30 +72,52 @@
       }
 
       .search-bar {
+        position: relative;
+        width: 240px;
+      }
+
+      .search-input {
         background: var(--bg-secondary);
         border: 1px solid var(--border);
-        padding: 0.5rem 1rem;
+        color: var(--text-primary);
+        padding: 0.5rem 1rem 0.5rem 2.25rem;
         border-radius: 6px;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: var(--text-muted);
+        font-family: var(--font-body);
         font-size: 0.85rem;
-        width: 240px;
-        cursor: pointer;
+        width: 100%;
         transition: border-color 0.2s;
+        outline: none;
       }
 
-      .search-bar:hover {
-        border-color: var(--border-hover);
+      .search-input::placeholder {
+        color: var(--text-muted);
       }
 
-      .kbd {
-        background: var(--border);
-        padding: 2px 5px;
-        border-radius: 4px;
-        font-size: 0.7rem;
-        font-family: var(--font-mono);
+      .search-input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-dim);
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 0.65rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        pointer-events: none;
+      }
+
+      .search-no-results {
+        display: none;
+        text-align: center;
+        padding: 3rem 0;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        grid-column: 1 / -1;
+      }
+
+      .search-no-results.visible {
+        display: block;
       }
 
       /* --- Hero --- */
@@ -505,6 +527,176 @@
           grid-template-columns: 1fr;
         }
       }
+
+      /* --- Difficulty badges --- */
+      .hp-difficulty {
+        display: inline-block;
+        padding: 2px 7px;
+        border-radius: 4px;
+        font-size: 0.68rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        border: 1px solid;
+      }
+
+      .hp-beginner {
+        color: #3fb950;
+        border-color: #3fb95050;
+        background: #3fb95012;
+      }
+
+      .hp-intermediate {
+        color: #d29922;
+        border-color: #d2992250;
+        background: #d2992212;
+      }
+
+      .hp-advanced {
+        color: #f85149;
+        border-color: #f8514950;
+        background: #f8514912;
+      }
+
+      .hp-time {
+        display: inline-block;
+        padding: 2px 7px;
+        border-radius: 4px;
+        font-size: 0.68rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--border);
+        font-family: var(--font-mono);
+      }
+
+      .hp-desc {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        margin-top: 0.5rem;
+        line-height: 1.45;
+      }
+
+      .hp-prereq {
+        display: inline-block;
+        padding: 2px 7px;
+        border-radius: 4px;
+        font-size: 0.68rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--border);
+        margin-top: 0.4rem;
+      }
+
+      .hp-prereq::before {
+        content: "Prereq: ";
+        opacity: 0.6;
+      }
+
+      .hp-badges {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        margin-top: 0.55rem;
+      }
+
+      /* --- Learning Paths section --- */
+      .learning-paths {
+        margin-bottom: 4rem;
+        padding: 1.75rem 2rem;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+      }
+
+      .lp-header {
+        display: flex;
+        align-items: baseline;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .lp-section-title {
+        font-family: var(--font-display);
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .lp-section-sub {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+
+      .lp-paths-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1.1rem;
+      }
+
+      .lp-path {
+        display: flex;
+        align-items: flex-start;
+        gap: 1.25rem;
+      }
+
+      .lp-path-name {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        white-space: nowrap;
+        min-width: 140px;
+        padding-top: 0.3rem;
+      }
+
+      .lp-chips {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+      }
+
+      .lp-chip {
+        display: inline-block;
+        padding: 0.28rem 0.75rem;
+        background: var(--bg-tertiary);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        font-size: 0.78rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: all 0.15s ease;
+        white-space: nowrap;
+      }
+
+      .lp-chip:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-dim);
+      }
+
+      .lp-arrow {
+        font-size: 0.7rem;
+        color: var(--border-hover);
+        user-select: none;
+      }
+
+      @media (max-width: 700px) {
+        .lp-path {
+          flex-direction: column;
+          gap: 0.4rem;
+        }
+        .lp-path-name {
+          min-width: auto;
+        }
+      }
     </style>
   </head>
   <body data-category="home">
@@ -534,6 +726,7 @@
       </div>
       <div class="search-bar">
         <svg
+          class="search-icon"
           width="14"
           height="14"
           viewBox="0 0 24 24"
@@ -546,8 +739,14 @@
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        Search algorithms...
-        <span style="margin-left: auto" class="kbd">&#8984;K</span>
+        <input
+          id="algo-search"
+          class="search-input"
+          type="search"
+          placeholder="Search algorithms..."
+          autocomplete="off"
+          spellcheck="false"
+        />
       </div>
     </nav>
 
@@ -561,7 +760,9 @@
         build genuine intuition.
       </p>
       <div class="hero-actions">
-        <a href="#sorting" class="hero-btn hero-btn-primary">Start Exploring</a>
+        <a href="algorithms/bubble-sort/" class="hero-btn hero-btn-primary"
+          >Start Here</a
+        >
         <a href="https://github.com" class="hero-btn hero-btn-secondary"
           >View Source</a
         >
@@ -584,6 +785,67 @@
 
     <!-- Algorithm Grid -->
     <main class="home-content">
+      <!-- Learning Paths -->
+      <section class="learning-paths">
+        <div class="lp-header">
+          <span class="lp-section-title">Learning Paths</span>
+          <span class="lp-section-sub"
+            >Curated sequences — click any step to jump in</span
+          >
+        </div>
+        <div class="lp-paths-grid">
+          <div class="lp-path">
+            <span class="lp-path-name">CS Fundamentals</span>
+            <div class="lp-chips">
+              <a href="algorithms/bubble-sort/" class="lp-chip">Bubble Sort</a>
+              <span class="lp-arrow">&#8594;</span>
+              <a href="binary-search.html" class="lp-chip">Binary Search</a>
+              <span class="lp-arrow">&#8594;</span>
+              <a href="bst.html" class="lp-chip">BST</a>
+              <span class="lp-arrow">&#8594;</span>
+              <a href="bfs.html" class="lp-chip">BFS</a>
+              <span class="lp-arrow">&#8594;</span>
+              <a href="dfs.html" class="lp-chip">DFS</a>
+              <span class="lp-arrow">&#8594;</span>
+              <a href="merge-sort.html" class="lp-chip">Merge Sort</a>
+              <span class="lp-arrow">&#8594;</span>
+              <a href="heap.html" class="lp-chip">Heap</a>
+            </div>
+          </div>
+          <div class="lp-path">
+            <span class="lp-path-name">Interview Prep</span>
+            <div class="lp-chips">
+              <a href="sliding-window.html" class="lp-chip">Sliding Window</a>
+              <span class="lp-arrow">&#8594;</span>
+              <a href="binary-search.html" class="lp-chip">Binary Search</a>
+              <span class="lp-arrow">&#8594;</span>
+              <a href="bst.html" class="lp-chip">BST</a>
+              <span class="lp-arrow">&#8594;</span>
+              <a href="bfs.html" class="lp-chip">BFS</a>
+              <span class="lp-arrow">&#8594;</span>
+              <a href="dijkstra.html" class="lp-chip">Dijkstra</a>
+              <span class="lp-arrow">&#8594;</span>
+              <a href="lcs.html" class="lp-chip">LCS</a>
+              <span class="lp-arrow">&#8594;</span>
+              <a href="knapsack.html" class="lp-chip">Knapsack</a>
+            </div>
+          </div>
+          <div class="lp-path">
+            <span class="lp-path-name">Systems Thinking</span>
+            <div class="lp-chips">
+              <a href="bloom-filter.html" class="lp-chip">Bloom Filter</a>
+              <span class="lp-arrow">&#8594;</span>
+              <a href="lru-cache.html" class="lp-chip">LRU Cache</a>
+              <span class="lp-arrow">&#8594;</span>
+              <a href="huffman.html" class="lp-chip">Huffman</a>
+              <span class="lp-arrow">&#8594;</span>
+              <a href="union-find.html" class="lp-chip">Union-Find</a>
+              <span class="lp-arrow">&#8594;</span>
+              <a href="elevator.html" class="lp-chip">Elevator (SCAN)</a>
+            </div>
+          </div>
+        </div>
+      </section>
       <!-- Sorting -->
       <section id="sorting" class="category-section cat-sorting">
         <div class="category-header">
@@ -596,6 +858,13 @@
               <div class="algo-card-name">Bubble Sort</div>
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(n&sup2;)</span>
+              </div>
+              <p class="hp-desc">
+                Learn how adjacent swaps sort a list, pass by pass
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-beginner">Beginner</span>
+                <span class="hp-time">~8 min</span>
               </div>
             </div>
             <div class="algo-card-meta">
@@ -611,6 +880,14 @@
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(n log n)</span>
               </div>
+              <p class="hp-desc">
+                Divide, sort halves, merge &mdash; guaranteed O(n log n)
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-beginner">Beginner</span>
+                <span class="hp-time">~12 min</span>
+                <span class="hp-prereq">Recursion</span>
+              </div>
             </div>
             <div class="algo-card-meta">
               <span class="complexity-tag" style="font-size: 0.7rem"
@@ -624,6 +901,14 @@
               <div class="algo-card-name">Quick Sort</div>
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(n log n)</span>
+              </div>
+              <p class="hp-desc">
+                Partition around a pivot &mdash; fastest in practice
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-intermediate">Intermediate</span>
+                <span class="hp-time">~15 min</span>
+                <span class="hp-prereq">Merge Sort</span>
               </div>
             </div>
             <div class="algo-card-meta">
@@ -639,6 +924,14 @@
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(nk)</span>
               </div>
+              <p class="hp-desc">
+                Sort integers digit by digit without comparisons
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-intermediate">Intermediate</span>
+                <span class="hp-time">~10 min</span>
+                <span class="hp-prereq">Counting Sort concept</span>
+              </div>
             </div>
             <div class="algo-card-meta">
               <span class="complexity-tag" style="font-size: 0.7rem"
@@ -652,6 +945,14 @@
               <div class="algo-card-name">Topological Sort</div>
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(V + E)</span>
+              </div>
+              <p class="hp-desc">
+                Order tasks respecting dependencies using in-degree tracking
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-intermediate">Intermediate</span>
+                <span class="hp-time">~10 min</span>
+                <span class="hp-prereq">BFS</span>
               </div>
             </div>
             <div class="algo-card-meta">
@@ -675,6 +976,11 @@
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(log n)</span>
               </div>
+              <p class="hp-desc">Halve the search space on every step</p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-beginner">Beginner</span>
+                <span class="hp-time">~8 min</span>
+              </div>
             </div>
             <div class="algo-card-meta">
               <span class="complexity-tag" style="font-size: 0.7rem"
@@ -689,6 +995,14 @@
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(V + E)</span>
               </div>
+              <p class="hp-desc">
+                Explore level by level &mdash; shortest path in unweighted
+                graphs
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-beginner">Beginner</span>
+                <span class="hp-time">~10 min</span>
+              </div>
             </div>
             <div class="algo-card-meta">
               <span class="complexity-tag" style="font-size: 0.7rem"
@@ -702,6 +1016,14 @@
               <div class="algo-card-name">DFS Pathfinding</div>
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(V + E)</span>
+              </div>
+              <p class="hp-desc">
+                Go deep before backtracking &mdash; explore all reachable nodes
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-beginner">Beginner</span>
+                <span class="hp-time">~10 min</span>
+                <span class="hp-prereq">BFS</span>
               </div>
             </div>
             <div class="algo-card-meta">
@@ -727,6 +1049,14 @@
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(E + V log V)</span>
               </div>
+              <p class="hp-desc">
+                Shortest path with weighted edges using a priority queue
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-intermediate">Intermediate</span>
+                <span class="hp-time">~15 min</span>
+                <span class="hp-prereq">BFS</span>
+              </div>
             </div>
             <div class="algo-card-meta">
               <span class="complexity-tag" style="font-size: 0.7rem"
@@ -740,6 +1070,14 @@
               <div class="algo-card-name">A* Search</div>
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(E)</span>
+              </div>
+              <p class="hp-desc">
+                Guide Dijkstra toward the goal with a heuristic estimate
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-intermediate">Intermediate</span>
+                <span class="hp-time">~15 min</span>
+                <span class="hp-prereq">Dijkstra</span>
               </div>
             </div>
             <div class="algo-card-meta">
@@ -755,6 +1093,15 @@
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(V&sup3;)</span>
               </div>
+              <p class="hp-desc">
+                All-pairs shortest paths in O(V&sup3;) &mdash; three nested
+                loops
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-advanced">Advanced</span>
+                <span class="hp-time">~12 min</span>
+                <span class="hp-prereq">Dijkstra</span>
+              </div>
             </div>
             <div class="algo-card-meta">
               <span class="complexity-tag" style="font-size: 0.7rem"
@@ -769,6 +1116,14 @@
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(E log V)</span>
               </div>
+              <p class="hp-desc">
+                Grow a minimum spanning tree one cheap edge at a time
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-intermediate">Intermediate</span>
+                <span class="hp-time">~12 min</span>
+                <span class="hp-prereq">Dijkstra</span>
+              </div>
             </div>
             <div class="algo-card-meta">
               <span class="complexity-tag" style="font-size: 0.7rem"
@@ -782,6 +1137,14 @@
               <div class="algo-card-name">Kruskal's MST</div>
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(E log E)</span>
+              </div>
+              <p class="hp-desc">
+                Build MST by adding cheapest edges that don&apos;t form cycles
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-intermediate">Intermediate</span>
+                <span class="hp-time">~12 min</span>
+                <span class="hp-prereq">Union-Find</span>
               </div>
             </div>
             <div class="algo-card-meta">
@@ -807,6 +1170,14 @@
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(nW)</span>
               </div>
+              <p class="hp-desc">
+                Maximize value under a weight constraint with DP
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-intermediate">Intermediate</span>
+                <span class="hp-time">~15 min</span>
+                <span class="hp-prereq">LCS concept</span>
+              </div>
             </div>
             <div class="algo-card-meta">
               <span class="complexity-tag" style="font-size: 0.7rem"
@@ -821,6 +1192,13 @@
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(nm)</span>
               </div>
+              <p class="hp-desc">
+                Find the longest common subsequence using a DP table
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-intermediate">Intermediate</span>
+                <span class="hp-time">~15 min</span>
+              </div>
             </div>
             <div class="algo-card-meta">
               <span class="complexity-tag" style="font-size: 0.7rem"
@@ -834,6 +1212,14 @@
               <div class="algo-card-name">Levenshtein Distance</div>
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(nm)</span>
+              </div>
+              <p class="hp-desc">
+                Count minimum edits to transform one string into another
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-intermediate">Intermediate</span>
+                <span class="hp-time">~12 min</span>
+                <span class="hp-prereq">LCS</span>
               </div>
             </div>
             <div class="algo-card-meta">
@@ -859,6 +1245,13 @@
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(n + m)</span>
               </div>
+              <p class="hp-desc">
+                Linear-time string search using the failure function
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-advanced">Advanced</span>
+                <span class="hp-time">~15 min</span>
+              </div>
             </div>
             <div class="algo-card-meta">
               <span class="complexity-tag" style="font-size: 0.7rem"
@@ -872,6 +1265,14 @@
               <div class="algo-card-name">Huffman Coding</div>
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(n log n)</span>
+              </div>
+              <p class="hp-desc">
+                Build optimal prefix codes based on character frequencies
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-advanced">Advanced</span>
+                <span class="hp-time">~15 min</span>
+                <span class="hp-prereq">Heap</span>
               </div>
             </div>
             <div class="algo-card-meta">
@@ -897,6 +1298,14 @@
               <div class="algo-card-complexity">
                 Insert/Search: <span class="complexity-tag">O(log n)</span>
               </div>
+              <p class="hp-desc">
+                Self-balancing BST &mdash; rotations keep height O(log n)
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-advanced">Advanced</span>
+                <span class="hp-time">~20 min</span>
+                <span class="hp-prereq">BST</span>
+              </div>
             </div>
             <div class="algo-card-meta">
               <span class="complexity-tag" style="font-size: 0.7rem"
@@ -910,6 +1319,13 @@
               <div class="algo-card-name">BST Traversal</div>
               <div class="algo-card-complexity">
                 Search: <span class="complexity-tag">O(log n)</span>
+              </div>
+              <p class="hp-desc">
+                Insert, search, delete in a sorted binary tree
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-beginner">Beginner</span>
+                <span class="hp-time">~12 min</span>
               </div>
             </div>
             <div class="algo-card-meta">
@@ -925,6 +1341,13 @@
               <div class="algo-card-complexity">
                 Access: <span class="complexity-tag">O(1)</span>
               </div>
+              <p class="hp-desc">
+                O(1) average lookup via hash functions and collision handling
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-beginner">Beginner</span>
+                <span class="hp-time">~10 min</span>
+              </div>
             </div>
             <div class="algo-card-meta">
               <span class="complexity-tag" style="font-size: 0.7rem"
@@ -938,6 +1361,14 @@
               <div class="algo-card-name">Min-Heap</div>
               <div class="algo-card-complexity">
                 Peek: <span class="complexity-tag">O(1)</span>
+              </div>
+              <p class="hp-desc">
+                Priority queue with O(log n) insert and O(log n) extract-min
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-intermediate">Intermediate</span>
+                <span class="hp-time">~12 min</span>
+                <span class="hp-prereq">BST</span>
               </div>
             </div>
             <div class="algo-card-meta">
@@ -953,6 +1384,14 @@
               <div class="algo-card-complexity">
                 Get/Put: <span class="complexity-tag">O(1)</span>
               </div>
+              <p class="hp-desc">
+                Combine HashMap + linked list for O(1) cache eviction
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-intermediate">Intermediate</span>
+                <span class="hp-time">~12 min</span>
+                <span class="hp-prereq">Hash Table</span>
+              </div>
             </div>
             <div class="algo-card-meta">
               <span class="complexity-tag" style="font-size: 0.7rem"
@@ -966,6 +1405,14 @@
               <div class="algo-card-name">Bloom Filter</div>
               <div class="algo-card-complexity">
                 Check: <span class="complexity-tag">O(k)</span>
+              </div>
+              <p class="hp-desc">
+                Probabilistic set membership &mdash; trade accuracy for memory
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-advanced">Advanced</span>
+                <span class="hp-time">~12 min</span>
+                <span class="hp-prereq">Hashing</span>
               </div>
             </div>
             <div class="algo-card-meta">
@@ -981,6 +1428,13 @@
               <div class="algo-card-complexity">
                 Find: <span class="complexity-tag">O(L)</span>
               </div>
+              <p class="hp-desc">
+                Prefix tree for O(m) string lookup and autocomplete
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-intermediate">Intermediate</span>
+                <span class="hp-time">~12 min</span>
+              </div>
             </div>
             <div class="algo-card-meta">
               <span class="complexity-tag" style="font-size: 0.7rem"
@@ -995,6 +1449,13 @@
               <div class="algo-card-complexity">
                 Find: <span class="complexity-tag">O(&alpha;(n))</span>
               </div>
+              <p class="hp-desc">
+                Track connected components with near-O(1) union and find
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-intermediate">Intermediate</span>
+                <span class="hp-time">~10 min</span>
+              </div>
             </div>
             <div class="algo-card-meta">
               <span class="complexity-tag" style="font-size: 0.7rem"
@@ -1008,6 +1469,13 @@
               <div class="algo-card-name">Sliding Window</div>
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(n)</span>
+              </div>
+              <p class="hp-desc">
+                Process subarrays in one pass using two pointers
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-beginner">Beginner</span>
+                <span class="hp-time">~8 min</span>
               </div>
             </div>
             <div class="algo-card-meta">
@@ -1033,6 +1501,14 @@
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(n log n)</span>
               </div>
+              <p class="hp-desc">
+                Find the smallest convex polygon enclosing a point set
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-advanced">Advanced</span>
+                <span class="hp-time">~15 min</span>
+                <span class="hp-prereq">Sorting</span>
+              </div>
             </div>
             <div class="algo-card-meta">
               <span class="complexity-tag" style="font-size: 0.7rem"
@@ -1046,6 +1522,13 @@
               <div class="algo-card-name">Elevator SCAN</div>
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(n log n)</span>
+              </div>
+              <p class="hp-desc">
+                Sweep-based scheduling minimizes disk/elevator movement
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-intermediate">Intermediate</span>
+                <span class="hp-time">~10 min</span>
               </div>
             </div>
             <div class="algo-card-meta">
@@ -1061,6 +1544,14 @@
               <div class="algo-card-complexity">
                 Time: <span class="complexity-tag">O(b^d)</span>
               </div>
+              <p class="hp-desc">
+                Optimal play in two-player games with alpha-beta pruning
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-advanced">Advanced</span>
+                <span class="hp-time">~20 min</span>
+                <span class="hp-prereq">DFS, Recursion</span>
+              </div>
             </div>
             <div class="algo-card-meta">
               <span class="complexity-tag" style="font-size: 0.7rem"
@@ -1071,6 +1562,11 @@
           </a>
         </div>
       </section>
+
+      <!-- No results message (shown when search has no matches) -->
+      <p id="search-no-results" class="search-no-results">
+        No algorithms match your search.
+      </p>
     </main>
 
     <!-- Footer -->
@@ -1135,5 +1631,70 @@
         </div>
       </div>
     </footer>
+    <script>
+      (function () {
+        var searchInput = document.getElementById("algo-search");
+        var noResults = document.getElementById("search-no-results");
+        var cards = document.querySelectorAll(".algo-card");
+        var sections = document.querySelectorAll(".category-section");
+
+        function filterAlgos(query) {
+          var q = query.trim().toLowerCase();
+          var anyVisible = false;
+
+          sections.forEach(function (section) {
+            var sectionName = section.querySelector(".category-name");
+            var sectionText = sectionName
+              ? sectionName.textContent.toLowerCase()
+              : "";
+            var sectionCards = section.querySelectorAll(".algo-card");
+            var visibleInSection = 0;
+
+            sectionCards.forEach(function (card) {
+              var name = card.querySelector(".algo-card-name");
+              var desc = card.querySelector(".hp-desc");
+              var nameText = name ? name.textContent.toLowerCase() : "";
+              var descText = desc ? desc.textContent.toLowerCase() : "";
+
+              var matches =
+                q === "" ||
+                nameText.indexOf(q) !== -1 ||
+                descText.indexOf(q) !== -1 ||
+                sectionText.indexOf(q) !== -1;
+              card.style.display = matches ? "" : "none";
+              if (matches) {
+                visibleInSection++;
+                anyVisible = true;
+              }
+            });
+
+            // Hide section header if no cards visible
+            section.style.display =
+              visibleInSection === 0 && q !== "" ? "none" : "";
+          });
+
+          // Hide learning paths section during search
+          var lpSection = document.querySelector(".learning-paths");
+          if (lpSection) {
+            lpSection.style.display = q !== "" ? "none" : "";
+          }
+
+          noResults.classList.toggle("visible", !anyVisible && q !== "");
+        }
+
+        searchInput.addEventListener("input", function () {
+          filterAlgos(this.value);
+        });
+
+        // Clear on Escape
+        searchInput.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") {
+            this.value = "";
+            filterAlgos("");
+            this.blur();
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
