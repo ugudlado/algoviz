@@ -1,4 +1,5 @@
 node_modules/
+.pnpm-store/
 designs/
 openspec/changes/*/state.yaml
 *.test.html
