@@ -983,6 +983,27 @@ td.traceback {
   font-size: 0.72rem;
 }
 
+.cp-why {
+  border-top: 1px solid var(--border);
+  margin-top: 0.25rem;
+  padding-top: 0.4rem;
+}
+
+.cp-why-label {
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.2rem;
+}
+
+.cp-why-text {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
 /* Input validation */
 .algo-error {
   color: #f85149;

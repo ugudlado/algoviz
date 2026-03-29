@@ -7,6 +7,7 @@
 //   data-avg="O(n²)"       data-avg-note="Random input"
 //   data-worst="O(n²)"     data-worst-note="Reverse sorted"
 //   data-space="O(1)"      data-space-note="In-place"
+//   data-why="Plain-English derivation of the complexity"
 //
 // Add class="complexity-badge" to the badge element.
 
@@ -65,6 +66,27 @@
       rowEl.appendChild(noteEl);
       popover.appendChild(rowEl);
     });
+
+    var why = badge.dataset.why;
+    if (why) {
+      var whySection = document.createElement("div");
+      whySection.className = "cp-why";
+
+      var whyLabel = document.createElement("div");
+      whyLabel.className = "cp-why-label";
+      whyLabel.textContent =
+        "WHY " +
+        (badge.dataset.worst || badge.dataset.avg || badge.textContent.trim()) +
+        "?";
+
+      var whyText = document.createElement("div");
+      whyText.className = "cp-why-text";
+      whyText.textContent = why;
+
+      whySection.appendChild(whyLabel);
+      whySection.appendChild(whyText);
+      popover.appendChild(whySection);
+    }
 
     return popover;
   }
