@@ -22,20 +22,31 @@ function assertEqual(actual, expected, message) {
   }
 }
 
-// Find all test files
-const testFiles = fs
-  .readdirSync(__dirname)
-  .filter((f) => f.endsWith(".test.js"));
+function findTestFiles(dir) {
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      if (entry.name === ".git" || entry.name === "node_modules") {
+        return [];
+      }
+      return findTestFiles(fullPath);
+    }
+    return entry.name.endsWith(".test.js") ? [fullPath] : [];
+  });
+}
+
+// Find all test files recursively
+const testFiles = findTestFiles(__dirname);
 
 if (testFiles.length === 0) {
-  console.log("No test files found (*.test.js)");
+  console.log("No test files found (**/*.test.js)");
   process.exit(0);
 }
 
 for (const file of testFiles) {
-  console.log(`\n--- ${file} ---`);
+  console.log(`\n--- ${path.relative(__dirname, file)} ---`);
   try {
-    const mod = require(path.join(__dirname, file));
+    const mod = require(file);
     if (typeof mod.runTests === "function") {
       const results = mod.runTests({ assert, assertEqual });
       passed += results.passed || 0;

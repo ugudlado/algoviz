@@ -166,23 +166,47 @@ body[data-category="sorting"] .badge-accent {
   background: var(--bs-green);
 }
 
-/* ─── Main grid: viz left + sidebar right ────────────────── */
+/* ─── Main grid: 3-column IDE dashboard ────────────────── */
 .bs-main {
   display: grid;
-  grid-template-columns: 1fr 560px;
+  grid-template-columns: 320px 1fr 320px;
   height: calc(100vh - 52px - 53px); /* minus nav + header */
   overflow: hidden;
 }
 
-/* ─── Viz column ─────────────────────────────────────────── */
+/* ─── Sidebar Base (Left & Right) ───────────────────────── */
+.bs-sidebar {
+  display: flex;
+  flex-direction: column;
+  align-content: start;
+  overflow-y: auto;
+  background: var(--bs-bg-raised);
+  /* Scroll shadow fade */
+  background-image: linear-gradient(
+    to bottom,
+    var(--bs-bg-raised) 85%,
+    oklch(10% 0.012 52 / 0) 100%
+  );
+  background-attachment: local, scroll;
+}
+
+.bs-left-sidebar {
+  border-right: 1px solid var(--bs-rule);
+}
+
+.bs-right-sidebar {
+  border-left: 1px solid var(--bs-rule);
+}
+
+/* ─── Viz column (Center) ────────────────────────────────── */
 .bs-viz-col {
   display: flex;
   flex-direction: column;
-  padding: 1rem 1.25rem;
-  gap: 0.75rem;
-  border-right: 1px solid var(--bs-rule);
+  padding: 1.25rem 1.5rem;
+  gap: 1rem;
   min-width: 0;
   overflow: hidden;
+  background: var(--bs-bg);
 }
 
 /* Inputs */
@@ -283,7 +307,7 @@ body[data-category="sorting"] #btnVisualize:hover {
 
 /* ─── Bar chart ──────────────────────────────────────────── */
 .bsort-bar-chart {
-  flex: 1;
+  flex: 1 1 0; /* Important: allow it to shrink */
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -293,7 +317,9 @@ body[data-category="sorting"] #btnVisualize:hover {
   border: 1px solid var(--bs-rule-strong);
   border-radius: 12px;
   min-height: 0;
+  height: 100%; /* Ensure percentage heights on children work */
   position: relative;
+  overflow: hidden; /* Prevent visual overflow */
 }
 
 .bs-bar {
@@ -301,7 +327,7 @@ body[data-category="sorting"] #btnVisualize:hover {
   max-width: 44px;
   min-width: 6px;
   border-radius: 2px 2px 0 0;
-  background: oklch(27% 0.015 52); /* warm-tinted idle */
+  background: oklch(30% 0.012 52); /* Matches unsorted legend swatch */
   transition:
     height 0.12s cubic-bezier(0.2, 0, 0.2, 1),
     background 0.12s ease;
@@ -423,33 +449,14 @@ body[data-category="sorting"] input[type="range"] {
   accent-color: var(--bs-accent);
 }
 
-/* ─── Sidebar ────────────────────────────────────────────── */
-.bs-sidebar {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-content: start;
-  overflow-y: auto;
-  background: var(--bs-bg-raised);
-  border-left: 1px solid var(--bs-rule);
-  /* Scroll shadow fade */
-  background-image: linear-gradient(
-    to bottom,
-    var(--bs-bg-raised) 85%,
-    oklch(10% 0.012 52 / 0) 100%
-  );
-  background-attachment: local, scroll;
-}
-
 /* ─── Block unit ─────────────────────────────────────────── */
 .bs-block {
   padding: 1.25rem 1.5rem;
   border-bottom: 1px solid var(--bs-rule);
-  border-right: 1px solid var(--bs-rule);
 }
 
 .bs-block-full {
-  grid-column: 1 / -1;
-  border-right: none;
+  width: 100%;
 }
 
 /* Section label */
@@ -625,27 +632,44 @@ body[data-category="sorting"] input[type="range"] {
 /* ─── Responsive ─────────────────────────────────────────── */
 @media (max-width: 1100px) {
   .bs-main {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     height: auto;
     overflow: visible;
   }
 
   .bs-viz-col {
+    order: 1;
     border-right: none;
     border-bottom: 1px solid var(--bs-rule);
     height: 60vh;
+    min-height: 400px;
+  }
+
+  .bs-left-sidebar {
+    order: 2;
+    border-right: none;
+    border-bottom: 1px solid var(--bs-rule);
+  }
+
+  .bs-right-sidebar {
+    order: 3;
+    border-left: none;
   }
 
   .bs-sidebar {
     overflow-y: visible;
+    background-image: none; /* No scroll shadow needed */
   }
 }
 
 @media (max-width: 600px) {
-  .bs-duo {
-    grid-template-columns: 1fr;
+  .bs-viz-col {
+    padding: 1rem;
+    height: 50vh;
   }
-  .bs-duo .bs-block:first-child {
-    border-bottom: 1px solid var(--bs-rule);
+
+  .bs-inputs-row input[type="text"] {
+    width: 140px;
   }
 }

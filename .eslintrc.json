@@ -43,7 +43,7 @@
   ],
   "overrides": [
     {
-      "files": ["*-algorithm.js"],
+      "files": ["*-algorithm.js", "**/algorithm.js"],
       "env": {
         "browser": true,
         "node": true,
@@ -55,7 +55,12 @@
       }
     },
     {
-      "files": ["*-algorithm.test.js", "run-tests.js"],
+      "files": [
+        "*-algorithm.test.js",
+        "**/algorithm.test.js",
+        "run-tests.js",
+        "test-screenshot.js"
+      ],
       "env": {
         "node": true,
         "es2022": true

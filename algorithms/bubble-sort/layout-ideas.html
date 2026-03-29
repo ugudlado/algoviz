@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlgoViz — Bubble Sort (Layout Ideas)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../style.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./layout-ideas.css" />
+  </head>
+  <body data-category="sorting">
+    <nav class="algo-nav">
+      <a href="../../index.html" class="nav-home">AlgoViz</a>
+      <div class="nav-category">
+        <button class="nav-category-btn current-category">Sorting</button>
+      </div>
+      <div class="nav-category">
+        <span
+          style="color: var(--bs-ink-dim); font-size: 0.7rem; margin-left: 1rem"
+          >LAYOUT PROTOTYPES</span
+        >
+      </div>
+    </nav>
+
+    <header class="page-header">
+      <div class="title-group">
+        <h1 id="layoutTitle">Guided Workflow</h1>
+        <div class="title-meta">
+          <span class="badge" id="layoutDesc"
+            >Top-to-bottom logical sequence</span
+          >
+        </div>
+      </div>
+    </header>
+
+    <!-- IDEA 1: GUIDED STACKED -->
+    <div id="layout-1" class="layout-container layout-active layout-stacked">
+      <main class="bs-main">
+        <!-- Visualizer Box (Self-contained) -->
+        <section class="bs-viz-col">
+          <div class="bs-inputs-row">
+            <label>
+              <span class="bs-input-label">Values</span>
+              <input type="text" value="8, 3, 5, 1, 9, 2, 7, 4, 6" />
+            </label>
+            <button id="btnVisualize">Visualize</button>
+          </div>
+          <div class="bsort-bar-chart">
+            <div class="bs-chart-empty">Visualizer Canvas</div>
+          </div>
+          <div class="bs-playback">
+            <div class="playback-btns">
+              <button class="icon-btn icon-btn-play">▶</button>
+              <button class="icon-btn">Step</button>
+            </div>
+            <div class="speed-control">
+              <span class="speed-label">Speed</span>
+              <input type="range" min="1" max="10" value="5" />
+            </div>
+          </div>
+        </section>
+
+        <!-- Info Grid below -->
+        <aside class="bs-sidebar">
+          <div class="bs-block bs-problem">
+            <div class="bs-block-title">The problem</div>
+            <p>Sorting books by height using only neighbor swaps.</p>
+          </div>
+          <div class="bs-block">
+            <div class="bs-block-title">The approach</div>
+            <div class="code-panel">
+              <div class="code-line">for each pass...</div>
+              <div class="code-line">if left taller: swap</div>
+            </div>
+          </div>
+          <div class="bs-block">
+            <div class="bs-block-title">Metrics</div>
+            <div class="bs-metric-row">
+              <span>Comparisons</span><span>0</span>
+            </div>
+            <div class="bs-metric-row"><span>Swaps</span><span>0</span></div>
+          </div>
+          <div class="bs-block">
+            <div class="bs-block-title">Complexity</div>
+            <p>O(n²) Average / Worst</p>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <!-- IDEA 2: IDE / DASHBOARD -->
+    <div id="layout-2" class="layout-container layout-dashboard">
+      <main class="bs-main">
+        <!-- Left: Problem & Code -->
+        <aside class="bs-sidebar">
+          <div class="bs-block bs-problem">
+            <div class="bs-block-title">Context</div>
+            <p style="font-size: 0.75rem">
+              Bubble Sort works by repeatedly stepping through the list...
+            </p>
+          </div>
+          <div class="bs-block" style="flex: 1">
+            <div class="bs-block-title">Pseudocode</div>
+            <div class="code-panel">
+              <div class="code-line">while (swapped)</div>
+              <div class="code-line">swapped = false</div>
+              <div class="code-line">for i from 0 to n-2</div>
+              <div class="code-line">if A[i] > A[i+1]</div>
+              <div class="code-line">swap(A[i], A[i+1])</div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Center: Immersive Viz -->
+        <section class="bs-viz-col">
+          <div class="bsort-bar-chart">
+            <div class="bs-chart-empty">Main Dashboard Viz</div>
+          </div>
+          <div class="bs-playback">
+            <div class="playback-btns">
+              <button class="icon-btn icon-btn-play">▶</button>
+            </div>
+            <div class="bs-inputs-row" style="margin-left: auto">
+              <input
+                type="text"
+                value="8, 3, 5, 1, 9, 2, 7, 4, 6"
+                style="width: 120px"
+              />
+              <button>Random</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Right: State & Metrics -->
+        <aside class="bs-sidebar bs-right-panel">
+          <div class="bs-block">
+            <div class="bs-block-title">Live Watch</div>
+            <div class="bs-metric-row">
+              <span>Comparing</span><span>i, i+1</span>
+            </div>
+            <div class="bs-metric-row">
+              <span>Current Max</span><span>8</span>
+            </div>
+          </div>
+          <div class="bs-block">
+            <div class="bs-block-title">Stats</div>
+            <div class="bs-metric-row">
+              <span>Comparisons</span><span>12</span>
+            </div>
+            <div class="bs-metric-row"><span>Swaps</span><span>4</span></div>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <!-- IDEA 3: IMMERSIVE FOCUS -->
+    <div id="layout-3" class="layout-container layout-immersive">
+      <main class="bs-main">
+        <!-- Top: Massive Visualizer -->
+        <section class="bs-viz-col">
+          <div class="bs-inputs-row">
+            <input type="text" value="8, 3, 5, 1, 9, 2, 7, 4, 6" />
+            <button>Visualize</button>
+            <button class="icon-btn icon-btn-play">▶</button>
+          </div>
+          <div class="bsort-bar-chart">
+            <div class="bs-chart-empty">Immersive Canvas</div>
+          </div>
+        </section>
+
+        <!-- Bottom: Reference Row -->
+        <aside class="bs-sidebar">
+          <div class="bs-block">
+            <div class="bs-block-title">Problem</div>
+            <p style="font-size: 0.7rem">Neighbor swaps until sorted.</p>
+          </div>
+          <div class="bs-block">
+            <div class="bs-block-title">Metrics</div>
+            <div class="bs-metric-row"><span>Swaps</span><span>0</span></div>
+          </div>
+          <div class="bs-block">
+            <div class="bs-block-title">Code</div>
+            <div class="code-panel">
+              <div class="code-line">if (A[i] > A[i+1]) swap</div>
+            </div>
+          </div>
+          <div class="bs-block">
+            <div class="bs-block-title">Why O(n²)?</div>
+            <p style="font-size: 0.7rem">Nested loops over N items.</p>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <!-- Layout Switcher UI -->
+    <div class="layout-switcher">
+      <button onclick="setLayout(1)" class="active" id="btn-1">
+        Guided Stack
+      </button>
+      <button onclick="setLayout(2)" id="btn-2">IDE Dashboard</button>
+      <button onclick="setLayout(3)" id="btn-3">Immersive Focus</button>
+    </div>
+
+    <script>
+      function setLayout(id) {
+        // Hide all
+        document
+          .querySelectorAll(".layout-container")
+          .forEach((el) => el.classList.remove("layout-active"));
+        document
+          .querySelectorAll(".layout-switcher button")
+          .forEach((el) => el.classList.remove("active"));
+
+        // Show selected
+        document.getElementById("layout-" + id).classList.add("layout-active");
+        document.getElementById("btn-" + id).classList.add("active");
+
+        // Update header
+        const titles = {
+          1: ["Guided Workflow", "Top-to-bottom logical sequence"],
+          2: ["IDE Dashboard", "Side-by-side data and control"],
+          3: ["Immersive Focus", "Visuals first, reference footer"],
+        };
+        document.getElementById("layoutTitle").innerText = titles[id][0];
+        document.getElementById("layoutDesc").innerText = titles[id][1];
+      }
+    </script>
+  </body>
+</html>

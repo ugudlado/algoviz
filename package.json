@@ -6,8 +6,8 @@
   "scripts": {
     "lint": "eslint .",
     "test": "node run-tests.js",
-    "format:check": "prettier --check '*.{html,css,js}'",
-    "format": "prettier --write '*.{html,css,js}'",
+    "format:check": "prettier --check '**/*.{html,css,js}'",
+    "format": "prettier --write '**/*.{html,css,js}'",
     "knip": "knip",
     "dev": "serve ."
   },

@@ -132,14 +132,14 @@
   // --- Render bars for a given array state ---
   function renderBars(arr, comparing, swapped, sortedBoundary) {
     barChart.textContent = "";
-    const chartHeight = barChart.clientHeight - 16;
 
     for (let i = 0; i < arr.length; i++) {
       const bar = document.createElement("div");
       bar.className = "bs-bar";
 
-      const height = Math.max(4, (arr[i] / maxVal) * chartHeight);
-      bar.style.height = height + "px";
+      // Use percentage for responsive height (max 95% to leave breathing room at top)
+      const heightPct = Math.max(5, (arr[i] / maxVal) * 95);
+      bar.style.height = heightPct + "%";
 
       const label = document.createElement("span");
       label.className = "bsort-bar-label";
@@ -319,6 +319,11 @@
     resetWatch();
     updateStats();
     updateButtons();
+
+    // Auto-start playback for better UX
+    setTimeout(() => {
+      startPlay();
+    }, 100);
   }
 
   // --- Event listeners ---

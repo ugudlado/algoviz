@@ -8,7 +8,7 @@ function runTests({ assert, assertEqual }) {
   let failed = 0;
   const failures = [];
 
-  const BubbleSortAlgorithm = require("./bubble-sort-algorithm.js");
+  const BubbleSortAlgorithm = require("./algorithm.js");
 
   function check(fn, name) {
     try {

@@ -10,74 +10,74 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="bubble-sort-style.css" />
+    <link rel="stylesheet" href="../../style.css" />
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body data-category="sorting">
     <nav class="algo-nav">
-      <a href="index.html" class="nav-home">AlgoViz</a>
+      <a href="../../index.html" class="nav-home">AlgoViz</a>
       <div class="nav-category">
         <button class="nav-category-btn current-category">Sorting</button>
         <div class="nav-dropdown">
-          <a href="bubble-sort.html" class="active">Bubble Sort</a>
-          <a href="merge-sort.html">Merge Sort</a>
-          <a href="quicksort.html">Quick Sort</a>
-          <a href="radix-sort.html">Radix Sort</a>
-          <a href="topo-sort.html">Topological Sort</a>
+          <a href="./" class="active">Bubble Sort</a>
+          <a href="../../merge-sort.html">Merge Sort</a>
+          <a href="../../quicksort.html">Quick Sort</a>
+          <a href="../../radix-sort.html">Radix Sort</a>
+          <a href="../../topo-sort.html">Topological Sort</a>
         </div>
       </div>
       <div class="nav-category">
         <button class="nav-category-btn">Searching</button>
         <div class="nav-dropdown">
-          <a href="binary-search.html">Binary Search</a>
-          <a href="bfs.html">BFS Pathfinding</a>
-          <a href="dfs.html">DFS Pathfinding</a>
+          <a href="../../binary-search.html">Binary Search</a>
+          <a href="../../bfs.html">BFS Pathfinding</a>
+          <a href="../../dfs.html">DFS Pathfinding</a>
         </div>
       </div>
       <div class="nav-category">
         <button class="nav-category-btn">Graph</button>
         <div class="nav-dropdown">
-          <a href="dijkstra.html">Dijkstra</a>
-          <a href="astar.html">A* Pathfinding</a>
-          <a href="floyd-warshall.html">Floyd-Warshall</a>
-          <a href="prims.html">Prim's MST</a>
-          <a href="kruskal.html">Kruskal's MST</a>
+          <a href="../../dijkstra.html">Dijkstra</a>
+          <a href="../../astar.html">A* Pathfinding</a>
+          <a href="../../floyd-warshall.html">Floyd-Warshall</a>
+          <a href="../../prims.html">Prim's MST</a>
+          <a href="../../kruskal.html">Kruskal's MST</a>
         </div>
       </div>
       <div class="nav-category">
         <button class="nav-category-btn">DP</button>
         <div class="nav-dropdown">
-          <a href="knapsack.html">Knapsack (0/1)</a>
-          <a href="lcs.html">LCS</a>
-          <a href="levenshtein.html">Levenshtein Distance</a>
+          <a href="../../knapsack.html">Knapsack (0/1)</a>
+          <a href="../../lcs.html">LCS</a>
+          <a href="../../levenshtein.html">Levenshtein Distance</a>
         </div>
       </div>
       <div class="nav-category">
         <button class="nav-category-btn">String</button>
         <div class="nav-dropdown">
-          <a href="kmp.html">KMP Search</a>
-          <a href="huffman.html">Huffman Coding</a>
+          <a href="../../kmp.html">KMP Search</a>
+          <a href="../../huffman.html">Huffman Coding</a>
         </div>
       </div>
       <div class="nav-category">
         <button class="nav-category-btn">Data Structures</button>
         <div class="nav-dropdown">
-          <a href="bst.html">BST Traversal</a>
-          <a href="hash-table.html">Hash Table</a>
-          <a href="heap.html">Min-Heap</a>
-          <a href="lru-cache.html">LRU Cache</a>
-          <a href="bloom-filter.html">Bloom Filter</a>
-          <a href="trie.html">Trie</a>
-          <a href="union-find.html">Union-Find</a>
-          <a href="sliding-window.html">Sliding Window</a>
+          <a href="../../bst.html">BST Traversal</a>
+          <a href="../../hash-table.html">Hash Table</a>
+          <a href="../../heap.html">Min-Heap</a>
+          <a href="../../lru-cache.html">LRU Cache</a>
+          <a href="../../bloom-filter.html">Bloom Filter</a>
+          <a href="../../trie.html">Trie</a>
+          <a href="../../union-find.html">Union-Find</a>
+          <a href="../../sliding-window.html">Sliding Window</a>
         </div>
       </div>
       <div class="nav-category">
         <button class="nav-category-btn">More</button>
         <div class="nav-dropdown">
-          <a href="convex-hull.html">Convex Hull</a>
-          <a href="elevator.html">Elevator (SCAN)</a>
-          <a href="minimax.html">Minimax</a>
+          <a href="../../convex-hull.html">Convex Hull</a>
+          <a href="../../elevator.html">Elevator (SCAN)</a>
+          <a href="../../minimax.html">Minimax</a>
         </div>
       </div>
       <button
@@ -105,7 +105,50 @@
     </header>
 
     <main class="bs-main">
-      <!-- Left: Visualizer -->
+      <!-- Left Sidebar: Context & Approach -->
+      <aside class="bs-sidebar bs-left-sidebar">
+        <!-- Problem -->
+        <div class="bs-block bs-problem">
+          <div class="bs-block-title">The problem</div>
+          <p>
+            You have a shelf of <strong>books in random order</strong> and need
+            to sort them by height. You can only
+            <strong>compare two neighboring books</strong> at a time and swap if
+            they're out of order.
+          </p>
+          <div
+            style="
+              margin-top: 1rem;
+              padding-top: 1rem;
+              border-top: 1px solid var(--bs-rule);
+            "
+          >
+            <div class="bs-block-title">Real World Scenario</div>
+            <p style="font-size: 0.75rem; color: var(--bs-ink-dim)">
+              Think of <strong>sorting logistics parcels</strong> on a narrow
+              conveyor belt where you can only reach two adjacent boxes. To get
+              the heaviest to the end, you keep pushing it "up" the line.
+            </p>
+          </div>
+        </div>
+
+        <!-- Approach -->
+        <div class="bs-block">
+          <div class="bs-block-title">The approach</div>
+          <!-- prettier-ignore -->
+          <div class="code-panel" id="pseudocode">
+            <span class="code-line" data-line="0">for each pass along the shelf:</span>
+            <span class="code-line" data-line="1">  no_swap = true</span>
+            <span class="code-line" data-line="2">  for each neighbor pair:</span>
+            <span class="code-line" data-line="3">    if left book taller:</span>
+            <span class="code-line" data-line="4">      swap them</span>
+            <span class="code-line" data-line="5">      no_swap = false</span>
+            <span class="code-line" data-line="6">  if no_swap: done!</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Center: Visualizer -->
       <section class="bs-viz-col">
         <!-- Inputs -->
         <div class="bs-inputs-row">
@@ -208,83 +251,54 @@
         </div>
       </section>
 
-      <!-- Right: 2-column info sidebar -->
-      <aside class="bs-sidebar">
-        <!-- Problem — spans both columns -->
-        <div class="bs-block bs-block-full bs-problem">
-          <div class="bs-block-title">The problem</div>
-          <p>
-            You have a shelf of <strong>books in random order</strong> and need
-            to sort them by height. You can only
-            <strong>compare two neighboring books</strong> at a time and swap if
-            they're out of order.
-          </p>
-        </div>
-
-        <!-- Watch + Metrics — two columns -->
-        <div class="bs-duo">
-          <!-- Metrics -->
-          <div class="bs-block">
-            <div class="bs-block-title">Metrics</div>
-            <div class="bs-metric-row">
-              <span class="bs-metric-key">comparisons</span>
-              <span class="bs-metric-val" id="comparisonsStat">0</span>
-            </div>
-            <div class="bs-metric-row">
-              <span class="bs-metric-key">swaps</span>
-              <span class="bs-metric-val" id="swapsStat">0</span>
-            </div>
+      <!-- Right Sidebar: Stats & Analysis -->
+      <aside class="bs-sidebar bs-right-sidebar">
+        <!-- Watch -->
+        <div class="bs-block">
+          <div class="bs-block-title">Watch</div>
+          <div class="bs-metric-row">
+            <span class="bs-metric-key">pass</span>
+            <span class="bs-metric-val bs-watch-accent" id="watchPass"
+              >&mdash;</span
+            >
           </div>
-
-          <!-- Watch -->
-          <div class="bs-block">
-            <div class="bs-block-title">Watch</div>
-            <div class="bs-metric-row">
-              <span class="bs-metric-key">pass</span>
-              <span class="bs-metric-val bs-watch-accent" id="watchPass"
-                >&mdash;</span
-              >
-            </div>
-            <div class="bs-metric-row">
-              <span class="bs-metric-key">comparing</span>
-              <span class="bs-metric-val" id="watchPos">&mdash;</span>
-            </div>
-            <div class="bs-metric-row">
-              <span class="bs-metric-key">left</span>
-              <span class="bs-metric-val" id="watchLeft">&mdash;</span>
-            </div>
-            <div class="bs-metric-row">
-              <span class="bs-metric-key">right</span>
-              <span class="bs-metric-val" id="watchRight">&mdash;</span>
-            </div>
-            <div class="bs-metric-row">
-              <span class="bs-metric-key">action</span>
-              <span class="bs-metric-val" id="watchAction">&mdash;</span>
-            </div>
-            <div class="bs-metric-row">
-              <span class="bs-metric-key">sorted from</span>
-              <span class="bs-metric-val" id="watchSorted">&mdash;</span>
-            </div>
+          <div class="bs-metric-row">
+            <span class="bs-metric-key">comparing</span>
+            <span class="bs-metric-val" id="watchPos">&mdash;</span>
+          </div>
+          <div class="bs-metric-row">
+            <span class="bs-metric-key">left</span>
+            <span class="bs-metric-val" id="watchLeft">&mdash;</span>
+          </div>
+          <div class="bs-metric-row">
+            <span class="bs-metric-key">right</span>
+            <span class="bs-metric-val" id="watchRight">&mdash;</span>
+          </div>
+          <div class="bs-metric-row">
+            <span class="bs-metric-key">action</span>
+            <span class="bs-metric-val" id="watchAction">&mdash;</span>
+          </div>
+          <div class="bs-metric-row">
+            <span class="bs-metric-key">sorted from</span>
+            <span class="bs-metric-val" id="watchSorted">&mdash;</span>
           </div>
         </div>
 
-        <!-- Approach — spans both columns -->
-        <div class="bs-block bs-block-full">
-          <div class="bs-block-title">The approach</div>
-          <!-- prettier-ignore -->
-          <div class="code-panel" id="pseudocode">
-            <span class="code-line" data-line="0">for each pass along the shelf:</span>
-            <span class="code-line" data-line="1">  no_swap = true</span>
-            <span class="code-line" data-line="2">  for each neighbor pair:</span>
-            <span class="code-line" data-line="3">    if left book taller:</span>
-            <span class="code-line" data-line="4">      swap them</span>
-            <span class="code-line" data-line="5">      no_swap = false</span>
-            <span class="code-line" data-line="6">  if no_swap: done!</span>
+        <!-- Metrics -->
+        <div class="bs-block">
+          <div class="bs-block-title">Metrics</div>
+          <div class="bs-metric-row">
+            <span class="bs-metric-key">comparisons</span>
+            <span class="bs-metric-val" id="comparisonsStat">0</span>
+          </div>
+          <div class="bs-metric-row">
+            <span class="bs-metric-key">swaps</span>
+            <span class="bs-metric-val" id="swapsStat">0</span>
           </div>
         </div>
 
-        <!-- Why O(n²) — spans both columns -->
-        <div class="bs-block bs-block-full">
+        <!-- Why O(n²) -->
+        <div class="bs-block">
           <div class="bs-block-title">Why O(n&sup2;)?</div>
           <div class="complexity-explain">
             <p>
@@ -302,14 +316,14 @@
             </p>
             <p>
               Early-termination gives <strong>O(n)</strong> best case (already
-              sorted). <strong>Space:</strong> O(1) &mdash; in-place.
+              sorted).
             </p>
           </div>
         </div>
       </aside>
     </main>
 
-    <script src="bubble-sort-algorithm.js"></script>
-    <script src="bubble-sort.js"></script>
+    <script src="./algorithm.js"></script>
+    <script src="./page.js"></script>
   </body>
 </html>

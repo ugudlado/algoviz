@@ -1,0 +1,155 @@
+/* ═══════════════════════════════════════════════════════
+   Layout Ideas for Bubble Sort
+   ═══════════════════════════════════════════════════════ */
+
+/* --- Base Styles for Layout Switching --- */
+.layout-container {
+  display: none;
+  height: calc(100vh - 105px); /* Adjusted for nav + header */
+  overflow: hidden;
+}
+
+.layout-active {
+  display: block !important;
+}
+
+/* ─── IDEA 1: GUIDED STACKED ───────────────────────────── */
+.layout-stacked {
+  overflow-y: auto;
+  height: auto;
+  background: var(--bs-bg);
+}
+
+.layout-stacked .bs-main {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  gap: 2rem;
+  overflow: visible;
+}
+
+.layout-stacked .bs-viz-col {
+  border: 1px solid var(--bs-rule-strong);
+  border-radius: 12px;
+  background: var(--bs-bg-raised);
+  padding: 2rem;
+  height: 600px;
+}
+
+.layout-stacked .bs-sidebar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  background: transparent;
+  border: none;
+}
+
+.layout-stacked .bs-block {
+  border: 1px solid var(--bs-rule);
+  border-radius: 8px;
+  background: var(--bs-bg-raised);
+}
+
+/* ─── IDEA 2: IDE / DASHBOARD ─────────────────────────── */
+.layout-dashboard .bs-main {
+  display: grid;
+  grid-template-columns: 320px 1fr 320px;
+  height: 100%;
+}
+
+.layout-dashboard .bs-sidebar {
+  /* We repurpose the sidebar blocks into the left and right columns */
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--bs-rule);
+  border-left: none;
+}
+
+.layout-dashboard .bs-right-panel {
+  border-left: 1px solid var(--bs-rule);
+  background: var(--bs-bg-raised);
+  overflow-y: auto;
+}
+
+.layout-dashboard .bs-viz-col {
+  border-right: none;
+  padding: 1.5rem;
+}
+
+.layout-dashboard .bs-block {
+  border-right: none;
+}
+
+/* ─── IDEA 3: IMMERSIVE FOCUS ──────────────────────────── */
+.layout-immersive .bs-main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.layout-immersive .bs-viz-col {
+  flex: 2; /* Larger share of space */
+  border-right: none;
+  padding: 0;
+  position: relative;
+}
+
+.layout-immersive .bsort-bar-chart {
+  border: none;
+  border-radius: 0;
+  background: oklch(5% 0.005 52); /* Darker background */
+}
+
+.layout-immersive .bs-inputs-row {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 10;
+  background: oklch(10% 0.012 52 / 0.8);
+  backdrop-filter: blur(8px);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--bs-rule-strong);
+}
+
+.layout-immersive .bs-sidebar {
+  flex: 1;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--bs-rule-strong);
+  border-left: none;
+  background: var(--bs-bg);
+}
+
+.layout-immersive .bs-block {
+  border-bottom: none;
+}
+
+/* ─── Layout Switcher UI (Mock only) ──────────────────── */
+.layout-switcher {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bs-bg-raised);
+  border: 1px solid var(--bs-accent);
+  padding: 5px;
+  border-radius: 30px;
+  display: flex;
+  gap: 5px;
+  z-index: 1000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.layout-switcher button {
+  border-radius: 20px !important;
+  padding: 8px 16px !important;
+  border: none !important;
+}
+
+.layout-switcher button.active {
+  background: var(--bs-accent) !important;
+  color: var(--bs-accent-text) !important;
+}
