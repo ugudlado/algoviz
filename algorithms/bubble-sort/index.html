@@ -93,7 +93,18 @@
         <h1>Bubble Sort</h1>
         <div class="title-meta">
           <span class="badge">Sorting</span>
-          <span class="badge badge-accent">O(n&sup2;)</span>
+          <span
+            class="badge badge-accent complexity-badge"
+            data-best="O(n)"
+            data-best-note="Already sorted"
+            data-avg="O(n2)"
+            data-avg-note="Random input"
+            data-worst="O(n2)"
+            data-worst-note="Reverse sorted"
+            data-space="O(1)"
+            data-space-note="In-place"
+            >O(n&sup2;)</span
+          >
         </div>
       </div>
       <div class="bs-legend">
@@ -253,5 +264,6 @@
     <script src="../../playback-controller.js"></script>
     <script src="./algorithm.js"></script>
     <script src="./page.js"></script>
+    <script src="../../complexity-popover.js"></script>
   </body>
 </html>

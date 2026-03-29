@@ -90,7 +90,18 @@
         <h1>Bloom Filter</h1>
         <div class="title-meta">
           <span class="badge">Data Structures</span>
-          <span class="badge badge-accent">O(k)</span>
+          <span
+            class="badge badge-accent complexity-badge"
+            data-best="O(k)"
+            data-best-note="k = hash functions"
+            data-avg="O(k)"
+            data-avg-note="k = hash functions"
+            data-worst="O(k)"
+            data-worst-note="k = hash functions"
+            data-space="O(m)"
+            data-space-note="Bit array size m"
+            >O(k)</span
+          >
         </div>
       </div>
       <div class="bloom-legend">
@@ -247,5 +258,6 @@
 
     <script src="bloom-filter-algorithm.js"></script>
     <script src="bloom-filter.js"></script>
+    <script src="complexity-popover.js"></script>
   </body>
 </html>

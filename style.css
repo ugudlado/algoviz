@@ -931,3 +931,54 @@ td.traceback {
     min-width: 60px;
   }
 }
+
+/* --- Complexity Popover --- */
+.complexity-badge {
+  position: relative;
+}
+
+.complexity-popover {
+  position: absolute;
+  z-index: 1000;
+  width: 260px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-hover);
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+}
+
+.cp-row {
+  display: grid;
+  grid-template-columns: 52px 80px 1fr;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.cp-row:last-child {
+  border-bottom: none;
+}
+
+.cp-label {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cp-value {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.cp-note {
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+}

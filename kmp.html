@@ -88,7 +88,18 @@
         <h1>KMP String Search</h1>
         <div class="title-meta">
           <span class="badge">String</span>
-          <span class="badge badge-accent">O(n+m)</span>
+          <span
+            class="badge badge-accent complexity-badge"
+            data-best="O(n)"
+            data-best-note="No matches found"
+            data-avg="O(n+m)"
+            data-avg-note="Typical search"
+            data-worst="O(n+m)"
+            data-worst-note="Worst case"
+            data-space="O(m)"
+            data-space-note="Failure function"
+            >O(n+m)</span
+          >
         </div>
       </div>
       <div class="kmp-legend" id="kmpLegend"></div>
@@ -284,5 +295,6 @@
 
     <script src="kmp-algorithm.js"></script>
     <script src="kmp.js"></script>
+    <script src="complexity-popover.js"></script>
   </body>
 </html>

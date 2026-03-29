@@ -90,7 +90,18 @@
         <h1>Union-Find (Disjoint Set Union)</h1>
         <div class="title-meta">
           <span class="badge">Data Structures</span>
-          <span class="badge badge-accent">O(&alpha;(n))</span>
+          <span
+            class="badge badge-accent complexity-badge"
+            data-best="O(a(n))"
+            data-best-note="Amortized"
+            data-avg="O(a(n))"
+            data-avg-note="Path compression"
+            data-worst="O(log n)"
+            data-worst-note="No compression"
+            data-space="O(n)"
+            data-space-note="Parent array"
+            >O(&alpha;(n))</span
+          >
         </div>
       </div>
     </header>
@@ -253,5 +264,6 @@
 
     <script src="union-find-algorithm.js"></script>
     <script src="union-find.js"></script>
+    <script src="complexity-popover.js"></script>
   </body>
 </html>

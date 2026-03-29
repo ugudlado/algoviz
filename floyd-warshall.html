@@ -88,7 +88,18 @@
         <h1>Floyd-Warshall All-Pairs Shortest Paths</h1>
         <div class="title-meta">
           <span class="badge">Graph</span>
-          <span class="badge badge-accent">O(V&sup3;)</span>
+          <span
+            class="badge badge-accent complexity-badge"
+            data-best="O(V3)"
+            data-best-note="All cases"
+            data-avg="O(V3)"
+            data-avg-note="All cases"
+            data-worst="O(V3)"
+            data-worst-note="All cases"
+            data-space="O(V2)"
+            data-space-note="Distance matrix"
+            >O(V&sup3;)</span
+          >
         </div>
       </div>
     </header>
@@ -304,5 +315,6 @@
 
     <script src="floyd-warshall-algorithm.js"></script>
     <script src="floyd-warshall.js"></script>
+    <script src="complexity-popover.js"></script>
   </body>
 </html>

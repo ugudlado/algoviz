@@ -90,7 +90,18 @@
         <h1>BST Traversal</h1>
         <div class="title-meta">
           <span class="badge">Data Structures</span>
-          <span class="badge badge-accent">O(n)</span>
+          <span
+            class="badge badge-accent complexity-badge"
+            data-best="O(log n)"
+            data-best-note="Balanced tree"
+            data-avg="O(log n)"
+            data-avg-note="Random insertions"
+            data-worst="O(n)"
+            data-worst-note="Degenerate tree"
+            data-space="O(n)"
+            data-space-note="Node storage"
+            >O(n)</span
+          >
         </div>
       </div>
       <div class="bst-legend">
@@ -296,5 +307,6 @@
 
     <script src="bst-algorithm.js"></script>
     <script src="bst.js"></script>
+    <script src="complexity-popover.js"></script>
   </body>
 </html>

@@ -88,7 +88,18 @@
         <h1>Binary Search</h1>
         <div class="title-meta">
           <span class="badge">Searching</span>
-          <span class="badge badge-accent">O(log n)</span>
+          <span
+            class="badge badge-accent complexity-badge"
+            data-best="O(1)"
+            data-best-note="Target is middle"
+            data-avg="O(log n)"
+            data-avg-note="Random target"
+            data-worst="O(log n)"
+            data-worst-note="Target at edge"
+            data-space="O(1)"
+            data-space-note="In-place"
+            >O(log n)</span
+          >
         </div>
       </div>
       <div class="bsrch-legend">
@@ -273,5 +284,6 @@
 
     <script src="binary-search-algorithm.js"></script>
     <script src="binary-search.js"></script>
+    <script src="complexity-popover.js"></script>
   </body>
 </html>

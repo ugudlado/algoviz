@@ -88,7 +88,18 @@
         <h1>Kruskal's MST</h1>
         <div class="title-meta">
           <span class="badge">Graph</span>
-          <span class="badge badge-accent">O(E log E)</span>
+          <span
+            class="badge badge-accent complexity-badge"
+            data-best="O(E log E)"
+            data-best-note="All cases"
+            data-avg="O(E log E)"
+            data-avg-note="All cases"
+            data-worst="O(E log E)"
+            data-worst-note="All cases"
+            data-space="O(E)"
+            data-space-note="Edge list"
+            >O(E log E)</span
+          >
         </div>
       </div>
       <div class="kr-legend">
@@ -280,5 +291,6 @@
 
     <script src="kruskal-algorithm.js"></script>
     <script src="kruskal.js"></script>
+    <script src="complexity-popover.js"></script>
   </body>
 </html>

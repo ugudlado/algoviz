@@ -88,7 +88,18 @@
         <h1>A* Pathfinding</h1>
         <div class="title-meta">
           <span class="badge">Graph</span>
-          <span class="badge badge-accent">O(E log V)</span>
+          <span
+            class="badge badge-accent complexity-badge"
+            data-best="O(E)"
+            data-best-note="Perfect heuristic"
+            data-avg="O(E log V)"
+            data-avg-note="Good heuristic"
+            data-worst="O(E log V)"
+            data-worst-note="Bad heuristic"
+            data-space="O(V)"
+            data-space-note="Open/closed sets"
+            >O(E log V)</span
+          >
         </div>
       </div>
       <div class="legend">
@@ -300,5 +311,6 @@
 
     <script src="astar-algorithm.js"></script>
     <script src="astar.js"></script>
+    <script src="complexity-popover.js"></script>
   </body>
 </html>

@@ -88,7 +88,18 @@
         <h1>Quick Sort</h1>
         <div class="title-meta">
           <span class="badge">Sorting</span>
-          <span class="badge badge-accent">O(n log n)</span>
+          <span
+            class="badge badge-accent complexity-badge"
+            data-best="O(n log n)"
+            data-best-note="Good pivots"
+            data-avg="O(n log n)"
+            data-avg-note="Random input"
+            data-worst="O(n2)"
+            data-worst-note="Sorted input + bad pivot"
+            data-space="O(log n)"
+            data-space-note="Call stack"
+            >O(n log n)</span
+          >
         </div>
       </div>
       <div class="qs-legend">
@@ -215,5 +226,6 @@
     <script src="playback-controller.js"></script>
     <script src="quicksort-algorithm.js"></script>
     <script src="quicksort.js"></script>
+    <script src="complexity-popover.js"></script>
   </body>
 </html>
