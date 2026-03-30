@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Nav } from '@/components/Nav'
 
 interface AlgoCard {
   name: string
@@ -186,112 +187,7 @@ export default function Home() {
       data-category="home"
       style={{ alignItems: 'stretch', padding: 0 }}
     >
-      {/* Navigation */}
-      <nav
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '0 2rem',
-          height: 56,
-          borderBottom: '1px solid var(--border)',
-          position: 'sticky',
-          top: 0,
-          background: 'rgba(3,3,3,0.8)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
-          zIndex: 100,
-        }}
-      >
-        <Link
-          to="/"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.75rem',
-            fontWeight: 700,
-            fontSize: '1.1rem',
-            letterSpacing: '-0.02em',
-            textDecoration: 'none',
-            color: 'var(--text-primary)',
-          }}
-        >
-          <span
-            style={{
-              width: 24,
-              height: 24,
-              background: 'var(--accent)',
-              borderRadius: 4,
-              display: 'grid',
-              placeItems: 'center',
-              boxShadow: '0 0 15px var(--accent-glow)',
-              fontSize: '0.65rem',
-              fontWeight: 800,
-              color: 'var(--bg-primary)',
-            }}
-          >
-            AV
-          </span>
-          AlgoViz
-        </Link>
-
-        <div style={{ display: 'flex', gap: '2rem' }}>
-          <a
-            href="#algorithms"
-            style={{
-              color: 'var(--text-secondary)',
-              textDecoration: 'none',
-              fontSize: '0.9rem',
-            }}
-          >
-            Algorithms
-          </a>
-          <a
-            href="#learning-paths"
-            style={{
-              color: 'var(--text-secondary)',
-              textDecoration: 'none',
-              fontSize: '0.9rem',
-            }}
-          >
-            Learning Paths
-          </a>
-        </div>
-
-        {/* Search bar */}
-        <div style={{ position: 'relative', width: 240 }}>
-          <span
-            style={{
-              position: 'absolute',
-              left: '0.65rem',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              color: 'var(--text-muted)',
-              pointerEvents: 'none',
-              fontSize: '0.9rem',
-            }}
-          >
-            ⌕
-          </span>
-          <input
-            type="text"
-            placeholder="Search algorithms..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            style={{
-              background: 'var(--bg-secondary)',
-              border: '1px solid var(--border)',
-              color: 'var(--text-primary)',
-              padding: '0.5rem 1rem 0.5rem 2.25rem',
-              borderRadius: 6,
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.85rem',
-              width: '100%',
-              outline: 'none',
-            }}
-          />
-        </div>
-      </nav>
+      <Nav />
 
       {/* Hero */}
       <section
@@ -417,7 +313,7 @@ export default function Home() {
             marginBottom: '2rem',
           }}
         >
-          {ALGORITHMS.length} algorithms across 7 categories
+          {ALGORITHMS.filter((a) => a.available).length} live · {ALGORITHMS.filter((a) => !a.available).length} coming soon
         </p>
 
         {filtered.length === 0 && (

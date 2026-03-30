@@ -245,7 +245,7 @@ export default function BubbleSort() {
             {step && (
               <>
                 {/* Legend */}
-                <div className="legend">
+                <div className="legend" style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginBottom: '0.75rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
                   <span>
                     <span
                       className="swatch"
