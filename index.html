@@ -1040,7 +1040,7 @@
       <section class="category-section cat-graph">
         <div class="category-header">
           <h2 class="category-name">Graph</h2>
-          <span class="category-count">05</span>
+          <span class="category-count">07</span>
         </div>
         <div class="algo-grid">
           <a href="dijkstra.html" class="algo-card">
@@ -1151,6 +1151,50 @@
               <span class="complexity-tag" style="font-size: 0.7rem"
                 >Disjoint Set</span
               >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="tarjan.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Tarjan&apos;s SCC</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(V + E)</span>
+              </div>
+              <p class="hp-desc">
+                Strongly connected components via one DFS, low-link values, and
+                a stack
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-advanced">Advanced</span>
+                <span class="hp-time">~18 min</span>
+                <span class="hp-prereq">DFS</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >Directed</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="ford-fulkerson.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">Ford-Fulkerson</div>
+              <div class="algo-card-complexity">
+                Time: <span class="complexity-tag">O(V E&sup2;)</span>
+              </div>
+              <p class="hp-desc">
+                Max flow with BFS augmenting paths (Edmonds-Karp) and residual
+                capacities
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-advanced">Advanced</span>
+                <span class="hp-time">~20 min</span>
+                <span class="hp-prereq">BFS</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem">Flow</span>
               <span class="view-link">Visualize &rarr;</span>
             </div>
           </a>
@@ -1289,7 +1333,7 @@
       <section id="ds" class="category-section cat-ds">
         <div class="category-header">
           <h2 class="category-name">Data Structures</h2>
-          <span class="category-count">09</span>
+          <span class="category-count">10</span>
         </div>
         <div class="algo-grid">
           <a href="avl-tree.html" class="algo-card">
@@ -1331,6 +1375,29 @@
             <div class="algo-card-meta">
               <span class="complexity-tag" style="font-size: 0.7rem"
                 >Ordered</span
+              >
+              <span class="view-link">Visualize &rarr;</span>
+            </div>
+          </a>
+          <a href="btree.html" class="algo-card">
+            <div>
+              <div class="algo-card-name">B-Tree</div>
+              <div class="algo-card-complexity">
+                Ops: <span class="complexity-tag">O(log n)</span>
+              </div>
+              <p class="hp-desc">
+                Multi-way balanced tree: splits, merges, and high fan-out like
+                database pages
+              </p>
+              <div class="hp-badges">
+                <span class="hp-difficulty hp-advanced">Advanced</span>
+                <span class="hp-time">~18 min</span>
+                <span class="hp-prereq">BST</span>
+              </div>
+            </div>
+            <div class="algo-card-meta">
+              <span class="complexity-tag" style="font-size: 0.7rem"
+                >On-disk</span
               >
               <span class="view-link">Visualize &rarr;</span>
             </div>
@@ -1633,6 +1700,7 @@
           <ul>
             <li><a href="avl-tree.html">AVL Tree</a></li>
             <li><a href="bst.html">BST</a></li>
+            <li><a href="btree.html">B-Tree</a></li>
             <li><a href="heap.html">Heap</a></li>
             <li><a href="trie.html">Trie</a></li>
             <li><a href="bloom-filter.html">Bloom Filter</a></li>
