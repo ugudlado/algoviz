@@ -122,6 +122,21 @@ These rules come from real issues found during code review. Follow them to avoid
 8. Update `package.json` lint script with new globals
 9. Run `npm test && npm run lint` before committing
 
+## Vite + React Conventions
+
+These conventions apply to the Vite+React migration, used for organizing the next generation of algorithm pages.
+
+### Algorithm Module Integration
+- Copy `*-algorithm.js` files to `src/lib/algorithms/`, add ES module wrapper `.ts` files that re-export typed functions
+- Never modify the original algorithm files — preserve them as-is for backward compatibility
+- Wrapper `.ts` files bridge vanilla JS to TypeScript, enabling strict type safety in React components
+
+### Build and Configuration
+- **`@types/node` required**: Always add `@types/node` as devDependency when using `vite.config.ts` with path aliases — needed for `path` module and `__dirname`
+- **`__dirname` in Vite ESM config**: Use `fileURLToPath(new URL('.', import.meta.url))` instead of `__dirname` in `vite.config.ts`
+- **tsconfig `include`**: Always include `vite.config.ts` in tsconfig `include` array alongside `src` to avoid IDE false-positive errors
+- **`base: '/algoviz/'`**: Always set Vite `base` to the repo name for GitHub Pages subdirectory deployment
+
 ## Ideation Guidance
 
 The ideator agent should focus **exclusively on algorithm visualizations** for this project. Do not propose:
