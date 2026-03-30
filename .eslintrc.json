@@ -36,6 +36,8 @@
     "AVLAlgorithm": "readonly",
     "NQueensAlgorithm": "readonly",
     "TarjanAlgorithm": "readonly",
+    "BTreeAlgorithm": "readonly",
+    "FordFulkersonAlgorithm": "readonly",
     "InputValidator": "readonly"
   },
   "rules": {
