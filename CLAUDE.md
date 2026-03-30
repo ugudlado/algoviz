@@ -5,8 +5,6 @@ Interactive web-based algorithm visualizations for CS education.
 ## Development
 
 ```bash
-cd tools/algoviz
-
 # Dev server → https://algoviz.localhost
 pnpm dev
 
@@ -21,6 +19,9 @@ pnpm run format:check
 
 # Auto-format
 pnpm run format
+
+# Build output (gitignored — CI builds and deploys via GitHub Actions)
+pnpm build
 ```
 
 ## Quality Gates
@@ -32,7 +33,7 @@ pnpm run format
 | Format | `pnpm run format:check` | Before commit |
 | Dead code | `pnpm run knip` | Before commit — catches unused exports, dead files |
 
-**Note**: This project has no `type-check` or `build` scripts. Skip those steps in phase-verify — lint + tests + format + knip are the quality gates. Config: `.eslintrc.json` (lint), `knip.json` (dead code), devDependencies in `package.json`.
+**Note**: This project has no `type-check` script. The `build` script (`tsc -b && vite build`) exists but is not a quality gate — lint + tests + format + knip are the quality gates. Config: `.eslintrc.json` (lint), `knip.json` (dead code), devDependencies in `package.json`.
 
 **Lint coverage**: ESLint now lints ALL `.js` files including `*-algorithm.js` and `*-algorithm.test.js`. Algorithm files get `node` env (for `module.exports`) and a pattern to suppress expected IIFE global assignment warnings. Test files get `node` env. Unused variables will be caught in all files.
 

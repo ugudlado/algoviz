@@ -1,4 +1,5 @@
 node_modules/
+dist/
 .pnpm-store/
 designs/
 openspec/changes/*/state.yaml
@@ -9,3 +10,4 @@ FEATURE_IDEAS_2026.md
 FEATURE_PROPOSAL.md
 IDEATION_SUMMARY.md
 README_IDEATION.md
+.claude/metrics.jsonl

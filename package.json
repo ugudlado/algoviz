@@ -4,7 +4,8 @@
   "description": "Visual Algorithm Teacher — interactive algorithm visualizations",
   "homepage": "https://ugudlado.github.io/algoviz",
   "scripts": {
-    "dev": "vite",
+    "dev": "portless run vite",
+    "dev:base": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
