@@ -1,6 +1,6 @@
 schema: feature-rapid
 feature-id: 2026-03-29-algoviz-g2-layout
-status: in-progress
+status: completed
 category: redesign
 priority: 10.0
 source: user-request
