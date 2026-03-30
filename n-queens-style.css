@@ -1,0 +1,302 @@
+/* N-Queens Visualization Styles — all classes prefixed with nq- */
+
+/* ============================================================
+   Legend
+   ============================================================ */
+
+.nq-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.nq-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.nq-swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.nq-swatch-queen {
+  background: #f0c040;
+}
+
+.nq-swatch-conflict {
+  background: #e05252;
+}
+
+.nq-swatch-attack {
+  background: rgba(224, 82, 82, 0.25);
+}
+
+.nq-swatch-solution {
+  background: #3fb950;
+}
+
+/* ============================================================
+   Controls
+   ============================================================ */
+
+.nq-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nq-control-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.nq-control-label select {
+  background: #161b22;
+  color: var(--text-primary, #e6edf3);
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.nq-speed-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   Info / Status
+   ============================================================ */
+
+.nq-info {
+  padding: 0.625rem 1rem;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+  min-height: 2.5rem;
+}
+
+/* ============================================================
+   Playback controls
+   ============================================================ */
+
+.nq-playback {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+}
+
+.nq-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  background: #0d1117;
+  color: #e6edf3;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+  padding: 0;
+}
+
+.nq-icon-btn:hover:not(:disabled) {
+  background: #21262d;
+  border-color: #58a6ff;
+}
+
+.nq-icon-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.nq-btn-play {
+  color: #58a6ff;
+  border-color: #58a6ff;
+}
+
+.nq-step-counter {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* ============================================================
+   Chessboard
+   ============================================================ */
+
+.nq-board-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.nq-board {
+  display: grid;
+  gap: 2px;
+  border: 2px solid #30363d;
+  border-radius: 4px;
+  background: #30363d;
+  padding: 2px;
+}
+
+.nq-cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  transition: background 0.15s;
+  font-size: 1.4rem;
+  user-select: none;
+}
+
+/* Checkerboard pattern */
+.nq-cell-light {
+  background: #f0d9b5;
+}
+
+.nq-cell-dark {
+  background: #b58863;
+}
+
+/* Cell states — overlays on top of checkerboard */
+.nq-cell-attacked-light {
+  background: rgba(224, 82, 82, 0.35);
+}
+
+.nq-cell-attacked-dark {
+  background: rgba(180, 40, 40, 0.5);
+}
+
+.nq-cell-conflict-light {
+  background: #e05252;
+}
+
+.nq-cell-conflict-dark {
+  background: #b83232;
+}
+
+.nq-cell-queen {
+  background: #c8a832 !important;
+}
+
+.nq-cell-solution-light {
+  background: rgba(63, 185, 80, 0.35);
+}
+
+.nq-cell-solution-dark {
+  background: rgba(40, 140, 60, 0.5);
+}
+
+.nq-cell-solution-queen {
+  background: #3fb950 !important;
+}
+
+/* Queen icon inside cell */
+.nq-queen-icon {
+  font-size: inherit;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Recursion Tree
+   ============================================================ */
+
+.nq-tree-panel {
+  margin-top: 1.5rem;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  background: #0d1117;
+  overflow: hidden;
+}
+
+.nq-tree-title {
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.nq-tree-scroll {
+  max-height: 240px;
+  overflow-y: auto;
+  overflow-x: auto;
+  padding: 0.75rem 1rem;
+}
+
+.nq-tree-empty {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* SVG tree styles */
+.nq-tree-svg {
+  display: block;
+}
+
+/* ============================================================
+   Stats
+   ============================================================ */
+
+.nq-stat-backtracks {
+  color: #e05252;
+}
+
+.nq-stat-solutions {
+  color: #3fb950;
+}
+
+/* ============================================================
+   Real-world Analogy
+   ============================================================ */
+
+.nq-analogy {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-top: 0.25rem;
+}
+
+.nq-analogy strong {
+  color: var(--text-primary, #e6edf3);
+}
