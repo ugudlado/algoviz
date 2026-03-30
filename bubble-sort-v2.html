@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlgoViz — Bubble Sort (V2 Interactive Mock)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="algorithms/bubble-sort/style.css" />
+    <link rel="stylesheet" href="bubble-sort-v2.css" />
+  </head>
+  <body data-category="sorting">
+    <nav class="algo-nav">
+      <a href="index.html" class="nav-home">AlgoViz</a>
+      <div class="nav-category">
+        <button class="nav-category-btn current-category">Sorting</button>
+      </div>
+      <div class="nav-category">
+        <span
+          style="
+            color: var(--bs-accent);
+            font-size: 0.7rem;
+            margin-left: 1rem;
+            font-weight: bold;
+          "
+          >V2 REDESIGN</span
+        >
+      </div>
+    </nav>
+
+    <header class="page-header">
+      <div class="title-group">
+        <h1>Bubble Sort</h1>
+        <div class="title-meta">
+          <span class="badge">Sorting</span>
+          <span class="badge badge-accent">
+            Time: O(n&sup2;)
+            <div class="complexity-popover">
+              <span class="popover-title">Time Complexity</span>
+              <div class="popover-content">
+                <p>
+                  Each pass walks the unsorted portion comparing neighbors. With
+                  <strong>n</strong> elements, total comparisons grow
+                  quadratically.
+                </p>
+                <div class="popover-stats">
+                  <div class="popover-stat-row">
+                    <span class="popover-stat-label">Best Case</span>
+                    <span class="popover-stat-value">O(n)</span>
+                  </div>
+                  <div class="popover-stat-row">
+                    <span class="popover-stat-label">Worst Case</span>
+                    <span class="popover-stat-value">O(n&sup2;)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </span>
+          <span class="badge badge-accent">
+            Space: O(1)
+            <div class="complexity-popover">
+              <span class="popover-title">Space Complexity</span>
+              <div class="popover-content">
+                <p>
+                  Bubble sort operates <strong>in-place</strong>. It requires
+                  only a single constant space allocation to temporarily hold a
+                  value during the swap operation, regardless of the input array
+                  size.
+                </p>
+              </div>
+            </div>
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <main class="v2-main">
+      <!-- Left Sidebar: Context & Logic -->
+      <aside class="v2-sidebar">
+        <!-- Educational Presets -->
+        <div class="v2-block">
+          <div class="v2-block-title">Scenarios</div>
+          <div class="bs-inputs-row" style="margin-bottom: 0.5rem">
+            <input
+              type="text"
+              id="v2Values"
+              value="8, 3, 5, 1, 9, 2, 7, 4, 6"
+              style="width: 100%"
+            />
+          </div>
+          <div class="v2-presets">
+            <div class="preset-wrapper">
+              <button id="btnRandom">Random</button>
+              <div class="scenario-popover">
+                <strong>Standard Start</strong>
+                A standard unordered array. Good for seeing average-case
+                performance and normal behavior.
+              </div>
+            </div>
+            <div class="preset-wrapper">
+              <button id="btnWorst">Worst (n&sup2;)</button>
+              <div class="scenario-popover">
+                <strong>Reverse Ordered</strong>
+                Every element must bubble all the way across the array,
+                maximizing both comparisons and swaps.
+              </div>
+            </div>
+            <div class="preset-wrapper">
+              <button id="btnBest">Best (n)</button>
+              <div class="scenario-popover">
+                <strong>Already Sorted</strong>
+                The algorithm detects this in just one pass and terminates early
+                without swapping.
+              </div>
+            </div>
+            <div class="preset-wrapper">
+              <button id="btnTurtle">The Turtle</button>
+              <div class="scenario-popover">
+                <strong>Trapped Small Value</strong>
+                Large elements bubble right quickly, but the smallest element at
+                the end takes N passes to crawl left.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logic -->
+        <div class="v2-block">
+          <div class="v2-block-title">Logic</div>
+          <div class="v2-code-container">
+            <div class="code-panel" id="pseudocode">
+              <span class="code-line" data-line="0">for each pass:</span>
+              <span class="code-line" data-line="1"> no_swap = true</span>
+              <span class="code-line" data-line="2">
+                for i from 0 to unsorted:</span
+              >
+              <span class="code-line" data-line="3"> if A[i] > A[i+1]:</span>
+              <span class="code-line" data-line="4"> swap(A[i], A[i+1])</span>
+              <span class="code-line" data-line="5"> no_swap = false</span>
+              <span class="code-line" data-line="6"> if no_swap: done!</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live State -->
+        <div class="v2-block">
+          <div class="v2-block-title">Live State</div>
+          <div class="v2-state-bar">
+            <div class="v2-state-item">
+              <span class="v2-state-label">pass</span>
+              <span class="v2-state-val" id="statePass">&mdash;</span>
+            </div>
+            <div class="v2-state-item">
+              <span class="v2-state-label">i</span>
+              <span class="v2-state-val" id="stateI">&mdash;</span>
+            </div>
+            <div class="v2-state-item">
+              <span class="v2-state-label">A[i] (left)</span>
+              <span class="v2-state-val" id="stateLeft">&mdash;</span>
+            </div>
+            <div class="v2-state-item">
+              <span class="v2-state-label">A[i+1] (right)</span>
+              <span class="v2-state-val" id="stateRight">&mdash;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metrics -->
+        <div class="v2-block" style="border-bottom: none">
+          <div class="v2-block-title">Performance</div>
+          <div class="bs-metric-row">
+            <span class="bs-metric-key">comparisons</span>
+            <span class="bs-metric-val" id="statComps">0</span>
+          </div>
+          <div class="bs-metric-row">
+            <span class="bs-metric-key">swaps</span>
+            <span class="bs-metric-val" id="statSwaps">0</span>
+          </div>
+          <div class="bs-metric-row">
+            <span class="bs-metric-key">space</span>
+            <span class="bs-metric-val">O(1)</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Center: Storytelling Visualizer -->
+      <section class="v2-viz-col">
+        <!-- Controls Header -->
+        <div class="v2-controls-header">
+          <div
+            class="bs-playback"
+            id="playback"
+            style="border: none; padding: 0; display: flex"
+          >
+            <div class="playback-btns">
+              <button class="icon-btn" id="btnReset" title="Reset">
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                  ></path>
+                  <path d="M3 3v5h5"></path>
+                </svg>
+              </button>
+              <button class="icon-btn" id="btnStepBack" title="Step back">
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                  <line x1="5" y1="19" x2="5" y2="5"></line>
+                </svg>
+              </button>
+              <button class="icon-btn icon-btn-play" id="btnPlay" title="Play">
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+              </button>
+              <button class="icon-btn" id="btnPause" disabled title="Pause">
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="6" y="4" width="4" height="16"></rect>
+                  <rect x="14" y="4" width="4" height="16"></rect>
+                </svg>
+              </button>
+              <button class="icon-btn" id="btnStep" title="Step forward">
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                  <line x1="19" y1="5" x2="19" y2="19"></line>
+                </svg>
+              </button>
+            </div>
+            <div class="speed-control" style="margin-left: 1rem">
+              <span class="speed-label">Speed</span>
+              <input type="range" id="speed" min="1" max="10" value="4" />
+            </div>
+          </div>
+        </div>
+
+        <!-- The Narrator -->
+        <div class="v2-narrator" id="narrator">
+          Ready to sort. Choose a scenario or click Visualize to begin.
+        </div>
+
+        <!-- Animated Canvas -->
+        <div class="v2-chart" id="chart">
+          <div id="operator" class="v2-operator">&gt;</div>
+          <div class="bs-legend">
+            <span><span class="swatch bs-unsorted-swatch"></span>Unsorted</span>
+            <span
+              ><span class="swatch bs-comparing-swatch"></span>Comparing</span
+            >
+            <span><span class="swatch bs-swapping-swatch"></span>Swapping</span>
+            <span><span class="swatch bs-sorted-swatch"></span>Sorted</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="bubble-sort-v2.js"></script>
+  </body>
+</html>

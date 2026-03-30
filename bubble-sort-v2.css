@@ -1,0 +1,384 @@
+/* ═══════════════════════════════════════════════════════
+   Bubble Sort V2 — Mock Design
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── Main Layout: 2 Columns ────────────────────────────── */
+.v2-main {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  height: calc(100vh - 52px - 53px);
+  overflow: hidden;
+  background: var(--bs-bg);
+}
+
+/* ─── Sidebar ───────────────────────────────────────────── */
+.v2-sidebar {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: var(--bs-bg-raised);
+  border-right: 1px solid var(--bs-rule);
+}
+
+.v2-block {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--bs-rule);
+}
+
+.v2-block-title {
+  font-family: var(--bs-font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--bs-ink-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.75rem;
+}
+
+/* Presets */
+.v2-presets {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.preset-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+}
+
+.preset-wrapper button {
+  width: 100%;
+  font-size: 0.7rem;
+  padding: 0.3rem;
+  border-radius: 4px;
+  background: transparent;
+  border: 1px solid var(--bs-rule-strong);
+  color: var(--bs-ink-dim);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.preset-wrapper button:hover {
+  background: var(--bs-rule);
+  color: var(--bs-ink);
+}
+
+.scenario-popover {
+  position: absolute;
+  top: calc(100% + 12px);
+  width: 180px;
+  background: var(--bs-bg-raised);
+  border: 1px solid var(--bs-rule-strong);
+  padding: 0.75rem;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(5px);
+  transition: all 0.2s cubic-bezier(0.2, 0, 0.2, 1);
+  pointer-events: none;
+  font-family: var(--bs-font-display);
+  font-size: 0.75rem;
+  color: var(--bs-ink-mid);
+  line-height: 1.4;
+  text-align: left;
+  border-top: 2px solid var(--bs-accent);
+}
+
+.scenario-popover strong {
+  color: var(--bs-ink);
+  display: block;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+  color: var(--bs-accent);
+}
+
+/* Default positioning (center) */
+.preset-wrapper:nth-child(2) .scenario-popover,
+.preset-wrapper:nth-child(3) .scenario-popover {
+  left: 50%;
+  transform: translateX(-50%) translateY(5px);
+}
+
+/* First item aligns left to prevent edge cutoff */
+.preset-wrapper:first-child .scenario-popover {
+  left: 0;
+  transform: translateY(5px);
+}
+
+/* Last item aligns right to prevent edge cutoff */
+.preset-wrapper:last-child .scenario-popover {
+  right: 0;
+  transform: translateY(5px);
+}
+
+.preset-wrapper:hover .scenario-popover {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(
+    0,
+    0
+  ); /* override translateY but keep translate X? Need specific overrides */
+}
+
+/* Fix hover transform overrides */
+.preset-wrapper:nth-child(2):hover .scenario-popover,
+.preset-wrapper:nth-child(3):hover .scenario-popover {
+  transform: translateX(-50%) translateY(0);
+}
+.preset-wrapper:first-child:hover .scenario-popover {
+  transform: translateY(0);
+}
+.preset-wrapper:last-child:hover .scenario-popover {
+  transform: translateY(0);
+}
+
+/* Code Integration */
+.v2-code-container {
+  background: var(--bs-bg);
+  border: 1px solid var(--bs-rule);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* State Bar - detached */
+.v2-state-bar {
+  display: flex;
+  justify-content: space-around;
+  background: var(--bs-bg-raised);
+  border: 1px solid var(--bs-rule);
+  border-radius: 6px;
+  padding: 0.75rem 0.5rem;
+  font-family: var(--bs-font-data);
+  font-size: 0.75rem;
+}
+
+.v2-state-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.v2-state-label {
+  font-size: 0.55rem;
+  color: var(--bs-ink-dim);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.v2-state-val {
+  color: var(--bs-ink);
+  font-weight: 600;
+}
+
+/* ─── Visualizer Column ─────────────────────────────────── */
+.v2-viz-col {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  gap: 1rem;
+  position: relative;
+}
+
+/* Narrator Box */
+.v2-narrator {
+  background: var(--bs-bg-raised);
+  border: 1px solid var(--bs-accent);
+  border-left: 4px solid var(--bs-accent);
+  border-radius: 6px;
+  padding: 1rem 1.5rem;
+  font-family: var(--bs-font-display);
+  font-size: 1.1rem;
+  color: var(--bs-ink);
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.v2-narrator strong {
+  color: var(--bs-accent);
+}
+
+/* Smooth Bar Chart */
+/* HUD-style Legend inside Chart */
+.v2-chart .bs-legend {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: oklch(10% 0.012 52 / 0.6);
+  backdrop-filter: blur(8px);
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--bs-rule);
+  z-index: 30;
+  display: flex;
+  gap: 1.2rem;
+  pointer-events: none;
+}
+
+.v2-chart .bs-legend .swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin-right: 6px;
+  display: inline-block;
+}
+
+.v2-bar {
+  position: absolute;
+  bottom: 0;
+  border-radius: 4px 4px 0 0;
+  background: oklch(30% 0.012 52);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 4px;
+  transition:
+    left 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    background 0.3s ease,
+    height 0.3s ease;
+}
+
+.v2-bar-label {
+  font-family: var(--bs-font-data);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--bs-accent-text);
+}
+
+.v2-bar.comparing {
+  background: var(--bs-blue) !important;
+  z-index: 10;
+  box-shadow: 0 0 15px var(--bs-blue);
+}
+
+.v2-bar.swapping {
+  background: var(--bs-accent) !important;
+  z-index: 10;
+  box-shadow: 0 0 15px var(--bs-accent);
+}
+
+.v2-bar.sorted {
+  background: var(--bs-green) !important;
+}
+
+/* Floating Operator */
+.v2-operator {
+  position: absolute;
+  bottom: 50%;
+  transform: translateX(-50%);
+  background: var(--bs-bg-raised);
+  border: 2px solid var(--bs-ink);
+  color: var(--bs-ink);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  z-index: 20;
+  opacity: 0;
+  transition:
+    left 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.2s;
+}
+
+.v2-operator.visible {
+  opacity: 1;
+}
+
+/* Controls Header */
+/* ─── Complexity Popover ────────────────────────────────── */
+.badge-accent {
+  position: relative;
+  cursor: help;
+}
+
+.complexity-popover {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 280px;
+  background: var(--bs-bg-raised);
+  border: 1px solid var(--bs-rule-strong);
+  border-top: 2px solid var(--bs-accent);
+  padding: 1.25rem;
+  border-radius: 8px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.2s cubic-bezier(0.2, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.badge-accent:hover .complexity-popover {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.popover-title {
+  font-family: var(--bs-font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--bs-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.popover-content {
+  font-family: var(--bs-font-display);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--bs-ink-mid);
+}
+
+.popover-content strong {
+  color: var(--bs-ink);
+}
+
+.popover-content code {
+  font-family: var(--bs-font-data);
+  font-size: 0.75rem;
+  background: var(--bs-bg);
+  padding: 2px 4px;
+  border-radius: 3px;
+  color: var(--bs-accent);
+}
+
+.popover-stats {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--bs-rule);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.popover-stat-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+}
+
+.popover-stat-label {
+  color: var(--bs-ink-dim);
+}
+
+.popover-stat-value {
+  font-family: var(--bs-font-data);
+  color: var(--bs-ink);
+}
