@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlgoViz — Ford-Fulkerson Max Flow</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="ford-fulkerson-style.css" />
+  </head>
+  <body data-category="graph">
+    <nav class="algo-nav">
+      <a href="index.html" class="nav-home">AlgoViz</a>
+      <div class="nav-category">
+        <button class="nav-category-btn">Sorting</button>
+        <div class="nav-dropdown">
+          <a href="algorithms/bubble-sort/">Bubble Sort</a>
+          <a href="merge-sort.html">Merge Sort</a>
+          <a href="quicksort.html">Quick Sort</a>
+          <a href="radix-sort.html">Radix Sort</a>
+          <a href="topo-sort.html">Topological Sort</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Searching</button>
+        <div class="nav-dropdown">
+          <a href="binary-search.html">Binary Search</a>
+          <a href="bfs.html">BFS Pathfinding</a>
+          <a href="dfs.html">DFS Pathfinding</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn current-category">Graph</button>
+        <div class="nav-dropdown">
+          <a href="dijkstra.html">Dijkstra</a>
+          <a href="astar.html">A* Pathfinding</a>
+          <a href="floyd-warshall.html">Floyd-Warshall</a>
+          <a href="prims.html">Prim's MST</a>
+          <a href="kruskal.html">Kruskal's MST</a>
+          <a href="tarjan.html">Tarjan's SCC</a>
+          <a href="ford-fulkerson.html" class="active">Ford-Fulkerson</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">DP</button>
+        <div class="nav-dropdown">
+          <a href="knapsack.html">Knapsack (0/1)</a>
+          <a href="lcs.html">LCS</a>
+          <a href="levenshtein.html">Levenshtein Distance</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">String</button>
+        <div class="nav-dropdown">
+          <a href="kmp.html">KMP Search</a>
+          <a href="huffman.html">Huffman Coding</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">Data Structures</button>
+        <div class="nav-dropdown">
+          <a href="avl-tree.html">AVL Tree</a>
+          <a href="bst.html">BST Traversal</a>
+          <a href="btree.html">B-Tree</a>
+          <a href="hash-table.html">Hash Table</a>
+          <a href="heap.html">Min-Heap</a>
+          <a href="lru-cache.html">LRU Cache</a>
+          <a href="bloom-filter.html">Bloom Filter</a>
+          <a href="trie.html">Trie</a>
+          <a href="union-find.html">Union-Find</a>
+          <a href="sliding-window.html">Sliding Window</a>
+        </div>
+      </div>
+      <div class="nav-category">
+        <button class="nav-category-btn">More</button>
+        <div class="nav-dropdown">
+          <a href="convex-hull.html">Convex Hull</a>
+          <a href="elevator.html">Elevator (SCAN)</a>
+          <a href="minimax.html">Minimax</a>
+          <a href="n-queens.html">N-Queens</a>
+        </div>
+      </div>
+      <button
+        class="nav-hamburger"
+        onclick="this.closest('.algo-nav').classList.toggle('nav-open')"
+      >
+        &#9776;
+      </button>
+    </nav>
+
+    <header class="page-header">
+      <div class="title-group">
+        <h1>Ford-Fulkerson Max Flow</h1>
+        <div class="title-meta">
+          <span class="badge">Graph</span>
+          <span
+            class="badge badge-accent complexity-badge"
+            data-best="O(VE²)"
+            data-best-note="Edmonds-Karp (BFS)"
+            data-avg="O(VE²)"
+            data-avg-note="BFS guarantees polynomial"
+            data-worst="O(VE²)"
+            data-worst-note="Edmonds-Karp bound"
+            data-space="O(V + E)"
+            data-space-note="Residual graph"
+            data-why="Each BFS augmentation saturates at least one edge. There are O(VE) possible saturations. Each BFS costs O(E). Total: O(VE²)."
+            >O(VE²)</span
+          >
+        </div>
+      </div>
+      <div class="ff-legend">
+        <span class="ff-swatch ff-swatch-source"></span> Source
+        <span class="ff-swatch ff-swatch-sink"></span> Sink
+        <span class="ff-swatch ff-swatch-path"></span> Augmenting Path
+        <span class="ff-swatch ff-swatch-cut"></span> Min-Cut Edge
+        <span class="ff-swatch ff-swatch-saturated"></span> Saturated
+      </div>
+    </header>
+
+    <main class="content-grid">
+      <section class="main-column">
+        <!-- Controls panel -->
+        <div class="panel">
+          <div class="inputs">
+            <label>
+              Preset:
+              <select id="ffPreset">
+                <option value="simple">Simple 4-node</option>
+                <option value="classic">Classic 6-node</option>
+                <option value="bipartite">Bipartite matching</option>
+              </select>
+            </label>
+            <button id="btnLoadPreset">Load Preset</button>
+            <button id="btnRun">Run Algorithm</button>
+            <button id="btnReset">Reset</button>
+          </div>
+          <div class="ff-preset-desc" id="ffPresetDesc">
+            S→A→T, S→B→T with A→B cross edge. Max flow = 5.
+          </div>
+        </div>
+
+        <!-- Info / status panel -->
+        <div id="ffInfo" class="info">
+          Load a preset and click Run Algorithm to start.
+        </div>
+
+        <!-- SVG network canvas -->
+        <svg id="ffSvg" class="ff-svg" width="540" height="380">
+          <defs>
+            <marker
+              id="arrowhead"
+              markerWidth="10"
+              markerHeight="7"
+              refX="9"
+              refY="3.5"
+              orient="auto"
+            >
+              <polygon points="0 0, 10 3.5, 0 7" fill="#58a6ff" />
+            </marker>
+            <marker
+              id="arrowhead-path"
+              markerWidth="10"
+              markerHeight="7"
+              refX="9"
+              refY="3.5"
+              orient="auto"
+            >
+              <polygon points="0 0, 10 3.5, 0 7" fill="#f78166" />
+            </marker>
+            <marker
+              id="arrowhead-cut"
+              markerWidth="10"
+              markerHeight="7"
+              refX="9"
+              refY="3.5"
+              orient="auto"
+            >
+              <polygon points="0 0, 10 3.5, 0 7" fill="#ffa657" />
+            </marker>
+            <marker
+              id="arrowhead-saturated"
+              markerWidth="10"
+              markerHeight="7"
+              refX="9"
+              refY="3.5"
+              orient="auto"
+            >
+              <polygon points="0 0, 10 3.5, 0 7" fill="#3d444d" />
+            </marker>
+            <marker
+              id="arrowhead-normal"
+              markerWidth="10"
+              markerHeight="7"
+              refX="9"
+              refY="3.5"
+              orient="auto"
+            >
+              <polygon points="0 0, 10 3.5, 0 7" fill="#8b949e" />
+            </marker>
+          </defs>
+        </svg>
+
+        <!-- Playback controls -->
+        <div class="playback-controls hidden" id="ffPlayback">
+          <div class="playback-btns">
+            <button class="icon-btn" id="btnPlayReset" title="Reset to start">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                ></path>
+                <path d="M3 3v5h5"></path>
+              </svg>
+            </button>
+            <button class="icon-btn" id="btnStepBack" title="Step Back">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                <line x1="5" y1="19" x2="5" y2="5"></line>
+              </svg>
+            </button>
+            <button class="icon-btn active" id="btnPlay" title="Play">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+            </button>
+            <button class="icon-btn" id="btnPause" disabled title="Pause">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+              </svg>
+            </button>
+            <button class="icon-btn" id="btnStep" title="Step Forward">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                <line x1="19" y1="5" x2="19" y2="19"></line>
+              </svg>
+            </button>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem">
+            <span
+              style="
+                font-size: 0.75rem;
+                color: var(--text-muted);
+                font-weight: 600;
+              "
+              >Speed</span
+            >
+            <input type="range" id="ffSpeed" min="1" max="10" value="5" />
+          </div>
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <!-- Problem Framing Panel -->
+        <div class="algo-problem-panel">
+          <h3>Context</h3>
+          <div class="app-section">
+            <span class="app-label">The Problem</span>
+            <p>
+              Given a directed graph where each edge has a capacity, find the
+              maximum amount of flow that can be sent from a source node to a
+              sink node without exceeding any edge's capacity.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">The Approach</span>
+            <p>
+              Repeatedly find augmenting paths (routes with remaining capacity)
+              from source to sink using BFS, push flow along them, and update
+              the residual graph — until no path exists.
+            </p>
+          </div>
+          <div class="app-section">
+            <span class="app-label">When To Use</span>
+            <p>
+              Network routing, scheduling, bipartite matching, project
+              selection, image segmentation, and any problem reducible to
+              maximizing flow through a capacity-constrained network.
+            </p>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid" id="ffStats">
+          <div class="stat-card">
+            <span class="stat-value" id="statFlow">0</span>
+            <span class="stat-label">Max Flow</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="statPaths">0</span>
+            <span class="stat-label">Paths Found</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="statStep">0 / 0</span>
+            <span class="stat-label">Step</span>
+          </div>
+        </div>
+
+        <!-- Pseudocode -->
+        <div class="panel">
+          <div class="panel-title">Pseudocode (Edmonds-Karp)</div>
+          <!-- prettier-ignore -->
+          <div class="code-panel">
+            <span class="code-line">maxFlow(G, s, t):</span>
+            <span class="code-line"> build residual graph R = G</span>
+            <span class="code-line"> flow = 0</span>
+            <span class="code-line"> while path = BFS(R, s, t):</span>
+            <span class="code-line">  b = min capacity on path</span>
+            <span class="code-line">  for each edge (u,v) in path:</span>
+            <span class="code-line">   R[u][v] -= b</span>
+            <span class="code-line">   R[v][u] += b</span>
+            <span class="code-line">  flow += b</span>
+            <span class="code-line"> return flow</span>
+          </div>
+        </div>
+
+        <!-- Real-world Analogy -->
+        <div class="panel-title">Real-world Analogy</div>
+        <div class="ff-analogy">
+          <p>
+            <strong>Real-world analogy:</strong> Imagine a city water system
+            with pipes of different diameters connecting a reservoir (source) to
+            a district (sink). Each pipe has a maximum flow rate. Engineers find
+            the maximum water delivery by repeatedly routing water along any
+            open path, widening effective capacity through reverse flow (letting
+            water "change direction" in pipes already in use) until no new route
+            can carry more water.
+          </p>
+        </div>
+      </aside>
+    </main>
+
+    <script src="ford-fulkerson-algorithm.js"></script>
+    <script src="ford-fulkerson.js"></script>
+    <script src="complexity-popover.js"></script>
+  </body>
+</html>
