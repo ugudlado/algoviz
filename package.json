@@ -2,23 +2,35 @@
   "name": "algoviz",
   "version": "0.1.0",
   "description": "Visual Algorithm Teacher — interactive algorithm visualizations",
-  "homepage": "https://spidey.github.io/algoviz",
+  "homepage": "https://ugudlado.github.io/algoviz",
   "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
     "lint": "eslint .",
     "test": "node run-tests.js",
-    "format:check": "prettier --check '**/*.{html,css,js}'",
-    "format": "prettier --write '**/*.{html,css,js}'",
-    "knip": "knip",
-    "dev": "serve ."
+    "format:check": "prettier --check '**/*.{html,css,js,ts,tsx}'",
+    "format": "prettier --write '**/*.{html,css,js,ts,tsx}'",
+    "knip": "knip"
   },
   "private": true,
   "engines": {
     "node": ">=18"
   },
   "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
     "eslint": "^8.57.1",
     "knip": "^6.0.6",
     "prettier": "^3.8.1",
-    "serve": "^14.2.6"
+    "serve": "^14.2.6",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.3"
+  },
+  "dependencies": {
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-router-dom": "^7.13.2"
   }
 }
