@@ -1,6 +1,6 @@
+import { Nav } from "@/components/Nav";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Nav } from "@/components/Nav";
 
 interface AlgoCard {
   name: string;
@@ -444,6 +444,10 @@ export default function Home() {
   const visibleAlgorithms = ALGORITHMS.filter((a) =>
     HOMEPAGE_VISIBLE_CATEGORIES.has(a.category),
   );
+  const spotlightCandidates = visibleAlgorithms.filter((a) => a.available);
+  const [spotlightAlgorithm, setSpotlightAlgorithm] = useState(() =>
+    pickRandomAlgorithm(spotlightCandidates),
+  );
 
   const filtered = visibleAlgorithms.filter(
     (a) =>
@@ -468,92 +472,182 @@ export default function Home() {
           textAlign: "center",
         }}
       >
+
         <div
           style={{
-            display: "inline-block",
-            padding: "4px 12px",
-            background: "var(--accent-dim)",
-            border: "1px solid rgba(0,229,255,0.2)",
-            color: "var(--accent)",
-            borderRadius: 20,
-            fontSize: "0.75rem",
-            fontWeight: 600,
-            marginBottom: "1.5rem",
-            textTransform: "uppercase",
-            letterSpacing: "0.05em",
+            maxWidth: 760,
+            margin: "0 auto",
+            border: "1px solid var(--border)",
+            borderRadius: 16,
+            background:
+              "repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 34px), linear-gradient(180deg, rgba(22,27,34,0.95) 0%, rgba(13,17,23,0.95) 100%)",
+            boxShadow: "0 16px 36px rgba(0,0,0,0.28)",
+            padding: "1.45rem",
+            textAlign: "left",
+            position: "relative",
+            overflow: "hidden",
           }}
         >
-          Interactive Algorithm Visualizations
-        </div>
-
-        <h1
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(3rem, 8vw, 4rem)",
-            fontWeight: 800,
-            letterSpacing: "-0.04em",
-            marginBottom: "1.5rem",
-            background: "linear-gradient(to bottom, #fff 0%, #a1a1a1 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-            lineHeight: 1.1,
-          }}
-        >
-          See algorithms
-          <br />
-          come alive
-        </h1>
-
-        <p
-          style={{
-            fontSize: "1.25rem",
-            color: "var(--text-secondary)",
-            maxWidth: 600,
-            margin: "0 auto 3rem",
-            lineHeight: 1.6,
-          }}
-        >
-          Step through every comparison, swap, and recursion. Built for CS
-          students who learn by doing.
-        </p>
-
-        <div style={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
-          <Link
-            to="/algorithms/bubble-sort"
+          <div
+            aria-hidden="true"
             style={{
-              padding: "0.75rem 1.5rem",
-              borderRadius: 6,
-              fontWeight: 600,
-              fontSize: "0.95rem",
-              cursor: "pointer",
-              transition: "all 0.2s ease",
-              textDecoration: "none",
-              background: "var(--text-primary)",
-              color: "var(--bg-primary)",
-              border: "none",
+              position: "absolute",
+              inset: 0,
+              borderLeft: `4px solid var(${spotlightAlgorithm.accentVar})`,
+              borderRadius: 16,
+              pointerEvents: "none",
+            }}
+          />
+          <p
+            style={{
+              margin: 0,
+              fontSize: "0.75rem",
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+              fontWeight: 700,
+              color: "var(--text-muted)",
+              fontFamily: "var(--font-mono)",
             }}
           >
-            Start with Bubble Sort →
-          </Link>
-          <a
-            href="#algorithms"
+            Algorithm Spotlight
+          </p>
+          <h2
             style={{
-              padding: "0.75rem 1.5rem",
-              borderRadius: 6,
-              fontWeight: 600,
-              fontSize: "0.95rem",
-              cursor: "pointer",
-              transition: "all 0.2s ease",
-              textDecoration: "none",
-              background: "transparent",
+              margin: "0.55rem 0 0.35rem",
+              fontSize: "clamp(1.3rem, 2vw, 1.75rem)",
+              lineHeight: 1.12,
+              letterSpacing: "-0.03em",
               color: "var(--text-primary)",
-              border: "1px solid var(--border)",
+              position: "relative",
             }}
           >
-            Browse all →
-          </a>
+            {spotlightAlgorithm.name}
+          </h2>
+          <p
+            style={{
+              margin: "0 0 1rem",
+              color: "var(--text-secondary)",
+              lineHeight: 1.55,
+              maxWidth: 620,
+            }}
+          >
+            {spotlightAlgorithm.description}
+          </p>
+          <p
+            style={{
+              margin: "0 0 1rem",
+              color: "var(--text-muted)",
+              fontSize: "0.82rem",
+              fontStyle: "italic",
+            }}
+          >
+            {getSpotlightReason(spotlightAlgorithm.category)}
+          </p>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
+              flexWrap: "wrap",
+              marginBottom: "1.15rem",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "0.72rem",
+                padding: "0.22rem 0.6rem",
+                borderRadius: 6,
+                color: `var(${spotlightAlgorithm.accentVar})`,
+                border: `1px solid color-mix(in srgb, var(${spotlightAlgorithm.accentVar}) 50%, var(--border))`,
+                background: "rgba(13,17,23,0.85)",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                letterSpacing: "0.04em",
+              }}
+            >
+              {spotlightAlgorithm.categoryLabel}
+            </span>
+            <span
+              style={{
+                fontFamily: "var(--font-mono)",
+                color: "var(--text-secondary)",
+                fontSize: "0.78rem",
+                padding: "0.2rem 0.5rem",
+                borderRadius: 6,
+                border: "1px solid var(--border)",
+                background: "rgba(13,17,23,0.7)",
+              }}
+            >
+              Time: {spotlightAlgorithm.complexity}
+            </span>
+            <span
+              style={{
+                fontFamily: "var(--font-mono)",
+                color: "var(--text-secondary)",
+                fontSize: "0.78rem",
+                padding: "0.2rem 0.5rem",
+                borderRadius: 6,
+                border: "1px solid var(--border)",
+                background: "rgba(13,17,23,0.7)",
+              }}
+            >
+              Space: {getSpaceComplexity(spotlightAlgorithm.name)}
+            </span>
+            <span
+              style={{
+                color: DIFFICULTY_COLOR[spotlightAlgorithm.difficulty],
+                fontSize: "0.78rem",
+                fontWeight: 600,
+                padding: "0.2rem 0.5rem",
+                borderRadius: 6,
+                border: "1px solid color-mix(in srgb, currentColor 40%, transparent)",
+                background: "rgba(13,17,23,0.7)",
+              }}
+            >
+              {spotlightAlgorithm.difficulty}
+            </span>
+          </div>
+          <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+            <Link
+              to={spotlightAlgorithm.path}
+              style={{
+                padding: "0.65rem 1.15rem",
+                borderRadius: 8,
+                fontWeight: 600,
+                fontSize: "0.9rem",
+                cursor: "pointer",
+                textDecoration: "none",
+                background: "var(--accent)",
+                color: "#00131f",
+                border: "1px solid rgba(0,0,0,0.18)",
+                boxShadow: "0 2px 0 rgba(0,0,0,0.24)",
+              }}
+            >
+              Run this algorithm →
+            </Link>
+            <button
+              type="button"
+              onClick={() => {
+                setSpotlightAlgorithm((current) =>
+                  pickRandomAlgorithm(spotlightCandidates, current.name),
+                );
+              }}
+              style={{
+                padding: "0.65rem 1.15rem",
+                borderRadius: 8,
+                fontWeight: 600,
+                fontSize: "0.9rem",
+                cursor: "pointer",
+                background: "rgba(13,17,23,0.72)",
+                color: "var(--text-primary)",
+                border: "1px solid var(--border)",
+              }}
+            >
+              Pick another challenge
+            </button>
+          </div>
         </div>
+
       </section>
 
       {/* Algorithm Cards Grid */}
@@ -576,16 +670,6 @@ export default function Home() {
         >
           All Algorithms
         </h2>
-        <p
-          style={{
-            color: "var(--text-muted)",
-            fontSize: "0.9rem",
-            marginBottom: "2rem",
-          }}
-        >
-          {visibleAlgorithms.filter((a) => a.available).length} live ·{" "}
-          {visibleAlgorithms.filter((a) => !a.available).length} coming soon
-        </p>
 
         <input
           type="search"
@@ -831,7 +915,7 @@ function AlgoCard({ algo }: { algo: AlgoCard }) {
             fontWeight: 600,
           }}
         >
-          {algo.complexity}
+          T: {algo.complexity} · S: {getSpaceComplexity(algo.name)}
         </span>
         {!algo.available && (
           <span
@@ -869,4 +953,75 @@ function AlgoCard({ algo }: { algo: AlgoCard }) {
     );
   }
   return <div>{content}</div>;
+}
+
+function pickRandomAlgorithm(
+  algorithms: AlgoCard[],
+  excludeName?: string,
+): AlgoCard {
+  if (algorithms.length === 0) {
+    throw new Error("No algorithm candidates available for spotlight.");
+  }
+  const candidates = excludeName
+    ? algorithms.filter((algorithm) => algorithm.name !== excludeName)
+    : algorithms;
+  const pool = candidates.length > 0 ? candidates : algorithms;
+  const randomIndex = Math.floor(Math.random() * pool.length);
+  return pool[randomIndex];
+}
+
+function getSpotlightReason(category: string): string {
+  switch (category) {
+    case "sorting":
+      return "Why this pick: great for building intuition about step-by-step state changes.";
+    case "searching":
+      return "Why this pick: ideal for learning how to shrink a problem space efficiently.";
+    case "dp":
+      return "Why this pick: helps you see overlapping subproblems and reuse in action.";
+    case "string":
+      return "Why this pick: useful for interview-style pattern matching practice.";
+    default:
+      return "Why this pick: strong visual signal-to-concept ratio for quick learning.";
+  }
+}
+
+function getSpaceComplexity(name: string): string {
+  const spaceByAlgorithm: Record<string, string> = {
+    "Bubble Sort": "O(1)",
+    "Merge Sort": "O(n)",
+    "Quick Sort": "O(log n)",
+    "Radix Sort": "O(n + k)",
+    "Binary Search": "O(1)",
+    "BFS Pathfinding": "O(V)",
+    "DFS Pathfinding": "O(V)",
+    "Sliding Window": "O(1)",
+    Dijkstra: "O(V)",
+    "A* Pathfinding": "O(V)",
+    "Floyd-Warshall": "O(V²)",
+    "Prim's MST": "O(V)",
+    "Kruskal's MST": "O(V)",
+    "Tarjan's SCC": "O(V)",
+    "Ford-Fulkerson": "O(V + E)",
+    "Topological Sort": "O(V)",
+    "Gale-Shapley Matching": "O(n)",
+    "Knapsack (0/1)": "O(nW)",
+    LCS: "O(mn)",
+    "Levenshtein Distance": "O(mn)",
+    "KMP Search": "O(m)",
+    "Huffman Coding": "O(n)",
+    "AVL Tree": "O(n)",
+    "BST Traversal": "O(n)",
+    "B-Tree": "O(n)",
+    "Min-Heap": "O(n)",
+    Trie: "O(n * sigma)",
+    "LRU Cache": "O(capacity)",
+    "Bloom Filter": "O(m)",
+    "Union-Find": "O(n)",
+    "Convex Hull": "O(n)",
+    "Elevator (SCAN)": "O(n)",
+    Minimax: "O(d)",
+    "N-Queens": "O(n²)",
+  };
+
+  return spaceByAlgorithm[name] ?? "Varies";
 }
