@@ -12,40 +12,40 @@
 
 ## Phase 2 — Graph Algorithms (8 pages)
 
-- [ ] P2.1: Migrate Dijkstra (SVG graph + distance table + priority queue)
-- [ ] P2.2: Migrate A* Pathfinding (SVG graph + heuristic display)
-- [ ] P2.3: Migrate Floyd-Warshall (distance matrix table)
-- [ ] P2.4: Migrate Prim's MST (SVG graph + edge selection)
-- [ ] P2.5: Migrate Kruskal's MST (SVG graph + union-find display)
-- [ ] P2.6: Migrate Tarjan's SCC (SVG graph + SCC highlighting)
-- [ ] P2.7: Migrate Ford-Fulkerson (SVG flow network + residual graph)
-- [ ] P2.8: Migrate Topological Sort (SVG DAG + sorted order display)
-- [ ] P2.9: Update Nav + App.tsx routes for graph pages
-- [ ] P2.10: Quality gates + commit Phase 2
+- [x] P2.1: Migrate Dijkstra (SVG graph + distance table + priority queue)
+- [x] P2.2: Migrate A* Pathfinding (SVG graph + heuristic display)
+- [x] P2.3: Migrate Floyd-Warshall (distance matrix table)
+- [x] P2.4: Migrate Prim's MST (SVG graph + edge selection)
+- [x] P2.5: Migrate Kruskal's MST (SVG graph + union-find display)
+- [x] P2.6: Migrate Tarjan's SCC (SVG graph + SCC highlighting)
+- [x] P2.7: Migrate Ford-Fulkerson (SVG flow network + residual graph)
+- [x] P2.8: Migrate Topological Sort (SVG DAG + sorted order display)
+- [x] P2.9: Update Nav + App.tsx routes for graph pages
+- [x] P2.10: Quality gates + commit Phase 2
 
 ## Phase 3 — DP + String (5 pages)
 
-- [ ] P3.1: Migrate Knapsack 0/1 (DP table + item selection)
-- [ ] P3.2: Migrate LCS (DP table + sequence highlighting)
-- [ ] P3.3: Migrate Levenshtein Distance (DP table + operation trace)
-- [ ] P3.4: Migrate KMP Search (character row comparison + failure function)
-- [ ] P3.5: Migrate Huffman Coding (tree visualization + encoding table)
-- [ ] P3.6: Update Nav + App.tsx routes for DP+String pages
-- [ ] P3.7: Quality gates + commit Phase 3
+- [x] P3.1: Migrate Knapsack 0/1 (DP table + item selection)
+- [x] P3.2: Migrate LCS (DP table + sequence highlighting)
+- [x] P3.3: Migrate Levenshtein Distance (DP table + operation trace)
+- [x] P3.4: Migrate KMP Search (character row comparison + failure function)
+- [x] P3.5: Migrate Huffman Coding (tree visualization + encoding table)
+- [x] P3.6: Update Nav + App.tsx routes for DP+String pages
+- [x] P3.7: Quality gates + commit Phase 3
 
 ## Phase 4 — Data Structures (9 pages)
 
-- [ ] P4.1: Migrate AVL Tree (SVG tree + rotation animation)
-- [ ] P4.2: Migrate BST Traversal (SVG tree + 3 traversal modes)
-- [ ] P4.3: Migrate B-Tree (SVG tree + node splitting)
-- [ ] P4.4: Migrate Min-Heap (array row + SVG tree dual view)
-- [ ] P4.5: Migrate Trie (SVG tree + insert/search/prefix tabs)
-- [ ] P4.6: Migrate LRU Cache (linked list + hash map dual view)
-- [ ] P4.7: Migrate Bloom Filter (bit array + hash function display)
-- [ ] P4.8: Migrate Union-Find (forest visualization + rank/path display)
-- [ ] P4.9: Migrate Sliding Window (array with window highlighting)
-- [ ] P4.10: Update Nav + App.tsx routes for data structure pages
-- [ ] P4.11: Quality gates + commit Phase 4
+- [x] P4.1: Migrate AVL Tree (SVG tree + rotation animation)
+- [x] P4.2: Migrate BST Traversal (SVG tree + 3 traversal modes)
+- [x] P4.3: Migrate B-Tree (SVG tree + node splitting)
+- [x] P4.4: Migrate Min-Heap (array row + SVG tree dual view)
+- [x] P4.5: Migrate Trie (SVG tree + insert/search/prefix tabs)
+- [x] P4.6: Migrate LRU Cache (linked list + hash map dual view)
+- [x] P4.7: Migrate Bloom Filter (bit array + hash function display)
+- [x] P4.8: Migrate Union-Find (forest visualization + rank/path display)
+- [x] P4.9: Migrate Sliding Window (array with window highlighting)
+- [x] P4.10: Update Nav + App.tsx routes for data structure pages
+- [x] P4.11: Quality gates + commit Phase 4
 
 ## Phase 5 — Advanced (4 pages)
 
