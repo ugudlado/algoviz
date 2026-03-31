@@ -650,6 +650,22 @@ export default function Home() {
           }}
         >
           Learning Paths
+          <span
+            style={{
+              marginLeft: "0.6rem",
+              fontSize: "0.7rem",
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: "0.06em",
+              color: "var(--text-muted)",
+              border: "1px solid var(--border)",
+              borderRadius: 6,
+              padding: "0.18rem 0.45rem",
+              verticalAlign: "middle",
+            }}
+          >
+            Coming soon
+          </span>
         </h2>
         <p
           style={{
@@ -658,7 +674,8 @@ export default function Home() {
             marginBottom: "2rem",
           }}
         >
-          Structured sequences to build understanding step by step
+          Structured sequences to build understanding step by step. This section
+          is in progress.
         </p>
 
         <div
