@@ -186,4 +186,3 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = DFSAlgorithm;
 }
 
-export default DFSAlgorithm;

@@ -163,4 +163,3 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = LCSAlgorithm;
 }
 
-export default LCSAlgorithm;

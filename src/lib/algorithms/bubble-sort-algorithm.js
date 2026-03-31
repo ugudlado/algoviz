@@ -128,4 +128,3 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = BubbleSortAlgorithm;
 }
 
-export default BubbleSortAlgorithm;

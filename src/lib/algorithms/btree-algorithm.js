@@ -428,4 +428,3 @@ var BTreeAlgorithm = (function () {
   };
 })();
 
-export default BTreeAlgorithm;

@@ -104,4 +104,3 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = { levenshteinCompute, tracebackDescription };
 }
 
-export default { levenshteinCompute, tracebackDescription };

@@ -386,4 +386,3 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = FordFulkersonAlgorithm;
 }
 
-export default FordFulkersonAlgorithm;

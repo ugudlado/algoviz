@@ -90,4 +90,3 @@ var ScanAlgorithm = (() => {
   return { solve };
 })();
 
-export default ScanAlgorithm;

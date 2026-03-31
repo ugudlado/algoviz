@@ -190,4 +190,3 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = KnapsackAlgorithm;
 }
 
-export default KnapsackAlgorithm;

@@ -229,4 +229,3 @@ var NQueensAlgorithm = (function () {
   };
 })();
 
-export default NQueensAlgorithm;

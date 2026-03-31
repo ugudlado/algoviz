@@ -185,4 +185,3 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = BinarySearchAlgorithm;
 }
 
-export default BinarySearchAlgorithm;

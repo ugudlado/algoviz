@@ -374,4 +374,3 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = MinimaxAlgorithm;
 }
 
-export default MinimaxAlgorithm;
