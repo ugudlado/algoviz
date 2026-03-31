@@ -49,11 +49,11 @@
 
 ## Phase 5 — Advanced (4 pages)
 
-- [ ] P5.1: Migrate Convex Hull (canvas 2D + point placement)
-- [ ] P5.2: Migrate Elevator/SCAN (disk track visualization)
-- [ ] P5.3: Migrate Minimax (tic-tac-toe board + game tree)
-- [ ] P5.4: Migrate N-Queens (dynamic chessboard + backtracking tree)
-- [ ] P5.5: Update Nav + App.tsx routes for advanced pages
+- [x] P5.1: Migrate Convex Hull (canvas 2D + point placement)
+- [x] P5.2: Migrate Elevator/SCAN (disk track visualization)
+- [x] P5.3: Migrate Minimax (tic-tac-toe board + game tree)
+- [x] P5.4: Migrate N-Queens (dynamic chessboard + backtracking tree)
+- [x] P5.5: Update Nav + App.tsx routes for advanced pages
 - [ ] P5.6: Quality gates + commit Phase 5
 
 ## Final

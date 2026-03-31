@@ -1,0 +1,135 @@
+/* Sliding Window visualization styles */
+
+.sw-array-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 0.75rem;
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  min-height: 60px;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.sw-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 48px;
+  background: #111111;
+  border: 1.5px solid #21262d;
+  border-radius: 4px;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.sw-cell.sw-cell-window {
+  background: #0f1f3a;
+  border-color: #30a0e0;
+}
+
+.sw-cell.sw-cell-max {
+  background: #0f2a1a;
+  border-color: #3fb950;
+}
+
+.sw-cell.sw-cell-left {
+  border-left-color: #58a6ff;
+  border-left-width: 3px;
+}
+
+.sw-cell.sw-cell-right {
+  border-right-color: #58a6ff;
+  border-right-width: 3px;
+}
+
+.sw-cell-val {
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #c9d1d9;
+}
+
+.sw-cell-char {
+  font-size: 1rem;
+  color: #58a6ff;
+}
+
+.sw-cell-idx {
+  font-size: 0.62rem;
+  color: #8b949e;
+  margin-top: 2px;
+}
+
+.sw-step-info {
+  font-size: 0.82rem;
+  color: #a1a1a1;
+  background: #0a0a0a;
+  border: 1px solid #111111;
+  border-radius: 4px;
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 0.75rem;
+  min-height: 36px;
+}
+
+.sw-result-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.sw-result-label {
+  font-size: 0.72rem;
+  color: #a1a1a1;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sw-result-val {
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  font-size: 0.85rem;
+  color: #3fb950;
+  font-weight: 700;
+}
+
+.sw-mode-selector {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.sw-mode-btn {
+  padding: 0.3rem 0.75rem;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  color: #8b949e;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.sw-mode-btn:hover {
+  border-color: #58a6ff;
+  color: #58a6ff;
+}
+
+.sw-mode-btn.active {
+  border-color: #58a6ff;
+  color: #58a6ff;
+  background: #0f1f3a;
+}

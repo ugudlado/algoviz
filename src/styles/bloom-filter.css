@@ -1,0 +1,126 @@
+/* Bloom Filter visualization styles */
+
+.bloom-bit-array {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 0.75rem;
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  min-height: 60px;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.bloom-bit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 36px;
+  background: #111111;
+  border: 1px solid #21262d;
+  border-radius: 3px;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.bloom-bit.bloom-bit-set {
+  background: #161b22;
+  border-color: #30363d;
+}
+
+.bloom-bit.bloom-bit-set .bloom-bit-val {
+  color: #3fb950;
+}
+
+.bloom-bit.bloom-bit-active {
+  border-color: #3fb950;
+  background: #0f2a1a;
+}
+
+.bloom-bit-val {
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #4a4a4a;
+}
+
+.bloom-bit-idx {
+  font-size: 0.55rem;
+  color: #555;
+  margin-top: 1px;
+}
+
+.bloom-section-label {
+  font-size: 0.72rem;
+  color: #a1a1a1;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.4rem;
+}
+
+.bloom-op-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #0a0a0a;
+  border: 1px solid #111111;
+  border-radius: 4px;
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.82rem;
+  color: #a1a1a1;
+}
+
+.bloom-result-badge {
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+.bloom-indices {
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  font-size: 0.78rem;
+  color: #8b949e;
+}
+
+.bloom-params {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.bloom-param-label {
+  font-size: 0.78rem;
+  color: #8b949e;
+}
+
+.bloom-param-btn {
+  padding: 0.25rem 0.5rem;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  color: #8b949e;
+  font-size: 0.75rem;
+  cursor: pointer;
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.bloom-param-btn:hover {
+  border-color: #58a6ff;
+  color: #58a6ff;
+}
+
+.bloom-param-btn.active {
+  border-color: #58a6ff;
+  color: #58a6ff;
+  background: #0f1f3a;
+}

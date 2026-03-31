@@ -1,0 +1,110 @@
+/* BST Traversal visualization styles */
+
+.bst-tree-container {
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  overflow-x: auto;
+  min-height: 200px;
+  padding: 0.5rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.bst-tree-empty {
+  align-items: center;
+  justify-content: center;
+  color: #a1a1a1;
+  font-size: 0.82rem;
+}
+
+.bst-tree-container svg {
+  display: block;
+}
+
+.bst-edge {
+  stroke: #30363d;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.bst-node-value {
+  font-size: 12px;
+  font-weight: 700;
+  fill: #c9d1d9;
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  dominant-baseline: middle;
+  text-anchor: middle;
+}
+
+.bst-mode-selector {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.bst-mode-btn {
+  padding: 0.3rem 0.75rem;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  color: #8b949e;
+  font-size: 0.78rem;
+  cursor: pointer;
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.bst-mode-btn:hover {
+  border-color: #58a6ff;
+  color: #58a6ff;
+}
+
+.bst-mode-btn.active {
+  border-color: #58a6ff;
+  color: #58a6ff;
+  background: #0f1f3a;
+}
+
+.bst-step-info {
+  font-size: 0.82rem;
+  color: #a1a1a1;
+  background: #0a0a0a;
+  border: 1px solid #111111;
+  border-radius: 4px;
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 0.75rem;
+  min-height: 36px;
+}
+
+.bst-result-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.bst-result-label {
+  font-size: 0.72rem;
+  color: #a1a1a1;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.bst-result-values {
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  font-size: 0.82rem;
+  color: #3fb950;
+  word-break: break-all;
+}

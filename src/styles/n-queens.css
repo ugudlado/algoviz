@@ -1,0 +1,38 @@
+.nq-board {
+  display: grid;
+  gap: 2px;
+  max-width: 560px;
+}
+
+.nq-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  border-radius: 2px;
+}
+
+.nq-cell.light {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.nq-cell.dark {
+  background: #9ca3af;
+  color: #111827;
+}
+
+.nq-cell.queen {
+  background: #1f2937;
+  color: #f59e0b;
+}
+
+.nq-cell.danger {
+  outline: 2px solid rgba(220, 38, 38, 0.45);
+}
+
+.nq-cell.conflict {
+  background: #7f1d1d;
+  color: #fee2e2;
+}

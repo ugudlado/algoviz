@@ -1,0 +1,98 @@
+/* Union-Find (DSU) visualization styles */
+
+.uf-dsu-container {
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  overflow-x: auto;
+  min-height: 140px;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.uf-dsu-container svg {
+  display: block;
+}
+
+.uf-edge {
+  stroke: #30363d;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.uf-edge-active {
+  stroke: #58a6ff;
+  stroke-width: 2;
+}
+
+.uf-node-text {
+  font-size: 13px;
+  font-weight: 700;
+  fill: #c9d1d9;
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  dominant-baseline: middle;
+  text-anchor: middle;
+}
+
+.uf-rank-text {
+  font-size: 9px;
+  fill: #8b949e;
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  text-anchor: middle;
+}
+
+.uf-step-info {
+  font-size: 0.82rem;
+  color: #a1a1a1;
+  background: #0a0a0a;
+  border: 1px solid #111111;
+  border-radius: 4px;
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 0.75rem;
+  min-height: 36px;
+}
+
+.uf-n-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.uf-n-label {
+  font-size: 0.78rem;
+  color: #8b949e;
+}
+
+.uf-n-btn {
+  padding: 0.25rem 0.5rem;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  color: #8b949e;
+  font-size: 0.75rem;
+  cursor: pointer;
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.uf-n-btn:hover:not(:disabled) {
+  border-color: #58a6ff;
+  color: #58a6ff;
+}
+
+.uf-n-btn.active {
+  border-color: #58a6ff;
+  color: #58a6ff;
+  background: #0f1f3a;
+}
+
+.uf-n-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

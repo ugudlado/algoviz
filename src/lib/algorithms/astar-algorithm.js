@@ -470,3 +470,5 @@ var AStarAlgorithm = (function () {
 if (typeof module !== "undefined" && module.exports) {
   module.exports = AStarAlgorithm;
 }
+
+export default AStarAlgorithm;

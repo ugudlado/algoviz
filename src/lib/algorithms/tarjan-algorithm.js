@@ -338,3 +338,5 @@ var TarjanAlgorithm = (function () {
 if (typeof module !== "undefined" && module.exports) {
   module.exports = TarjanAlgorithm;
 }
+
+export default TarjanAlgorithm;

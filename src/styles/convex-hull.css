@@ -1,0 +1,41 @@
+.hull-canvas {
+  width: 100%;
+  max-width: 760px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #0d1117;
+  cursor: crosshair;
+}
+
+.hull-edge {
+  stroke: #2ea043;
+  stroke-width: 2;
+  opacity: 0.8;
+}
+
+.hull-point {
+  fill: #8b949e;
+}
+
+.hull-point-stack {
+  fill: #2ea043;
+}
+
+.hull-point-current {
+  fill: #388bfd;
+}
+
+.hull-point-discarded {
+  fill: #da3633;
+}
+
+.hull-point-pivot {
+  fill: #f0883e;
+}
+
+.hull-label {
+  fill: #c9d1d9;
+  font-size: 10px;
+  text-anchor: middle;
+  font-family: var(--font-mono);
+}

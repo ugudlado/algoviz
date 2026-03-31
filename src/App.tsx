@@ -20,6 +20,19 @@ import Lcs from "./pages/algorithms/Lcs";
 import Levenshtein from "./pages/algorithms/Levenshtein";
 import Kmp from "./pages/algorithms/Kmp";
 import Huffman from "./pages/algorithms/Huffman";
+import AvlTree from "./pages/algorithms/AvlTree";
+import BstTraversal from "./pages/algorithms/BstTraversal";
+import Btree from "./pages/algorithms/Btree";
+import MinHeap from "./pages/algorithms/MinHeap";
+import Trie from "./pages/algorithms/Trie";
+import LruCache from "./pages/algorithms/LruCache";
+import BloomFilter from "./pages/algorithms/BloomFilter";
+import UnionFind from "./pages/algorithms/UnionFind";
+import SlidingWindow from "./pages/algorithms/SlidingWindow";
+import ConvexHull from "./pages/algorithms/ConvexHull";
+import ElevatorScan from "./pages/algorithms/ElevatorScan";
+import Minimax from "./pages/algorithms/Minimax";
+import NQueens from "./pages/algorithms/NQueens";
 
 export default function App() {
   return (
@@ -52,6 +65,19 @@ export default function App() {
         <Route path="/algorithms/levenshtein" element={<Levenshtein />} />
         <Route path="/algorithms/kmp" element={<Kmp />} />
         <Route path="/algorithms/huffman" element={<Huffman />} />
+        <Route path="/algorithms/avl-tree" element={<AvlTree />} />
+        <Route path="/algorithms/bst-traversal" element={<BstTraversal />} />
+        <Route path="/algorithms/btree" element={<Btree />} />
+        <Route path="/algorithms/min-heap" element={<MinHeap />} />
+        <Route path="/algorithms/trie" element={<Trie />} />
+        <Route path="/algorithms/lru-cache" element={<LruCache />} />
+        <Route path="/algorithms/bloom-filter" element={<BloomFilter />} />
+        <Route path="/algorithms/union-find" element={<UnionFind />} />
+        <Route path="/algorithms/sliding-window" element={<SlidingWindow />} />
+        <Route path="/algorithms/convex-hull" element={<ConvexHull />} />
+        <Route path="/algorithms/elevator-scan" element={<ElevatorScan />} />
+        <Route path="/algorithms/minimax" element={<Minimax />} />
+        <Route path="/algorithms/n-queens" element={<NQueens />} />
       </Routes>
     </BrowserRouter>
   );

@@ -217,3 +217,5 @@ var PrimsAlgorithm = (function () {
 if (typeof module !== "undefined" && module.exports) {
   module.exports = PrimsAlgorithm;
 }
+
+export default PrimsAlgorithm;

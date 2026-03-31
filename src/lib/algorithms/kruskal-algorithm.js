@@ -164,3 +164,5 @@ var KruskalAlgorithm = (() => {
 if (typeof module !== "undefined" && module.exports) {
   module.exports = KruskalAlgorithm;
 }
+
+export default KruskalAlgorithm;
