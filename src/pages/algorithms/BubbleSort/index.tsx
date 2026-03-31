@@ -2,7 +2,6 @@ import { useState, useCallback, useEffect } from "react";
 import { Nav } from "@/components/Nav";
 import { PlaybackController } from "@/components/PlaybackController";
 import { WatchPanel } from "@/components/WatchPanel";
-import { ProblemFrame } from "@/components/ProblemFrame";
 import {
   generateSteps,
   type BubbleSortStep,
@@ -42,11 +41,11 @@ const SCENARIOS = [
 const PSEUDO_LINES = [
   "for each pass along the shelf:",
   "  no_swap = true",
-  "  for each neighbor pair:",
-  "    if left book taller:",
+  "  compare each neighboring book pair:",
+  "    if left book is taller than right:",
   "      swap them",
   "      no_swap = false",
-  "  if no_swap: done!",
+  "  if no_swap: shelf is sorted!",
 ];
 
 function randomArray(size: number): number[] {
@@ -68,8 +67,7 @@ function ArrayBars({ step, maxVal }: { step: BubbleSortStep; maxVal: number }) {
       }}
     >
       {arr.map((val, idx) => {
-        const isSorted =
-          sortedBoundary > 0 && idx >= arr.length - sortedBoundary;
+        const isSorted = idx >= sortedBoundary;
         const isComparing = idx === ci || idx === cj;
 
         let bg = "#3a3a3a";
@@ -231,25 +229,17 @@ export default function BubbleSort() {
     ? [
         { label: "pass", value: step.i >= 0 ? step.i + 1 : "—" },
         {
-          label: "comparing",
-          value:
-            step.comparing[0] >= 0
-              ? `[${step.comparing[0]}] vs [${step.comparing[1]}]`
-              : "—",
-          highlight: step.comparing[0] >= 0,
-        },
-        {
-          label: "A[i]",
+          label: "left book",
           value: step.comparing[0] >= 0 ? step.arr[step.comparing[0]] : "—",
         },
         {
-          label: "A[i+1]",
+          label: "right book",
           value: step.comparing[1] >= 0 ? step.arr[step.comparing[1]] : "—",
         },
         {
-          label: "swapped",
-          value: step.swapped ? "YES" : "no",
-          highlight: step.swapped,
+          label: "no_swap",
+          value: step.swapped ? "false" : "true",
+          highlight: !step.swapped,
         },
         { label: "comparisons", value: step.comparisons },
         { label: "swaps", value: step.swaps },
@@ -288,98 +278,126 @@ export default function BubbleSort() {
       <div className="content-grid">
         {/* Main column */}
         <div className="main-column">
-          {/* Problem + Analogy merged */}
-          <ProblemFrame title="The Problem">
-            <div className="app-section">
-              <span className="app-label">Analogy</span>
-              <p>
-                You have a shelf of <strong>books in random order</strong> and
-                need to sort them by height. You can only{" "}
-                <strong>compare two neighboring books</strong> at a time and
-                swap if they're out of order. After each full pass, the tallest
-                unsorted book has &ldquo;bubbled&rdquo; to its correct position.
+          {/* Top row: Analogy + Input side by side */}
+          <div
+            style={{
+              display: "flex",
+              gap: "1rem",
+              marginBottom: "1.5rem",
+              alignItems: "flex-start",
+            }}
+          >
+            {/* Analogy */}
+            <fieldset className="bs-fieldset" style={{ flex: "1 1 0" }}>
+              <legend className="bs-legend">Analogy</legend>
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: "0.9rem",
+                  lineHeight: 1.6,
+                  color: "var(--text-secondary)",
+                }}
+              >
+                You have a shelf of{" "}
+                <strong style={{ color: "var(--text-primary)" }}>
+                  books in random order
+                </strong>{" "}
+                and need to sort them by height. You can only{" "}
+                <strong style={{ color: "var(--text-primary)" }}>
+                  compare two neighboring books
+                </strong>{" "}
+                at a time and swap if they&rsquo;re out of order. After each
+                full pass, the tallest unsorted book has &ldquo;bubbled&rdquo;
+                to its correct position on the right.
               </p>
-            </div>
-            <div className="app-section">
-              <span className="app-label">Goal</span>
-              <p>
-                Sort numbers in ascending order by repeatedly swapping adjacent
-                elements that are out of order.
-              </p>
-            </div>
-          </ProblemFrame>
+            </fieldset>
+
+            {/* Scenarios + Custom Input */}
+            <fieldset className="bs-fieldset" style={{ flex: "0 0 260px" }}>
+              <legend className="bs-legend">Input</legend>
+
+              {/* Custom input — label pill + Run button */}
+              <div
+                style={{
+                  display: "flex",
+                  gap: "0.5rem",
+                  alignItems: "center",
+                  marginBottom: "0.6rem",
+                }}
+              >
+                <div className="bs-array-input-wrap">
+                  <label htmlFor="bs-input" className="bs-array-label">
+                    Array
+                  </label>
+                  <input
+                    id="bs-input"
+                    type="text"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") parseAndRun(inputValue);
+                    }}
+                    placeholder="38, 27, 43, 3, 9"
+                    maxLength={100}
+                    className="bs-array-input"
+                  />
+                </div>
+                <button
+                  className="btn-primary"
+                  style={{
+                    padding: "0.3rem 0.65rem",
+                    fontSize: "0.8rem",
+                    whiteSpace: "nowrap",
+                    flexShrink: 0,
+                  }}
+                  onClick={() => parseAndRun(inputValue)}
+                >
+                  Run
+                </button>
+              </div>
+              {error && (
+                <div
+                  className="algo-error visible"
+                  style={{ marginBottom: "0.4rem" }}
+                >
+                  {error}
+                </div>
+              )}
+
+              {/* Divider */}
+              <div
+                style={{
+                  borderTop: "1px solid var(--border)",
+                  margin: "0 0 0.5rem",
+                }}
+              />
+
+              {/* Scenarios — 2×2 horizontal grid */}
+              <div className="bs-scenarios-grid">
+                {SCENARIOS.map((s) => (
+                  <div key={s.id} className="bs-scenario-wrap">
+                    <button
+                      className={`bs-scenario-btn${activeScenario === s.id ? " active" : ""}`}
+                      onClick={
+                        s.id === "random"
+                          ? handleRandom
+                          : () => handleScenario(s)
+                      }
+                      title={s.tooltip}
+                    >
+                      {s.label}
+                    </button>
+                    <div className="bs-scenario-tip">{s.tooltip}</div>
+                  </div>
+                ))}
+              </div>
+            </fieldset>
+          </div>
 
           {/* Visualization panel */}
-          <div className="panel">
-            {/* Legend row — above the chart */}
-            <div
-              style={{
-                display: "flex",
-                gap: "1.25rem",
-                alignItems: "center",
-                fontSize: "0.8rem",
-                color: "var(--text-secondary)",
-                marginBottom: "1rem",
-              }}
-            >
-              <span>
-                <span
-                  className="swatch"
-                  style={{
-                    background: "var(--cat-sorting)",
-                    borderColor: "var(--cat-sorting)",
-                  }}
-                />
-                Comparing
-              </span>
-              <span>
-                <span
-                  className="swatch"
-                  style={{
-                    background: "var(--cat-graph)",
-                    borderColor: "var(--cat-graph)",
-                  }}
-                />
-                Sorted
-              </span>
-              <span>
-                <span
-                  className="swatch"
-                  style={{
-                    background: "#3a3a3a",
-                    borderColor: "#3a3a3a",
-                  }}
-                />
-                Unsorted
-              </span>
-            </div>
-
-            {/* Framed chart stage */}
-            <div
-              style={{
-                background: "#080808",
-                border: "1px solid var(--border)",
-                borderRadius: 8,
-                padding: "1rem 0.5rem 0.5rem",
-                marginBottom: "0.75rem",
-              }}
-            >
-              {step ? (
-                <ArrayBars step={step} maxVal={maxVal} />
-              ) : (
-                <div style={{ height: 280 }} />
-              )}
-            </div>
-
-            {/* Explanation */}
-            <div
-              className="info"
-              style={{ marginBottom: "0.75rem", minHeight: "1.5em" }}
-            >
-              {step?.explanation ?? ""}
-            </div>
-
-            {/* Playback bar — full width below chart */}
+          <div className="panel panel-fieldset">
+            <div className="panel-title">Visualization</div>
+            {/* Playback bar — above chart */}
             {steps.length > 0 && (
               <PlaybackController
                 steps={steps}
@@ -389,41 +407,78 @@ export default function BubbleSort() {
               />
             )}
 
-            {/* Custom input */}
-            <div className="controls" style={{ marginTop: "1.25rem" }}>
-              <div className="inputs">
-                <label htmlFor="bs-input">Custom array</label>
-                <input
-                  id="bs-input"
-                  type="text"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") parseAndRun(inputValue);
-                  }}
-                  placeholder="e.g. 8, 3, 5 — Enter or Run"
-                  maxLength={100}
-                />
+            {/* Explanation — below playback */}
+            <div
+              className="info"
+              style={{ minHeight: "1.5em", margin: "0.5rem 0" }}
+            >
+              {step?.explanation ?? ""}
+            </div>
+
+            {/* Framed chart stage with legend inside */}
+            <div
+              style={{
+                background: "#080808",
+                border: "1px solid var(--border)",
+                borderRadius: 8,
+                padding: "0.75rem 0.5rem 0.5rem",
+              }}
+            >
+              {/* Legend inside frame — top right */}
+              <div
+                style={{
+                  display: "flex",
+                  gap: "1rem",
+                  alignItems: "center",
+                  fontSize: "0.72rem",
+                  color: "var(--text-secondary)",
+                  marginBottom: "0.5rem",
+                  justifyContent: "flex-end",
+                  paddingRight: "0.25rem",
+                }}
+              >
+                <span>
+                  <span
+                    className="swatch"
+                    style={{
+                      background: "var(--cat-sorting)",
+                      borderColor: "var(--cat-sorting)",
+                    }}
+                  />
+                  Comparing
+                </span>
+                <span>
+                  <span
+                    className="swatch"
+                    style={{
+                      background: "var(--cat-graph)",
+                      borderColor: "var(--cat-graph)",
+                    }}
+                  />
+                  Sorted
+                </span>
+                <span>
+                  <span
+                    className="swatch"
+                    style={{ background: "#3a3a3a", borderColor: "#3a3a3a" }}
+                  />
+                  Unsorted
+                </span>
               </div>
-              {error && <div className="algo-error visible">{error}</div>}
-              <div className="buttons">
-                <button
-                  className="btn-primary"
-                  onClick={() => parseAndRun(inputValue)}
-                >
-                  Run
-                </button>
-              </div>
+
+              {step ? (
+                <ArrayBars step={step} maxVal={maxVal} />
+              ) : (
+                <div style={{ height: 280 }} />
+              )}
             </div>
           </div>
         </div>
 
         {/* Sidebar */}
         <div className="sidebar">
-          {step && <WatchPanel vars={watchVars} />}
-
-          {/* Pseudocode */}
-          <div className="panel">
+          {/* Pseudocode first */}
+          <div className="panel panel-fieldset">
             <div className="panel-title">Pseudocode</div>
             <div className="code-panel">
               {PSEUDO_LINES.map((line, idx) => (
@@ -437,51 +492,8 @@ export default function BubbleSort() {
             </div>
           </div>
 
-          {/* Scenarios */}
-          <div className="panel">
-            <div className="panel-title">Scenarios</div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "0.4rem",
-              }}
-            >
-              {SCENARIOS.map((s) => (
-                <button
-                  key={s.id}
-                  style={{
-                    width: "100%",
-                    textAlign: "left",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "0.15rem",
-                    padding: "0.5rem 0.75rem",
-                    height: "auto",
-                  }}
-                  className={activeScenario === s.id ? "btn-primary" : ""}
-                  onClick={
-                    s.id === "random" ? handleRandom : () => handleScenario(s)
-                  }
-                >
-                  <span style={{ fontWeight: 600, fontSize: "0.85rem" }}>
-                    {s.label}
-                  </span>
-                  <span
-                    style={{
-                      fontSize: "0.72rem",
-                      opacity: 0.7,
-                      fontWeight: 400,
-                      whiteSpace: "normal",
-                      lineHeight: 1.35,
-                    }}
-                  >
-                    {s.tooltip}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
+          {/* Watch below */}
+          {step && <WatchPanel vars={watchVars} />}
         </div>
       </div>
     </div>

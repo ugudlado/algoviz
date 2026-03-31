@@ -480,8 +480,6 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1rem;
-  padding-top: 1rem;
 }
 
 .playback-btns {
@@ -631,8 +629,8 @@ input[type="range"] {
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 1.25rem;
 }
 
 .panel-title {
@@ -645,6 +643,178 @@ input[type="range"] {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+/* Color legend swatch dot */
+.swatch {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  margin-right: 4px;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+
+/* === Fieldset panels — title sits ON the border (like HTML <fieldset>) === */
+
+/* Native fieldset reset + style */
+.bs-fieldset {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.75rem 1rem 1rem;
+  margin: 0;
+  background: var(--bg-secondary);
+}
+
+.bs-legend {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0 0.4rem;
+}
+
+/* Array label+input pill (matches image reference) */
+.bs-array-input-wrap {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+
+.bs-array-input-wrap:focus-within {
+  border-color: var(--border-hover);
+}
+
+.bs-array-label {
+  padding: 0 0.65rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background: var(--bg-tertiary);
+  cursor: default;
+}
+
+.bs-array-input {
+  flex: 1;
+  background: transparent;
+  border: none !important;
+  outline: none !important;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  min-width: 0;
+}
+
+.bs-array-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Scenarios: 2×2 horizontal grid */
+.bs-scenarios-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+}
+
+/* Scenario buttons — compact chips with hover tooltip */
+.bs-scenario-wrap {
+  position: relative;
+}
+
+.bs-scenario-btn {
+  width: 100%;
+  text-align: center;
+  padding: 0.3rem 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    color 0.15s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bs-scenario-btn:hover {
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+  background: var(--bg-input);
+}
+
+.bs-scenario-btn.active {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.bs-scenario-tip {
+  display: none;
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  min-width: 160px;
+  z-index: 20;
+  background: #1c1c1c;
+  border: 1px solid var(--border-hover);
+  border-radius: 6px;
+  padding: 0.4rem 0.55rem;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* right column tooltips open leftward so they don't clip */
+.bs-scenarios-grid > :nth-child(even) .bs-scenario-tip {
+  left: auto;
+  right: 0;
+}
+
+.bs-scenario-wrap:hover .bs-scenario-tip {
+  display: block;
+}
+
+/* .panel with fieldset-style legend — convert .panel + .panel-title to fieldset look */
+.panel.panel-fieldset {
+  position: relative;
+  padding-top: 1.5rem;
+}
+
+.panel.panel-fieldset > .panel-title {
+  position: absolute;
+  top: -0.55rem;
+  left: 1rem;
+  background: var(--bg-secondary);
+  padding: 0 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0;
 }
 
 /* --- Stats Panel (shared pattern) --- */
@@ -865,17 +1035,23 @@ input[type="range"] {
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 0.9rem 1.1rem;
+  padding: 0.75rem 1rem 0.75rem;
+  padding-top: 1.35rem;
   margin-bottom: 1.25rem;
+  position: relative;
 }
 
 .algo-watch-title {
+  position: absolute;
+  top: -0.55rem;
+  left: 1rem;
+  background: var(--bg-secondary);
+  padding: 0 0.4rem;
   font-size: 0.65rem;
   font-weight: 700;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  margin-bottom: 0.65rem;
 }
 
 .algo-watch-row {
