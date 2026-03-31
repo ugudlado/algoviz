@@ -50,17 +50,17 @@ const NAV_CONFIG: NavCategory[] = [
     label: "DP",
     category: "dp",
     items: [
-      { label: "Knapsack (0/1)", path: "#knapsack" },
-      { label: "LCS", path: "#lcs" },
-      { label: "Levenshtein Distance", path: "#levenshtein" },
+      { label: "Knapsack (0/1)", path: "/algorithms/knapsack" },
+      { label: "LCS", path: "/algorithms/lcs" },
+      { label: "Levenshtein Distance", path: "/algorithms/levenshtein" },
     ],
   },
   {
     label: "String",
     category: "string",
     items: [
-      { label: "KMP Search", path: "#kmp" },
-      { label: "Huffman Coding", path: "#huffman" },
+      { label: "KMP Search", path: "/algorithms/kmp" },
+      { label: "Huffman Coding", path: "/algorithms/huffman" },
     ],
   },
   {

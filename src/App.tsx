@@ -15,6 +15,11 @@ import Prims from "./pages/algorithms/Prims";
 import FloydWarshall from "./pages/algorithms/FloydWarshall";
 import TopoSort from "./pages/algorithms/TopoSort";
 import FordFulkerson from "./pages/algorithms/FordFulkerson";
+import Knapsack from "./pages/algorithms/Knapsack";
+import Lcs from "./pages/algorithms/Lcs";
+import Levenshtein from "./pages/algorithms/Levenshtein";
+import Kmp from "./pages/algorithms/Kmp";
+import Huffman from "./pages/algorithms/Huffman";
 
 export default function App() {
   return (
@@ -42,6 +47,11 @@ export default function App() {
         <Route path="/algorithms/floyd-warshall" element={<FloydWarshall />} />
         <Route path="/algorithms/ford-fulkerson" element={<FordFulkerson />} />
         <Route path="/algorithms/topo-sort" element={<TopoSort />} />
+        <Route path="/algorithms/knapsack" element={<Knapsack />} />
+        <Route path="/algorithms/lcs" element={<Lcs />} />
+        <Route path="/algorithms/levenshtein" element={<Levenshtein />} />
+        <Route path="/algorithms/kmp" element={<Kmp />} />
+        <Route path="/algorithms/huffman" element={<Huffman />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,0 +1,212 @@
+/* LCS (Longest Common Subsequence) visualization styles — extends base dark theme */
+
+/* --- DP Table Container --- */
+.lcs-table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.lcs-table {
+  border-collapse: collapse;
+  margin: 0 auto;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+/* --- Table Cells --- */
+.lcs-table td,
+.lcs-table th {
+  width: 36px;
+  height: 36px;
+  text-align: center;
+  border: 1px solid #1f1f1f;
+  background: #0a0a0a;
+  color: #c9d1d9;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  position: relative;
+  font-size: 0.78rem;
+}
+
+/* Header cells (row 0 and col 0 labels) */
+.lcs-table th {
+  background: #111111;
+  color: #a1a1a1;
+  font-weight: 600;
+  font-size: 0.7rem;
+}
+
+/* Base row/col cells (all-zero row/col) */
+.lcs-base {
+  background: #0d1117 !important;
+  color: #555555 !important;
+}
+
+/* --- Cell States --- */
+.lcs-match {
+  background: #1a4d2e !important;
+  border-color: #3fb950 !important;
+  color: #3fb950 !important;
+  font-weight: 700;
+}
+
+.lcs-nomatch {
+  background: #161b22 !important;
+  border-color: #2d333b !important;
+  color: #8b949e !important;
+}
+
+.lcs-current {
+  outline: 2px solid #f5f5f5 !important;
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+.lcs-traceback {
+  outline: 2px solid #bc8cff !important;
+  outline-offset: -2px;
+  box-shadow: inset 0 0 6px rgba(188, 140, 255, 0.25);
+  z-index: 2;
+}
+
+/* Traceback match highlight (both match and traceback) */
+.lcs-traceback.lcs-match {
+  background: #2d1a4d !important;
+  border-color: #bc8cff !important;
+  color: #bc8cff !important;
+}
+
+/* --- Legend --- */
+.lcs-legend {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  font-size: 0.78rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.lcs-legend .swatch.lcs-match-swatch {
+  background: #1a4d2e;
+  border: 1px solid #3fb950;
+}
+
+.lcs-legend .swatch.lcs-nomatch-swatch {
+  background: #161b22;
+  border: 1px solid #2d333b;
+}
+
+.lcs-legend .swatch.lcs-current-swatch {
+  background: #111111;
+  border: 2px solid #f5f5f5;
+}
+
+.lcs-legend .swatch.lcs-traceback-swatch {
+  background: #2d1a4d;
+  border: 1px solid #bc8cff;
+}
+
+/* --- Result String --- */
+.lcs-result-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+}
+
+.lcs-result-label {
+  font-size: 0.78rem;
+  color: #a1a1a1;
+  font-weight: 600;
+}
+
+.lcs-char {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: #1a4d2e;
+  border: 1px solid #3fb950;
+  border-radius: 4px;
+  color: #3fb950;
+  font-weight: 700;
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+}
+
+.lcs-result-length {
+  font-size: 0.78rem;
+  color: #a1a1a1;
+  margin-left: 0.5rem;
+}
+
+.lcs-result-empty {
+  font-size: 0.78rem;
+  color: #555555;
+  font-style: italic;
+}
+
+/* --- Error --- */
+.lcs-error {
+  color: #f85149;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+/* --- String display (input chars above table) --- */
+.lcs-string-row {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: #8b949e;
+}
+
+.lcs-string-label {
+  font-weight: 600;
+  min-width: 2.5rem;
+  color: #a1a1a1;
+}
+
+.lcs-string-char {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 20px;
+  background: #111111;
+  border: 1px solid #1f1f1f;
+  border-radius: 3px;
+  color: #c9d1d9;
+  font-size: 0.75rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+  .lcs-table td,
+  .lcs-table th {
+    width: 28px;
+    height: 28px;
+    font-size: 0.65rem;
+  }
+
+  .lcs-string-char {
+    width: 28px;
+  }
+
+  .lcs-legend {
+    gap: 0.6rem;
+    font-size: 0.7rem;
+  }
+}
