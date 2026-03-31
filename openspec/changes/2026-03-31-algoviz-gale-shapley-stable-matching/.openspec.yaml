@@ -6,5 +6,5 @@ priority: 9.4
 source: ideator
 created: 2026-03-31
 last-autopilot-run: 2026-03-31
-last-autopilot-result: fail
-last-autopilot-notes: "Runtime/UX evidence and repo-wide format gate remain unresolved."
+last-autopilot-result: pass
+last-autopilot-notes: "Quality gates are green; runtime boot blocker fixed and route-level verification completed."
