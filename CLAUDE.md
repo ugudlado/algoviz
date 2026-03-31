@@ -37,6 +37,35 @@ pnpm build
 
 **Lint coverage**: ESLint now lints ALL `.js` files including `*-algorithm.js` and `*-algorithm.test.js`. Algorithm files get `node` env (for `module.exports`) and a pattern to suppress expected IIFE global assignment warnings. Test files get `node` env. Unused variables will be caught in all files.
 
+## Workflow Evidence Gates (Required Before Completion)
+
+Apply these gates for every feature/bugfix completion check. "Completion" is blocked until all required evidence is recorded in the execution notes.
+
+### UI-Touching Work: Mandatory UX Review Evidence
+- If any UI file is changed (`*.tsx`, `*.jsx`, `*.html`, `*.css`, page/layout/component files), you MUST run a UX review and record evidence.
+- Required evidence to record:
+  - What was reviewed (screens/views + changed interactions)
+  - How it was reviewed (manual walkthrough and/or critique/review agent/tool)
+  - Result summary (pass/fail + issues found/fixed)
+- Missing UX review evidence is a blocking process failure for UI-touching work.
+
+### UI-Touching Work: Edge-Case UX Validation Checklist
+- For each changed user flow/state, explicitly validate and record:
+  - Minimum/empty state (no data, empty input, first-load state)
+  - Typical state (normal user path)
+  - Stress/extreme state (long text, max bounds, dense data, narrow viewport)
+  - Failure/error state (invalid input, algorithm guardrails, unavailable data)
+- Record the observed behavior for each checklist item. "Not checked" is not allowed for completion.
+
+### Quality-Gate Hygiene (Always Required)
+- Before completion, run and record outcomes for:
+  - `pnpm run lint`
+  - `pnpm test`
+  - `pnpm run format:check`
+  - `pnpm run knip`
+- All four must pass. If `format:check` fails, run `pnpm run format`, then re-run `pnpm run format:check` and record the final pass.
+- Do not mark tasks/phase/feature complete until all required quality-gate pass evidence is present.
+
 ## Architecture
 
 Each algorithm is a standalone page:
@@ -138,6 +167,7 @@ These conventions apply to the Vite+React migration, used for organizing the nex
 ### React Page Conventions
 - Use `<fieldset>` + `<legend>` for grouped input controls (algorithm parameters, speed settings) — semantic HTML, accessible, built-in visual grouping without extra CSS <!-- learned: cycle 2, 2026-03-31 -->
 - React components consume algorithm step data as read-only — all computation lives in algorithm modules, components only render and dispatch user actions <!-- learned: cycle 2, 2026-03-31 -->
+- Any randomized homepage/recommendation card MUST degrade gracefully when candidate lists are empty (show fallback copy + disabled CTA) instead of throwing during render. <!-- learned: cycle 6, 2026-04-01 -->
 
 ### Build and Configuration
 - **`@types/node` required**: Always add `@types/node` as devDependency when using `vite.config.ts` with path aliases — needed for `path` module and `__dirname`

@@ -45,3 +45,18 @@ These rules come from real review failures. Follow them to avoid regressions.
 - Every input field must have `max` attribute or programmatic cap
 - Show a clear error message when exceeded
 **Why:** Caught unbounded recursive depth in tree algorithms causing browser freeze.
+
+**UI changes require explicit UX evidence**
+- If any UI file is touched (`*.tsx`, `*.jsx`, `*.html`, `*.css`), completion requires recorded UX review evidence
+- Evidence must include: scope reviewed, review method, and pass/fail result with issues fixed
+**Why:** UI-touching cycles failed process review when UX evidence was omitted.
+
+**Edge-case UX validation is mandatory for UI work**
+- Validate and record: empty/minimum state, normal state, stress/extreme state, and failure/error state
+- "Not checked" is not acceptable when marking completion for UI changes
+**Why:** Edge-case UX regressions were missed when validation was implicit or partial.
+
+**Quality-gate evidence must include format and dead-code checks**
+- Record passing results for `pnpm run lint`, `pnpm test`, `pnpm run format:check`, and `pnpm run knip` before completion
+- If format check fails, run `pnpm run format` and re-run `pnpm run format:check` until pass
+**Why:** Quality hygiene drift occurred when format/knip evidence was not enforced as hard completion criteria.
