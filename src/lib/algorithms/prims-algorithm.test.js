@@ -1,32 +1,17 @@
 /**
- * Prim's Minimum Spanning Tree Algorithm Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  *
  * Covers: known graphs, disconnected graph, single node, complete graph,
  * step trace structure, edge selection order, MAX_VERTICES, createGraph, addEdge.
  */
 
-function runTests({ assert }) {
-  let passed = 0;
-  let failed = 0;
-  const failures = [];
-
-  const PrimsAlgorithm = require("./prims-algorithm.js");
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("prims algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+const PrimsAlgorithm = require("./prims-algorithm.js");
   // --- createGraph helper ---
-  check(() => {
+  it(() => {
     const g = PrimsAlgorithm.createGraph(3);
     assert(g.numVertices === 3, "numVertices is 3");
     assert(typeof g.adjacency === "object", "adjacency is an object");
@@ -36,7 +21,7 @@ function runTests({ assert }) {
     assert(g.adjacency[0].length === 0, "node 0 starts empty");
   }, "createGraph: creates correct empty adjacency list");
 
-  check(() => {
+  it(() => {
     const g = PrimsAlgorithm.createGraph(1);
     assert(g.numVertices === 1, "single node numVertices is 1");
     assert(Array.isArray(g.adjacency[0]), "single node 0 adjacency exists");
@@ -44,7 +29,7 @@ function runTests({ assert }) {
   }, "createGraph: single node");
 
   // --- addEdge helper ---
-  check(() => {
+  it(() => {
     const g = PrimsAlgorithm.createGraph(3);
     PrimsAlgorithm.addEdge(g, 0, 1, 5);
     assert(g.adjacency[0].length === 1, "node 0 has 1 neighbor");
@@ -55,7 +40,7 @@ function runTests({ assert }) {
     assert(g.adjacency[1][0].weight === 5, "reverse edge weight is 5");
   }, "addEdge: creates undirected edge in both directions");
 
-  check(() => {
+  it(() => {
     const g = PrimsAlgorithm.createGraph(3);
     PrimsAlgorithm.addEdge(g, 0, 1, 3);
     PrimsAlgorithm.addEdge(g, 1, 2, 7);
@@ -65,12 +50,12 @@ function runTests({ assert }) {
   }, "addEdge: multiple edges from same node");
 
   // --- MAX_VERTICES ---
-  check(() => {
+  it(() => {
     assert(PrimsAlgorithm.MAX_VERTICES === 12, "MAX_VERTICES is 12");
   }, "MAX_VERTICES constant is 12");
 
   // --- Single node graph ---
-  check(() => {
+  it(() => {
     const g = PrimsAlgorithm.createGraph(1);
     const result = PrimsAlgorithm.primsMST(g, 0);
     assert(Array.isArray(result.mstEdges), "mstEdges is array");
@@ -80,7 +65,7 @@ function runTests({ assert }) {
   }, "Single node: empty MST, zero weight");
 
   // --- Known 3-node triangle ---
-  check(() => {
+  it(() => {
     // 0 -1- 1 -3- 2 -2- 0  (triangle with weights 1, 3, 2)
     // MST from node 0: pick edge 0-1 (w=1), then pick 0-2 (w=2), skip 1-2 (cycle)
     // Total MST weight = 3
@@ -93,7 +78,7 @@ function runTests({ assert }) {
     assert(result.totalWeight === 3, "triangle MST total weight is 1+2=3");
   }, "Triangle graph: correct MST edges and total weight");
 
-  check(() => {
+  it(() => {
     const g = PrimsAlgorithm.createGraph(3);
     PrimsAlgorithm.addEdge(g, 0, 1, 1);
     PrimsAlgorithm.addEdge(g, 1, 2, 3);
@@ -116,7 +101,7 @@ function runTests({ assert }) {
   }, "Triangle graph: MST contains cheapest edges");
 
   // --- Known 4-node graph ---
-  check(() => {
+  it(() => {
     // 0-1:2, 0-3:6, 1-2:3, 1-3:8, 2-3:7
     // MST from 0: 0-1(2), 1-2(3), 0-3(6) — total 11
     const g = PrimsAlgorithm.createGraph(4);
@@ -130,7 +115,7 @@ function runTests({ assert }) {
     assert(result.totalWeight === 11, "4-node MST total weight is 11");
   }, "4-node graph: correct MST total weight");
 
-  check(() => {
+  it(() => {
     const g = PrimsAlgorithm.createGraph(4);
     PrimsAlgorithm.addEdge(g, 0, 1, 2);
     PrimsAlgorithm.addEdge(g, 0, 3, 6);
@@ -159,7 +144,7 @@ function runTests({ assert }) {
   }, "4-node graph: MST contains correct specific edges");
 
   // --- Complete graph (K4) ---
-  check(() => {
+  it(() => {
     // K4: all 4 nodes fully connected with different weights
     // 0-1:1, 0-2:2, 0-3:3, 1-2:4, 1-3:5, 2-3:6
     // MST: 0-1(1), 0-2(2), 0-3(3) — total 6
@@ -176,7 +161,7 @@ function runTests({ assert }) {
   }, "Complete graph K4: minimum total weight MST");
 
   // --- Disconnected graph ---
-  check(() => {
+  it(() => {
     // Nodes 0,1,2 connected; node 3 isolated
     const g = PrimsAlgorithm.createGraph(4);
     PrimsAlgorithm.addEdge(g, 0, 1, 4);
@@ -195,7 +180,7 @@ function runTests({ assert }) {
   }, "Disconnected graph: MST covers reachable nodes only");
 
   // --- Step trace structure ---
-  check(() => {
+  it(() => {
     const g = PrimsAlgorithm.createGraph(3);
     PrimsAlgorithm.addEdge(g, 0, 1, 5);
     PrimsAlgorithm.addEdge(g, 1, 2, 3);
@@ -213,7 +198,7 @@ function runTests({ assert }) {
     assert(step.totalWeight !== undefined, "step has totalWeight");
   }, "Step trace: each step has required fields");
 
-  check(() => {
+  it(() => {
     const g = PrimsAlgorithm.createGraph(3);
     PrimsAlgorithm.addEdge(g, 0, 1, 5);
     PrimsAlgorithm.addEdge(g, 1, 2, 3);
@@ -224,7 +209,7 @@ function runTests({ assert }) {
     assert(types.includes("add_edge"), "steps include add_edge type");
   }, "Step trace: steps include visit and add_edge types");
 
-  check(() => {
+  it(() => {
     const g = PrimsAlgorithm.createGraph(3);
     PrimsAlgorithm.addEdge(g, 0, 1, 1);
     PrimsAlgorithm.addEdge(g, 1, 2, 3);
@@ -239,7 +224,7 @@ function runTests({ assert }) {
   }, "Step trace: skip_edge type appears for cycle-forming edges");
 
   // --- Edge selection order: cheapest candidate always selected first ---
-  check(() => {
+  it(() => {
     // From node 0: candidates 0-1(w=10), 0-2(w=1)
     // Should pick 0-2 first (cheaper)
     const g = PrimsAlgorithm.createGraph(3);
@@ -256,7 +241,7 @@ function runTests({ assert }) {
   }, "Edge selection: cheapest candidate always selected first");
 
   // --- Priority queue is sorted by weight ---
-  check(() => {
+  it(() => {
     const g = PrimsAlgorithm.createGraph(4);
     PrimsAlgorithm.addEdge(g, 0, 1, 5);
     PrimsAlgorithm.addEdge(g, 0, 2, 2);
@@ -275,7 +260,7 @@ function runTests({ assert }) {
   }, "Priority queue is sorted ascending by weight at each step");
 
   // --- mstSoFar grows monotonically ---
-  check(() => {
+  it(() => {
     const g = PrimsAlgorithm.createGraph(3);
     PrimsAlgorithm.addEdge(g, 0, 1, 2);
     PrimsAlgorithm.addEdge(g, 1, 2, 3);
@@ -292,7 +277,7 @@ function runTests({ assert }) {
   }, "mstSoFar grows monotonically across steps");
 
   // --- visited set grows monotonically ---
-  check(() => {
+  it(() => {
     const g = PrimsAlgorithm.createGraph(3);
     PrimsAlgorithm.addEdge(g, 0, 1, 2);
     PrimsAlgorithm.addEdge(g, 1, 2, 3);
@@ -308,7 +293,7 @@ function runTests({ assert }) {
   }, "Visited set grows monotonically across steps");
 
   // --- Different start nodes give same MST weight ---
-  check(() => {
+  it(() => {
     const g = PrimsAlgorithm.createGraph(4);
     PrimsAlgorithm.addEdge(g, 0, 1, 2);
     PrimsAlgorithm.addEdge(g, 0, 3, 6);
@@ -324,7 +309,7 @@ function runTests({ assert }) {
   }, "Different start nodes yield same MST total weight");
 
   // --- Two-node graph ---
-  check(() => {
+  it(() => {
     const g = PrimsAlgorithm.createGraph(2);
     PrimsAlgorithm.addEdge(g, 0, 1, 7);
     const result = PrimsAlgorithm.primsMST(g, 0);
@@ -333,7 +318,7 @@ function runTests({ assert }) {
   }, "Two-node graph: single MST edge");
 
   // --- Final step totalWeight matches result totalWeight ---
-  check(() => {
+  it(() => {
     const g = PrimsAlgorithm.createGraph(4);
     PrimsAlgorithm.addEdge(g, 0, 1, 2);
     PrimsAlgorithm.addEdge(g, 0, 3, 6);
@@ -348,7 +333,7 @@ function runTests({ assert }) {
   }, "Last step totalWeight matches final result totalWeight");
 
   // --- Start node is first in visited ---
-  check(() => {
+  it(() => {
     const g = PrimsAlgorithm.createGraph(3);
     PrimsAlgorithm.addEdge(g, 0, 1, 1);
     PrimsAlgorithm.addEdge(g, 1, 2, 2);
@@ -362,7 +347,7 @@ function runTests({ assert }) {
   }, "Start node is visited first");
 
   // --- All nodes visited in connected graph ---
-  check(() => {
+  it(() => {
     const g = PrimsAlgorithm.createGraph(4);
     PrimsAlgorithm.addEdge(g, 0, 1, 2);
     PrimsAlgorithm.addEdge(g, 1, 2, 3);
@@ -381,7 +366,7 @@ function runTests({ assert }) {
   }, "All nodes visited in connected graph");
 
   // --- MAX_VERTICES enforced by buildAlgoGraph callers (boundary check) ---
-  check(() => {
+  it(() => {
     // Verify MAX_VERTICES is exported and is a positive integer <= 20
     const max = PrimsAlgorithm.MAX_VERTICES;
     assert(typeof max === "number", "MAX_VERTICES is a number");
@@ -389,8 +374,4 @@ function runTests({ assert }) {
     assert(max <= 20, "MAX_VERTICES is at most 20 (reasonable upper bound)");
     assert(Number.isInteger(max), "MAX_VERTICES is an integer");
   }, "MAX_VERTICES is exported and within valid range");
-
-  return { passed, failed, failures };
-}
-
-module.exports = { runTests };
+});

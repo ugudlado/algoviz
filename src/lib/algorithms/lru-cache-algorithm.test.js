@@ -1,32 +1,21 @@
 /**
- * LRU Cache Algorithm Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  *
  * Tests cover: empty cache, capacity 1, get miss, put eviction,
  * get promotion, duplicate put, large capacity, browser cache preset.
  */
 
-function runTests({ assert, assertEqual }) {
-  let passed = 0;
-  let failed = 0;
-  const failures = [];
-
-  const LRUCacheAlgorithm = require("./lru-cache-algorithm.js");
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("lru cache algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+const LRUCacheAlgorithm = require("./lru-cache-algorithm.js");
   // --- createCache ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(3);
     assertEqual(cache.capacity, 3, "capacity is 3");
     assertEqual(cache.size, 0, "initial size is 0");
@@ -35,14 +24,14 @@ function runTests({ assert, assertEqual }) {
     assertEqual(Object.keys(cache.map).length, 0, "map is empty");
   }, "createCache returns empty cache with correct capacity");
 
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(1);
     assertEqual(cache.capacity, 1, "capacity is 1");
     assertEqual(cache.size, 0, "size is 0");
   }, "createCache with capacity 1");
 
   // --- put: single entry ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(3);
     const result = LRUCacheAlgorithm.put(cache, "A", 1);
     assertEqual(cache.size, 1, "size is 1");
@@ -55,7 +44,7 @@ function runTests({ assert, assertEqual }) {
   }, "put single entry into empty cache");
 
   // --- put: multiple entries, MRU at head ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(3);
     LRUCacheAlgorithm.put(cache, "A", 1);
     LRUCacheAlgorithm.put(cache, "B", 2);
@@ -68,7 +57,7 @@ function runTests({ assert, assertEqual }) {
   }, "put multiple entries: MRU at head, LRU at tail");
 
   // --- put: eviction when at capacity ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(3);
     LRUCacheAlgorithm.put(cache, "A", 1);
     LRUCacheAlgorithm.put(cache, "B", 2);
@@ -84,7 +73,7 @@ function runTests({ assert, assertEqual }) {
   }, "put evicts LRU entry when at capacity");
 
   // --- put: duplicate key updates value ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(3);
     LRUCacheAlgorithm.put(cache, "A", 1);
     LRUCacheAlgorithm.put(cache, "B", 2);
@@ -99,7 +88,7 @@ function runTests({ assert, assertEqual }) {
   }, "put duplicate key updates value and promotes to MRU");
 
   // --- get: cache hit promotes to MRU ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(3);
     LRUCacheAlgorithm.put(cache, "A", 1);
     LRUCacheAlgorithm.put(cache, "B", 2);
@@ -113,7 +102,7 @@ function runTests({ assert, assertEqual }) {
   }, "get promotes accessed entry to MRU (head)");
 
   // --- get: cache miss ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(3);
     LRUCacheAlgorithm.put(cache, "A", 1);
     const result = LRUCacheAlgorithm.get(cache, "Z");
@@ -122,7 +111,7 @@ function runTests({ assert, assertEqual }) {
   }, "get on non-existent key returns miss");
 
   // --- get: empty cache ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(3);
     const result = LRUCacheAlgorithm.get(cache, "A");
     assertEqual(result.value, -1, "empty cache miss");
@@ -130,7 +119,7 @@ function runTests({ assert, assertEqual }) {
   }, "get on empty cache returns miss");
 
   // --- capacity 1: immediate eviction ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(1);
     LRUCacheAlgorithm.put(cache, "A", 1);
     assertEqual(cache.size, 1, "size is 1");
@@ -143,7 +132,7 @@ function runTests({ assert, assertEqual }) {
   }, "capacity 1 cache evicts immediately on second put");
 
   // --- capacity 1: duplicate put ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(1);
     LRUCacheAlgorithm.put(cache, "A", 1);
     const result = LRUCacheAlgorithm.put(cache, "A", 99);
@@ -154,7 +143,7 @@ function runTests({ assert, assertEqual }) {
   }, "capacity 1 duplicate put updates without evicting");
 
   // --- capacity 1: get then put ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(1);
     LRUCacheAlgorithm.put(cache, "A", 1);
     const getResult = LRUCacheAlgorithm.get(cache, "A");
@@ -165,7 +154,7 @@ function runTests({ assert, assertEqual }) {
   }, "capacity 1: get then put evicts correctly");
 
   // --- doubly-linked list integrity ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(4);
     LRUCacheAlgorithm.put(cache, "A", 1);
     LRUCacheAlgorithm.put(cache, "B", 2);
@@ -185,7 +174,7 @@ function runTests({ assert, assertEqual }) {
   }, "doubly-linked list forward and backward pointers are consistent");
 
   // --- get middle element promotes correctly ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(3);
     LRUCacheAlgorithm.put(cache, "A", 1);
     LRUCacheAlgorithm.put(cache, "B", 2);
@@ -200,7 +189,7 @@ function runTests({ assert, assertEqual }) {
   }, "get middle element promotes and relinks correctly");
 
   // --- get head element (already MRU) ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(3);
     LRUCacheAlgorithm.put(cache, "A", 1);
     LRUCacheAlgorithm.put(cache, "B", 2);
@@ -212,7 +201,7 @@ function runTests({ assert, assertEqual }) {
   }, "get head element (already MRU) is a no-op");
 
   // --- get tail element promotes to head ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(3);
     LRUCacheAlgorithm.put(cache, "A", 1);
     LRUCacheAlgorithm.put(cache, "B", 2);
@@ -224,7 +213,7 @@ function runTests({ assert, assertEqual }) {
   }, "get tail element promotes to head, new tail is correct");
 
   // --- multiple evictions ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(2);
     LRUCacheAlgorithm.put(cache, "A", 1);
     LRUCacheAlgorithm.put(cache, "B", 2);
@@ -238,7 +227,7 @@ function runTests({ assert, assertEqual }) {
   }, "multiple sequential evictions work correctly");
 
   // --- getOrder: returns keys head to tail ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(3);
     LRUCacheAlgorithm.put(cache, "A", 1);
     LRUCacheAlgorithm.put(cache, "B", 2);
@@ -249,14 +238,14 @@ function runTests({ assert, assertEqual }) {
     assertEqual(order[2].key, "A", "LRU last");
   }, "getOrder returns entries from MRU to LRU");
 
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(3);
     const order = LRUCacheAlgorithm.getOrder(cache);
     assertEqual(order.length, 0, "empty cache order");
   }, "getOrder on empty cache returns empty array");
 
   // --- getSteps: records operation history ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(3);
     const steps = [];
     LRUCacheAlgorithm.putWithSteps(cache, "A", 1, steps);
@@ -266,7 +255,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(lastStep.key, "A", "step key is A");
   }, "putWithSteps records operation steps");
 
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(3);
     const steps = [];
     LRUCacheAlgorithm.putWithSteps(cache, "A", 1, steps);
@@ -277,7 +266,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(lastStep.hit, true, "hit is true");
   }, "getWithSteps records cache hit step");
 
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(3);
     const steps = [];
     LRUCacheAlgorithm.getWithSteps(cache, "X", steps);
@@ -286,7 +275,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(lastStep.hit, false, "miss recorded");
   }, "getWithSteps records cache miss step");
 
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(2);
     const steps = [];
     LRUCacheAlgorithm.putWithSteps(cache, "A", 1, steps);
@@ -301,7 +290,7 @@ function runTests({ assert, assertEqual }) {
   }, "putWithSteps records eviction in steps");
 
   // --- step snapshots include list order and map state ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(3);
     const steps = [];
     LRUCacheAlgorithm.putWithSteps(cache, "A", 1, steps);
@@ -316,7 +305,7 @@ function runTests({ assert, assertEqual }) {
   }, "steps include order and map snapshots");
 
   // --- getBrowserCachePreset ---
-  check(() => {
+  it(() => {
     const preset = LRUCacheAlgorithm.getBrowserCachePreset();
     assert(typeof preset.capacity === "number", "has capacity");
     assert(preset.capacity > 0, "capacity > 0");
@@ -328,7 +317,7 @@ function runTests({ assert, assertEqual }) {
   }, "getBrowserCachePreset returns valid preset");
 
   // --- large capacity: no eviction until full ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(20);
     for (let i = 0; i < 20; i++) {
       const result = LRUCacheAlgorithm.put(cache, "K" + i, i);
@@ -341,7 +330,7 @@ function runTests({ assert, assertEqual }) {
   }, "large capacity: eviction only after exceeding capacity");
 
   // --- stress: interleaved gets and puts ---
-  check(() => {
+  it(() => {
     const cache = LRUCacheAlgorithm.createCache(3);
     LRUCacheAlgorithm.put(cache, "A", 1);
     LRUCacheAlgorithm.put(cache, "B", 2);
@@ -357,8 +346,4 @@ function runTests({ assert, assertEqual }) {
     );
     assertEqual(LRUCacheAlgorithm.get(cache, "B").hit, false, "B was evicted");
   }, "interleaved get+put: promoted key survives eviction");
-
-  return { passed, failed, failures };
-}
-
-module.exports = { runTests };
+});

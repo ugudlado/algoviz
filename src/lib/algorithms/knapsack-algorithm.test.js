@@ -1,30 +1,19 @@
 /**
- * Knapsack Algorithm Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  */
 
-function runTests({ assert, assertEqual }) {
-  let passed = 0;
-  let failed = 0;
-  const failures = [];
-
-  // Load the algorithm module
-  const KnapsackAlgorithm = require("./knapsack-algorithm.js");
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("knapsack algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+// Load the algorithm module
+  const KnapsackAlgorithm = require("./knapsack-algorithm.js");
   // --- Basic correctness ---
-  check(() => {
+  it(() => {
     const items = [
       { weight: 2, value: 3 },
       { weight: 3, value: 4 },
@@ -36,7 +25,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(result.traceback.totalValue, 9, "Traceback totalValue");
   }, "Basic correctness: 4 items, capacity 7, optimal = 9");
 
-  check(() => {
+  it(() => {
     const items = [
       { weight: 1, value: 1 },
       { weight: 3, value: 4 },
@@ -48,21 +37,21 @@ function runTests({ assert, assertEqual }) {
   }, "Textbook example: optimal = 9");
 
   // --- Single item ---
-  check(() => {
+  it(() => {
     const result = KnapsackAlgorithm.solve([{ weight: 3, value: 5 }], 5);
     assertEqual(result.dp[1][5], 5, "Value");
     assertEqual(result.traceback.selectedItems.length, 1, "Count");
     assertEqual(result.traceback.totalWeight, 3, "Weight");
   }, "Single item fits");
 
-  check(() => {
+  it(() => {
     const result = KnapsackAlgorithm.solve([{ weight: 6, value: 5 }], 5);
     assertEqual(result.dp[1][5], 0, "Value");
     assertEqual(result.traceback.selectedItems.length, 0, "Count");
   }, "Single item too heavy");
 
   // --- All items fit ---
-  check(() => {
+  it(() => {
     const items = [
       { weight: 1, value: 2 },
       { weight: 2, value: 3 },
@@ -75,7 +64,7 @@ function runTests({ assert, assertEqual }) {
   }, "All items fit");
 
   // --- No items fit ---
-  check(() => {
+  it(() => {
     const items = [
       { weight: 5, value: 10 },
       { weight: 6, value: 12 },
@@ -86,21 +75,21 @@ function runTests({ assert, assertEqual }) {
   }, "No items fit");
 
   // --- Zero capacity ---
-  check(() => {
+  it(() => {
     const result = KnapsackAlgorithm.solve([{ weight: 1, value: 5 }], 0);
     assertEqual(result.dp[1][0], 0, "Value = 0");
     assertEqual(result.traceback.selectedItems.length, 0, "None selected");
   }, "Zero capacity");
 
   // --- Empty items ---
-  check(() => {
+  it(() => {
     const result = KnapsackAlgorithm.solve([], 5);
     assertEqual(result.dp.length, 1, "1 row");
     assertEqual(result.traceback.totalValue, 0, "Value = 0");
   }, "Empty items");
 
   // --- Exact capacity match ---
-  check(() => {
+  it(() => {
     const items = [
       { weight: 3, value: 4 },
       { weight: 4, value: 5 },
@@ -111,7 +100,7 @@ function runTests({ assert, assertEqual }) {
   }, "Exact capacity match");
 
   // --- Greedy trap ---
-  check(() => {
+  it(() => {
     const items = [
       { weight: 2, value: 5 },
       { weight: 3, value: 6 },
@@ -123,7 +112,7 @@ function runTests({ assert, assertEqual }) {
   }, "Greedy trap: DP beats greedy");
 
   // --- DP table dimensions ---
-  check(() => {
+  it(() => {
     const items = [
       { weight: 1, value: 1 },
       { weight: 2, value: 2 },
@@ -136,7 +125,7 @@ function runTests({ assert, assertEqual }) {
   }, "DP table dimensions");
 
   // --- Steps array ---
-  check(() => {
+  it(() => {
     const items = [
       { weight: 2, value: 3 },
       { weight: 3, value: 4 },
@@ -154,7 +143,7 @@ function runTests({ assert, assertEqual }) {
   }, "Steps array structure and count");
 
   // --- Decision tracking ---
-  check(() => {
+  it(() => {
     const items = [{ weight: 3, value: 5 }];
     const result = KnapsackAlgorithm.solve(items, 5);
     const skipStep = result.steps.find((s) => s.row === 1 && s.col === 2);
@@ -164,7 +153,7 @@ function runTests({ assert, assertEqual }) {
   }, "Decision tracking: take vs skip");
 
   // --- Traceback path ---
-  check(() => {
+  it(() => {
     const items = [
       { weight: 2, value: 3 },
       { weight: 3, value: 4 },
@@ -181,7 +170,7 @@ function runTests({ assert, assertEqual }) {
   }, "Traceback path correctness");
 
   // --- Duplicate weights/values ---
-  check(() => {
+  it(() => {
     const items = [
       { weight: 2, value: 3 },
       { weight: 2, value: 3 },
@@ -192,8 +181,4 @@ function runTests({ assert, assertEqual }) {
     assertEqual(result.traceback.totalWeight, 4, "Weight 4");
     assertEqual(result.traceback.selectedItems.length, 2, "2 selected");
   }, "Duplicate weights and values");
-
-  return { passed, failed, failures };
-}
-
-module.exports = { runTests };
+});

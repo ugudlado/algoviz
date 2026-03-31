@@ -1,35 +1,24 @@
 /**
- * BST Algorithm Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  */
 
-function runTests({ assert, assertEqual }) {
-  let passed = 0;
-  let failed = 0;
-  const failures = [];
-
-  const BSTAlgorithm = require("./bst-algorithm.js");
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("bst algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+const BSTAlgorithm = require("./bst-algorithm.js");
   // --- createTree ---
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     assertEqual(tree.root, null, "Empty tree has null root");
   }, "createTree returns empty tree");
 
   // --- insert ---
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     BSTAlgorithm.insert(tree, 5);
     assertEqual(tree.root.value, 5, "Root is 5");
@@ -37,21 +26,21 @@ function runTests({ assert, assertEqual }) {
     assertEqual(tree.root.right, null, "No right child");
   }, "Insert single value as root");
 
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     BSTAlgorithm.insert(tree, 5);
     BSTAlgorithm.insert(tree, 3);
     assertEqual(tree.root.left.value, 3, "Left child is 3");
   }, "Insert smaller value goes left");
 
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     BSTAlgorithm.insert(tree, 5);
     BSTAlgorithm.insert(tree, 7);
     assertEqual(tree.root.right.value, 7, "Right child is 7");
   }, "Insert larger value goes right");
 
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     BSTAlgorithm.insert(tree, 5);
     BSTAlgorithm.insert(tree, 5);
@@ -59,7 +48,7 @@ function runTests({ assert, assertEqual }) {
   }, "Insert equal value goes right");
 
   // --- bulkInsert ---
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     BSTAlgorithm.bulkInsert(tree, [5, 3, 7, 1, 4, 6, 8]);
     assertEqual(tree.root.value, 5, "Root");
@@ -72,14 +61,14 @@ function runTests({ assert, assertEqual }) {
   }, "bulkInsert builds correct tree structure");
 
   // --- Inorder traversal ---
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     BSTAlgorithm.bulkInsert(tree, [5, 3, 7, 1, 4, 6, 8]);
     const result = BSTAlgorithm.inorder(tree);
     assertEqual(result.result, [1, 3, 4, 5, 6, 7, 8], "Inorder result");
   }, "Inorder traversal returns sorted order");
 
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     BSTAlgorithm.bulkInsert(tree, [5, 3, 7, 1, 4, 6, 8]);
     const result = BSTAlgorithm.inorder(tree);
@@ -88,7 +77,7 @@ function runTests({ assert, assertEqual }) {
   }, "Inorder step count matches node count + done");
 
   // --- Preorder traversal ---
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     BSTAlgorithm.bulkInsert(tree, [5, 3, 7, 1, 4, 6, 8]);
     const result = BSTAlgorithm.preorder(tree);
@@ -96,7 +85,7 @@ function runTests({ assert, assertEqual }) {
   }, "Preorder traversal visits root first");
 
   // --- Postorder traversal ---
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     BSTAlgorithm.bulkInsert(tree, [5, 3, 7, 1, 4, 6, 8]);
     const result = BSTAlgorithm.postorder(tree);
@@ -104,27 +93,27 @@ function runTests({ assert, assertEqual }) {
   }, "Postorder traversal visits root last");
 
   // --- Empty tree traversals ---
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     const inRes = BSTAlgorithm.inorder(tree);
     assertEqual(inRes.result, [], "Empty inorder");
     assertEqual(inRes.steps.length, 1, "Only done step");
   }, "Inorder on empty tree");
 
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     const preRes = BSTAlgorithm.preorder(tree);
     assertEqual(preRes.result, [], "Empty preorder");
   }, "Preorder on empty tree");
 
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     const postRes = BSTAlgorithm.postorder(tree);
     assertEqual(postRes.result, [], "Empty postorder");
   }, "Postorder on empty tree");
 
   // --- Single node ---
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     BSTAlgorithm.insert(tree, 42);
     const inRes = BSTAlgorithm.inorder(tree);
@@ -136,7 +125,7 @@ function runTests({ assert, assertEqual }) {
   }, "Single node tree: all traversals return [42]");
 
   // --- Step structure ---
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     BSTAlgorithm.bulkInsert(tree, [5, 3, 7]);
     const result = BSTAlgorithm.inorder(tree);
@@ -147,7 +136,7 @@ function runTests({ assert, assertEqual }) {
     assert(typeof step.explanation === "string", "explanation is string");
   }, "Step object has correct structure");
 
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     BSTAlgorithm.bulkInsert(tree, [5, 3, 7]);
     const result = BSTAlgorithm.inorder(tree);
@@ -161,7 +150,7 @@ function runTests({ assert, assertEqual }) {
   }, "Done step structure");
 
   // --- visitedValues is cumulative ---
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     BSTAlgorithm.bulkInsert(tree, [5, 3, 7]);
     const result = BSTAlgorithm.inorder(tree);
@@ -172,14 +161,14 @@ function runTests({ assert, assertEqual }) {
   }, "visitedValues accumulates correctly");
 
   // --- getLayout ---
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     const layout = BSTAlgorithm.getLayout(tree);
     assertEqual(layout.nodes.length, 0, "No nodes");
     assertEqual(layout.edges.length, 0, "No edges");
   }, "getLayout on empty tree");
 
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     BSTAlgorithm.insert(tree, 5);
     const layout = BSTAlgorithm.getLayout(tree, 600, 70);
@@ -190,7 +179,7 @@ function runTests({ assert, assertEqual }) {
     assert(typeof layout.nodes[0].y === "number", "Has y");
   }, "getLayout single node");
 
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     BSTAlgorithm.bulkInsert(tree, [5, 3, 7]);
     const layout = BSTAlgorithm.getLayout(tree, 600, 70);
@@ -205,19 +194,19 @@ function runTests({ assert, assertEqual }) {
   }, "getLayout positions children correctly");
 
   // --- size ---
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     assertEqual(BSTAlgorithm.size(tree), 0, "Empty tree size");
   }, "Size of empty tree is 0");
 
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     BSTAlgorithm.bulkInsert(tree, [5, 3, 7, 1, 4, 6, 8]);
     assertEqual(BSTAlgorithm.size(tree), 7, "Size is 7");
   }, "Size of 7-node tree");
 
   // --- Unbalanced tree (all left) ---
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     BSTAlgorithm.bulkInsert(tree, [5, 4, 3, 2, 1]);
     const result = BSTAlgorithm.inorder(tree);
@@ -225,14 +214,10 @@ function runTests({ assert, assertEqual }) {
   }, "Unbalanced (left-skewed) tree traversal");
 
   // --- Unbalanced tree (all right) ---
-  check(() => {
+  it(() => {
     const tree = BSTAlgorithm.createTree();
     BSTAlgorithm.bulkInsert(tree, [1, 2, 3, 4, 5]);
     const preResult = BSTAlgorithm.preorder(tree);
     assertEqual(preResult.result, [1, 2, 3, 4, 5], "Preorder on right-skewed");
   }, "Unbalanced (right-skewed) tree traversal");
-
-  return { passed, failed, failures };
-}
-
-module.exports = { runTests };
+});

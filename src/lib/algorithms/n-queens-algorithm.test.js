@@ -1,29 +1,18 @@
 /**
- * N-Queens Algorithm Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  */
 
-function runTests({ assert, assertEqual }) {
-  var passed = 0;
-  var failed = 0;
-  var failures = [];
-
-  var NQueensAlgorithm = require("./n-queens-algorithm.js");
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name: name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("n queens algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+var NQueensAlgorithm = require("./n-queens-algorithm.js");
   // --- solveAll: N=1 ---
-  check(function () {
+  it(function () {
     var result = NQueensAlgorithm.solveAll(1);
     assertEqual(result.count, 1, "N=1 should have 1 solution");
     assert(Array.isArray(result.firstSolution), "firstSolution is array");
@@ -31,7 +20,7 @@ function runTests({ assert, assertEqual }) {
   }, "solveAll: N=1 has exactly 1 solution");
 
   // --- solveAll: N=4 ---
-  check(function () {
+  it(function () {
     var result = NQueensAlgorithm.solveAll(4);
     assertEqual(result.count, 2, "N=4 should have exactly 2 solutions");
     assert(result.firstSolution !== null, "firstSolution is not null");
@@ -39,55 +28,55 @@ function runTests({ assert, assertEqual }) {
   }, "solveAll: N=4 has exactly 2 solutions");
 
   // --- solveAll: N=8 ---
-  check(function () {
+  it(function () {
     var result = NQueensAlgorithm.solveAll(8);
     assertEqual(result.count, 92, "N=8 should have exactly 92 solutions");
   }, "solveAll: N=8 has exactly 92 solutions");
 
   // --- isValid: same column conflict ---
-  check(function () {
+  it(function () {
     var board = [0, -1, -1, -1]; // queen at row=0, col=0
     var valid = NQueensAlgorithm.isValid(board, 1, 0, 4);
     assertEqual(valid, false, "col=0 conflict should be invalid");
   }, "isValid: same column conflict returns false");
 
   // --- isValid: diagonal conflict ---
-  check(function () {
+  it(function () {
     var board = [0, -1, -1, -1]; // queen at row=0, col=0
     var valid = NQueensAlgorithm.isValid(board, 1, 1, 4);
     assertEqual(valid, false, "diagonal conflict should be invalid");
   }, "isValid: diagonal conflict returns false");
 
   // --- isValid: valid placement ---
-  check(function () {
+  it(function () {
     var board = [0, -1, -1, -1]; // queen at row=0, col=0
     var valid = NQueensAlgorithm.isValid(board, 1, 2, 4);
     assertEqual(valid, true, "col=2 from col=0 at row+1 should be valid");
   }, "isValid: non-conflicting placement returns true");
 
   // --- isValid: anti-diagonal conflict ---
-  check(function () {
+  it(function () {
     var board = [3, -1, -1, -1]; // queen at row=0, col=3
     var valid = NQueensAlgorithm.isValid(board, 1, 2, 4);
     assertEqual(valid, false, "anti-diagonal conflict should be invalid");
   }, "isValid: anti-diagonal conflict returns false");
 
   // --- isValid: empty board ---
-  check(function () {
+  it(function () {
     var board = [-1, -1, -1, -1];
     var valid = NQueensAlgorithm.isValid(board, 0, 0, 4);
     assertEqual(valid, true, "first placement always valid");
   }, "isValid: first placement on empty board is always valid");
 
   // --- generateSteps: N=4 returns steps array ---
-  check(function () {
+  it(function () {
     var steps = NQueensAlgorithm.generateSteps(4);
     assert(Array.isArray(steps), "generateSteps returns array");
     assert(steps.length > 0, "steps array is non-empty");
   }, "generateSteps(4): returns non-empty steps array");
 
   // --- generateSteps: N=4 includes a solution step ---
-  check(function () {
+  it(function () {
     var steps = NQueensAlgorithm.generateSteps(4);
     var solutionSteps = steps.filter(function (s) {
       return s.type === "solution";
@@ -96,7 +85,7 @@ function runTests({ assert, assertEqual }) {
   }, "generateSteps(4): includes at least one solution step");
 
   // --- generateSteps: N=4 has backtracks ---
-  check(function () {
+  it(function () {
     var steps = NQueensAlgorithm.generateSteps(4);
     var backtrackSteps = steps.filter(function (s) {
       return s.type === "backtrack";
@@ -108,7 +97,7 @@ function runTests({ assert, assertEqual }) {
   }, "generateSteps(4): has backtrack steps and non-zero backtrack count");
 
   // --- generateSteps: step objects have required fields ---
-  check(function () {
+  it(function () {
     var steps = NQueensAlgorithm.generateSteps(4);
     var step = steps[0];
     assert(step.type !== undefined, "step has type");
@@ -121,7 +110,7 @@ function runTests({ assert, assertEqual }) {
   }, "generateSteps(4): step objects have all required fields");
 
   // --- generateSteps: conflict steps have conflictCells ---
-  check(function () {
+  it(function () {
     var steps = NQueensAlgorithm.generateSteps(4);
     var conflictSteps = steps.filter(function (s) {
       return s.type === "conflict";
@@ -136,7 +125,7 @@ function runTests({ assert, assertEqual }) {
   }, "generateSteps(4): conflict steps include conflictCells");
 
   // --- generateSteps: board array length matches N ---
-  check(function () {
+  it(function () {
     var steps = NQueensAlgorithm.generateSteps(4);
     steps.forEach(function (s) {
       assertEqual(s.board.length, 4, "board length equals N");
@@ -144,7 +133,7 @@ function runTests({ assert, assertEqual }) {
   }, "generateSteps(4): board array has length N in every step");
 
   // --- generateSteps: solution step has valid board ---
-  check(function () {
+  it(function () {
     var steps = NQueensAlgorithm.generateSteps(4);
     var solutionStep = steps.filter(function (s) {
       return s.type === "solution";
@@ -165,8 +154,4 @@ function runTests({ assert, assertEqual }) {
       );
     }
   }, "generateSteps(4): solution step board has all queens placed validly");
-
-  return { passed: passed, failed: failed, failures: failures };
-}
-
-module.exports = { runTests: runTests };
+});

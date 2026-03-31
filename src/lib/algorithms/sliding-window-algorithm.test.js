@@ -1,33 +1,22 @@
 /**
- * Sliding Window Algorithm Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  */
 
-function runTests({ assert, assertEqual }) {
-  let passed = 0;
-  let failed = 0;
-  const failures = [];
-
-  const SlidingWindowAlgorithm = require("./sliding-window-algorithm.js");
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("sliding window algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+const SlidingWindowAlgorithm = require("./sliding-window-algorithm.js");
   // ============================================================
   // maxSumFixedWindow tests
   // ============================================================
 
   // --- Basic case ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.maxSumFixedWindow(
       [1, 3, -1, -3, 5, 3, 6, 7],
       3,
@@ -37,14 +26,14 @@ function runTests({ assert, assertEqual }) {
   }, "maxSumFixedWindow: basic case [1,3,-1,-3,5,3,6,7] k=3");
 
   // --- k=1: max element ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.maxSumFixedWindow([4, 1, 9, 2, 7], 1);
     assertEqual(result.maxSum, 9, "maxSum is 9 (single element window)");
     assertEqual(result.windowStart, 2, "windowStart is 2");
   }, "maxSumFixedWindow: k=1 returns max element");
 
   // --- k=array.length: sum of all ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.maxSumFixedWindow([1, 2, 3, 4, 5], 5);
     assertEqual(result.maxSum, 15, "maxSum is 15 (entire array)");
     assertEqual(result.windowStart, 0, "windowStart is 0");
@@ -56,7 +45,7 @@ function runTests({ assert, assertEqual }) {
   }, "maxSumFixedWindow: k=array.length returns sum of all");
 
   // --- all same values ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.maxSumFixedWindow([5, 5, 5, 5, 5], 3);
     assertEqual(result.maxSum, 15, "maxSum is 15");
     assertEqual(result.steps.length, 3, "3 steps for 5 elements k=3");
@@ -68,7 +57,7 @@ function runTests({ assert, assertEqual }) {
   }, "maxSumFixedWindow: all same values");
 
   // --- negative values ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.maxSumFixedWindow(
       [-5, -1, -3, -2, -4],
       2,
@@ -79,7 +68,7 @@ function runTests({ assert, assertEqual }) {
   }, "maxSumFixedWindow: negative values");
 
   // --- single element array (k=1) ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.maxSumFixedWindow([42], 1);
     assertEqual(result.maxSum, 42, "maxSum is 42");
     assertEqual(result.windowStart, 0, "windowStart is 0");
@@ -87,7 +76,7 @@ function runTests({ assert, assertEqual }) {
   }, "maxSumFixedWindow: single element array");
 
   // --- positive and negative mixed ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.maxSumFixedWindow(
       [2, 1, 5, 1, 3, 2],
       3,
@@ -97,14 +86,14 @@ function runTests({ assert, assertEqual }) {
   }, "maxSumFixedWindow: mixed positive and negative k=3");
 
   // --- step count is correct ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.maxSumFixedWindow([1, 2, 3, 4, 5], 3);
     // 5 elements, k=3 → 3 windows (start=0,1,2)
     assertEqual(result.steps.length, 3, "3 steps for 5 elements k=3");
   }, "maxSumFixedWindow: step count equals (n - k + 1)");
 
   // --- step fields are correct ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.maxSumFixedWindow([1, 2, 3, 4, 5], 3);
     const step = result.steps[0];
     assert(typeof step.left === "number", "step has left");
@@ -114,7 +103,7 @@ function runTests({ assert, assertEqual }) {
   }, "maxSumFixedWindow: step object has correct fields");
 
   // --- step left/right values ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.maxSumFixedWindow([1, 2, 3, 4, 5], 3);
     assertEqual(result.steps[0].left, 0, "first step left=0");
     assertEqual(result.steps[0].right, 2, "first step right=2");
@@ -125,7 +114,7 @@ function runTests({ assert, assertEqual }) {
   }, "maxSumFixedWindow: step left/right advance by 1 each time");
 
   // --- isMax only on max window(s) ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.maxSumFixedWindow([1, 2, 3, 4, 5], 3);
     // Windows: [1,2,3]=6, [2,3,4]=9, [3,4,5]=12 — only last is max
     assertEqual(result.steps[0].isMax, false, "step[0] is not max");
@@ -134,7 +123,7 @@ function runTests({ assert, assertEqual }) {
   }, "maxSumFixedWindow: isMax correctly marks only max window");
 
   // --- edge: empty array ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.maxSumFixedWindow([], 3);
     assertEqual(result.maxSum, 0, "empty array returns 0");
     assertEqual(result.windowStart, -1, "empty array returns windowStart -1");
@@ -142,7 +131,7 @@ function runTests({ assert, assertEqual }) {
   }, "maxSumFixedWindow: empty array");
 
   // --- edge: k > array.length ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.maxSumFixedWindow([1, 2, 3], 5);
     assertEqual(result.maxSum, 0, "k > arr.length returns 0");
     assertEqual(
@@ -154,14 +143,14 @@ function runTests({ assert, assertEqual }) {
   }, "maxSumFixedWindow: k greater than array length");
 
   // --- edge: k=0 ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.maxSumFixedWindow([1, 2, 3], 0);
     assertEqual(result.maxSum, 0, "k=0 returns 0");
     assertEqual(result.windowStart, -1, "k=0 returns windowStart -1");
   }, "maxSumFixedWindow: k=0 edge case");
 
   // --- input not mutated ---
-  check(() => {
+  it(() => {
     const input = [3, 1, 4, 1, 5, 9, 2, 6];
     const orig = input.slice();
     SlidingWindowAlgorithm.maxSumFixedWindow(input, 3);
@@ -169,7 +158,7 @@ function runTests({ assert, assertEqual }) {
   }, "maxSumFixedWindow: input array is not mutated");
 
   // --- constants exported ---
-  check(() => {
+  it(() => {
     assert(
       typeof SlidingWindowAlgorithm.MAX_ARRAY_SIZE === "number",
       "MAX_ARRAY_SIZE exported",
@@ -181,7 +170,7 @@ function runTests({ assert, assertEqual }) {
     );
   }, "SlidingWindowAlgorithm exports MAX_ARRAY_SIZE constant");
 
-  check(() => {
+  it(() => {
     assert(
       typeof SlidingWindowAlgorithm.MAX_STRING_LENGTH === "number",
       "MAX_STRING_LENGTH exported",
@@ -198,34 +187,34 @@ function runTests({ assert, assertEqual }) {
   // ============================================================
 
   // --- all unique characters ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.longestUniqueSubstring("abcde");
     assertEqual(result.maxLen, 5, "maxLen is 5 (all unique)");
     assertEqual(result.substring, "abcde", "substring is full string");
   }, "longestUniqueSubstring: all unique characters");
 
   // --- all same characters ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.longestUniqueSubstring("aaaaa");
     assertEqual(result.maxLen, 1, "maxLen is 1 (all same)");
     assertEqual(result.substring, "a", "substring is single char");
   }, "longestUniqueSubstring: all same characters");
 
   // --- mixed with repeats ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.longestUniqueSubstring("abcabcbb");
     assertEqual(result.maxLen, 3, "maxLen is 3 (abc)");
     assert(result.substring.length === 3, "substring length is 3");
   }, "longestUniqueSubstring: abcabcbb → length 3");
 
   // --- pwwkew pattern ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.longestUniqueSubstring("pwwkew");
     assertEqual(result.maxLen, 3, "maxLen is 3 (wke)");
   }, "longestUniqueSubstring: pwwkew → length 3");
 
   // --- empty string ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.longestUniqueSubstring("");
     assertEqual(result.maxLen, 0, "maxLen is 0 for empty string");
     assertEqual(result.substring, "", "substring is empty");
@@ -233,47 +222,47 @@ function runTests({ assert, assertEqual }) {
   }, "longestUniqueSubstring: empty string");
 
   // --- single character ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.longestUniqueSubstring("z");
     assertEqual(result.maxLen, 1, "maxLen is 1");
     assertEqual(result.substring, "z", "substring is 'z'");
   }, "longestUniqueSubstring: single character");
 
   // --- two different characters ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.longestUniqueSubstring("ab");
     assertEqual(result.maxLen, 2, "maxLen is 2");
     assertEqual(result.substring, "ab", "substring is 'ab'");
   }, "longestUniqueSubstring: two different characters");
 
   // --- two same characters ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.longestUniqueSubstring("aa");
     assertEqual(result.maxLen, 1, "maxLen is 1");
     assertEqual(result.substring, "a", "substring is 'a'");
   }, "longestUniqueSubstring: two same characters");
 
   // --- long repeating pattern ---
-  check(() => {
+  it(() => {
     const result =
       SlidingWindowAlgorithm.longestUniqueSubstring("abababababab");
     assertEqual(result.maxLen, 2, "maxLen is 2 for alternating ab pattern");
   }, "longestUniqueSubstring: long alternating pattern");
 
   // --- substring at end ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.longestUniqueSubstring("aabcde");
     assertEqual(result.maxLen, 5, "maxLen is 5 (bcde starts fresh)");
   }, "longestUniqueSubstring: longest unique substring at end");
 
   // --- substring in middle ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.longestUniqueSubstring("aabcdeaa");
     assertEqual(result.maxLen, 5, "maxLen is 5 (abcde middle)");
   }, "longestUniqueSubstring: longest unique substring in middle");
 
   // --- step fields exist ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.longestUniqueSubstring("abcabc");
     assert(result.steps.length > 0, "steps array is non-empty");
     const step = result.steps[0];
@@ -289,7 +278,7 @@ function runTests({ assert, assertEqual }) {
   }, "longestUniqueSubstring: step object has correct fields");
 
   // --- expand steps have action=expand ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.longestUniqueSubstring("abc");
     const expandSteps = result.steps.filter((s) => s.action === "expand");
     assert(expandSteps.length > 0, "has expand steps");
@@ -299,14 +288,14 @@ function runTests({ assert, assertEqual }) {
   }, "longestUniqueSubstring: expand steps have action=expand");
 
   // --- shrink steps when duplicate encountered ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.longestUniqueSubstring("abba");
     const shrinkSteps = result.steps.filter((s) => s.action === "shrink");
     assert(shrinkSteps.length > 0, "has shrink steps when duplicate found");
   }, "longestUniqueSubstring: shrink steps present when duplicate encountered");
 
   // --- step window matches left/right ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.longestUniqueSubstring("abcde");
     result.steps.forEach((step, i) => {
       const expected = "abcde".slice(step.left, step.right + 1);
@@ -319,7 +308,7 @@ function runTests({ assert, assertEqual }) {
   }, "longestUniqueSubstring: step window string matches left/right indices");
 
   // --- charFreq only includes chars with count > 0 ---
-  check(() => {
+  it(() => {
     const result = SlidingWindowAlgorithm.longestUniqueSubstring("abcabc");
     result.steps.forEach((step, i) => {
       const vals = Object.values(step.charFreq);
@@ -329,8 +318,4 @@ function runTests({ assert, assertEqual }) {
       );
     });
   }, "longestUniqueSubstring: charFreq entries are all > 0");
-
-  return { passed, failed, failures };
-}
-
-module.exports = { runTests };
+});

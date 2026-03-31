@@ -1,33 +1,22 @@
 /**
- * Bloom Filter Algorithm Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  *
  * Tests cover: createFilter, hash determinism, insert, query (true-positive,
  * true-negative, false-positive), FP rate formula, fill level, edge cases
  * (empty filter, empty string, duplicate insert, all bits set).
  */
 
-function runTests({ assert, assertEqual }) {
-  var passed = 0;
-  var failed = 0;
-  var failures = [];
-
-  var BloomFilterAlgorithm = require("./bloom-filter-algorithm.js");
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name: name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("bloom filter algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+var BloomFilterAlgorithm = require("./bloom-filter-algorithm.js");
   // --- createFilter ---
-  check(function () {
+  it(function () {
     var filter = BloomFilterAlgorithm.createFilter(32, 3);
     assertEqual(filter.m, 32, "m is 32");
     assertEqual(filter.k, 3, "k is 3");
@@ -43,7 +32,7 @@ function runTests({ assert, assertEqual }) {
     );
   }, "createFilter returns correct empty filter");
 
-  check(function () {
+  it(function () {
     var filter = BloomFilterAlgorithm.createFilter(16, 1);
     assertEqual(filter.m, 16, "m is 16");
     assertEqual(filter.k, 1, "k is 1");
@@ -51,14 +40,14 @@ function runTests({ assert, assertEqual }) {
   }, "createFilter with minimum-like params");
 
   // --- hash determinism ---
-  check(function () {
+  it(function () {
     var h1 = BloomFilterAlgorithm.hash("hello", 0, 32);
     var h2 = BloomFilterAlgorithm.hash("hello", 0, 32);
     assertEqual(h1, h2, "same input same output");
     assert(h1 >= 0 && h1 < 32, "hash in range [0, 32)");
   }, "hash is deterministic");
 
-  check(function () {
+  it(function () {
     var h1 = BloomFilterAlgorithm.hash("hello", 0, 32);
     var h2 = BloomFilterAlgorithm.hash("hello", 1, 32);
     // Different seeds should usually produce different indices
@@ -72,7 +61,7 @@ function runTests({ assert, assertEqual }) {
   }, "hash with different seeds produces valid indices");
 
   // --- getHashIndices ---
-  check(function () {
+  it(function () {
     var indices = BloomFilterAlgorithm.getHashIndices("test", 3, 32);
     assertEqual(indices.length, 3, "3 indices for k=3");
     for (var i = 0; i < indices.length; i++) {
@@ -80,7 +69,7 @@ function runTests({ assert, assertEqual }) {
     }
   }, "getHashIndices returns k indices in valid range");
 
-  check(function () {
+  it(function () {
     var indices = BloomFilterAlgorithm.getHashIndices("test", 7, 128);
     assertEqual(indices.length, 7, "7 indices for k=7");
     for (var i = 0; i < indices.length; i++) {
@@ -92,7 +81,7 @@ function runTests({ assert, assertEqual }) {
   }, "getHashIndices with k=7, m=128");
 
   // --- insert ---
-  check(function () {
+  it(function () {
     var filter = BloomFilterAlgorithm.createFilter(32, 3);
     var result = BloomFilterAlgorithm.insert(filter, "hello");
     assertEqual(result.alreadyPresent, false, "not already present");
@@ -105,7 +94,7 @@ function runTests({ assert, assertEqual }) {
     }
   }, "insert sets correct bits and tracks word");
 
-  check(function () {
+  it(function () {
     var filter = BloomFilterAlgorithm.createFilter(32, 3);
     BloomFilterAlgorithm.insert(filter, "hello");
     var result = BloomFilterAlgorithm.insert(filter, "hello");
@@ -113,7 +102,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(filter.n, 1, "n not incremented for duplicate");
   }, "insert duplicate word detected, n unchanged");
 
-  check(function () {
+  it(function () {
     var filter = BloomFilterAlgorithm.createFilter(32, 3);
     BloomFilterAlgorithm.insert(filter, "a");
     BloomFilterAlgorithm.insert(filter, "b");
@@ -122,7 +111,7 @@ function runTests({ assert, assertEqual }) {
   }, "insert multiple distinct words increments n correctly");
 
   // --- query: true positive ---
-  check(function () {
+  it(function () {
     var filter = BloomFilterAlgorithm.createFilter(32, 3);
     BloomFilterAlgorithm.insert(filter, "hello");
     var result = BloomFilterAlgorithm.query(filter, "hello");
@@ -132,7 +121,7 @@ function runTests({ assert, assertEqual }) {
   }, "query inserted word returns true-positive");
 
   // --- query: true negative ---
-  check(function () {
+  it(function () {
     var filter = BloomFilterAlgorithm.createFilter(64, 3);
     BloomFilterAlgorithm.insert(filter, "hello");
     var result = BloomFilterAlgorithm.query(filter, "xyz_not_inserted");
@@ -142,7 +131,7 @@ function runTests({ assert, assertEqual }) {
   }, "query non-inserted word with unset bits returns true-negative");
 
   // --- query: empty filter ---
-  check(function () {
+  it(function () {
     var filter = BloomFilterAlgorithm.createFilter(32, 3);
     var result = BloomFilterAlgorithm.query(filter, "anything");
     assertEqual(
@@ -154,7 +143,7 @@ function runTests({ assert, assertEqual }) {
   }, "query on empty filter returns true-negative");
 
   // --- query: false positive demonstration ---
-  check(function () {
+  it(function () {
     // Use a very small filter to force collisions
     var filter = BloomFilterAlgorithm.createFilter(8, 2);
     // Insert many words to fill up bits
@@ -200,17 +189,17 @@ function runTests({ assert, assertEqual }) {
   }, "false positive occurs when all queried bits happen to be set");
 
   // --- getFalsePositiveRate ---
-  check(function () {
+  it(function () {
     var rate = BloomFilterAlgorithm.getFalsePositiveRate(0, 32, 3);
     assertEqual(rate, 0, "FP rate is 0 when no items inserted");
   }, "getFalsePositiveRate with n=0 returns 0");
 
-  check(function () {
+  it(function () {
     var rate = BloomFilterAlgorithm.getFalsePositiveRate(0, 0, 3);
     assertEqual(rate, 0, "FP rate is 0 when m=0");
   }, "getFalsePositiveRate with m=0 returns 0");
 
-  check(function () {
+  it(function () {
     // P(fp) = (1 - e^(-3*10/32))^3
     var rate = BloomFilterAlgorithm.getFalsePositiveRate(10, 32, 3);
     assert(rate > 0, "FP rate > 0 with items inserted");
@@ -222,14 +211,14 @@ function runTests({ assert, assertEqual }) {
     );
   }, "getFalsePositiveRate computes correct value for n=10, m=32, k=3");
 
-  check(function () {
+  it(function () {
     var rate = BloomFilterAlgorithm.getFalsePositiveRate(1, 32, 3);
     assert(rate > 0, "FP rate > 0");
     assert(rate < 0.01, "FP rate very low with 1 item in 32 bits");
   }, "getFalsePositiveRate is very low for 1 item in large filter");
 
   // --- getFillLevel ---
-  check(function () {
+  it(function () {
     var filter = BloomFilterAlgorithm.createFilter(32, 3);
     var fill = BloomFilterAlgorithm.getFillLevel(filter);
     assertEqual(fill.setBits, 0, "no bits set");
@@ -237,7 +226,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(fill.percentage, 0, "percentage is 0");
   }, "getFillLevel on empty filter returns 0%");
 
-  check(function () {
+  it(function () {
     var filter = BloomFilterAlgorithm.createFilter(32, 3);
     BloomFilterAlgorithm.insert(filter, "hello");
     var fill = BloomFilterAlgorithm.getFillLevel(filter);
@@ -248,7 +237,7 @@ function runTests({ assert, assertEqual }) {
   }, "getFillLevel after one insert shows correct bits set");
 
   // --- all bits set scenario ---
-  check(function () {
+  it(function () {
     var filter = BloomFilterAlgorithm.createFilter(4, 2);
     // Insert enough words to fill all 4 bits
     var words = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
@@ -267,7 +256,7 @@ function runTests({ assert, assertEqual }) {
   }, "all bits set produces false positives for any query");
 
   // --- getPasswordPreset ---
-  check(function () {
+  it(function () {
     var preset = BloomFilterAlgorithm.getPasswordPreset();
     assertEqual(preset.length, 8, "8 preset passwords");
     assert(preset.indexOf("password") !== -1, "contains 'password'");
@@ -276,7 +265,7 @@ function runTests({ assert, assertEqual }) {
   }, "getPasswordPreset returns 8 common passwords");
 
   // --- edge: single character word ---
-  check(function () {
+  it(function () {
     var filter = BloomFilterAlgorithm.createFilter(32, 3);
     var result = BloomFilterAlgorithm.insert(filter, "x");
     assertEqual(result.alreadyPresent, false, "not already present");
@@ -286,7 +275,7 @@ function runTests({ assert, assertEqual }) {
   }, "insert and query single character word");
 
   // --- edge: query before any insert ---
-  check(function () {
+  it(function () {
     var filter = BloomFilterAlgorithm.createFilter(32, 3);
     var q = BloomFilterAlgorithm.query(filter, "test");
     assertEqual(
@@ -298,13 +287,9 @@ function runTests({ assert, assertEqual }) {
   }, "query before any insert returns true-negative");
 
   // --- deterministic hash indices ---
-  check(function () {
+  it(function () {
     var i1 = BloomFilterAlgorithm.getHashIndices("test", 3, 32);
     var i2 = BloomFilterAlgorithm.getHashIndices("test", 3, 32);
     assertEqual(i1, i2, "same word same indices");
   }, "getHashIndices is deterministic across calls");
-
-  return { passed: passed, failed: failed, failures: failures };
-}
-
-module.exports = { runTests: runTests };
+});

@@ -1,27 +1,16 @@
 /**
- * Convex Hull Algorithm Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  */
 
-function runTests({ assert, assertEqual }) {
-  var passed = 0;
-  var failed = 0;
-  var failures = [];
-
-  var ConvexHullAlgorithm = require("./convex-hull-algorithm.js");
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name: name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("convex hull algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+var ConvexHullAlgorithm = require("./convex-hull-algorithm.js");
   // --- Helper: sort hull points for comparison (order-independent) ---
   function sortPoints(pts) {
     return pts.slice().sort(function (a, b) {
@@ -30,7 +19,7 @@ function runTests({ assert, assertEqual }) {
   }
 
   // --- Empty input ---
-  check(function () {
+  it(function () {
     var result = ConvexHullAlgorithm.grahamScan([]);
     assertEqual(result.hull, [], "Empty hull");
     assert(result.pivot === null, "No pivot");
@@ -44,7 +33,7 @@ function runTests({ assert, assertEqual }) {
   }, "Empty input: no points");
 
   // --- Single point ---
-  check(function () {
+  it(function () {
     var result = ConvexHullAlgorithm.grahamScan([{ x: 5, y: 3 }]);
     assertEqual(result.hull.length, 1, "Hull has 1 point");
     assertEqual(result.hull[0].x, 5, "Hull point x");
@@ -55,7 +44,7 @@ function runTests({ assert, assertEqual }) {
   }, "Single point");
 
   // --- Two points ---
-  check(function () {
+  it(function () {
     var result = ConvexHullAlgorithm.grahamScan([
       { x: 0, y: 0 },
       { x: 5, y: 5 },
@@ -67,7 +56,7 @@ function runTests({ assert, assertEqual }) {
   }, "Two points: line segment");
 
   // --- Triangle ---
-  check(function () {
+  it(function () {
     var result = ConvexHullAlgorithm.grahamScan([
       { x: 0, y: 0 },
       { x: 5, y: 0 },
@@ -80,7 +69,7 @@ function runTests({ assert, assertEqual }) {
   }, "Triangle: all points on hull");
 
   // --- Square with interior point ---
-  check(function () {
+  it(function () {
     var result = ConvexHullAlgorithm.grahamScan([
       { x: 0, y: 0 },
       { x: 4, y: 0 },
@@ -95,7 +84,7 @@ function runTests({ assert, assertEqual }) {
   }, "Square with interior point");
 
   // --- Collinear points ---
-  check(function () {
+  it(function () {
     var result = ConvexHullAlgorithm.grahamScan([
       { x: 0, y: 0 },
       { x: 1, y: 0 },
@@ -108,7 +97,7 @@ function runTests({ assert, assertEqual }) {
   }, "Collinear points: line");
 
   // --- All same point ---
-  check(function () {
+  it(function () {
     var result = ConvexHullAlgorithm.grahamScan([
       { x: 3, y: 3 },
       { x: 3, y: 3 },
@@ -121,7 +110,7 @@ function runTests({ assert, assertEqual }) {
   }, "All same point");
 
   // --- Large set (50+ points) ---
-  check(function () {
+  it(function () {
     var points = [];
     for (var i = 0; i < 60; i++) {
       points.push({
@@ -136,7 +125,7 @@ function runTests({ assert, assertEqual }) {
   }, "Large set: 60 points in circle");
 
   // --- Large set with interior points ---
-  check(function () {
+  it(function () {
     // Box corners + interior points
     var points = [
       { x: 0, y: 0 },
@@ -158,7 +147,7 @@ function runTests({ assert, assertEqual }) {
   }, "Large set: 54 points, 4 on hull, 50 interior");
 
   // --- Input immutability ---
-  check(function () {
+  it(function () {
     var input = [
       { x: 3, y: 1 },
       { x: 1, y: 5 },
@@ -170,7 +159,7 @@ function runTests({ assert, assertEqual }) {
   }, "Input array is not mutated");
 
   // --- Step structure ---
-  check(function () {
+  it(function () {
     var result = ConvexHullAlgorithm.grahamScan([
       { x: 0, y: 0 },
       { x: 5, y: 0 },
@@ -191,7 +180,7 @@ function runTests({ assert, assertEqual }) {
   }, "Step object structure");
 
   // --- Final step is done ---
-  check(function () {
+  it(function () {
     var result = ConvexHullAlgorithm.grahamScan([
       { x: 0, y: 0 },
       { x: 5, y: 0 },
@@ -203,7 +192,7 @@ function runTests({ assert, assertEqual }) {
   }, "Final step is done marker");
 
   // --- Pivot selection: lowest y, then leftmost x ---
-  check(function () {
+  it(function () {
     var result = ConvexHullAlgorithm.grahamScan([
       { x: 5, y: 3 },
       { x: 2, y: 1 },
@@ -216,7 +205,7 @@ function runTests({ assert, assertEqual }) {
   }, "Pivot: lowest y, leftmost x tiebreaker");
 
   // --- Cross product helper ---
-  check(function () {
+  it(function () {
     // Counter-clockwise: positive
     var ccw = ConvexHullAlgorithm.cross(
       { x: 0, y: 0 },
@@ -243,7 +232,7 @@ function runTests({ assert, assertEqual }) {
   }, "Cross product: CCW, CW, collinear");
 
   // --- Pentagon (all on hull) ---
-  check(function () {
+  it(function () {
     var result = ConvexHullAlgorithm.grahamScan([
       { x: 5, y: 0 },
       { x: 10, y: 4 },
@@ -255,7 +244,7 @@ function runTests({ assert, assertEqual }) {
   }, "Pentagon: all points on hull");
 
   // --- Duplicate points mixed in ---
-  check(function () {
+  it(function () {
     var result = ConvexHullAlgorithm.grahamScan([
       { x: 0, y: 0 },
       { x: 0, y: 0 },
@@ -269,7 +258,7 @@ function runTests({ assert, assertEqual }) {
   }, "Duplicate points: handled gracefully");
 
   // --- Sorted points returned ---
-  check(function () {
+  it(function () {
     var result = ConvexHullAlgorithm.grahamScan([
       { x: 0, y: 0 },
       { x: 5, y: 0 },
@@ -284,8 +273,4 @@ function runTests({ assert, assertEqual }) {
       "First sorted index is pivot",
     );
   }, "sortedPoints and sortedIndices returned");
-
-  return { passed: passed, failed: failed, failures: failures };
-}
-
-module.exports = { runTests };
+});

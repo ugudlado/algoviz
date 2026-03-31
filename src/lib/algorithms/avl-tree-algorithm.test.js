@@ -1,27 +1,16 @@
 /**
- * AVL Tree Algorithm Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  */
 
-function runTests({ assert, assertEqual }) {
-  var passed = 0;
-  var failed = 0;
-  var failures = [];
-
-  var AVLAlgorithm = require("./avl-tree-algorithm.js");
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name: name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("avl tree algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+var AVLAlgorithm = require("./avl-tree-algorithm.js");
   // Helper: collect all balance factors from a tree
   function collectBalanceFactors(root) {
     var factors = [];
@@ -46,7 +35,7 @@ function runTests({ assert, assertEqual }) {
   }
 
   // --- createNode ---
-  check(function () {
+  it(function () {
     var node = AVLAlgorithm.createNode(5);
     assertEqual(node.value, 5, "value is 5");
     assertEqual(node.left, null, "left is null");
@@ -55,14 +44,14 @@ function runTests({ assert, assertEqual }) {
   }, "createNode creates node with height 1");
 
   // --- height ---
-  check(function () {
+  it(function () {
     assertEqual(AVLAlgorithm.height(null), 0, "height(null) is 0");
     var node = AVLAlgorithm.createNode(5);
     assertEqual(AVLAlgorithm.height(node), 1, "height of leaf is 1");
   }, "height returns 0 for null, 1 for leaf");
 
   // --- balanceFactor ---
-  check(function () {
+  it(function () {
     assertEqual(
       AVLAlgorithm.balanceFactor(null),
       0,
@@ -77,7 +66,7 @@ function runTests({ assert, assertEqual }) {
   }, "balanceFactor returns 0 for null and leaf");
 
   // --- Empty tree insert ---
-  check(function () {
+  it(function () {
     var result = AVLAlgorithm.insert(null, 10);
     assert(result.root !== null, "root is not null after insert");
     assertEqual(result.root.value, 10, "root value is 10");
@@ -86,7 +75,7 @@ function runTests({ assert, assertEqual }) {
   }, "Insert into empty tree");
 
   // --- Single node ---
-  check(function () {
+  it(function () {
     var result = AVLAlgorithm.insert(null, 42);
     assertEqual(result.root.value, 42, "root value is 42");
     assertEqual(result.root.height, 1, "height is 1");
@@ -98,7 +87,7 @@ function runTests({ assert, assertEqual }) {
   }, "Single node insert: balanced");
 
   // --- RR case: insert 1,2,3 triggers left rotation ---
-  check(function () {
+  it(function () {
     var root = null;
     root = AVLAlgorithm.insert(root, 1).root;
     root = AVLAlgorithm.insert(root, 2).root;
@@ -118,7 +107,7 @@ function runTests({ assert, assertEqual }) {
   }, "RR case (insert 1,2,3): right rotation produces balanced tree");
 
   // --- LL case: insert 3,2,1 triggers right rotation ---
-  check(function () {
+  it(function () {
     var root = null;
     root = AVLAlgorithm.insert(root, 3).root;
     root = AVLAlgorithm.insert(root, 2).root;
@@ -137,7 +126,7 @@ function runTests({ assert, assertEqual }) {
   }, "LL case (insert 3,2,1): left rotation produces balanced tree");
 
   // --- LR case: insert 3,1,2 triggers LR double rotation ---
-  check(function () {
+  it(function () {
     var root = null;
     root = AVLAlgorithm.insert(root, 3).root;
     root = AVLAlgorithm.insert(root, 1).root;
@@ -156,7 +145,7 @@ function runTests({ assert, assertEqual }) {
   }, "LR case (insert 3,1,2): LR double rotation produces balanced tree");
 
   // --- RL case: insert 1,3,2 triggers RL double rotation ---
-  check(function () {
+  it(function () {
     var root = null;
     root = AVLAlgorithm.insert(root, 1).root;
     root = AVLAlgorithm.insert(root, 3).root;
@@ -175,7 +164,7 @@ function runTests({ assert, assertEqual }) {
   }, "RL case (insert 1,3,2): RL double rotation produces balanced tree");
 
   // --- Sequential inserts 1..7: all balance factors in {-1,0,1} ---
-  check(function () {
+  it(function () {
     var root = null;
     for (var i = 1; i <= 7; i++) {
       root = AVLAlgorithm.insert(root, i).root;
@@ -195,7 +184,7 @@ function runTests({ assert, assertEqual }) {
   }, "Sequential inserts 1..7: always balanced");
 
   // --- Insert sequence 7..1 (reverse): always balanced ---
-  check(function () {
+  it(function () {
     var root = null;
     for (var i = 7; i >= 1; i--) {
       root = AVLAlgorithm.insert(root, i).root;
@@ -205,7 +194,7 @@ function runTests({ assert, assertEqual }) {
   }, "Reverse sequential inserts 7..1: always balanced");
 
   // --- All duplicates: no size increase ---
-  check(function () {
+  it(function () {
     var root = null;
     root = AVLAlgorithm.insert(root, 5).root;
     root = AVLAlgorithm.insert(root, 5).root;
@@ -218,7 +207,7 @@ function runTests({ assert, assertEqual }) {
   }, "Duplicate inserts are ignored");
 
   // --- Delete operations ---
-  check(function () {
+  it(function () {
     var root = buildTree([5, 3, 7, 1, 4, 6, 8]);
     var result = AVLAlgorithm.deleteNode(root, 3);
     root = result.root;
@@ -232,7 +221,7 @@ function runTests({ assert, assertEqual }) {
     }
   }, "Delete a leaf node");
 
-  check(function () {
+  it(function () {
     var root = buildTree([5, 3, 7]);
     var result = AVLAlgorithm.deleteNode(root, 5);
     root = result.root;
@@ -240,13 +229,13 @@ function runTests({ assert, assertEqual }) {
     assert(AVLAlgorithm.isBalanced(root), "Balanced after deleting root");
   }, "Delete root node with two children");
 
-  check(function () {
+  it(function () {
     var root = buildTree([5]);
     var result = AVLAlgorithm.deleteNode(root, 5);
     assertEqual(result.root, null, "Tree empty after deleting only node");
   }, "Delete only node results in empty tree");
 
-  check(function () {
+  it(function () {
     var root = buildTree([5, 3, 7]);
     var result = AVLAlgorithm.deleteNode(root, 99);
     assertEqual(
@@ -261,7 +250,7 @@ function runTests({ assert, assertEqual }) {
   }, "Delete non-existent value: tree unchanged, step recorded");
 
   // --- Step structure ---
-  check(function () {
+  it(function () {
     var result = AVLAlgorithm.insert(null, 10);
     var step = result.steps[0];
     assert(typeof step.type === "string", "step.type is string");
@@ -276,7 +265,7 @@ function runTests({ assert, assertEqual }) {
     );
   }, "Step objects have correct structure");
 
-  check(function () {
+  it(function () {
     var root = null;
     root = AVLAlgorithm.insert(root, 1).root;
     root = AVLAlgorithm.insert(root, 2).root;
@@ -294,23 +283,23 @@ function runTests({ assert, assertEqual }) {
   }, "Rotation step has imbalancedNode and root snapshot");
 
   // --- isBalanced ---
-  check(function () {
+  it(function () {
     assert(AVLAlgorithm.isBalanced(null), "Empty tree is balanced");
   }, "isBalanced: null tree");
 
-  check(function () {
+  it(function () {
     var root = buildTree([5, 3, 7, 1, 4, 6, 8]);
     assert(AVLAlgorithm.isBalanced(root), "Balanced tree is balanced");
   }, "isBalanced: balanced tree");
 
   // --- getLayout ---
-  check(function () {
+  it(function () {
     var layout = AVLAlgorithm.getLayout(null);
     assertEqual(layout.nodes.length, 0, "No nodes for null root");
     assertEqual(layout.edges.length, 0, "No edges for null root");
   }, "getLayout: null root returns empty");
 
-  check(function () {
+  it(function () {
     var root = AVLAlgorithm.insert(null, 5).root;
     var layout = AVLAlgorithm.getLayout(root, 700, 75);
     assertEqual(layout.nodes.length, 1, "One node");
@@ -324,7 +313,7 @@ function runTests({ assert, assertEqual }) {
     );
   }, "getLayout: single node has balanceFactor in layout");
 
-  check(function () {
+  it(function () {
     var root = buildTree([5, 3, 7]);
     var layout = AVLAlgorithm.getLayout(root, 700, 75);
     assertEqual(layout.nodes.length, 3, "Three nodes");
@@ -337,17 +326,17 @@ function runTests({ assert, assertEqual }) {
   }, "getLayout: three nodes with correct edges");
 
   // --- size ---
-  check(function () {
+  it(function () {
     assertEqual(AVLAlgorithm.size(null), 0, "Empty tree size is 0");
   }, "size: null root is 0");
 
-  check(function () {
+  it(function () {
     var root = buildTree([5, 3, 7, 1, 4, 6, 8]);
     assertEqual(AVLAlgorithm.size(root), 7, "Size is 7");
   }, "size: 7-node tree");
 
   // --- Larger random-ish insert sequence stays balanced ---
-  check(function () {
+  it(function () {
     var values = [15, 10, 20, 5, 12, 17, 25, 3, 7, 11, 13, 16, 19, 22, 30];
     var root = null;
     for (var i = 0; i < values.length; i++) {
@@ -356,8 +345,4 @@ function runTests({ assert, assertEqual }) {
     assert(AVLAlgorithm.isBalanced(root), "Tree balanced after 15 inserts");
     assertEqual(AVLAlgorithm.size(root), 15, "15 distinct nodes");
   }, "15 inserts: tree stays balanced throughout");
-
-  return { passed: passed, failed: failed, failures: failures };
-}
-
-module.exports = { runTests: runTests };
+});

@@ -1,46 +1,35 @@
 /**
- * Merge Sort Algorithm Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  */
 
-function runTests({ assert, assertEqual }) {
-  let passed = 0;
-  let failed = 0;
-  const failures = [];
-
-  const MergeSortAlgorithm = require("./merge-sort-algorithm.js");
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("merge sort algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+const MergeSortAlgorithm = require("./merge-sort-algorithm.js");
   // --- Basic correctness ---
-  check(() => {
+  it(() => {
     const result = MergeSortAlgorithm.sort([3, 1, 2]);
     assertEqual(result.sortedArray, [1, 2, 3], "Sorted output");
   }, "Basic sort: [3,1,2] -> [1,2,3]");
 
-  check(() => {
+  it(() => {
     const result = MergeSortAlgorithm.sort([5, 4, 3, 2, 1]);
     assertEqual(result.sortedArray, [1, 2, 3, 4, 5], "Reverse sorted");
   }, "Reverse sorted input");
 
   // --- Already sorted ---
-  check(() => {
+  it(() => {
     const result = MergeSortAlgorithm.sort([1, 2, 3, 4, 5]);
     assertEqual(result.sortedArray, [1, 2, 3, 4, 5], "Already sorted");
   }, "Already sorted input");
 
   // --- Single element ---
-  check(() => {
+  it(() => {
     const result = MergeSortAlgorithm.sort([42]);
     assertEqual(result.sortedArray, [42], "Single element");
     // Should have minimal steps (just complete)
@@ -48,43 +37,43 @@ function runTests({ assert, assertEqual }) {
   }, "Single element array");
 
   // --- Empty array ---
-  check(() => {
+  it(() => {
     const result = MergeSortAlgorithm.sort([]);
     assertEqual(result.sortedArray, [], "Empty");
     assert(result.steps.length >= 1, "At least one step");
   }, "Empty array");
 
   // --- Two elements ---
-  check(() => {
+  it(() => {
     const result = MergeSortAlgorithm.sort([2, 1]);
     assertEqual(result.sortedArray, [1, 2], "Sorted");
   }, "Two elements: swap needed");
 
-  check(() => {
+  it(() => {
     const result = MergeSortAlgorithm.sort([1, 2]);
     assertEqual(result.sortedArray, [1, 2], "Already sorted pair");
   }, "Two elements: already sorted");
 
   // --- Duplicates ---
-  check(() => {
+  it(() => {
     const result = MergeSortAlgorithm.sort([3, 1, 3, 1, 2]);
     assertEqual(result.sortedArray, [1, 1, 2, 3, 3], "Duplicates sorted");
   }, "Array with duplicates");
 
   // --- All duplicates ---
-  check(() => {
+  it(() => {
     const result = MergeSortAlgorithm.sort([3, 3, 3, 3]);
     assertEqual(result.sortedArray, [3, 3, 3, 3], "All same");
   }, "All duplicates");
 
   // --- Negative numbers ---
-  check(() => {
+  it(() => {
     const result = MergeSortAlgorithm.sort([-3, 5, -1, 0]);
     assertEqual(result.sortedArray, [-3, -1, 0, 5], "Negatives sorted");
   }, "Negative numbers");
 
   // --- Large array (20+ elements) ---
-  check(() => {
+  it(() => {
     const input = [];
     for (let i = 20; i >= 1; i--) input.push(i);
     const result = MergeSortAlgorithm.sort(input);
@@ -94,14 +83,14 @@ function runTests({ assert, assertEqual }) {
   }, "Large array (20 elements reverse sorted)");
 
   // --- Input not mutated ---
-  check(() => {
+  it(() => {
     const input = [5, 3, 1];
     MergeSortAlgorithm.sort(input);
     assertEqual(input, [5, 3, 1], "Input not mutated");
   }, "Input array is not mutated");
 
   // --- Step structure: split steps ---
-  check(() => {
+  it(() => {
     const result = MergeSortAlgorithm.sort([4, 2, 7, 1]);
     const splitSteps = result.steps.filter((s) => s.type === "split");
     assert(splitSteps.length > 0, "Has split steps");
@@ -114,7 +103,7 @@ function runTests({ assert, assertEqual }) {
   }, "Split step structure");
 
   // --- Step structure: merge steps ---
-  check(() => {
+  it(() => {
     const result = MergeSortAlgorithm.sort([4, 2, 7, 1]);
     const mergeSteps = result.steps.filter((s) => s.type === "merge");
     assert(mergeSteps.length > 0, "Has merge steps");
@@ -126,7 +115,7 @@ function runTests({ assert, assertEqual }) {
   }, "Merge step structure");
 
   // --- Step structure: complete step ---
-  check(() => {
+  it(() => {
     const result = MergeSortAlgorithm.sort([4, 2, 7, 1]);
     const lastStep = result.steps[result.steps.length - 1];
     assertEqual(lastStep.type, "complete", "Last step is complete");
@@ -136,7 +125,7 @@ function runTests({ assert, assertEqual }) {
   }, "Complete step is last");
 
   // --- Recursion depth tracking ---
-  check(() => {
+  it(() => {
     const result = MergeSortAlgorithm.sort([8, 4, 2, 1, 6, 3, 7, 5]);
     const lastStep = result.steps[result.steps.length - 1];
     assert(typeof lastStep.maxDepth === "number", "Has maxDepth");
@@ -145,7 +134,7 @@ function runTests({ assert, assertEqual }) {
   }, "Recursion depth tracking (8 elements -> depth 3)");
 
   // --- Comparison count is reasonable ---
-  check(() => {
+  it(() => {
     const result = MergeSortAlgorithm.sort([5, 4, 3, 2, 1]);
     const lastStep = result.steps[result.steps.length - 1];
     // For n=5, merge sort makes at most n*log2(n) comparisons
@@ -157,7 +146,7 @@ function runTests({ assert, assertEqual }) {
   }, "Comparison count is reasonable for n=5");
 
   // --- Stability: equal elements maintain relative order ---
-  check(() => {
+  it(() => {
     // Use objects to track original indices conceptually
     // Merge sort is stable: equal elements keep their relative order
     const result = MergeSortAlgorithm.sort([3, 1, 3, 2]);
@@ -165,7 +154,7 @@ function runTests({ assert, assertEqual }) {
   }, "Stability: equal elements maintain relative order");
 
   // --- Split produces correct subarrays ---
-  check(() => {
+  it(() => {
     const result = MergeSortAlgorithm.sort([4, 2, 7, 1]);
     const firstSplit = result.steps.find((s) => s.type === "split");
     assert(firstSplit !== undefined, "Has a split step");
@@ -175,14 +164,14 @@ function runTests({ assert, assertEqual }) {
   }, "First split produces correct halves");
 
   // --- Merge operations count ---
-  check(() => {
+  it(() => {
     const result = MergeSortAlgorithm.sort([3, 1]);
     const lastStep = result.steps[result.steps.length - 1];
     assert(lastStep.mergeOps >= 1, "At least 1 merge op for 2 elements");
   }, "Merge operations counted");
 
   // --- Adversarial: already sorted large ---
-  check(() => {
+  it(() => {
     const input = [];
     for (let i = 1; i <= 20; i++) input.push(i);
     const result = MergeSortAlgorithm.sort(input);
@@ -190,13 +179,9 @@ function runTests({ assert, assertEqual }) {
   }, "Already sorted 20 elements");
 
   // --- Adversarial: all same large ---
-  check(() => {
+  it(() => {
     const input = Array(15).fill(7);
     const result = MergeSortAlgorithm.sort(input);
     assertEqual(result.sortedArray, input.slice(), "All same 15 elements");
   }, "All same value (15 elements)");
-
-  return { passed, failed, failures };
-}
-
-module.exports = { runTests };
+});

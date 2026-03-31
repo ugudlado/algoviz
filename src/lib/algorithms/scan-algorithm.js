@@ -90,3 +90,6 @@ var ScanAlgorithm = (() => {
   return { solve };
 })();
 
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = ScanAlgorithm;
+}

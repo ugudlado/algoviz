@@ -16,88 +16,46 @@ vm.createContext(sandbox);
 vm.runInContext(code, sandbox);
 const ScanAlgorithm = sandbox.ScanAlgorithm;
 
-module.exports = {
-  runTests({ assert, assertEqual }) {
-    let passed = 0;
-    let failed = 0;
-    const failures = [];
+describe("scan algorithm", function () {
+  it("exposes solve() function", function () {
+    // Arrange / Act
+    const api = ScanAlgorithm;
+    // Assert
+    expect(typeof api).toBe("object");
+    expect(typeof api.solve).toBe("function");
+  });
 
-    function test(name, fn) {
-      try {
-        fn();
-        passed++;
-        console.log("  PASS: " + name);
-      } catch (e) {
-        failed++;
-        failures.push({ name, message: e.message });
-        console.log("  FAIL: " + name + " — " + e.message);
-      }
-    }
+  it("declares exactly 3 parameters", function () {
+    // Assert
+    expect(ScanAlgorithm.solve.length).toBe(3);
+  });
 
-    test("ScanAlgorithm.solve exists and is a function", () => {
-      assert(
-        typeof ScanAlgorithm === "object",
-        "ScanAlgorithm should be an object",
-      );
-      assert(
-        typeof ScanAlgorithm.solve === "function",
-        "ScanAlgorithm.solve should be a function",
-      );
-    });
+  it("returns expected upward order", function () {
+    // Arrange
+    const requests = [2, 9, 6, 4, 1];
+    // Act
+    const result = ScanAlgorithm.solve(requests, 5, "up");
+    // Assert
+    expect(result.order).toEqual([6, 9, 4, 2, 1]);
+    expect(result.totalDistance).toBe(12);
+  });
 
-    test("solve() function has exactly 3 declared parameters", () => {
-      assertEqual(
-        ScanAlgorithm.solve.length,
-        3,
-        "solve() should declare exactly 3 parameters (requests, startPosition, direction)",
-      );
-    });
+  it("ignores extra fourth argument", function () {
+    const result3 = ScanAlgorithm.solve([2, 9, 6, 4, 1], 5, "up");
+    const result4 = ScanAlgorithm.solve([2, 9, 6, 4, 1], 5, "up", 10);
+    expect(result4.order).toEqual(result3.order);
+    expect(result4.totalDistance).toBe(result3.totalDistance);
+  });
 
-    test("solve() with 3 args returns correct result", () => {
-      const result = ScanAlgorithm.solve([2, 9, 6, 4, 1], 5, "up");
-      assertEqual(
-        result.order,
-        [6, 9, 4, 2, 1],
-        "Order should be [6, 9, 4, 2, 1]",
-      );
-      assertEqual(result.totalDistance, 12, "Total distance should be 12");
-    });
+  it("handles empty requests", function () {
+    const result = ScanAlgorithm.solve([], 5, "up");
+    expect(result.order).toEqual([]);
+    expect(result.totalDistance).toBe(0);
+  });
 
-    test("solve() with 4 args produces same result as 3 args (extra arg ignored)", () => {
-      const result3 = ScanAlgorithm.solve([2, 9, 6, 4, 1], 5, "up");
-      const result4 = ScanAlgorithm.solve([2, 9, 6, 4, 1], 5, "up", 10);
-      assertEqual(
-        result3.order,
-        result4.order,
-        "4-arg call should produce identical order to 3-arg call",
-      );
-      assertEqual(
-        result3.totalDistance,
-        result4.totalDistance,
-        "4-arg call should produce identical totalDistance to 3-arg call",
-      );
-    });
-
-    test("solve() with empty requests", () => {
-      const result = ScanAlgorithm.solve([], 5, "up");
-      assertEqual(result.order, [], "Empty requests should return empty order");
-      assertEqual(
-        result.totalDistance,
-        0,
-        "Empty requests should have 0 distance",
-      );
-    });
-
-    test("solve() going down", () => {
-      const result = ScanAlgorithm.solve([2, 9, 6, 4, 1], 5, "down");
-      assertEqual(
-        result.order,
-        [4, 2, 1, 6, 9],
-        "Down order should be [4, 2, 1, 6, 9]",
-      );
-      assertEqual(result.totalDistance, 12, "Down total distance should be 12");
-    });
-
-    return { passed, failed, failures };
-  },
-};
+  it("returns expected downward order", function () {
+    const result = ScanAlgorithm.solve([2, 9, 6, 4, 1], 5, "down");
+    expect(result.order).toEqual([4, 2, 1, 6, 9]);
+    expect(result.totalDistance).toBe(12);
+  });
+});

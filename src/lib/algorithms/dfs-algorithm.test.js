@@ -1,27 +1,16 @@
 /**
- * DFS Pathfinding Algorithm Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  */
 
-function runTests({ assert, assertEqual }) {
-  let passed = 0;
-  let failed = 0;
-  const failures = [];
-
-  const DFSAlgorithm = require("./dfs-algorithm.js");
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("dfs algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+const DFSAlgorithm = require("./dfs-algorithm.js");
   // Helper: create a grid of walls (all false)
   function emptyWalls(size) {
     const w = [];
@@ -35,7 +24,7 @@ function runTests({ assert, assertEqual }) {
   }
 
   // --- Basic pathfinding ---
-  check(() => {
+  it(() => {
     const walls = emptyWalls(5);
     const result = DFSAlgorithm.search({
       walls,
@@ -56,7 +45,7 @@ function runTests({ assert, assertEqual }) {
   }, "Basic: finds path from (0,0) to (4,4) on empty 5x5 grid");
 
   // --- Same start and end ---
-  check(() => {
+  it(() => {
     const walls = emptyWalls(5);
     const result = DFSAlgorithm.search({
       walls,
@@ -71,7 +60,7 @@ function runTests({ assert, assertEqual }) {
   }, "Same start and end cell");
 
   // --- No path (completely walled off) ---
-  check(() => {
+  it(() => {
     const walls = emptyWalls(5);
     // Wall off row 2 completely
     for (let c = 0; c < 5; c++) {
@@ -89,7 +78,7 @@ function runTests({ assert, assertEqual }) {
   }, "No path when end is walled off");
 
   // --- Start on wall ---
-  check(() => {
+  it(() => {
     const walls = emptyWalls(5);
     walls[0][0] = true;
     const result = DFSAlgorithm.search({
@@ -104,7 +93,7 @@ function runTests({ assert, assertEqual }) {
   }, "Start on wall returns no path");
 
   // --- End on wall ---
-  check(() => {
+  it(() => {
     const walls = emptyWalls(5);
     walls[4][4] = true;
     const result = DFSAlgorithm.search({
@@ -119,7 +108,7 @@ function runTests({ assert, assertEqual }) {
   }, "End on wall returns no path");
 
   // --- Invalid inputs ---
-  check(() => {
+  it(() => {
     const result = DFSAlgorithm.search({
       walls: [],
       rows: 0,
@@ -131,7 +120,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(result.snapshots.length, 0, "No snapshots for empty grid");
   }, "Empty grid (0x0)");
 
-  check(() => {
+  it(() => {
     const walls = emptyWalls(5);
     const result = DFSAlgorithm.search({
       walls,
@@ -143,7 +132,7 @@ function runTests({ assert, assertEqual }) {
     assert(result.found === false, "Out of bounds start");
   }, "Out-of-bounds start position");
 
-  check(() => {
+  it(() => {
     const walls = emptyWalls(5);
     const result = DFSAlgorithm.search({
       walls,
@@ -156,7 +145,7 @@ function runTests({ assert, assertEqual }) {
   }, "Out-of-bounds end position");
 
   // --- 1x1 grid ---
-  check(() => {
+  it(() => {
     const walls = emptyWalls(1);
     const result = DFSAlgorithm.search({
       walls,
@@ -170,7 +159,7 @@ function runTests({ assert, assertEqual }) {
   }, "1x1 grid: start == end");
 
   // --- Snapshot structure ---
-  check(() => {
+  it(() => {
     const walls = emptyWalls(3);
     const result = DFSAlgorithm.search({
       walls,
@@ -187,7 +176,7 @@ function runTests({ assert, assertEqual }) {
   }, "Snapshot structure is correct");
 
   // --- DFS explores depth-first (goes deep before backtracking) ---
-  check(() => {
+  it(() => {
     // On a narrow corridor, DFS should explore straight through
     const walls = emptyWalls(5);
     // Wall off all but a narrow path: row 0 is clear
@@ -213,7 +202,7 @@ function runTests({ assert, assertEqual }) {
   }, "DFS finds path through narrow corridor");
 
   // --- Adjacent cells ---
-  check(() => {
+  it(() => {
     const walls = emptyWalls(5);
     const result = DFSAlgorithm.search({
       walls,
@@ -227,7 +216,7 @@ function runTests({ assert, assertEqual }) {
   }, "Adjacent start and end");
 
   // --- Path is contiguous (each step is adjacent) ---
-  check(() => {
+  it(() => {
     const walls = emptyWalls(5);
     const result = DFSAlgorithm.search({
       walls,
@@ -248,7 +237,7 @@ function runTests({ assert, assertEqual }) {
   }, "Path is contiguous (each step adjacent)");
 
   // --- Large grid (20x20) doesn't hang ---
-  check(() => {
+  it(() => {
     const walls = emptyWalls(20);
     const result = DFSAlgorithm.search({
       walls,
@@ -262,7 +251,7 @@ function runTests({ assert, assertEqual }) {
   }, "Large grid (20x20) completes without hanging");
 
   // --- Maze with single solution path ---
-  check(() => {
+  it(() => {
     // 3x3 maze:
     // S . .
     // # # .
@@ -285,7 +274,7 @@ function runTests({ assert, assertEqual }) {
   }, "Maze with single solution path");
 
   // --- No path at all (island) ---
-  check(() => {
+  it(() => {
     const walls = emptyWalls(5);
     // Surround end with walls
     walls[3][3] = true;
@@ -303,8 +292,4 @@ function runTests({ assert, assertEqual }) {
     assert(result.found === false, "No path to isolated cell");
     assert(result.path === null, "Path is null");
   }, "No path to isolated end cell");
-
-  return { passed, failed, failures };
-}
-
-module.exports = { runTests };
+});

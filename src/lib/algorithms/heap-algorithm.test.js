@@ -1,32 +1,21 @@
 /**
- * Min-Heap (Priority Queue) Algorithm Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  *
  * Covers: createHeap, insert, extractMin, peek, buildHeap, size, MAX_SIZE,
  * edge cases, step traces.
  */
 
-function runTests({ assert, assertEqual }) {
-  let passed = 0;
-  let failed = 0;
-  const failures = [];
-
-  const HeapAlgorithm = require("./heap-algorithm.js");
-  const { createHeap, insert, extractMin, peek, buildHeap, size, MAX_SIZE } =
-    HeapAlgorithm;
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("heap algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+const HeapAlgorithm = require("./heap-algorithm.js");
+  const { createHeap, insert, extractMin, peek, buildHeap, size, MAX_SIZE } =
+    HeapAlgorithm;
   // Helper: verify min-heap property (each parent <= its children)
   function isMinHeap(data) {
     for (let i = 0; i < data.length; i++) {
@@ -39,19 +28,19 @@ function runTests({ assert, assertEqual }) {
   }
 
   // --- MAX_SIZE ---
-  check(() => {
+  it(() => {
     assert(typeof MAX_SIZE === "number", "MAX_SIZE is a number");
     assert(MAX_SIZE === 20, "MAX_SIZE is 20");
   }, "MAX_SIZE: is 20");
 
   // --- createHeap ---
-  check(() => {
+  it(() => {
     const heap = createHeap();
     assert("data" in heap, "createHeap returns object with data field");
     assertEqual(heap.data, [], "createHeap data is empty array");
   }, "createHeap: returns empty heap");
 
-  check(() => {
+  it(() => {
     const h1 = createHeap();
     const h2 = createHeap();
     h1.data.push(1);
@@ -59,12 +48,12 @@ function runTests({ assert, assertEqual }) {
   }, "createHeap: instances are independent");
 
   // --- size ---
-  check(() => {
+  it(() => {
     const heap = createHeap();
     assert(size(heap) === 0, "empty heap has size 0");
   }, "size: empty heap is 0");
 
-  check(() => {
+  it(() => {
     const heap = createHeap();
     insert(heap, 5);
     assert(size(heap) === 1, "size is 1 after one insert");
@@ -72,7 +61,7 @@ function runTests({ assert, assertEqual }) {
     assert(size(heap) === 2, "size is 2 after two inserts");
   }, "size: increases after inserts");
 
-  check(() => {
+  it(() => {
     const heap = createHeap();
     insert(heap, 5);
     insert(heap, 3);
@@ -81,7 +70,7 @@ function runTests({ assert, assertEqual }) {
   }, "size: decreases after extractMin");
 
   // --- insert ---
-  check(() => {
+  it(() => {
     const heap = createHeap();
     const result = insert(heap, 42);
     assert("steps" in result, "insert returns object with steps field");
@@ -90,7 +79,7 @@ function runTests({ assert, assertEqual }) {
     assert(heap.data[0] === 42, "single inserted value is at index 0");
   }, "insert: single value");
 
-  check(() => {
+  it(() => {
     const heap = createHeap();
     insert(heap, 10);
     insert(heap, 5);
@@ -99,7 +88,7 @@ function runTests({ assert, assertEqual }) {
     assert(isMinHeap(heap.data), "heap property maintained after inserts");
   }, "insert: multiple values — min at root");
 
-  check(() => {
+  it(() => {
     const heap = createHeap();
     const values = [5, 3, 8, 1, 4, 9, 2, 7, 6];
     values.forEach((v) => insert(heap, v));
@@ -107,7 +96,7 @@ function runTests({ assert, assertEqual }) {
     assert(isMinHeap(heap.data), "min-heap property holds after all inserts");
   }, "insert: min-heap property maintained after 9 inserts");
 
-  check(() => {
+  it(() => {
     const heap = createHeap();
     // Insert in reverse order — every insert should sift up
     for (let i = 10; i >= 1; i--) insert(heap, i);
@@ -118,7 +107,7 @@ function runTests({ assert, assertEqual }) {
     );
   }, "insert: reverse-sorted sequence maintains min-heap");
 
-  check(() => {
+  it(() => {
     const heap = createHeap();
     // Insert in sorted order — no sifting needed
     for (let i = 1; i <= 8; i++) insert(heap, i);
@@ -126,7 +115,7 @@ function runTests({ assert, assertEqual }) {
     assert(isMinHeap(heap.data), "heap property holds after sorted inserts");
   }, "insert: sorted sequence maintains min-heap");
 
-  check(() => {
+  it(() => {
     const heap = createHeap();
     insert(heap, 5);
     insert(heap, 5);
@@ -136,7 +125,7 @@ function runTests({ assert, assertEqual }) {
     assert(isMinHeap(heap.data), "heap property holds with all duplicates");
   }, "insert: all duplicates — heap property holds");
 
-  check(() => {
+  it(() => {
     const heap = createHeap();
     const result = insert(heap, 10);
     const step = result.steps[0];
@@ -149,7 +138,7 @@ function runTests({ assert, assertEqual }) {
     assert(Array.isArray(step.heapSnapshot), "heapSnapshot is an array");
   }, "insert: step trace has correct structure");
 
-  check(() => {
+  it(() => {
     const heap = createHeap();
     // Fill to max size
     for (let i = 0; i < MAX_SIZE; i++) insert(heap, i);
@@ -165,7 +154,7 @@ function runTests({ assert, assertEqual }) {
   }, "insert: max size (20+) — does not exceed MAX_SIZE");
 
   // --- extractMin ---
-  check(() => {
+  it(() => {
     const heap = createHeap();
     const result = extractMin(heap);
     assert(
@@ -178,7 +167,7 @@ function runTests({ assert, assertEqual }) {
     );
   }, "extractMin: empty heap returns null");
 
-  check(() => {
+  it(() => {
     const heap = createHeap();
     insert(heap, 42);
     const result = extractMin(heap);
@@ -186,7 +175,7 @@ function runTests({ assert, assertEqual }) {
     assert(size(heap) === 0, "heap is empty after extracting single element");
   }, "extractMin: single element");
 
-  check(() => {
+  it(() => {
     const heap = createHeap();
     [5, 3, 8, 1, 4].forEach((v) => insert(heap, v));
     const result = extractMin(heap);
@@ -195,7 +184,7 @@ function runTests({ assert, assertEqual }) {
     assert(size(heap) === 4, "size decreased by 1");
   }, "extractMin: returns minimum, maintains heap property");
 
-  check(() => {
+  it(() => {
     const heap = createHeap();
     [5, 3, 8, 1, 4, 9, 2, 7, 6].forEach((v) => insert(heap, v));
     const extracted = [];
@@ -216,7 +205,7 @@ function runTests({ assert, assertEqual }) {
     );
   }, "extractMin: repeated extracts give sorted sequence (heap sort)");
 
-  check(() => {
+  it(() => {
     const heap = createHeap();
     insert(heap, 5);
     insert(heap, 5);
@@ -231,7 +220,7 @@ function runTests({ assert, assertEqual }) {
     assert(size(heap) === 0, "heap empty after extracting all duplicates");
   }, "extractMin: all duplicates extracted correctly");
 
-  check(() => {
+  it(() => {
     const heap = createHeap();
     insert(heap, 10);
     insert(heap, 20);
@@ -244,7 +233,7 @@ function runTests({ assert, assertEqual }) {
     assert("heapSnapshot" in step, "step has heapSnapshot");
   }, "extractMin: step trace has correct structure");
 
-  check(() => {
+  it(() => {
     const heap = createHeap();
     [3, 1, 2].forEach((v) => insert(heap, v));
     const result = extractMin(heap);
@@ -255,13 +244,13 @@ function runTests({ assert, assertEqual }) {
   }, "extractMin: extract step has required fields");
 
   // --- peek ---
-  check(() => {
+  it(() => {
     const heap = createHeap();
     const result = peek(heap);
     assert(result === null, "peek on empty heap returns null");
   }, "peek: empty heap returns null");
 
-  check(() => {
+  it(() => {
     const heap = createHeap();
     insert(heap, 42);
     const result = peek(heap);
@@ -269,7 +258,7 @@ function runTests({ assert, assertEqual }) {
     assert(size(heap) === 1, "peek does not remove element");
   }, "peek: single element, does not remove");
 
-  check(() => {
+  it(() => {
     const heap = createHeap();
     [5, 3, 8, 1, 4].forEach((v) => insert(heap, v));
     const min = peek(heap);
@@ -278,7 +267,7 @@ function runTests({ assert, assertEqual }) {
     assert(isMinHeap(heap.data), "peek does not modify heap structure");
   }, "peek: returns min without modifying heap");
 
-  check(() => {
+  it(() => {
     const heap = createHeap();
     insert(heap, 7);
     peek(heap);
@@ -288,7 +277,7 @@ function runTests({ assert, assertEqual }) {
   }, "peek: repeated peeks are idempotent");
 
   // --- buildHeap ---
-  check(() => {
+  it(() => {
     const result = buildHeap([]);
     assert("heap" in result, "buildHeap returns object with heap field");
     assert("steps" in result, "buildHeap returns object with steps field");
@@ -296,12 +285,12 @@ function runTests({ assert, assertEqual }) {
     assertEqual(result.heap.data, [], "empty array builds empty heap");
   }, "buildHeap: empty array");
 
-  check(() => {
+  it(() => {
     const result = buildHeap([42]);
     assertEqual(result.heap.data, [42], "single element heap is correct");
   }, "buildHeap: single element");
 
-  check(() => {
+  it(() => {
     const arr = [4, 10, 3, 5, 1, 8, 2, 7, 6, 9];
     const result = buildHeap(arr);
     assert(isMinHeap(result.heap.data), "buildHeap produces valid min-heap");
@@ -309,14 +298,14 @@ function runTests({ assert, assertEqual }) {
     assert(result.heap.data.length === arr.length, "all elements present");
   }, "buildHeap: random array produces valid min-heap");
 
-  check(() => {
+  it(() => {
     const arr = [1, 2, 3, 4, 5, 6, 7];
     const result = buildHeap(arr);
     assert(isMinHeap(result.heap.data), "sorted array builds valid min-heap");
     assert(result.heap.data[0] === 1, "min at root from sorted input");
   }, "buildHeap: already sorted array");
 
-  check(() => {
+  it(() => {
     const arr = [7, 6, 5, 4, 3, 2, 1];
     const result = buildHeap(arr);
     assert(
@@ -326,7 +315,7 @@ function runTests({ assert, assertEqual }) {
     assert(result.heap.data[0] === 1, "min at root from reverse-sorted input");
   }, "buildHeap: reverse-sorted array");
 
-  check(() => {
+  it(() => {
     const arr = [5, 5, 5, 5, 5];
     const result = buildHeap(arr);
     assert(
@@ -336,7 +325,7 @@ function runTests({ assert, assertEqual }) {
     assert(result.heap.data[0] === 5, "root is 5 with all duplicates");
   }, "buildHeap: all duplicates");
 
-  check(() => {
+  it(() => {
     // buildHeap should not exceed MAX_SIZE elements
     const arr = Array.from({ length: MAX_SIZE + 5 }, (_, i) => i);
     const result = buildHeap(arr);
@@ -346,7 +335,7 @@ function runTests({ assert, assertEqual }) {
     );
   }, "buildHeap: truncates input exceeding MAX_SIZE");
 
-  check(() => {
+  it(() => {
     const arr = [3, 1, 4, 1, 5, 9, 2, 6];
     const result = buildHeap(arr);
     assert(result.steps.length >= 1, "buildHeap produces at least one step");
@@ -355,15 +344,11 @@ function runTests({ assert, assertEqual }) {
     assert("heapSnapshot" in step, "buildHeap step has heapSnapshot");
   }, "buildHeap: step trace has correct structure");
 
-  check(() => {
+  it(() => {
     // Already a valid min-heap
     const arr = [1, 3, 2, 7, 5, 4, 6];
     const result = buildHeap(arr);
     assert(isMinHeap(result.heap.data), "already-valid heap remains valid");
     assert(result.heap.data[0] === 1, "root unchanged for already-valid heap");
   }, "buildHeap: already valid heap");
-
-  return { passed, failed, failures };
-}
-
-module.exports = { runTests };
+});

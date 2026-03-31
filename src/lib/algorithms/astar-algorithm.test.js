@@ -1,38 +1,23 @@
 /**
- * A* Pathfinding Algorithm Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  *
  * Covers: basic pathfinding, wall avoidance, no path, start==end, single cell,
  * empty grid, large grid, Manhattan heuristic, Euclidean heuristic, f=g+h invariant,
  * open/closed set correctness, snapshot structure, BFS comparison, optimality.
  */
 
-function runTests({ assert }) {
-  var passed = 0;
-  var failed = 0;
-  var failures = [];
-
-  var AStarAlgorithm = require("./astar-algorithm.js");
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name: name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("astar algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+var AStarAlgorithm = require("./astar-algorithm.js");
   // Helper: create key from row,col
   function k(r, c) {
     return r + "," + c;
   }
 
   // --- 1. Basic path on empty grid ---
-  check(function () {
+  it(function () {
     var result = AStarAlgorithm.run({
       grid: { rows: 5, cols: 5, walls: [] },
       start: [0, 0],
@@ -56,7 +41,7 @@ function runTests({ assert }) {
   }, "Basic: shortest path on empty 5x5 grid");
 
   // --- 2. Wall avoidance ---
-  check(function () {
+  it(function () {
     // Walls create S-shaped corridor forcing zigzag detour:
     // S . . . .
     // W W W . .
@@ -110,7 +95,7 @@ function runTests({ assert }) {
   }, "Wall avoidance: path goes around walls, matches BFS");
 
   // --- 3. No path possible ---
-  check(function () {
+  it(function () {
     // End completely surrounded by walls
     var walls = [
       [3, 3],
@@ -128,7 +113,7 @@ function runTests({ assert }) {
   }, "No path: end cell surrounded by walls");
 
   // --- 4. Start equals end ---
-  check(function () {
+  it(function () {
     var result = AStarAlgorithm.run({
       grid: { rows: 5, cols: 5, walls: [] },
       start: [2, 2],
@@ -145,7 +130,7 @@ function runTests({ assert }) {
   }, "Start == End: immediate result");
 
   // --- 5. Single cell grid (1x1) ---
-  check(function () {
+  it(function () {
     var result = AStarAlgorithm.run({
       grid: { rows: 1, cols: 1, walls: [] },
       start: [0, 0],
@@ -158,7 +143,7 @@ function runTests({ assert }) {
   }, "Single cell grid (1x1)");
 
   // --- 6. Empty grid (0x0) ---
-  check(function () {
+  it(function () {
     var result = AStarAlgorithm.run({
       grid: { rows: 0, cols: 0, walls: [] },
       start: [0, 0],
@@ -171,7 +156,7 @@ function runTests({ assert }) {
   }, "Empty grid (0x0): graceful empty result");
 
   // --- 7. Large grid (25x25) completes ---
-  check(function () {
+  it(function () {
     var result = AStarAlgorithm.run({
       grid: { rows: 25, cols: 25, walls: [] },
       start: [0, 0],
@@ -184,7 +169,7 @@ function runTests({ assert }) {
   }, "Large grid (25x25) completes correctly");
 
   // --- 8. Manhattan heuristic values ---
-  check(function () {
+  it(function () {
     var h = AStarAlgorithm.heuristics.manhattan;
     assert(h(0, 0, 4, 4) === 8, "Manhattan (0,0) to (4,4) = 8");
     assert(h(3, 3, 3, 3) === 0, "Manhattan same cell = 0");
@@ -193,7 +178,7 @@ function runTests({ assert }) {
   }, "Manhattan heuristic computes |dx|+|dy|");
 
   // --- 9. Euclidean heuristic values ---
-  check(function () {
+  it(function () {
     var h = AStarAlgorithm.heuristics.euclidean;
     var val = h(0, 0, 3, 4);
     assert(Math.abs(val - 5) < 0.001, "Euclidean (0,0) to (3,4) = 5");
@@ -206,7 +191,7 @@ function runTests({ assert }) {
   }, "Euclidean heuristic computes sqrt(dx^2+dy^2)");
 
   // --- 10. f = g + h invariant ---
-  check(function () {
+  it(function () {
     var result = AStarAlgorithm.run({
       grid: { rows: 5, cols: 5, walls: [] },
       start: [0, 0],
@@ -240,7 +225,7 @@ function runTests({ assert }) {
   }, "f = g + h invariant holds for all cells in all snapshots");
 
   // --- 11. Open/closed set correctness ---
-  check(function () {
+  it(function () {
     var result = AStarAlgorithm.run({
       grid: { rows: 5, cols: 5, walls: [] },
       start: [0, 0],
@@ -263,7 +248,7 @@ function runTests({ assert }) {
   }, "Open/closed sets are disjoint");
 
   // --- 12. Snapshot structure ---
-  check(function () {
+  it(function () {
     var result = AStarAlgorithm.run({
       grid: { rows: 3, cols: 3, walls: [] },
       start: [0, 0],
@@ -280,7 +265,7 @@ function runTests({ assert }) {
   }, "Snapshot structure has required fields");
 
   // --- 13. Optimal path with Manhattan on 4-dir grid ---
-  check(function () {
+  it(function () {
     // On a 4-directional grid, Manhattan is admissible and consistent,
     // so A* with Manhattan must find the true shortest path.
     // Compare against BFS which always finds shortest path.
@@ -313,7 +298,7 @@ function runTests({ assert }) {
   }, "A* with Manhattan finds optimal path (same length as BFS)");
 
   // --- 14. BFS comparison: A* explores fewer cells ---
-  check(function () {
+  it(function () {
     // On a guided search toward a distant goal, A* should explore fewer cells
     var result = AStarAlgorithm.run({
       grid: { rows: 15, cols: 15, walls: [] },
@@ -337,7 +322,7 @@ function runTests({ assert }) {
   }, "A* explores fewer cells than BFS on open grid");
 
   // --- 15. Movement is 4-directional only ---
-  check(function () {
+  it(function () {
     var result = AStarAlgorithm.run({
       grid: { rows: 3, cols: 3, walls: [] },
       start: [0, 0],
@@ -357,7 +342,7 @@ function runTests({ assert }) {
   }, "Movement is 4-directional only (no diagonals)");
 
   // --- 16. Euclidean heuristic still finds valid path ---
-  check(function () {
+  it(function () {
     var result = AStarAlgorithm.run({
       grid: {
         rows: 5,
@@ -381,7 +366,7 @@ function runTests({ assert }) {
   }, "Euclidean heuristic finds valid path");
 
   // --- 17. Start on wall returns no path ---
-  check(function () {
+  it(function () {
     var result = AStarAlgorithm.run({
       grid: { rows: 3, cols: 3, walls: [[0, 0]] },
       start: [0, 0],
@@ -392,7 +377,7 @@ function runTests({ assert }) {
   }, "Start on wall: no path");
 
   // --- 18. End on wall returns no path ---
-  check(function () {
+  it(function () {
     var result = AStarAlgorithm.run({
       grid: { rows: 3, cols: 3, walls: [[2, 2]] },
       start: [0, 0],
@@ -403,7 +388,7 @@ function runTests({ assert }) {
   }, "End on wall: no path");
 
   // --- 19. Out of bounds start/end ---
-  check(function () {
+  it(function () {
     var result = AStarAlgorithm.run({
       grid: { rows: 3, cols: 3, walls: [] },
       start: [-1, 0],
@@ -415,7 +400,7 @@ function runTests({ assert }) {
   }, "Out of bounds start returns error");
 
   // --- 20. BFS snapshot structure ---
-  check(function () {
+  it(function () {
     var result = AStarAlgorithm.runBFS({
       grid: { rows: 3, cols: 3, walls: [] },
       start: [0, 0],
@@ -434,7 +419,7 @@ function runTests({ assert }) {
   }, "BFS returns same snapshot structure as A*");
 
   // --- 21. g values increase along path ---
-  check(function () {
+  it(function () {
     var result = AStarAlgorithm.run({
       grid: { rows: 5, cols: 5, walls: [] },
       start: [0, 0],
@@ -453,7 +438,7 @@ function runTests({ assert }) {
   }, "g values increase by 1 along the path");
 
   // --- 22. All walls blocked (adversarial) ---
-  check(function () {
+  it(function () {
     var walls = [];
     for (var r = 0; r < 5; r++) {
       for (var c = 0; c < 5; c++) {
@@ -473,8 +458,4 @@ function runTests({ assert }) {
       "No path when all cells except start/end are walls",
     );
   }, "All cells walled except start/end: no path");
-
-  return { passed: passed, failed: failed, failures: failures };
-}
-
-module.exports = { runTests };
+});

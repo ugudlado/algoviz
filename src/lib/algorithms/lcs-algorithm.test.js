@@ -1,58 +1,47 @@
 /**
- * LCS Algorithm Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  */
 
-function runTests({ assert, assertEqual }) {
-  let passed = 0;
-  let failed = 0;
-  const failures = [];
-
-  // Load the algorithm module
-  const LCSAlgorithm = require("./lcs-algorithm.js");
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("lcs algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+// Load the algorithm module
+  const LCSAlgorithm = require("./lcs-algorithm.js");
   // --- Basic correctness ---
-  check(() => {
+  it(() => {
     const result = LCSAlgorithm.solve("ABCBDAB", "BDCAB");
     assertEqual(result.lcsString.length, 4, "LCS length = 4");
     // Multiple valid LCS exist (BCAB, BDAB), just check length
     assertEqual(result.dp[7][5], 4, "DP bottom-right = 4");
   }, "Basic correctness: ABCBDAB vs BDCAB");
 
-  check(() => {
+  it(() => {
     const result = LCSAlgorithm.solve("AGGTAB", "GXTXAYB");
     assertEqual(result.lcsString.length, 4, "LCS length = 4");
     assertEqual(result.dp[6][7], 4, "DP bottom-right = 4");
   }, "Classic example: AGGTAB vs GXTXAYB");
 
   // --- Identical strings ---
-  check(() => {
+  it(() => {
     const result = LCSAlgorithm.solve("abc", "abc");
     assertEqual(result.lcsString, "abc", "LCS = full string");
     assertEqual(result.dp[3][3], 3, "DP value = 3");
   }, "Identical strings: abc vs abc");
 
   // --- No common subsequence ---
-  check(() => {
+  it(() => {
     const result = LCSAlgorithm.solve("abc", "xyz");
     assertEqual(result.lcsString, "", "LCS is empty");
     assertEqual(result.dp[3][3], 0, "DP value = 0");
   }, "No common subsequence: abc vs xyz");
 
   // --- Empty first string ---
-  check(() => {
+  it(() => {
     const result = LCSAlgorithm.solve("", "abc");
     assertEqual(result.lcsString, "", "LCS is empty");
     assertEqual(result.dp.length, 1, "1 row");
@@ -60,7 +49,7 @@ function runTests({ assert, assertEqual }) {
   }, "Empty first string");
 
   // --- Empty second string ---
-  check(() => {
+  it(() => {
     const result = LCSAlgorithm.solve("abc", "");
     assertEqual(result.lcsString, "", "LCS is empty");
     assertEqual(result.dp[0].length, 1, "1 column");
@@ -68,7 +57,7 @@ function runTests({ assert, assertEqual }) {
   }, "Empty second string");
 
   // --- Both empty ---
-  check(() => {
+  it(() => {
     const result = LCSAlgorithm.solve("", "");
     assertEqual(result.lcsString, "", "LCS is empty");
     assertEqual(result.dp.length, 1, "1 row");
@@ -77,41 +66,41 @@ function runTests({ assert, assertEqual }) {
   }, "Both empty strings");
 
   // --- Single character match ---
-  check(() => {
+  it(() => {
     const result = LCSAlgorithm.solve("a", "a");
     assertEqual(result.lcsString, "a", "LCS = a");
     assertEqual(result.dp[1][1], 1, "DP value = 1");
   }, "Single character match");
 
   // --- Single character no match ---
-  check(() => {
+  it(() => {
     const result = LCSAlgorithm.solve("a", "b");
     assertEqual(result.lcsString, "", "LCS is empty");
     assertEqual(result.dp[1][1], 0, "DP value = 0");
   }, "Single character no match");
 
   // --- All same characters ---
-  check(() => {
+  it(() => {
     const result = LCSAlgorithm.solve("aaaa", "aa");
     assertEqual(result.lcsString, "aa", "LCS = aa");
     assertEqual(result.dp[4][2], 2, "DP value = 2");
   }, "All duplicates: aaaa vs aa");
 
   // --- One string is subsequence of other ---
-  check(() => {
+  it(() => {
     const result = LCSAlgorithm.solve("abcdef", "ace");
     assertEqual(result.lcsString, "ace", "LCS = ace");
     assertEqual(result.dp[6][3], 3, "DP value = 3");
   }, "One string is subsequence of other");
 
   // --- Reverse strings ---
-  check(() => {
+  it(() => {
     const result = LCSAlgorithm.solve("abcd", "dcba");
     assertEqual(result.lcsString.length, 1, "LCS length = 1");
   }, "Reverse strings: abcd vs dcba");
 
   // --- Max length strings (15 chars each) ---
-  check(() => {
+  it(() => {
     const result = LCSAlgorithm.solve("abcdefghijklmno", "aeiou12345bcdmn");
     assert(result.dp.length === 16, "16 rows");
     assert(result.dp[0].length === 16, "16 cols");
@@ -120,7 +109,7 @@ function runTests({ assert, assertEqual }) {
   }, "Max length strings (15 chars each)");
 
   // --- DP table dimensions ---
-  check(() => {
+  it(() => {
     const result = LCSAlgorithm.solve("abc", "de");
     assertEqual(result.dp.length, 4, "m+1 rows");
     assertEqual(result.dp[0].length, 3, "n+1 cols");
@@ -132,7 +121,7 @@ function runTests({ assert, assertEqual }) {
   }, "DP table dimensions and base cases");
 
   // --- Steps array structure ---
-  check(() => {
+  it(() => {
     const result = LCSAlgorithm.solve("ab", "bc");
     assertEqual(result.steps.length, 4, "2 * 2 = 4 steps");
     const step = result.steps[0];
@@ -144,7 +133,7 @@ function runTests({ assert, assertEqual }) {
   }, "Steps array structure and count");
 
   // --- Match detection in steps ---
-  check(() => {
+  it(() => {
     const result = LCSAlgorithm.solve("ab", "ab");
     // Step for (1,1): A[0]='a' == B[0]='a' -> match
     const matchStep = result.steps.find((s) => s.row === 1 && s.col === 1);
@@ -156,7 +145,7 @@ function runTests({ assert, assertEqual }) {
   }, "Match detection in steps");
 
   // --- Traceback path ---
-  check(() => {
+  it(() => {
     const result = LCSAlgorithm.solve("abc", "abc");
     const tb = result.traceback;
     assert(tb.path.length > 0, "Path non-empty");
@@ -170,7 +159,7 @@ function runTests({ assert, assertEqual }) {
   }, "Traceback path starts at (m,n) ends at (0,0)");
 
   // --- Traceback LCS matches solve LCS ---
-  check(() => {
+  it(() => {
     const result = LCSAlgorithm.solve("ABCBDAB", "BDCAB");
     assertEqual(
       result.traceback.lcsString,
@@ -180,18 +169,14 @@ function runTests({ assert, assertEqual }) {
   }, "Traceback lcsString matches top-level lcsString");
 
   // --- Case sensitive ---
-  check(() => {
+  it(() => {
     const result = LCSAlgorithm.solve("ABC", "abc");
     assertEqual(result.lcsString, "", "Case sensitive: no match");
   }, "Case sensitive comparison");
 
   // --- Special characters ---
-  check(() => {
+  it(() => {
     const result = LCSAlgorithm.solve("a b", "a b");
     assertEqual(result.lcsString, "a b", "Spaces preserved");
   }, "Strings with spaces");
-
-  return { passed, failed, failures };
-}
-
-module.exports = { runTests };
+});

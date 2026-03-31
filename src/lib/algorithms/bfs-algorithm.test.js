@@ -1,27 +1,16 @@
 /**
- * BFS Pathfinding Algorithm Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  */
 
-function runTests({ assert, assertEqual }) {
-  let passed = 0;
-  let failed = 0;
-  const failures = [];
-
-  const BFSAlgorithm = require("./bfs-algorithm.js");
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("bfs algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+const BFSAlgorithm = require("./bfs-algorithm.js");
   // Helper: create a grid of walls (all false)
   function emptyWalls(size) {
     var w = [];
@@ -35,7 +24,7 @@ function runTests({ assert, assertEqual }) {
   }
 
   // --- Basic pathfinding ---
-  check(function () {
+  it(function () {
     var walls = emptyWalls(5);
     var result = BFSAlgorithm.search({
       gridSize: 5,
@@ -55,7 +44,7 @@ function runTests({ assert, assertEqual }) {
   }, "Basic: finds path from (0,0) to (4,4) on empty 5x5 grid");
 
   // --- BFS finds shortest path ---
-  check(function () {
+  it(function () {
     var walls = emptyWalls(5);
     var result = BFSAlgorithm.search({
       gridSize: 5,
@@ -73,7 +62,7 @@ function runTests({ assert, assertEqual }) {
   }, "BFS finds shortest path (Manhattan distance)");
 
   // --- Same start and end ---
-  check(function () {
+  it(function () {
     var walls = emptyWalls(5);
     var result = BFSAlgorithm.search({
       gridSize: 5,
@@ -87,7 +76,7 @@ function runTests({ assert, assertEqual }) {
   }, "Same start and end cell");
 
   // --- No path (completely walled off) ---
-  check(function () {
+  it(function () {
     var walls = emptyWalls(5);
     // Wall off row 2 completely
     for (var c = 0; c < 5; c++) {
@@ -104,7 +93,7 @@ function runTests({ assert, assertEqual }) {
   }, "No path when end is walled off");
 
   // --- Start on wall ---
-  check(function () {
+  it(function () {
     var walls = emptyWalls(5);
     walls[0][0] = true;
     var result = BFSAlgorithm.search({
@@ -118,7 +107,7 @@ function runTests({ assert, assertEqual }) {
   }, "Start on wall returns no path");
 
   // --- End on wall ---
-  check(function () {
+  it(function () {
     var walls = emptyWalls(5);
     walls[4][4] = true;
     var result = BFSAlgorithm.search({
@@ -132,7 +121,7 @@ function runTests({ assert, assertEqual }) {
   }, "End on wall returns no path");
 
   // --- Invalid inputs: zero grid ---
-  check(function () {
+  it(function () {
     var result = BFSAlgorithm.search({
       gridSize: 0,
       walls: [],
@@ -144,7 +133,7 @@ function runTests({ assert, assertEqual }) {
   }, "Empty grid (size 0)");
 
   // --- Out-of-bounds start ---
-  check(function () {
+  it(function () {
     var walls = emptyWalls(5);
     var result = BFSAlgorithm.search({
       gridSize: 5,
@@ -156,7 +145,7 @@ function runTests({ assert, assertEqual }) {
   }, "Out-of-bounds start position");
 
   // --- Out-of-bounds end ---
-  check(function () {
+  it(function () {
     var walls = emptyWalls(5);
     var result = BFSAlgorithm.search({
       gridSize: 5,
@@ -168,7 +157,7 @@ function runTests({ assert, assertEqual }) {
   }, "Out-of-bounds end position");
 
   // --- 1x1 grid ---
-  check(function () {
+  it(function () {
     var walls = emptyWalls(1);
     var result = BFSAlgorithm.search({
       gridSize: 1,
@@ -181,7 +170,7 @@ function runTests({ assert, assertEqual }) {
   }, "1x1 grid: start == end");
 
   // --- Adjacent cells ---
-  check(function () {
+  it(function () {
     var walls = emptyWalls(5);
     var result = BFSAlgorithm.search({
       gridSize: 5,
@@ -194,7 +183,7 @@ function runTests({ assert, assertEqual }) {
   }, "Adjacent start and end");
 
   // --- Snapshot structure ---
-  check(function () {
+  it(function () {
     var walls = emptyWalls(3);
     var result = BFSAlgorithm.search({
       gridSize: 3,
@@ -211,7 +200,7 @@ function runTests({ assert, assertEqual }) {
   }, "Snapshot structure is correct");
 
   // --- Path is contiguous (each step is adjacent) ---
-  check(function () {
+  it(function () {
     var walls = emptyWalls(5);
     var result = BFSAlgorithm.search({
       gridSize: 5,
@@ -231,7 +220,7 @@ function runTests({ assert, assertEqual }) {
   }, "Path is contiguous (each step adjacent)");
 
   // --- Large grid (20x20) doesn't hang ---
-  check(function () {
+  it(function () {
     var walls = emptyWalls(20);
     var result = BFSAlgorithm.search({
       gridSize: 20,
@@ -246,7 +235,7 @@ function runTests({ assert, assertEqual }) {
   }, "Large grid (20x20) completes without hanging");
 
   // --- Maze with single solution path ---
-  check(function () {
+  it(function () {
     // 3x3 maze:
     // S . .
     // # # .
@@ -270,7 +259,7 @@ function runTests({ assert, assertEqual }) {
   }, "Maze with single solution path");
 
   // --- No path to isolated end cell ---
-  check(function () {
+  it(function () {
     var walls = emptyWalls(5);
     // Surround (4,4) with walls
     walls[3][3] = true;
@@ -287,7 +276,7 @@ function runTests({ assert, assertEqual }) {
   }, "No path to isolated end cell");
 
   // --- All duplicates: all walls ---
-  check(function () {
+  it(function () {
     var size = 5;
     var walls = [];
     for (var r = 0; r < size; r++) {
@@ -305,8 +294,4 @@ function runTests({ assert, assertEqual }) {
     assert(result.found === false, "All walls, no path");
     assertEqual(result.visitedCount, 0, "No cells visited");
   }, "All walls: no path possible");
-
-  return { passed, failed, failures };
-}
-
-module.exports = { runTests };
+});

@@ -6,21 +6,13 @@ var KruskalAlgorithm =
     ? require("./kruskal-algorithm.js")
     : globalThis.KruskalAlgorithm;
 
-function runTests() {
-  var passed = 0;
-  var failed = 0;
-
+describe("kruskal algorithm", function () {
   function assert(condition, message) {
-    if (condition) {
-      console.log("  PASS: " + message);
-      passed++;
-    } else {
-      console.error("  FAIL: " + message);
-      failed++;
-    }
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
-  console.log("Kruskal's MST Algorithm Tests:");
+  it("builds correct MSTs and emits expected step traces", function () {
+    // Arrange / Act / Assert (grouped by scenario below)
 
   // --- Basic triangle graph ---
   var r1 = KruskalAlgorithm.findMST(3, [
@@ -154,14 +146,9 @@ function runTests() {
     return s.phase === "consider" && s.accepted === false;
   });
   assert(rejected.length === 1, "one edge rejected for creating a cycle");
-  assert(
-    rejected[0].edge.u === 1 && rejected[0].edge.v === 2,
-    "rejected edge is 1-2 (creates cycle with 0-1 and 0-2)",
-  );
-
-  return { passed: passed, failed: failed };
-}
-
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = { runTests: runTests };
-}
+    assert(
+      rejected[0].edge.u === 1 && rejected[0].edge.v === 2,
+      "rejected edge is 1-2 (creates cycle with 0-1 and 0-2)",
+    );
+  });
+});

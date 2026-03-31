@@ -6,18 +6,9 @@ var RadixSortAlgorithm =
     ? require("./radix-sort-algorithm.js")
     : globalThis.RadixSortAlgorithm;
 
-function runTests() {
-  var passed = 0;
-  var failed = 0;
-
+describe("radix sort algorithm", function () {
   function assert(condition, message) {
-    if (condition) {
-      console.log("  PASS: " + message);
-      passed++;
-    } else {
-      console.error("  FAIL: " + message);
-      failed++;
-    }
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
   function arraysEqual(a, b) {
@@ -34,7 +25,8 @@ function runTests() {
     });
   }
 
-  console.log("Radix Sort Algorithm Tests:");
+  it("sorts numbers and records expected step metadata", function () {
+    // Arrange / Act / Assert (grouped by scenario below)
 
   // --- Correctness ---
   var r1 = RadixSortAlgorithm.sort([170, 45, 75, 90, 802, 24, 2, 66]);
@@ -163,12 +155,7 @@ function runTests() {
   var r14 = RadixSortAlgorithm.sort([20, 10]);
   assert(arraysEqual(r14.sortedArray, [10, 20]), "two-element reverse sorted");
 
-  var r15 = RadixSortAlgorithm.sort([10, 20]);
-  assert(arraysEqual(r15.sortedArray, [10, 20]), "two-element already sorted");
-
-  return { passed: passed, failed: failed };
-}
-
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = { runTests: runTests };
-}
+    var r15 = RadixSortAlgorithm.sort([10, 20]);
+    assert(arraysEqual(r15.sortedArray, [10, 20]), "two-element already sorted");
+  });
+});

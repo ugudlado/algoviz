@@ -5,46 +5,37 @@ const {
   tracebackDescription,
 } = require("./levenshtein-algorithm");
 
-function runTests({ assert, assertEqual }) {
-  let passed = 0;
-  let failed = 0;
-  const failures = [];
-
-  function test(name, fn) {
-    try {
-      fn();
-      console.log("  PASS: " + name);
-      passed++;
-    } catch (err) {
-      console.log("  FAIL: " + name + " — " + err.message);
-      failed++;
-      failures.push({ name, message: err.message });
-    }
+describe("levenshtein algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
   // --- Algorithm correctness tests ---
 
-  test("kitten -> sitting distance is 3", () => {
+  it("kitten -> sitting distance is 3", () => {
     const result = levenshteinCompute("kitten", "sitting");
     assertEqual(result.distance, 3, "distance");
   });
 
-  test("empty -> abc distance is 3", () => {
+  it("empty -> abc distance is 3", () => {
     const result = levenshteinCompute("", "abc");
     assertEqual(result.distance, 3, "distance");
   });
 
-  test("abc -> empty distance is 3", () => {
+  it("abc -> empty distance is 3", () => {
     const result = levenshteinCompute("abc", "");
     assertEqual(result.distance, 3, "distance");
   });
 
-  test("same strings distance is 0", () => {
+  it("same strings distance is 0", () => {
     const result = levenshteinCompute("hello", "hello");
     assertEqual(result.distance, 0, "distance");
   });
 
-  test("traceback starts at (0,0) and ends at (m,n)", () => {
+  it("traceback starts at (0,0) and ends at (m,n)", () => {
     const result = levenshteinCompute("kitten", "sitting");
     const tb = result.traceback;
     assertEqual(tb[0], { i: 0, j: 0 }, "traceback start");
@@ -53,7 +44,7 @@ function runTests({ assert, assertEqual }) {
 
   // --- REGRESSION TEST: traceback description must not be empty ---
 
-  test("tracebackDescription returns non-empty string for kitten->sitting", () => {
+  it("tracebackDescription returns non-empty string for kitten->sitting", () => {
     const result = levenshteinCompute("kitten", "sitting");
     const desc = tracebackDescription(
       "kitten",
@@ -68,7 +59,7 @@ function runTests({ assert, assertEqual }) {
     );
   });
 
-  test("tracebackDescription mentions operations for each traceback step", () => {
+  it("tracebackDescription mentions operations for each traceback step", () => {
     const result = levenshteinCompute("kitten", "sitting");
     const desc = tracebackDescription(
       "kitten",
@@ -84,7 +75,7 @@ function runTests({ assert, assertEqual }) {
     );
   });
 
-  test("tracebackDescription works for identical strings", () => {
+  it("tracebackDescription works for identical strings", () => {
     const result = levenshteinCompute("abc", "abc");
     const desc = tracebackDescription(
       "abc",
@@ -101,8 +92,4 @@ function runTests({ assert, assertEqual }) {
       "identical strings should produce match operations",
     );
   });
-
-  return { passed, failed, failures };
-}
-
-module.exports = { runTests };
+});

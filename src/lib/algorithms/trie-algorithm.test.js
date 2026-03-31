@@ -1,64 +1,53 @@
 /**
- * Trie Algorithm Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  */
 
-function runTests({ assert, assertEqual }) {
-  let passed = 0;
-  let failed = 0;
-  const failures = [];
-
-  const TrieAlgorithm = require("./trie-algorithm.js");
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("trie algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+const TrieAlgorithm = require("./trie-algorithm.js");
   // --- createTrie ---
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     assert(trie !== null && trie !== undefined, "Trie is not null");
     assert(typeof trie.root === "object", "Trie has root");
     assert(trie.root !== null, "Root is not null");
   }, "createTrie returns object with root node");
 
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     assert(typeof trie.root.children === "object", "Root has children object");
     assertEqual(trie.root.isEnd, false, "Root isEnd is false");
   }, "createTrie root node has children and isEnd=false");
 
   // --- getWords on empty trie ---
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     const words = TrieAlgorithm.getWords(trie);
     assertEqual(words, [], "Empty trie has no words");
   }, "getWords on empty trie returns []");
 
   // --- insert single word ---
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     const result = TrieAlgorithm.insert(trie, "cat");
     assert(Array.isArray(result.steps), "insert returns steps array");
     assert(result.steps.length > 0, "insert has at least one step");
   }, "insert returns object with steps array");
 
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     TrieAlgorithm.insert(trie, "cat");
     const words = TrieAlgorithm.getWords(trie);
     assertEqual(words, ["cat"], "getWords returns inserted word");
   }, "insert 'cat' then getWords returns ['cat']");
 
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     const result = TrieAlgorithm.insert(trie, "cat");
     // Should have one step per character plus possible completion step
@@ -66,7 +55,7 @@ function runTests({ assert, assertEqual }) {
   }, "insert 3-char word has at least 3 steps");
 
   // --- insert single character word ---
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     TrieAlgorithm.insert(trie, "a");
     const words = TrieAlgorithm.getWords(trie);
@@ -74,7 +63,7 @@ function runTests({ assert, assertEqual }) {
   }, "insert single character word");
 
   // --- insert multiple words ---
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     TrieAlgorithm.insert(trie, "cat");
     TrieAlgorithm.insert(trie, "car");
@@ -85,7 +74,7 @@ function runTests({ assert, assertEqual }) {
   }, "insert multiple words");
 
   // --- insert overlapping prefixes ---
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     TrieAlgorithm.insert(trie, "car");
     TrieAlgorithm.insert(trie, "card");
@@ -101,7 +90,7 @@ function runTests({ assert, assertEqual }) {
   }, "insert words with overlapping prefixes (car, card, care, careful)");
 
   // --- insert where word is prefix of another ---
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     TrieAlgorithm.insert(trie, "be");
     TrieAlgorithm.insert(trie, "bee");
@@ -112,7 +101,7 @@ function runTests({ assert, assertEqual }) {
   }, "insert where shorter word is prefix of longer");
 
   // --- insert step structure ---
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     const result = TrieAlgorithm.insert(trie, "hi");
     const step = result.steps[0];
@@ -122,7 +111,7 @@ function runTests({ assert, assertEqual }) {
   }, "insert step has char, path, explanation");
 
   // --- search: found ---
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     TrieAlgorithm.insert(trie, "hello");
     const result = TrieAlgorithm.search(trie, "hello");
@@ -131,28 +120,28 @@ function runTests({ assert, assertEqual }) {
   }, "search for existing word returns found=true");
 
   // --- search: not found ---
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     TrieAlgorithm.insert(trie, "hello");
     const result = TrieAlgorithm.search(trie, "hell");
     assertEqual(result.found, false, "hell not found (is prefix, not word)");
   }, "search for prefix-only word returns found=false");
 
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     const result = TrieAlgorithm.search(trie, "anything");
     assertEqual(result.found, false, "Empty trie search returns false");
     assert(result.steps.length > 0, "Search on empty trie still has steps");
   }, "search on empty trie returns found=false");
 
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     TrieAlgorithm.insert(trie, "cat");
     const result = TrieAlgorithm.search(trie, "dog");
     assertEqual(result.found, false, "Not-inserted word not found");
   }, "search for non-existent word returns found=false");
 
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     TrieAlgorithm.insert(trie, "cat");
     const result = TrieAlgorithm.search(trie, "cats");
@@ -160,7 +149,7 @@ function runTests({ assert, assertEqual }) {
   }, "search for word extended beyond trie returns found=false");
 
   // --- search step structure ---
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     TrieAlgorithm.insert(trie, "go");
     const result = TrieAlgorithm.search(trie, "go");
@@ -173,7 +162,7 @@ function runTests({ assert, assertEqual }) {
   }, "search steps include found boolean in final step");
 
   // --- prefixQuery: found words ---
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     TrieAlgorithm.insert(trie, "cat");
     TrieAlgorithm.insert(trie, "car");
@@ -184,7 +173,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(result.words, ["car", "card", "cat"], "Prefix 'ca' finds 3");
   }, "prefixQuery 'ca' finds car, card, cat");
 
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     TrieAlgorithm.insert(trie, "cat");
     TrieAlgorithm.insert(trie, "car");
@@ -197,7 +186,7 @@ function runTests({ assert, assertEqual }) {
   }, "prefixQuery with exact word as prefix");
 
   // --- prefixQuery: not found ---
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     TrieAlgorithm.insert(trie, "cat");
     const result = TrieAlgorithm.prefixQuery(trie, "dog");
@@ -205,14 +194,14 @@ function runTests({ assert, assertEqual }) {
     assert(result.steps.length > 0, "prefixQuery has steps even when empty");
   }, "prefixQuery with no matching prefix returns empty words");
 
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     const result = TrieAlgorithm.prefixQuery(trie, "a");
     assertEqual(result.words, [], "Empty trie prefix query");
   }, "prefixQuery on empty trie returns empty words");
 
   // --- prefixQuery step structure ---
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     TrieAlgorithm.insert(trie, "hi");
     const result = TrieAlgorithm.prefixQuery(trie, "h");
@@ -223,7 +212,7 @@ function runTests({ assert, assertEqual }) {
   }, "prefixQuery returns steps with explanation");
 
   // --- getWords: sorted output ---
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     TrieAlgorithm.insert(trie, "zebra");
     TrieAlgorithm.insert(trie, "apple");
@@ -237,7 +226,7 @@ function runTests({ assert, assertEqual }) {
   }, "getWords retrieves all inserted words");
 
   // --- large word set ---
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     const wordList = [
       "the",
@@ -267,15 +256,11 @@ function runTests({ assert, assertEqual }) {
   }, "insert 20 words and getWords returns all 20");
 
   // --- duplicate insert ---
-  check(() => {
+  it(() => {
     const trie = TrieAlgorithm.createTrie();
     TrieAlgorithm.insert(trie, "cat");
     TrieAlgorithm.insert(trie, "cat");
     const words = TrieAlgorithm.getWords(trie);
     assertEqual(words.length, 1, "Duplicate insert does not create duplicate");
   }, "inserting duplicate word does not add duplicate to getWords");
-
-  return { passed, failed, failures };
-}
-
-module.exports = { runTests };
+});

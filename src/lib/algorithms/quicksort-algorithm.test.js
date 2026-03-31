@@ -1,34 +1,23 @@
 /**
- * Quick Sort Algorithm Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  */
 
-function runTests({ assert, assertEqual }) {
-  let passed = 0;
-  let failed = 0;
-  const failures = [];
-
-  const QuickSortAlgorithm = require("./quicksort-algorithm.js");
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("quicksort algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+const QuickSortAlgorithm = require("./quicksort-algorithm.js");
   // --- Basic correctness: Lomuto partition ---
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort([3, 1, 2], "lomuto", "last");
     assertEqual(result.sortedArray, [1, 2, 3], "Lomuto sorted output");
   }, "Lomuto/last: basic sort [3,1,2]");
 
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       [5, 4, 3, 2, 1],
       "lomuto",
@@ -38,12 +27,12 @@ function runTests({ assert, assertEqual }) {
   }, "Lomuto/last: reverse sorted");
 
   // --- Basic correctness: Hoare partition ---
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort([3, 1, 2], "hoare", "first");
     assertEqual(result.sortedArray, [1, 2, 3], "Hoare sorted output");
   }, "Hoare/first: basic sort [3,1,2]");
 
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       [5, 4, 3, 2, 1],
       "hoare",
@@ -56,7 +45,7 @@ function runTests({ assert, assertEqual }) {
   const testInput = [8, 3, 5, 1, 9, 2, 7, 4, 6];
   const expected = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       testInput.slice(),
       "lomuto",
@@ -65,7 +54,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(result.sortedArray, expected, "Lomuto/first");
   }, "Lomuto/first: 9-element array");
 
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       testInput.slice(),
       "lomuto",
@@ -74,7 +63,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(result.sortedArray, expected, "Lomuto/random");
   }, "Lomuto/random: 9-element array");
 
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       testInput.slice(),
       "lomuto",
@@ -83,7 +72,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(result.sortedArray, expected, "Lomuto/median-of-3");
   }, "Lomuto/median-of-3: 9-element array");
 
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       testInput.slice(),
       "hoare",
@@ -92,7 +81,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(result.sortedArray, expected, "Hoare/last");
   }, "Hoare/last: 9-element array");
 
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       testInput.slice(),
       "hoare",
@@ -101,7 +90,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(result.sortedArray, expected, "Hoare/random");
   }, "Hoare/random: 9-element array");
 
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       testInput.slice(),
       "hoare",
@@ -111,31 +100,31 @@ function runTests({ assert, assertEqual }) {
   }, "Hoare/median-of-3: 9-element array");
 
   // --- Edge case: empty array ---
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort([], "lomuto", "last");
     assertEqual(result.sortedArray, [], "Empty array sorted");
     assert(result.steps.length >= 1, "Empty array has at least one step");
   }, "Edge: empty array (Lomuto)");
 
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort([], "hoare", "first");
     assertEqual(result.sortedArray, [], "Empty array sorted (Hoare)");
   }, "Edge: empty array (Hoare)");
 
   // --- Edge case: single element ---
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort([42], "lomuto", "last");
     assertEqual(result.sortedArray, [42], "Single element");
     assert(result.steps.length >= 1, "Single element has at least one step");
   }, "Edge: single element (Lomuto)");
 
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort([42], "hoare", "first");
     assertEqual(result.sortedArray, [42], "Single element (Hoare)");
   }, "Edge: single element (Hoare)");
 
   // --- Edge case: already sorted ---
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       [1, 2, 3, 4, 5],
       "lomuto",
@@ -144,7 +133,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(result.sortedArray, [1, 2, 3, 4, 5], "Already sorted");
   }, "Edge: already sorted (Lomuto/last)");
 
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       [1, 2, 3, 4, 5],
       "hoare",
@@ -154,7 +143,7 @@ function runTests({ assert, assertEqual }) {
   }, "Edge: already sorted (Hoare/first)");
 
   // --- Edge case: all duplicates ---
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       [5, 5, 5, 5, 5],
       "lomuto",
@@ -163,7 +152,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(result.sortedArray, [5, 5, 5, 5, 5], "All duplicates");
   }, "Edge: all duplicates (Lomuto)");
 
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       [5, 5, 5, 5, 5],
       "hoare",
@@ -173,18 +162,18 @@ function runTests({ assert, assertEqual }) {
   }, "Edge: all duplicates (Hoare)");
 
   // --- Edge case: two elements ---
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort([2, 1], "lomuto", "last");
     assertEqual(result.sortedArray, [1, 2], "Two elements swapped");
   }, "Edge: two elements needing swap (Lomuto)");
 
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort([1, 2], "hoare", "first");
     assertEqual(result.sortedArray, [1, 2], "Two elements already sorted");
   }, "Edge: two elements already sorted (Hoare)");
 
   // --- Edge case: max size (25 elements) ---
-  check(() => {
+  it(() => {
     const input = [];
     for (let i = 25; i >= 1; i--) input.push(i);
     const result = QuickSortAlgorithm.quickSort(input, "lomuto", "median-of-3");
@@ -193,7 +182,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(result.sortedArray, expectedLarge, "Max size sorted");
   }, "Edge: max size 25 elements reversed (Lomuto/median-of-3)");
 
-  check(() => {
+  it(() => {
     const input = [];
     for (let i = 25; i >= 1; i--) input.push(i);
     const result = QuickSortAlgorithm.quickSort(input, "hoare", "median-of-3");
@@ -203,7 +192,7 @@ function runTests({ assert, assertEqual }) {
   }, "Edge: max size 25 elements reversed (Hoare/median-of-3)");
 
   // --- Lomuto and Hoare produce same sorted result ---
-  check(() => {
+  it(() => {
     const arr = [7, 2, 9, 4, 1, 6, 3, 8, 5];
     const lomuto = QuickSortAlgorithm.quickSort(arr.slice(), "lomuto", "last");
     const hoare = QuickSortAlgorithm.quickSort(arr.slice(), "hoare", "first");
@@ -216,14 +205,14 @@ function runTests({ assert, assertEqual }) {
   }, "Lomuto and Hoare produce same sorted result");
 
   // --- Input not mutated ---
-  check(() => {
+  it(() => {
     const input = [5, 3, 1, 4, 2];
     QuickSortAlgorithm.quickSort(input, "lomuto", "last");
     assertEqual(input, [5, 3, 1, 4, 2], "Input not mutated");
   }, "Input array is not mutated");
 
   // --- Step trace: has required fields ---
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       [4, 2, 7, 1, 5],
       "lomuto",
@@ -238,7 +227,7 @@ function runTests({ assert, assertEqual }) {
     assert(Array.isArray(lastStep.array), "Has array");
   }, "Step trace: complete step has required fields");
 
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       [4, 2, 7, 1, 5],
       "lomuto",
@@ -254,7 +243,7 @@ function runTests({ assert, assertEqual }) {
     assert(typeof p.explanation === "string", "Pivot-select has explanation");
   }, "Step trace: pivot-select step has required fields");
 
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       [4, 2, 7, 1, 5],
       "lomuto",
@@ -270,7 +259,7 @@ function runTests({ assert, assertEqual }) {
     assert(typeof c.explanation === "string", "Compare step has explanation");
   }, "Step trace: compare step has required fields");
 
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       [4, 2, 7, 1, 5],
       "lomuto",
@@ -288,7 +277,7 @@ function runTests({ assert, assertEqual }) {
     assert(true, "Swap step validation passed");
   }, "Step trace: swap step has required fields (if present)");
 
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       [4, 2, 7, 1, 5],
       "lomuto",
@@ -309,7 +298,7 @@ function runTests({ assert, assertEqual }) {
   }, "Step trace: partition-done step has required fields");
 
   // --- Worst-case behavior: sorted array with 'first' pivot (Lomuto) ---
-  check(() => {
+  it(() => {
     // For a sorted array with 'first' pivot in Lomuto, every pivot choice
     // gives a maximally unbalanced partition -> O(n^2) comparisons
     const n = 8;
@@ -329,7 +318,7 @@ function runTests({ assert, assertEqual }) {
   }, "Worst-case: sorted array with first pivot shows O(n^2) comparisons");
 
   // --- Median-of-3 pivot handles < 3 elements gracefully ---
-  check(() => {
+  it(() => {
     const result1 = QuickSortAlgorithm.quickSort(
       [2, 1],
       "lomuto",
@@ -342,7 +331,7 @@ function runTests({ assert, assertEqual }) {
   }, "Median-of-3 gracefully handles fewer than 3 elements");
 
   // --- lomutoPartition exported and functional ---
-  check(() => {
+  it(() => {
     assert(
       typeof QuickSortAlgorithm.lomutoPartition === "function",
       "lomutoPartition is exported",
@@ -359,7 +348,7 @@ function runTests({ assert, assertEqual }) {
   }, "lomutoPartition: exported and returns { pivotIndex, steps }");
 
   // --- hoarePartition exported and functional ---
-  check(() => {
+  it(() => {
     assert(
       typeof QuickSortAlgorithm.hoarePartition === "function",
       "hoarePartition is exported",
@@ -376,7 +365,7 @@ function runTests({ assert, assertEqual }) {
   }, "hoarePartition: exported and returns { pivotIndex, steps }");
 
   // --- Comparison counts increase monotonically through steps ---
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       [5, 3, 8, 1, 9, 2],
       "lomuto",
@@ -398,7 +387,7 @@ function runTests({ assert, assertEqual }) {
   }, "Comparison counts are non-decreasing through steps");
 
   // --- Swap counts increase monotonically through steps ---
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       [5, 3, 8, 1, 9, 2],
       "lomuto",
@@ -420,7 +409,7 @@ function runTests({ assert, assertEqual }) {
   }, "Swap counts are non-decreasing through steps");
 
   // --- Negative numbers ---
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       [-3, 5, -1, 0, 2],
       "lomuto",
@@ -429,7 +418,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(result.sortedArray, [-3, -1, 0, 2, 5], "Negatives sorted");
   }, "Negative numbers (Lomuto)");
 
-  check(() => {
+  it(() => {
     const result = QuickSortAlgorithm.quickSort(
       [-3, 5, -1, 0, 2],
       "hoare",
@@ -443,7 +432,7 @@ function runTests({ assert, assertEqual }) {
   }, "Negative numbers (Hoare)");
 
   // --- Pivot strategy: random still produces sorted output ---
-  check(() => {
+  it(() => {
     const arr = [10, 7, 2, 5, 3, 1, 8, 4, 6, 9];
     const result = QuickSortAlgorithm.quickSort(arr, "lomuto", "random");
     assertEqual(
@@ -452,8 +441,4 @@ function runTests({ assert, assertEqual }) {
       "Random pivot sorted",
     );
   }, "Random pivot strategy produces correct sorted output");
-
-  return { passed, failed, failures };
-}
-
-module.exports = { runTests };
+});

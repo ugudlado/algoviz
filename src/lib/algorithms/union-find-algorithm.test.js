@@ -1,17 +1,19 @@
 /**
- * Union-Find (Disjoint Set Union) with Path Compression Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  *
  * Covers: createDSU, find (path compression), union (by rank), connected,
  * getComponentCount, runOperations, edge cases.
  */
 
-function runTests({ assert, assertEqual }) {
-  let passed = 0;
-  let failed = 0;
-  const failures = [];
+describe("union find algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
+  }
 
-  const UnionFindAlgorithm = require("./union-find-algorithm.js");
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+const UnionFindAlgorithm = require("./union-find-algorithm.js");
   const {
     createDSU,
     find,
@@ -20,33 +22,20 @@ function runTests({ assert, assertEqual }) {
     getComponentCount,
     runOperations,
   } = UnionFindAlgorithm;
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
-  }
-
   // --- createDSU ---
-  check(() => {
+  it(() => {
     const dsu = createDSU(5);
     assertEqual(dsu.parent, [0, 1, 2, 3, 4], "parent is identity array");
     assertEqual(dsu.rank, [0, 0, 0, 0, 0], "rank is all zeros");
   }, "createDSU: initial parent is identity, rank is zeros");
 
-  check(() => {
+  it(() => {
     const dsu = createDSU(1);
     assertEqual(dsu.parent, [0], "single element parent is [0]");
     assertEqual(dsu.rank, [0], "single element rank is [0]");
   }, "createDSU: single element");
 
-  check(() => {
+  it(() => {
     const dsu = createDSU(10);
     assert(dsu.parent.length === 10, "parent array length is 10");
     assert(dsu.rank.length === 10, "rank array length is 10");
@@ -56,7 +45,7 @@ function runTests({ assert, assertEqual }) {
   }, "createDSU: large n — all elements are their own root");
 
   // --- find ---
-  check(() => {
+  it(() => {
     const dsu = createDSU(5);
     const steps = [];
     const root = find(dsu, 3, steps);
@@ -64,7 +53,7 @@ function runTests({ assert, assertEqual }) {
     assert(steps.length >= 1, "find records at least one step");
   }, "find: single element returns self");
 
-  check(() => {
+  it(() => {
     const dsu = createDSU(4);
     // Manually set up parent chain: 0 -> 1 -> 2 -> 3
     dsu.parent[0] = 1;
@@ -79,7 +68,7 @@ function runTests({ assert, assertEqual }) {
     assert(dsu.parent[1] === 3, "path compressed: parent[1] = 3");
   }, "find: path compression flattens chain");
 
-  check(() => {
+  it(() => {
     const dsu = createDSU(3);
     const steps = [];
     find(dsu, 0, steps);
@@ -93,7 +82,7 @@ function runTests({ assert, assertEqual }) {
     assert("pathCompressed" in step, "step has pathCompressed field");
   }, "find: step snapshot has correct structure");
 
-  check(() => {
+  it(() => {
     const dsu = createDSU(5);
     // Link 0->1->2 manually
     dsu.parent[0] = 1;
@@ -106,7 +95,7 @@ function runTests({ assert, assertEqual }) {
   }, "find: pathCompressed is true when compression occurs");
 
   // --- union ---
-  check(() => {
+  it(() => {
     const dsu = createDSU(4);
     const steps = [];
     union(dsu, 0, 1, steps);
@@ -116,7 +105,7 @@ function runTests({ assert, assertEqual }) {
     assert(r0 === r1, "after union(0,1), same root");
   }, "union: two separate elements become connected");
 
-  check(() => {
+  it(() => {
     const dsu = createDSU(4);
     const steps = [];
     union(dsu, 0, 1, steps);
@@ -127,7 +116,7 @@ function runTests({ assert, assertEqual }) {
     assert(r0 === r3, "chain of unions: 0 and 3 share a root");
   }, "union: chain of unions produces single component");
 
-  check(() => {
+  it(() => {
     const dsu = createDSU(4);
     const steps = [];
     union(dsu, 0, 1, steps);
@@ -142,14 +131,14 @@ function runTests({ assert, assertEqual }) {
     assert(steps.length > countBefore, "no-op union still records a step");
   }, "union: already connected elements (no-op)");
 
-  check(() => {
+  it(() => {
     const dsu = createDSU(1);
     const steps = [];
     union(dsu, 0, 0, steps); // union(x,x)
     assert(dsu.parent[0] === 0, "union(0,0) leaves parent unchanged");
   }, "union: union(x,x) is a safe no-op");
 
-  check(() => {
+  it(() => {
     const dsu = createDSU(4);
     const steps = [];
     union(dsu, 0, 1, steps);
@@ -162,7 +151,7 @@ function runTests({ assert, assertEqual }) {
     assert("componentCount" in step, "step has componentCount field");
   }, "union: step snapshot has correct structure");
 
-  check(() => {
+  it(() => {
     // Union by rank: lower rank tree goes under higher rank tree
     const dsu = createDSU(6);
     // Make 0 have higher rank by doing two unions
@@ -178,31 +167,31 @@ function runTests({ assert, assertEqual }) {
   }, "union: union by rank — smaller tree under larger");
 
   // --- connected ---
-  check(() => {
+  it(() => {
     const dsu = createDSU(4);
     assert(connected(dsu, 0, 0) === true, "node connected to itself");
   }, "connected: node is connected to itself");
 
-  check(() => {
+  it(() => {
     const dsu = createDSU(4);
     assert(connected(dsu, 0, 1) === false, "disconnected nodes return false");
   }, "connected: unconnected nodes return false");
 
-  check(() => {
+  it(() => {
     const dsu = createDSU(4);
     union(dsu, 0, 1, []);
     assert(connected(dsu, 0, 1) === true, "after union, nodes are connected");
     assert(connected(dsu, 1, 0) === true, "connectivity is symmetric");
   }, "connected: true after union");
 
-  check(() => {
+  it(() => {
     const dsu = createDSU(4);
     union(dsu, 0, 1, []);
     assert(connected(dsu, 0, 2) === false, "0 and 2 not connected");
     assert(connected(dsu, 2, 3) === false, "2 and 3 not connected");
   }, "connected: false for nodes in different components");
 
-  check(() => {
+  it(() => {
     const dsu = createDSU(4);
     union(dsu, 0, 1, []);
     union(dsu, 1, 2, []);
@@ -210,18 +199,18 @@ function runTests({ assert, assertEqual }) {
   }, "connected: transitive connectivity through chain");
 
   // --- getComponentCount ---
-  check(() => {
+  it(() => {
     const dsu = createDSU(5);
     assert(getComponentCount(dsu) === 5, "initial count equals n");
   }, "getComponentCount: starts at n");
 
-  check(() => {
+  it(() => {
     const dsu = createDSU(4);
     union(dsu, 0, 1, []);
     assert(getComponentCount(dsu) === 3, "one union reduces count by 1");
   }, "getComponentCount: decreases by 1 after one union");
 
-  check(() => {
+  it(() => {
     const dsu = createDSU(4);
     union(dsu, 0, 1, []);
     union(dsu, 2, 3, []);
@@ -232,20 +221,20 @@ function runTests({ assert, assertEqual }) {
     );
   }, "getComponentCount: all merged into one");
 
-  check(() => {
+  it(() => {
     const dsu = createDSU(4);
     union(dsu, 0, 1, []);
     union(dsu, 0, 1, []); // no-op
     assert(getComponentCount(dsu) === 3, "no-op union does not reduce count");
   }, "getComponentCount: no-op union does not change count");
 
-  check(() => {
+  it(() => {
     const dsu = createDSU(1);
     assert(getComponentCount(dsu) === 1, "single element: count is 1");
   }, "getComponentCount: single element");
 
   // --- runOperations ---
-  check(() => {
+  it(() => {
     const result = runOperations(4, [
       { type: "union", x: 0, y: 1 },
       { type: "union", x: 2, y: 3 },
@@ -258,7 +247,7 @@ function runTests({ assert, assertEqual }) {
     assert(result.steps.length > 0, "steps is non-empty");
   }, "runOperations: returns finalDsu and steps");
 
-  check(() => {
+  it(() => {
     const result = runOperations(4, [{ type: "union", x: 0, y: 1 }]);
     const step = result.steps[result.steps.length - 1];
     assert("type" in step, "step has type");
@@ -268,13 +257,13 @@ function runTests({ assert, assertEqual }) {
     assert("componentCount" in step, "step has componentCount");
   }, "runOperations: step fields are present for union");
 
-  check(() => {
+  it(() => {
     const result = runOperations(3, []);
     assert(result.steps.length === 0, "no operations = no steps");
     assertEqual(result.finalDsu.parent, [0, 1, 2], "finalDsu is untouched");
   }, "runOperations: empty operations list returns empty steps");
 
-  check(() => {
+  it(() => {
     const result = runOperations(6, [
       { type: "union", x: 0, y: 1 },
       { type: "union", x: 1, y: 2 },
@@ -286,7 +275,7 @@ function runTests({ assert, assertEqual }) {
     );
   }, "runOperations: correct component count after operations");
 
-  check(() => {
+  it(() => {
     const result = runOperations(20, [
       { type: "union", x: 0, y: 1 },
       { type: "union", x: 5, y: 10 },
@@ -298,7 +287,7 @@ function runTests({ assert, assertEqual }) {
     assert(result.steps.length > 0, "steps recorded for large n");
   }, "runOperations: large n=20 operations work correctly");
 
-  check(() => {
+  it(() => {
     // Path compression test: use find() directly on a manually built chain.
     // Union-by-rank keeps trees flat, so path compression is best tested
     // with a forced deep chain (bypassing union-by-rank).
@@ -322,8 +311,4 @@ function runTests({ assert, assertEqual }) {
       "path compression steps recorded for deep chain",
     );
   }, "runOperations: path compression recorded in steps for deep chain");
-
-  return { passed, failed, failures };
-}
-
-module.exports = { runTests };
+});

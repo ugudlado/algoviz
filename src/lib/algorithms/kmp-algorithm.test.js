@@ -1,89 +1,78 @@
 /**
- * KMP Algorithm Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  *
  * Tests buildFailureFunction, kmpSearch, naiveSearch
  */
 
-function runTests({ assert, assertEqual }) {
-  let passed = 0;
-  let failed = 0;
-  const failures = [];
-
-  const KMPAlgorithm = require("./kmp-algorithm.js");
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("kmp algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+const KMPAlgorithm = require("./kmp-algorithm.js");
   // ============================================================
   // buildFailureFunction tests
   // ============================================================
 
   // --- Known pattern: "ABCABD" => [0, 0, 0, 1, 2, 0] ---
-  check(() => {
+  it(() => {
     const f = KMPAlgorithm.buildFailureFunction("ABCABD");
     assertEqual(f, [0, 0, 0, 1, 2, 0], "Failure table for ABCABD");
   }, "buildFailureFunction: ABCABD");
 
   // --- Classic: "AABAAA" => [0, 1, 0, 1, 2, 2] ---
-  check(() => {
+  it(() => {
     const f = KMPAlgorithm.buildFailureFunction("AABAAA");
     assertEqual(f, [0, 1, 0, 1, 2, 2], "Failure table for AABAAA");
   }, "buildFailureFunction: AABAAA");
 
   // --- Classic: "ABAB" => [0, 0, 1, 2] ---
-  check(() => {
+  it(() => {
     const f = KMPAlgorithm.buildFailureFunction("ABAB");
     assertEqual(f, [0, 0, 1, 2], "Failure table for ABAB");
   }, "buildFailureFunction: ABAB");
 
   // --- All same chars: "AAAA" => [0, 1, 2, 3] ---
-  check(() => {
+  it(() => {
     const f = KMPAlgorithm.buildFailureFunction("AAAA");
     assertEqual(f, [0, 1, 2, 3], "Failure table for AAAA");
   }, "buildFailureFunction: all same chars AAAA");
 
   // --- No prefix/suffix overlap: "ABCD" => [0, 0, 0, 0] ---
-  check(() => {
+  it(() => {
     const f = KMPAlgorithm.buildFailureFunction("ABCD");
     assertEqual(f, [0, 0, 0, 0], "Failure table for ABCD");
   }, "buildFailureFunction: no overlap ABCD");
 
   // --- Single character: "A" => [0] ---
-  check(() => {
+  it(() => {
     const f = KMPAlgorithm.buildFailureFunction("A");
     assertEqual(f, [0], "Failure table for single char");
   }, "buildFailureFunction: single character");
 
   // --- Two chars same: "AA" => [0, 1] ---
-  check(() => {
+  it(() => {
     const f = KMPAlgorithm.buildFailureFunction("AA");
     assertEqual(f, [0, 1], "Failure table for AA");
   }, "buildFailureFunction: two same chars AA");
 
   // --- Two chars different: "AB" => [0, 0] ---
-  check(() => {
+  it(() => {
     const f = KMPAlgorithm.buildFailureFunction("AB");
     assertEqual(f, [0, 0], "Failure table for AB");
   }, "buildFailureFunction: two different chars AB");
 
   // --- Empty string: [] ---
-  check(() => {
+  it(() => {
     const f = KMPAlgorithm.buildFailureFunction("");
     assertEqual(f, [], "Failure table for empty string");
   }, "buildFailureFunction: empty string");
 
   // --- Returns array of same length as pattern ---
-  check(() => {
+  it(() => {
     const pattern = "ABCABC";
     const f = KMPAlgorithm.buildFailureFunction(pattern);
     assertEqual(f.length, pattern.length, "Length matches pattern");
@@ -94,14 +83,14 @@ function runTests({ assert, assertEqual }) {
   // ============================================================
 
   // --- Single match ---
-  check(() => {
+  it(() => {
     const r = KMPAlgorithm.kmpSearch("AABAACAADAABAABA", "AABA");
     assert(r.matches.length >= 1, "At least one match");
     assert(r.matches.indexOf(0) >= 0, "Match at index 0");
   }, "kmpSearch: single match at start");
 
   // --- Multiple matches ---
-  check(() => {
+  it(() => {
     const r = KMPAlgorithm.kmpSearch("AABAACAADAABAABA", "AABA");
     assertEqual(
       r.matches.length,
@@ -114,20 +103,20 @@ function runTests({ assert, assertEqual }) {
   }, "kmpSearch: multiple matches AABAACAADAABAABA/AABA");
 
   // --- No match ---
-  check(() => {
+  it(() => {
     const r = KMPAlgorithm.kmpSearch("ABCDEF", "XYZ");
     assertEqual(r.matches.length, 0, "No matches found");
   }, "kmpSearch: no match");
 
   // --- Pattern equals text (single match) ---
-  check(() => {
+  it(() => {
     const r = KMPAlgorithm.kmpSearch("ABC", "ABC");
     assertEqual(r.matches.length, 1, "One match");
     assertEqual(r.matches[0], 0, "Match at index 0");
   }, "kmpSearch: pattern equals text");
 
   // --- Pattern longer than text ---
-  check(() => {
+  it(() => {
     const r = KMPAlgorithm.kmpSearch("AB", "ABCDE");
     assertEqual(
       r.matches.length,
@@ -137,46 +126,46 @@ function runTests({ assert, assertEqual }) {
   }, "kmpSearch: pattern longer than text");
 
   // --- Empty pattern ---
-  check(() => {
+  it(() => {
     const r = KMPAlgorithm.kmpSearch("ABCDEF", "");
     assertEqual(r.matches.length, 0, "No matches for empty pattern");
   }, "kmpSearch: empty pattern");
 
   // --- Empty text ---
-  check(() => {
+  it(() => {
     const r = KMPAlgorithm.kmpSearch("", "ABC");
     assertEqual(r.matches.length, 0, "No matches for empty text");
   }, "kmpSearch: empty text");
 
   // --- Both empty ---
-  check(() => {
+  it(() => {
     const r = KMPAlgorithm.kmpSearch("", "");
     assertEqual(r.matches.length, 0, "No matches for both empty");
   }, "kmpSearch: both empty");
 
   // --- Single char match ---
-  check(() => {
+  it(() => {
     const r = KMPAlgorithm.kmpSearch("A", "A");
     assertEqual(r.matches.length, 1, "Single char match");
     assertEqual(r.matches[0], 0, "At index 0");
   }, "kmpSearch: single char match");
 
   // --- All same characters, overlapping ---
-  check(() => {
+  it(() => {
     const r = KMPAlgorithm.kmpSearch("AAAAA", "AA");
     // Overlapping: matches at 0, 1, 2, 3
     assertEqual(r.matches.length, 4, "4 overlapping matches");
   }, "kmpSearch: overlapping matches all same chars");
 
   // --- Match at end of text ---
-  check(() => {
+  it(() => {
     const r = KMPAlgorithm.kmpSearch("XYZABC", "ABC");
     assertEqual(r.matches.length, 1, "One match at end");
     assertEqual(r.matches[0], 3, "Match at index 3");
   }, "kmpSearch: match at end of text");
 
   // --- Steps array has required structure ---
-  check(() => {
+  it(() => {
     const r = KMPAlgorithm.kmpSearch("AABAACAADAABAABA", "AABA");
     assert(Array.isArray(r.steps), "steps is array");
     assert(r.steps.length > 0, "at least one step");
@@ -188,14 +177,14 @@ function runTests({ assert, assertEqual }) {
   }, "kmpSearch: step structure");
 
   // --- Returns failureFunction in result ---
-  check(() => {
+  it(() => {
     const r = KMPAlgorithm.kmpSearch("AABAACAADAABAABA", "AABA");
     assert(Array.isArray(r.failureFunction), "result has failureFunction");
     assertEqual(r.failureFunction, [0, 1, 0, 1], "Failure function for AABA");
   }, "kmpSearch: result includes failureFunction");
 
   // --- Returns stepCount in result ---
-  check(() => {
+  it(() => {
     const r = KMPAlgorithm.kmpSearch("AABAACAADAABAABA", "AABA");
     assert(typeof r.stepCount === "number", "result has stepCount");
     assert(r.stepCount > 0, "stepCount is positive");
@@ -206,7 +195,7 @@ function runTests({ assert, assertEqual }) {
   // ============================================================
 
   // --- naiveSearch finds same matches as kmpSearch ---
-  check(() => {
+  it(() => {
     const text = "AABAACAADAABAABA";
     const pattern = "AABA";
     const kmpResult = KMPAlgorithm.kmpSearch(text, pattern);
@@ -219,20 +208,20 @@ function runTests({ assert, assertEqual }) {
   }, "naiveSearch: matches same as kmpSearch");
 
   // --- naiveSearch no match ---
-  check(() => {
+  it(() => {
     const r = KMPAlgorithm.naiveSearch("ABCDEF", "XYZ");
     assertEqual(r.matches.length, 0, "No matches");
   }, "naiveSearch: no match");
 
   // --- naiveSearch returns stepCount ---
-  check(() => {
+  it(() => {
     const r = KMPAlgorithm.naiveSearch("AABAACAADAABAABA", "AABA");
     assert(typeof r.stepCount === "number", "has stepCount");
     assert(r.stepCount > 0, "stepCount is positive");
   }, "naiveSearch: has stepCount");
 
   // --- naiveSearch stepCount >= kmpSearch stepCount (KMP never worse) ---
-  check(() => {
+  it(() => {
     const text = "AABAACAADAABAABA";
     const pattern = "AABA";
     const kmpResult = KMPAlgorithm.kmpSearch(text, pattern);
@@ -248,21 +237,17 @@ function runTests({ assert, assertEqual }) {
   }, "naiveSearch: naive stepCount >= kmpSearch stepCount");
 
   // --- naiveSearch empty inputs ---
-  check(() => {
+  it(() => {
     const r = KMPAlgorithm.naiveSearch("", "ABC");
     assertEqual(r.matches.length, 0, "No matches for empty text");
   }, "naiveSearch: empty text");
 
   // --- DNA-like sequence test ---
-  check(() => {
+  it(() => {
     const r = KMPAlgorithm.kmpSearch("ATCGATCGATCG", "ATCG");
     assertEqual(r.matches.length, 3, "Three matches in DNA sequence");
     assertEqual(r.matches[0], 0, "Match at 0");
     assertEqual(r.matches[1], 4, "Match at 4");
     assertEqual(r.matches[2], 8, "Match at 8");
   }, "kmpSearch: DNA-like sequence ATCG in ATCGATCGATCG");
-
-  return { passed, failed, failures };
-}
-
-module.exports = { runTests };
+});

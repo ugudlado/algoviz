@@ -1,26 +1,16 @@
 /**
  * Tests for Tarjan's SCC algorithm.
- * Run via: node run-tests.js
  */
 const TarjanAlgorithm = require("./tarjan-algorithm.js");
 
-function runTests({ assert, assertEqual }) {
-  let passed = 0;
-  let failed = 0;
-  const failures = [];
-
-  function test(name, fn) {
-    try {
-      fn();
-      console.log("  PASS: " + name);
-      passed++;
-    } catch (err) {
-      console.log("  FAIL: " + name + " — " + err.message);
-      failed++;
-      failures.push({ name, error: err.message });
-    }
+describe("tarjan algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
   function sccSizes(sccs) {
     return sccs
       .map(function (s) {
@@ -45,19 +35,19 @@ function runTests({ assert, assertEqual }) {
 
   // --- findSCCs tests ---
 
-  test("empty graph: 0 SCCs", function () {
+  it("empty graph: 0 SCCs", function () {
     var result = TarjanAlgorithm.findSCCs([], []);
     assertEqual(result.length, 0, "should have 0 SCCs");
   });
 
-  test("single node: 1 SCC", function () {
+  it("single node: 1 SCC", function () {
     var result = TarjanAlgorithm.findSCCs(["A"], []);
     assertEqual(result.length, 1, "should have 1 SCC");
     assertEqual(result[0].length, 1, "SCC should contain 1 node");
     assert(result[0][0] === "A", "SCC should contain node A");
   });
 
-  test("simple cycle A→B→C→A: 1 SCC with 3 nodes", function () {
+  it("simple cycle A→B→C→A: 1 SCC with 3 nodes", function () {
     var nodes = ["A", "B", "C"];
     var edges = [
       { from: "A", to: "B" },
@@ -71,7 +61,7 @@ function runTests({ assert, assertEqual }) {
     assert(nodesInSameSCC(result, "B", "C"), "B and C should be in same SCC");
   });
 
-  test("DAG A→B→C: 3 SCCs each with 1 node", function () {
+  it("DAG A→B→C: 3 SCCs each with 1 node", function () {
     var nodes = ["A", "B", "C"];
     var edges = [
       { from: "A", to: "B" },
@@ -90,7 +80,7 @@ function runTests({ assert, assertEqual }) {
     );
   });
 
-  test("two separate cycles connected by edge: 2 SCCs", function () {
+  it("two separate cycles connected by edge: 2 SCCs", function () {
     // Cycle 1: A→B→A, Cycle 2: C→D→C, Bridge: A→C
     var nodes = ["A", "B", "C", "D"];
     var edges = [
@@ -112,7 +102,7 @@ function runTests({ assert, assertEqual }) {
     );
   });
 
-  test("classic 3-SCC example: 3 SCCs", function () {
+  it("classic 3-SCC example: 3 SCCs", function () {
     var preset = TarjanAlgorithm.PRESETS.classic;
     var result = TarjanAlgorithm.findSCCs(preset.nodes, preset.edges);
     assertEqual(result.length, 3, "should find 3 SCCs");
@@ -130,7 +120,7 @@ function runTests({ assert, assertEqual }) {
     );
   });
 
-  test("DAG preset: 4 SCCs each with 1 node", function () {
+  it("DAG preset: 4 SCCs each with 1 node", function () {
     var preset = TarjanAlgorithm.PRESETS.dag;
     var result = TarjanAlgorithm.findSCCs(preset.nodes, preset.edges);
     assertEqual(result.length, 4, "should have 4 SCCs");
@@ -138,7 +128,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(sizes, [1, 1, 1, 1], "all SCCs should have size 1");
   });
 
-  test("self-loop: node in its own SCC of size 1", function () {
+  it("self-loop: node in its own SCC of size 1", function () {
     var nodes = ["A"];
     var edges = [{ from: "A", to: "A" }];
     var result = TarjanAlgorithm.findSCCs(nodes, edges);
@@ -148,7 +138,7 @@ function runTests({ assert, assertEqual }) {
 
   // --- generateSteps tests ---
 
-  test("generateSteps: returns steps array", function () {
+  it("generateSteps: returns steps array", function () {
     var result = TarjanAlgorithm.generateSteps(
       ["A", "B"],
       [{ from: "A", to: "B" }],
@@ -157,7 +147,7 @@ function runTests({ assert, assertEqual }) {
     assert(result.length > 0, "should have at least one step");
   });
 
-  test("generateSteps: last step is done type", function () {
+  it("generateSteps: last step is done type", function () {
     var nodes = ["A", "B", "C"];
     var edges = [
       { from: "A", to: "B" },
@@ -170,7 +160,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(last.sccs.length, 1, "done step should have 1 SCC");
   });
 
-  test("generateSteps: steps have required fields", function () {
+  it("generateSteps: steps have required fields", function () {
     var nodes = ["A", "B"];
     var edges = [
       { from: "A", to: "B" },
@@ -193,7 +183,7 @@ function runTests({ assert, assertEqual }) {
     });
   });
 
-  test("generateSteps: scc-found step present for cycle", function () {
+  it("generateSteps: scc-found step present for cycle", function () {
     var nodes = ["A", "B", "C"];
     var edges = [
       { from: "A", to: "B" },
@@ -208,14 +198,10 @@ function runTests({ assert, assertEqual }) {
     assert(sccSteps[0].sccNodes.length === 3, "scc should have 3 nodes");
   });
 
-  test("generateSteps: empty graph produces only done step", function () {
+  it("generateSteps: empty graph produces only done step", function () {
     var result = TarjanAlgorithm.generateSteps([], []);
     assertEqual(result.length, 1, "should have exactly 1 step (done)");
     assertEqual(result[0].type, "done", "step should be done");
     assertEqual(result[0].sccs.length, 0, "no SCCs");
   });
-
-  return { passed, failed, failures };
-}
-
-module.exports = { runTests };
+});

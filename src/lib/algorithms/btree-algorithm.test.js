@@ -1,43 +1,33 @@
 /**
- * B-Tree algorithm tests. Run: node run-tests.js
  */
 const BTreeAlgorithm = require("./btree-algorithm.js");
 
-function runTests({ assert, assertEqual }) {
-  let passed = 0;
-  let failed = 0;
-  const failures = [];
-
-  function test(name, fn) {
-    try {
-      fn();
-      console.log("  PASS: " + name);
-      passed++;
-    } catch (err) {
-      console.log("  FAIL: " + name + " — " + err.message);
-      failed++;
-      failures.push({ name, error: err.message });
-    }
+describe("btree algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
-  test("constants: MIN_T 2, MAX_T 5, MAX_KEYS_TOTAL 30", function () {
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+  it("constants: MIN_T 2, MAX_T 5, MAX_KEYS_TOTAL 30", function () {
     assertEqual(BTreeAlgorithm.MIN_T, 2);
     assertEqual(BTreeAlgorithm.MAX_T, 5);
     assertEqual(BTreeAlgorithm.MAX_KEYS_TOTAL, 30);
   });
 
-  test("single key insert: valid tree, inorder [42]", function () {
+  it("single key insert: valid tree, inorder [42]", function () {
     var r = BTreeAlgorithm.insertKey(null, 42, 3, []).root;
     assert(BTreeAlgorithm.validateTree(r, 3));
     assertEqual(BTreeAlgorithm.inorderKeys(r), [42]);
   });
 
-  test("empty tree: keyCount 0, validate true", function () {
+  it("empty tree: keyCount 0, validate true", function () {
     assertEqual(BTreeAlgorithm.keyCount(null), 0);
     assert(BTreeAlgorithm.validateTree(null, 3));
   });
 
-  test("search hit and miss (t=3)", function () {
+  it("search hit and miss (t=3)", function () {
     var r = null;
     [10, 20, 5, 6, 30].forEach(function (k) {
       r = BTreeAlgorithm.insertKey(r, k, 3, []).root;
@@ -48,7 +38,7 @@ function runTests({ assert, assertEqual }) {
     assert(miss.found === false);
   });
 
-  test("insert causes root split (t=2): still valid, sorted inorder", function () {
+  it("insert causes root split (t=2): still valid, sorted inorder", function () {
     var r = null;
     for (var i = 1; i <= 10; i++) {
       r = BTreeAlgorithm.insertKey(r, i, 2, []).root;
@@ -59,7 +49,7 @@ function runTests({ assert, assertEqual }) {
     for (var j = 0; j < 10; j++) assertEqual(keys[j], j + 1);
   });
 
-  test("delete from leaf after inserts (t=3)", function () {
+  it("delete from leaf after inserts (t=3)", function () {
     var r = null;
     [10, 20, 5, 6, 12, 30, 7, 17].forEach(function (k) {
       r = BTreeAlgorithm.insertKey(r, k, 3, []).root;
@@ -70,7 +60,7 @@ function runTests({ assert, assertEqual }) {
     assert(BTreeAlgorithm.searchWithSteps(r, 17).found === true);
   });
 
-  test("delete causing merge path (t=2)", function () {
+  it("delete causing merge path (t=2)", function () {
     var r = null;
     for (var k = 1; k <= 15; k++) {
       r = BTreeAlgorithm.insertKey(r, k, 2, []).root;
@@ -81,7 +71,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(BTreeAlgorithm.keyCount(r), 13);
   });
 
-  test("orders t=2 through t=5: random insert/delete stress", function () {
+  it("orders t=2 through t=5: random insert/delete stress", function () {
     for (var t = 2; t <= 5; t++) {
       var r = null;
       var seq = [50, 20, 70, 10, 30, 60, 80, 5, 15, 25, 35];
@@ -95,13 +85,13 @@ function runTests({ assert, assertEqual }) {
     }
   });
 
-  test("duplicate insert ignored: count unchanged", function () {
+  it("duplicate insert ignored: count unchanged", function () {
     var r = BTreeAlgorithm.insertKey(null, 5, 3, []).root;
     r = BTreeAlgorithm.insertKey(r, 5, 3, []).root;
     assertEqual(BTreeAlgorithm.keyCount(r), 1);
   });
 
-  test("MAX_KEYS_TOTAL rejects 31st key", function () {
+  it("MAX_KEYS_TOTAL rejects 31st key", function () {
     var r = null;
     for (var i = 0; i < 30; i++) {
       r = BTreeAlgorithm.insertKey(r, i, 3, []).root;
@@ -111,27 +101,23 @@ function runTests({ assert, assertEqual }) {
     assertEqual(BTreeAlgorithm.keyCount(out.root), 30);
   });
 
-  test("bulkInsert helper builds valid tree", function () {
+  it("bulkInsert helper builds valid tree", function () {
     var res = BTreeAlgorithm.bulkInsert([3, 1, 4, 1, 5, 9], 3);
     assert(BTreeAlgorithm.validateTree(res.root, 3));
     assertEqual(BTreeAlgorithm.keyCount(res.root), 5);
   });
 
-  test("delete last key leaves empty tree", function () {
+  it("delete last key leaves empty tree", function () {
     var r = BTreeAlgorithm.insertKey(null, 7, 3, []).root;
     var out = BTreeAlgorithm.deleteKey(r, 7, 3, []);
     assert(out.root === null);
     assertEqual(BTreeAlgorithm.keyCount(out.root), 0);
   });
 
-  test("search on empty tree: not found, one terminal step", function () {
+  it("search on empty tree: not found, one terminal step", function () {
     var res = BTreeAlgorithm.searchWithSteps(null, 5);
     assert(res.found === false);
     assertEqual(res.steps.length, 1);
     assertEqual(res.steps[0].type, "not-found");
   });
-
-  return { passed, failed, failures };
-}
-
-module.exports = { runTests };
+});

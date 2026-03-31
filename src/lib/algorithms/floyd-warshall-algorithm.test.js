@@ -1,34 +1,23 @@
 /**
- * Floyd-Warshall All-Pairs Shortest Paths Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  *
  * Covers: basic correctness, predecessor matrix, path reconstruction,
  * createAdjacencyMatrix helper, edge cases, step trace structure.
  */
 
-function runTests({ assert, assertEqual }) {
-  let passed = 0;
-  let failed = 0;
-  const failures = [];
-
-  const FloydWarshallAlgorithm = require("./floyd-warshall-algorithm.js");
-  const { floydWarshall, reconstructPath, createAdjacencyMatrix } =
-    FloydWarshallAlgorithm;
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("floyd warshall algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+const FloydWarshallAlgorithm = require("./floyd-warshall-algorithm.js");
+  const { floydWarshall, reconstructPath, createAdjacencyMatrix } =
+    FloydWarshallAlgorithm;
   // --- createAdjacencyMatrix ---
-  check(() => {
+  it(() => {
     // 3 vertices, edges 0->1 weight 4, 1->2 weight 3
     const matrix = createAdjacencyMatrix(
       [
@@ -44,7 +33,7 @@ function runTests({ assert, assertEqual }) {
     assert(matrix[2][0] === Infinity, "No edge 2->0 is Infinity");
   }, "createAdjacencyMatrix: basic construction");
 
-  check(() => {
+  it(() => {
     const matrix = createAdjacencyMatrix([], 3);
     assert(matrix[0][0] === 0, "Diagonal 0,0 is 0");
     assert(matrix[1][1] === 0, "Diagonal 1,1 is 0");
@@ -53,13 +42,13 @@ function runTests({ assert, assertEqual }) {
     assert(matrix[1][0] === Infinity, "No edges means Infinity");
   }, "createAdjacencyMatrix: no edges — all Infinity except diagonal");
 
-  check(() => {
+  it(() => {
     const matrix = createAdjacencyMatrix([{ from: 0, to: 0, weight: 5 }], 2);
     // Self-loops: diagonal stays 0 (shortest path to self is always 0)
     assert(matrix[0][0] === 0, "Self-loop: diagonal stays 0");
   }, "createAdjacencyMatrix: self-loop on diagonal stays 0");
 
-  check(() => {
+  it(() => {
     const matrix = createAdjacencyMatrix([], 1);
     assert(Array.isArray(matrix), "Returns array");
     assert(matrix.length === 1, "1x1 matrix");
@@ -67,7 +56,7 @@ function runTests({ assert, assertEqual }) {
   }, "createAdjacencyMatrix: single vertex");
 
   // --- floydWarshall basic correctness ---
-  check(() => {
+  it(() => {
     // 3-node graph: 0->1 (3), 1->2 (2), 0->2 (10)
     // Shortest 0->2 = 5 via 1
     const matrix = [
@@ -86,7 +75,7 @@ function runTests({ assert, assertEqual }) {
     );
   }, "floydWarshall: 3-node graph finds indirect shortest path");
 
-  check(() => {
+  it(() => {
     // 4-node graph with multiple indirect paths
     // 0->1 (5), 0->2 (10), 1->3 (3), 2->3 (1), 1->2 (2)
     // dist[0][3] = min(5+3, 5+2+1, 10+1) = min(8, 8, 11) = 8
@@ -102,7 +91,7 @@ function runTests({ assert, assertEqual }) {
     assert(result.dist[1][3] === 3, "dist[1][3] = 3");
   }, "floydWarshall: 4-node graph with multiple paths");
 
-  check(() => {
+  it(() => {
     // Single vertex
     const matrix = [[0]];
     const result = floydWarshall(matrix);
@@ -111,7 +100,7 @@ function runTests({ assert, assertEqual }) {
     assert(Array.isArray(result.steps), "steps is array");
   }, "floydWarshall: single vertex");
 
-  check(() => {
+  it(() => {
     // Disconnected graph: 0-1 connected, 2 isolated
     const matrix = [
       [0, 4, Infinity],
@@ -124,7 +113,7 @@ function runTests({ assert, assertEqual }) {
     assert(result.dist[2][0] === Infinity, "Disconnected: 2->0 = Infinity");
   }, "floydWarshall: disconnected graph preserves Infinity");
 
-  check(() => {
+  it(() => {
     // Complete undirected graph (symmetric)
     // 0->1 (1), 0->2 (4), 1->2 (2) — bidirectional
     const matrix = [
@@ -137,7 +126,7 @@ function runTests({ assert, assertEqual }) {
     assert(result.dist[2][0] === 3, "2->0 = 3 via 2->1->0");
   }, "floydWarshall: undirected (symmetric) graph");
 
-  check(() => {
+  it(() => {
     // Self-loops on off-diagonal: should not affect shortest paths
     const matrix = [
       [0, 2, Infinity],
@@ -150,7 +139,7 @@ function runTests({ assert, assertEqual }) {
     assert(result.dist[0][2] === 5, "0->2 = 5 via 0->1->2");
   }, "floydWarshall: diagonal always remains 0");
 
-  check(() => {
+  it(() => {
     // 8-vertex linear chain
     const n = 8;
     const matrix = [];
@@ -169,7 +158,7 @@ function runTests({ assert, assertEqual }) {
   }, "floydWarshall: 8-vertex chain (max vertices)");
 
   // --- Predecessor matrix ---
-  check(() => {
+  it(() => {
     const matrix = [
       [0, 3, 10],
       [Infinity, 0, 2],
@@ -184,7 +173,7 @@ function runTests({ assert, assertEqual }) {
     assert(result.pred[1][2] === 1, "pred[1][2] = 1 (direct edge)");
   }, "floydWarshall: predecessor matrix correctness");
 
-  check(() => {
+  it(() => {
     // No path: pred should be null for unreachable pairs
     const matrix = [
       [0, Infinity],
@@ -196,7 +185,7 @@ function runTests({ assert, assertEqual }) {
   }, "floydWarshall: predecessor is null for unreachable vertices");
 
   // --- Step trace ---
-  check(() => {
+  it(() => {
     const matrix = [
       [0, 1, Infinity],
       [Infinity, 0, 1],
@@ -220,7 +209,7 @@ function runTests({ assert, assertEqual }) {
     assert(typeof step.updated === "boolean", "step has field updated");
   }, "floydWarshall: step trace has correct structure");
 
-  check(() => {
+  it(() => {
     // 3-node graph: 0->1 (3), 1->2 (2), 0->2 (10)
     // When k=1, considering path 0->1->2: oldDist=10, newDist=5, updated=true
     const matrix = [
@@ -238,7 +227,7 @@ function runTests({ assert, assertEqual }) {
     assert(updateStep.newDist === 5, "newDist is 5");
   }, "floydWarshall: step trace captures relaxation correctly");
 
-  check(() => {
+  it(() => {
     // Step count: for n vertices, we examine n*n pairs for each of n intermediate vertices
     // Total steps = n^3 (all combinations checked)
     const n = 3;
@@ -254,7 +243,7 @@ function runTests({ assert, assertEqual }) {
   }, "floydWarshall: step count equals n^3");
 
   // --- reconstructPath ---
-  check(() => {
+  it(() => {
     // Direct edge 0->1
     const matrix = [
       [0, 5, Infinity],
@@ -266,7 +255,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(path, [0, 1], "Direct edge path is [0, 1]");
   }, "reconstructPath: direct edge");
 
-  check(() => {
+  it(() => {
     // 0->1->2 multi-hop
     const matrix = [
       [0, 3, 10],
@@ -278,7 +267,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(path, [0, 1, 2], "Multi-hop path is [0, 1, 2]");
   }, "reconstructPath: multi-hop path");
 
-  check(() => {
+  it(() => {
     // 0->1->2->3 four-node chain
     const matrix = [
       [0, 1, Infinity, Infinity],
@@ -291,7 +280,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(path, [0, 1, 2, 3], "4-hop path is [0, 1, 2, 3]");
   }, "reconstructPath: 4-hop chain");
 
-  check(() => {
+  it(() => {
     // Unreachable: no path
     const matrix = [
       [0, Infinity],
@@ -302,7 +291,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(path, null, "No path returns null");
   }, "reconstructPath: unreachable returns null");
 
-  check(() => {
+  it(() => {
     // Path to self
     const matrix = [
       [0, 2],
@@ -313,7 +302,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(path, [0], "Path to self is [0]");
   }, "reconstructPath: path to self is [source]");
 
-  check(() => {
+  it(() => {
     // Path when there's a better indirect route
     // 0->2 direct (9), 0->1->2 (3+3=6)
     const matrix = [
@@ -328,7 +317,7 @@ function runTests({ assert, assertEqual }) {
   }, "reconstructPath: uses indirect path when shorter");
 
   // --- Negative weights (allowed in Floyd-Warshall, unlike Dijkstra) ---
-  check(() => {
+  it(() => {
     // Floyd-Warshall handles negative weights (just not negative cycles)
     const matrix = [
       [0, -2, Infinity],
@@ -341,7 +330,7 @@ function runTests({ assert, assertEqual }) {
   }, "floydWarshall: handles negative weights (no negative cycle)");
 
   // --- All-pairs completeness ---
-  check(() => {
+  it(() => {
     // Verify all pairs are computed, not just from one source
     const matrix = [
       [0, 1, Infinity],
@@ -358,8 +347,4 @@ function runTests({ assert, assertEqual }) {
     assert(result.dist[1][0] === 2, "dist[1][0] = 2 (via 2)");
     assert(result.dist[2][1] === 2, "dist[2][1] = 2 (via 0)");
   }, "floydWarshall: all-pairs computed correctly (cycle graph)");
-
-  return { passed, failed, failures };
-}
-
-module.exports = { runTests };
+});

@@ -1,31 +1,20 @@
 /**
- * Topological Sort (Kahn's Algorithm) Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  *
  * Covers: empty graph, single node, linear chain, diamond DAG, cycle detection,
  * self-loop, disconnected components, large DAG (20+ nodes), multiple valid orderings,
  * build system preset, course prerequisites preset.
  */
 
-function runTests({ assert, assertEqual }) {
-  let passed = 0;
-  let failed = 0;
-  const failures = [];
-
-  const TopoSortAlgorithm = require("./topo-sort-algorithm.js");
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("topo sort algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+const TopoSortAlgorithm = require("./topo-sort-algorithm.js");
   // --- Helper: verify topological order validity ---
   function isValidTopoOrder(nodes, edges, order) {
     if (order.length !== nodes.length) return false;
@@ -40,7 +29,7 @@ function runTests({ assert, assertEqual }) {
   }
 
   // --- Empty graph ---
-  check(() => {
+  it(() => {
     const result = TopoSortAlgorithm.run({
       nodes: [],
       edges: [],
@@ -53,7 +42,7 @@ function runTests({ assert, assertEqual }) {
   }, "Empty graph");
 
   // --- Single node ---
-  check(() => {
+  it(() => {
     const result = TopoSortAlgorithm.run({
       nodes: ["A"],
       edges: [],
@@ -67,7 +56,7 @@ function runTests({ assert, assertEqual }) {
   }, "Single node graph");
 
   // --- Linear chain A -> B -> C -> D ---
-  check(() => {
+  it(() => {
     const result = TopoSortAlgorithm.run({
       nodes: ["A", "B", "C", "D"],
       edges: [
@@ -82,7 +71,7 @@ function runTests({ assert, assertEqual }) {
   }, "Linear chain A->B->C->D");
 
   // --- Diamond DAG ---
-  check(() => {
+  it(() => {
     // A -> B, A -> C, B -> D, C -> D
     const result = TopoSortAlgorithm.run({
       nodes: ["A", "B", "C", "D"],
@@ -113,7 +102,7 @@ function runTests({ assert, assertEqual }) {
   }, "Diamond DAG (A->B,C->D)");
 
   // --- Cycle detection: simple cycle A -> B -> C -> A ---
-  check(() => {
+  it(() => {
     const result = TopoSortAlgorithm.run({
       nodes: ["A", "B", "C"],
       edges: [
@@ -131,7 +120,7 @@ function runTests({ assert, assertEqual }) {
   }, "Cycle detection: A->B->C->A");
 
   // --- Self-loop ---
-  check(() => {
+  it(() => {
     const result = TopoSortAlgorithm.run({
       nodes: ["A"],
       edges: [{ from: "A", to: "A" }],
@@ -143,7 +132,7 @@ function runTests({ assert, assertEqual }) {
   }, "Self-loop detection");
 
   // --- Disconnected components ---
-  check(() => {
+  it(() => {
     // Component 1: A -> B, Component 2: C -> D (no edges between)
     const result = TopoSortAlgorithm.run({
       nodes: ["A", "B", "C", "D"],
@@ -164,7 +153,7 @@ function runTests({ assert, assertEqual }) {
   }, "Disconnected components");
 
   // --- Large DAG (25 nodes, chain) ---
-  check(() => {
+  it(() => {
     const nodes = [];
     const edges = [];
     for (let i = 0; i < 25; i++) {
@@ -181,7 +170,7 @@ function runTests({ assert, assertEqual }) {
   }, "Large DAG (25 nodes chain)");
 
   // --- Large DAG with branches (20+ nodes) ---
-  check(() => {
+  it(() => {
     const nodes = [];
     const edges = [];
     for (let i = 0; i < 22; i++) {
@@ -215,7 +204,7 @@ function runTests({ assert, assertEqual }) {
   }, "Large DAG with branches (22 nodes)");
 
   // --- Partial cycle (some nodes not in cycle) ---
-  check(() => {
+  it(() => {
     // A -> B -> C -> B (cycle), A -> D (D is not in cycle)
     const result = TopoSortAlgorithm.run({
       nodes: ["A", "B", "C", "D"],
@@ -235,7 +224,7 @@ function runTests({ assert, assertEqual }) {
   }, "Partial cycle: B<->C cycle with non-cycle nodes A, D");
 
   // --- In-degree tracking in snapshots ---
-  check(() => {
+  it(() => {
     const result = TopoSortAlgorithm.run({
       nodes: ["A", "B", "C"],
       edges: [
@@ -252,7 +241,7 @@ function runTests({ assert, assertEqual }) {
   }, "Snapshot structure has inDegrees, queue, order, action");
 
   // --- In-degree values correct initially ---
-  check(() => {
+  it(() => {
     const result = TopoSortAlgorithm.run({
       nodes: ["A", "B", "C"],
       edges: [
@@ -270,7 +259,7 @@ function runTests({ assert, assertEqual }) {
   }, "Initial in-degree computation is correct");
 
   // --- Multiple valid orderings (verify any valid one) ---
-  check(() => {
+  it(() => {
     // A -> C, B -> C (A and B can be in any order)
     const result = TopoSortAlgorithm.run({
       nodes: ["A", "B", "C"],
@@ -296,7 +285,7 @@ function runTests({ assert, assertEqual }) {
   }, "Multiple valid orderings: A,B->C");
 
   // --- All isolated nodes (no edges) ---
-  check(() => {
+  it(() => {
     const result = TopoSortAlgorithm.run({
       nodes: ["A", "B", "C"],
       edges: [],
@@ -306,7 +295,7 @@ function runTests({ assert, assertEqual }) {
   }, "All isolated nodes (no edges)");
 
   // --- Build system preset ---
-  check(() => {
+  it(() => {
     const preset = TopoSortAlgorithm.presets.buildSystem;
     assert(preset !== undefined, "Build system preset exists");
     assert(Array.isArray(preset.nodes), "Preset has nodes array");
@@ -329,7 +318,7 @@ function runTests({ assert, assertEqual }) {
   }, "Build system preset produces valid topological order");
 
   // --- Course prerequisites preset ---
-  check(() => {
+  it(() => {
     const preset = TopoSortAlgorithm.presets.coursePrerequisites;
     assert(preset !== undefined, "Course prerequisites preset exists");
     assert(Array.isArray(preset.nodes), "Preset has nodes array");
@@ -354,7 +343,7 @@ function runTests({ assert, assertEqual }) {
   }, "Course prerequisites preset produces valid topological order");
 
   // --- Cycle with more than 3 nodes ---
-  check(() => {
+  it(() => {
     const result = TopoSortAlgorithm.run({
       nodes: ["A", "B", "C", "D", "E"],
       edges: [
@@ -372,7 +361,7 @@ function runTests({ assert, assertEqual }) {
   }, "Cycle detection in 5-node graph with 3-node cycle");
 
   // --- Node count in result matches input ---
-  check(() => {
+  it(() => {
     const result = TopoSortAlgorithm.run({
       nodes: ["X", "Y", "Z"],
       edges: [
@@ -387,7 +376,7 @@ function runTests({ assert, assertEqual }) {
   }, "No duplicate nodes in output order");
 
   // --- Duplicate edges are handled ---
-  check(() => {
+  it(() => {
     const result = TopoSortAlgorithm.run({
       nodes: ["A", "B"],
       edges: [
@@ -405,15 +394,11 @@ function runTests({ assert, assertEqual }) {
   }, "Duplicate edges handled correctly");
 
   // --- MAX_NODES constant exposed ---
-  check(() => {
+  it(() => {
     assert(
       typeof TopoSortAlgorithm.MAX_NODES === "number",
       "MAX_NODES is a number",
     );
     assert(TopoSortAlgorithm.MAX_NODES >= 15, "MAX_NODES is at least 15");
   }, "MAX_NODES constant is exposed");
-
-  return { passed, failed, failures };
-}
-
-module.exports = { runTests };
+});

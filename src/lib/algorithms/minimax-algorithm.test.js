@@ -1,49 +1,38 @@
 /**
- * Minimax Algorithm Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  *
  * Tests checkWinner, getAvailableMoves, minimax, getBestMove
  */
 
-function runTests({ assert, assertEqual }) {
-  var passed = 0;
-  var failed = 0;
-  var failures = [];
-
-  var MinimaxAlgorithm = require("./minimax-algorithm.js");
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name: name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("minimax algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+var MinimaxAlgorithm = require("./minimax-algorithm.js");
   // ============================================================
   // checkWinner tests
   // ============================================================
 
-  check(function () {
+  it(function () {
     var board = ["X", "X", "X", null, null, null, null, null, null];
     assertEqual(MinimaxAlgorithm.checkWinner(board), "X", "X wins top row");
   }, "checkWinner: X wins top row");
 
-  check(function () {
+  it(function () {
     var board = ["O", "O", "O", null, null, null, null, null, null];
     assertEqual(MinimaxAlgorithm.checkWinner(board), "O", "O wins top row");
   }, "checkWinner: O wins top row");
 
-  check(function () {
+  it(function () {
     var board = ["X", null, null, "X", null, null, "X", null, null];
     assertEqual(MinimaxAlgorithm.checkWinner(board), "X", "X wins left column");
   }, "checkWinner: X wins left column");
 
-  check(function () {
+  it(function () {
     var board = ["X", null, null, null, "X", null, null, null, "X"];
     assertEqual(
       MinimaxAlgorithm.checkWinner(board),
@@ -52,7 +41,7 @@ function runTests({ assert, assertEqual }) {
     );
   }, "checkWinner: X wins diagonal");
 
-  check(function () {
+  it(function () {
     var board = [null, null, "X", null, "X", null, "X", null, null];
     assertEqual(
       MinimaxAlgorithm.checkWinner(board),
@@ -61,12 +50,12 @@ function runTests({ assert, assertEqual }) {
     );
   }, "checkWinner: X wins anti-diagonal");
 
-  check(function () {
+  it(function () {
     var board = ["X", "O", "X", "X", "O", "O", "O", "X", "X"];
     assertEqual(MinimaxAlgorithm.checkWinner(board), "draw", "Full board draw");
   }, "checkWinner: draw on full board");
 
-  check(function () {
+  it(function () {
     var board = [null, null, null, null, null, null, null, null, null];
     assertEqual(
       MinimaxAlgorithm.checkWinner(board),
@@ -75,7 +64,7 @@ function runTests({ assert, assertEqual }) {
     );
   }, "checkWinner: empty board is null");
 
-  check(function () {
+  it(function () {
     var board = ["X", "O", null, null, null, null, null, null, null];
     assertEqual(
       MinimaxAlgorithm.checkWinner(board),
@@ -84,17 +73,17 @@ function runTests({ assert, assertEqual }) {
     );
   }, "checkWinner: in-progress game");
 
-  check(function () {
+  it(function () {
     var board = ["O", null, null, "O", null, null, "O", null, null];
     assertEqual(MinimaxAlgorithm.checkWinner(board), "O", "O wins left column");
   }, "checkWinner: O wins left column");
 
-  check(function () {
+  it(function () {
     var board = [null, null, null, "X", "X", "X", null, null, null];
     assertEqual(MinimaxAlgorithm.checkWinner(board), "X", "X wins middle row");
   }, "checkWinner: X wins middle row");
 
-  check(function () {
+  it(function () {
     var board = [null, null, null, null, null, null, "O", "O", "O"];
     assertEqual(MinimaxAlgorithm.checkWinner(board), "O", "O wins bottom row");
   }, "checkWinner: O wins bottom row");
@@ -103,19 +92,19 @@ function runTests({ assert, assertEqual }) {
   // getAvailableMoves tests
   // ============================================================
 
-  check(function () {
+  it(function () {
     var board = [null, null, null, null, null, null, null, null, null];
     var moves = MinimaxAlgorithm.getAvailableMoves(board);
     assertEqual(moves.length, 9, "Empty board has 9 moves");
   }, "getAvailableMoves: empty board returns 9 moves");
 
-  check(function () {
+  it(function () {
     var board = ["X", "O", "X", "O", "X", "O", "O", "X", "O"];
     var moves = MinimaxAlgorithm.getAvailableMoves(board);
     assertEqual(moves.length, 0, "Full board has 0 moves");
   }, "getAvailableMoves: full board returns 0 moves");
 
-  check(function () {
+  it(function () {
     var board = ["X", null, null, null, null, null, null, null, null];
     var moves = MinimaxAlgorithm.getAvailableMoves(board);
     assertEqual(moves.length, 8, "One occupied cell leaves 8 moves");
@@ -123,7 +112,7 @@ function runTests({ assert, assertEqual }) {
     assert(moves.indexOf(1) >= 0, "Index 1 is in moves");
   }, "getAvailableMoves: one occupied cell");
 
-  check(function () {
+  it(function () {
     var board = [null, null, null, null, "X", null, null, null, null];
     var moves = MinimaxAlgorithm.getAvailableMoves(board);
     assertEqual(moves.indexOf(4), -1, "Center occupied not in moves");
@@ -134,7 +123,7 @@ function runTests({ assert, assertEqual }) {
   // minimax tests (correctness of best move)
   // ============================================================
 
-  check(function () {
+  it(function () {
     // X can win immediately by playing index 2
     var board = ["X", "X", null, "O", "O", null, null, null, null];
     var result = MinimaxAlgorithm.minimax(
@@ -148,7 +137,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(result.move, 2, "X plays winning move at index 2");
   }, "minimax: X takes immediate win");
 
-  check(function () {
+  it(function () {
     // O can win immediately by playing index 5
     var board = ["X", "X", null, "O", "O", null, null, null, null];
     var result = MinimaxAlgorithm.minimax(
@@ -162,7 +151,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(result.move, 5, "O takes immediate win at index 5");
   }, "minimax: O takes immediate win");
 
-  check(function () {
+  it(function () {
     // X must block O from winning: O threatens index 2 (0,1,2 row)
     var board = [null, "O", "O", null, null, null, "X", null, null];
     var result = MinimaxAlgorithm.minimax(
@@ -176,7 +165,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(result.move, 0, "X blocks O at index 0");
   }, "minimax: X blocks O win");
 
-  check(function () {
+  it(function () {
     // Terminal state — board already won by X
     var board = ["X", "X", "X", null, null, null, null, null, null];
     var result = MinimaxAlgorithm.minimax(
@@ -191,7 +180,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(result.move, null, "No move in terminal state");
   }, "minimax: terminal state X win");
 
-  check(function () {
+  it(function () {
     // Terminal state — draw
     var board = ["X", "O", "X", "X", "O", "O", "O", "X", "X"];
     var result = MinimaxAlgorithm.minimax(
@@ -205,7 +194,7 @@ function runTests({ assert, assertEqual }) {
     assertEqual(result.score, 0, "Draw yields score 0");
   }, "minimax: terminal state draw");
 
-  check(function () {
+  it(function () {
     // nodesEvaluated is a positive integer
     var board = [null, null, null, null, null, null, null, null, null];
     var result = MinimaxAlgorithm.minimax(
@@ -226,7 +215,7 @@ function runTests({ assert, assertEqual }) {
     );
   }, "minimax: nodesEvaluated is positive");
 
-  check(function () {
+  it(function () {
     // tree structure has required fields
     var board = ["X", null, null, null, null, null, null, null, null];
     var result = MinimaxAlgorithm.minimax(
@@ -245,7 +234,7 @@ function runTests({ assert, assertEqual }) {
     assert(typeof tree.beta === "number", "tree has beta");
   }, "minimax: tree structure has required fields");
 
-  check(function () {
+  it(function () {
     // Alpha-beta pruning reduces node count
     var board = [null, null, null, null, null, null, null, null, null];
     var withoutPruning = MinimaxAlgorithm.minimax(
@@ -274,7 +263,7 @@ function runTests({ assert, assertEqual }) {
     );
   }, "minimax: alpha-beta pruning reduces node count");
 
-  check(function () {
+  it(function () {
     // Alpha-beta pruning finds same move as without pruning
     var board = ["X", null, null, null, "O", null, null, null, null];
     var withoutPruning = MinimaxAlgorithm.minimax(
@@ -304,19 +293,19 @@ function runTests({ assert, assertEqual }) {
   // getBestMove tests
   // ============================================================
 
-  check(function () {
+  it(function () {
     var board = ["X", "X", null, "O", "O", null, null, null, null];
     var result = MinimaxAlgorithm.getBestMove(board, "X", false);
     assertEqual(result.move, 2, "getBestMove: X takes win at index 2");
   }, "getBestMove: X takes immediate win (no pruning)");
 
-  check(function () {
+  it(function () {
     var board = ["X", "X", null, "O", "O", null, null, null, null];
     var result = MinimaxAlgorithm.getBestMove(board, "X", true);
     assertEqual(result.move, 2, "getBestMove: X takes win with pruning");
   }, "getBestMove: X takes immediate win (with pruning)");
 
-  check(function () {
+  it(function () {
     var board = [null, null, null, null, null, null, null, null, null];
     var result = MinimaxAlgorithm.getBestMove(board, "X", false);
     assert(typeof result.move === "number", "move is a number");
@@ -335,7 +324,7 @@ function runTests({ assert, assertEqual }) {
     );
   }, "getBestMove: result has required fields");
 
-  check(function () {
+  it(function () {
     var board = [null, null, null, null, null, null, null, null, null];
     var result = MinimaxAlgorithm.getBestMove(board, "X", true);
     assert(
@@ -344,7 +333,7 @@ function runTests({ assert, assertEqual }) {
     );
   }, "getBestMove: pruning count <= no-pruning count");
 
-  check(function () {
+  it(function () {
     // O's best move: block X diagonal or take center
     var board = ["X", null, null, null, "O", null, null, null, "X"];
     var result = MinimaxAlgorithm.getBestMove(board, "O", false);
@@ -352,14 +341,10 @@ function runTests({ assert, assertEqual }) {
     assert(board[result.move] === null, "O plays on empty cell");
   }, "getBestMove: O plays valid move");
 
-  check(function () {
+  it(function () {
     // Near-terminal: one move left
     var board = ["X", "O", "X", "O", "X", "O", "O", "X", null];
     var result = MinimaxAlgorithm.getBestMove(board, "O", false);
     assertEqual(result.move, 8, "Only one move available — play index 8");
   }, "getBestMove: single available move");
-
-  return { passed: passed, failed: failed, failures: failures };
-}
-
-module.exports = { runTests: runTests };
+});

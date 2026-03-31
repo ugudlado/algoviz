@@ -1,32 +1,21 @@
 /**
- * Dijkstra's Shortest Path Algorithm Tests — Node.js runner compatible
- * Exports runTests() for run-tests.js harness
  *
  * Covers: basic shortest path, single node, empty graph, disconnected nodes,
  * negative weights (rejected), cycles, self-loops, max bounds, large graphs.
  */
 
-function runTests({ assert, assertEqual }) {
-  let passed = 0;
-  let failed = 0;
-  const failures = [];
-
-  const DijkstraAlgorithm = require("./dijkstra-algorithm.js");
-
-  function check(fn, name) {
-    try {
-      fn();
-      passed++;
-      console.log("  PASS: " + name);
-    } catch (e) {
-      failed++;
-      failures.push({ name, message: e.message });
-      console.log("  FAIL: " + name + " — " + e.message);
-    }
+describe("dijkstra algorithm", function () {
+  function assert(condition, message) {
+    expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
+  function assertEqual(actual, expected, message) {
+    expect(actual, message || "assertEqual").toEqual(expected);
+  }
+
+const DijkstraAlgorithm = require("./dijkstra-algorithm.js");
   // --- Basic shortest path ---
-  check(() => {
+  it(() => {
     // A -1-> B -2-> C
     const result = DijkstraAlgorithm.run({
       nodes: ["A", "B", "C"],
@@ -44,7 +33,7 @@ function runTests({ assert, assertEqual }) {
   }, "Basic: linear graph A->B->C");
 
   // --- Choose shorter path ---
-  check(() => {
+  it(() => {
     // A -10-> C, A -1-> B -2-> C (shorter)
     const result = DijkstraAlgorithm.run({
       nodes: ["A", "B", "C"],
@@ -60,7 +49,7 @@ function runTests({ assert, assertEqual }) {
   }, "Picks shorter path over direct expensive edge");
 
   // --- Single node graph ---
-  check(() => {
+  it(() => {
     const result = DijkstraAlgorithm.run({
       nodes: ["X"],
       edges: [],
@@ -72,7 +61,7 @@ function runTests({ assert, assertEqual }) {
   }, "Single node graph");
 
   // --- Empty graph ---
-  check(() => {
+  it(() => {
     const result = DijkstraAlgorithm.run({
       nodes: [],
       edges: [],
@@ -83,7 +72,7 @@ function runTests({ assert, assertEqual }) {
   }, "Empty graph (no nodes)");
 
   // --- Disconnected node ---
-  check(() => {
+  it(() => {
     const result = DijkstraAlgorithm.run({
       nodes: ["A", "B", "C"],
       edges: [{ from: "A", to: "B", weight: 5 }],
@@ -96,7 +85,7 @@ function runTests({ assert, assertEqual }) {
   }, "Disconnected node returns Infinity distance and null path");
 
   // --- Negative weight rejected ---
-  check(() => {
+  it(() => {
     const result = DijkstraAlgorithm.run({
       nodes: ["A", "B"],
       edges: [{ from: "A", to: "B", weight: -3 }],
@@ -107,7 +96,7 @@ function runTests({ assert, assertEqual }) {
   }, "Negative weight edge is rejected");
 
   // --- Self-loop ---
-  check(() => {
+  it(() => {
     const result = DijkstraAlgorithm.run({
       nodes: ["A", "B"],
       edges: [
@@ -124,7 +113,7 @@ function runTests({ assert, assertEqual }) {
   }, "Self-loop does not affect distances");
 
   // --- Cycle ---
-  check(() => {
+  it(() => {
     // A -1-> B -2-> C -3-> A (cycle), A -10-> D
     const result = DijkstraAlgorithm.run({
       nodes: ["A", "B", "C", "D"],
@@ -143,7 +132,7 @@ function runTests({ assert, assertEqual }) {
   }, "Graph with cycle computes correct distances");
 
   // --- Undirected edges (bidirectional) ---
-  check(() => {
+  it(() => {
     const result = DijkstraAlgorithm.run({
       nodes: ["A", "B", "C"],
       edges: [
@@ -160,7 +149,7 @@ function runTests({ assert, assertEqual }) {
   }, "Bidirectional edges find shortest path");
 
   // --- Zero-weight edges ---
-  check(() => {
+  it(() => {
     const result = DijkstraAlgorithm.run({
       nodes: ["A", "B", "C"],
       edges: [
@@ -177,7 +166,7 @@ function runTests({ assert, assertEqual }) {
   }, "Zero-weight edges are valid");
 
   // --- Regression: zero-weight edge creates zero-cost shortest path ---
-  check(() => {
+  it(() => {
     // Bug: UI blocked weight=0 input (min="1"), so users could not demonstrate
     // zero-cost shortest paths. This test verifies zero-weight edges produce
     // correct shortest paths when competing with positive-weight alternatives.
@@ -204,7 +193,7 @@ function runTests({ assert, assertEqual }) {
   }, "Regression: zero-weight edge enables zero-cost shortest path");
 
   // --- Regression: weight=0 boundary is accepted, weight=-1 is rejected ---
-  check(() => {
+  it(() => {
     const zeroResult = DijkstraAlgorithm.run({
       nodes: ["A", "B"],
       edges: [{ from: "A", to: "B", weight: 0 }],
@@ -225,7 +214,7 @@ function runTests({ assert, assertEqual }) {
   }, "Regression: weight=0 accepted at boundary, weight=-1 rejected");
 
   // --- Source not in nodes ---
-  check(() => {
+  it(() => {
     const result = DijkstraAlgorithm.run({
       nodes: ["A", "B"],
       edges: [{ from: "A", to: "B", weight: 1 }],
@@ -240,7 +229,7 @@ function runTests({ assert, assertEqual }) {
   }, "Source not in graph returns empty result");
 
   // --- Large graph (20+ nodes) completes ---
-  check(() => {
+  it(() => {
     const nodes = [];
     const edges = [];
     for (let i = 0; i < 25; i++) {
@@ -263,7 +252,7 @@ function runTests({ assert, assertEqual }) {
   }, "Large graph (25 nodes) completes correctly");
 
   // --- Multiple shortest paths (any valid is fine) ---
-  check(() => {
+  it(() => {
     // A -5-> B -5-> D, A -5-> C -5-> D (both equal distance 10)
     const result = DijkstraAlgorithm.run({
       nodes: ["A", "B", "C", "D"],
@@ -284,7 +273,7 @@ function runTests({ assert, assertEqual }) {
   }, "Multiple equal-cost paths: returns one valid path");
 
   // --- Snapshot structure ---
-  check(() => {
+  it(() => {
     const result = DijkstraAlgorithm.run({
       nodes: ["A", "B"],
       edges: [{ from: "A", to: "B", weight: 3 }],
@@ -302,7 +291,7 @@ function runTests({ assert, assertEqual }) {
   }, "Snapshot structure is correct for visualization");
 
   // --- Edge weight bounds (max weight 999) ---
-  check(() => {
+  it(() => {
     const result = DijkstraAlgorithm.run({
       nodes: ["A", "B"],
       edges: [{ from: "A", to: "B", weight: 1000 }],
@@ -320,7 +309,7 @@ function runTests({ assert, assertEqual }) {
   }, "Edge weight exceeding max (>999) is rejected");
 
   // --- Path reconstruction with predecessor ---
-  check(() => {
+  it(() => {
     // A -2-> B -3-> C -1-> D
     const result = DijkstraAlgorithm.run({
       nodes: ["A", "B", "C", "D"],
@@ -336,7 +325,7 @@ function runTests({ assert, assertEqual }) {
   }, "Path reconstruction through multiple hops");
 
   // --- Dense graph (all nodes connected) ---
-  check(() => {
+  it(() => {
     const result = DijkstraAlgorithm.run({
       nodes: ["A", "B", "C", "D"],
       edges: [
@@ -352,8 +341,4 @@ function runTests({ assert, assertEqual }) {
     assert(result.distances["D"] === 4, "A->B->C->D = 1+2+1 = 4");
     assertEqual(result.path("D"), ["A", "B", "C", "D"], "Shortest through B,C");
   }, "Dense graph finds optimal path");
-
-  return { passed, failed, failures };
-}
-
-module.exports = { runTests };
+});

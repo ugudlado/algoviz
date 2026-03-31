@@ -78,6 +78,11 @@
         "node": true,
         "es2022": true
       },
+      "globals": {
+        "describe": "readonly",
+        "it": "readonly",
+        "expect": "readonly"
+      },
       "rules": {
         "no-undef": "error",
         "no-unused-vars": "warn"

@@ -9,7 +9,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
-    "test": "node run-tests.js",
+    "test": "vitest run",
     "format:check": "prettier --check '**/*.{html,css,js,ts,tsx}'",
     "format": "prettier --write '**/*.{html,css,js,ts,tsx}'",
     "knip": "knip"
@@ -27,7 +27,8 @@
     "knip": "^6.0.6",
     "prettier": "^3.8.1",
     "typescript": "^6.0.2",
-    "vite": "^8.0.3"
+    "vite": "^8.0.3",
+    "vitest": "^3.2.4"
   },
   "dependencies": {
     "react": "^19.2.4",
