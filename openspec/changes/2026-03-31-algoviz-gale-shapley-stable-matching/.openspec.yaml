@@ -1,7 +1,10 @@
 schema: feature-tdd
 feature-id: 2026-03-31-algoviz-gale-shapley-stable-matching
-status: proposed
+status: in-progress
 category: new-feature
 priority: 9.4
 source: ideator
 created: 2026-03-31
+last-autopilot-run: 2026-03-31
+last-autopilot-result: fail
+last-autopilot-notes: "Runtime/UX evidence and repo-wide format gate remain unresolved."
