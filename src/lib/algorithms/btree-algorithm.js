@@ -427,3 +427,5 @@ var BTreeAlgorithm = (function () {
     bulkInsert: bulkInsert,
   };
 })();
+
+export default BTreeAlgorithm;

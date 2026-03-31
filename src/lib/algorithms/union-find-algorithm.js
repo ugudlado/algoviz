@@ -234,3 +234,5 @@ var UnionFindAlgorithm = (function () {
 if (typeof module !== "undefined" && module.exports) {
   module.exports = UnionFindAlgorithm;
 }
+
+export default UnionFindAlgorithm;

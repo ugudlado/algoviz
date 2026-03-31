@@ -208,3 +208,5 @@ var SlidingWindowAlgorithm = (() => {
 if (typeof module !== "undefined" && module.exports) {
   module.exports = SlidingWindowAlgorithm;
 }
+
+export default SlidingWindowAlgorithm;

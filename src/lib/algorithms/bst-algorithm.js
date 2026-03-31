@@ -264,3 +264,5 @@ var BSTAlgorithm = (() => {
 if (typeof module !== "undefined" && module.exports) {
   module.exports = BSTAlgorithm;
 }
+
+export default BSTAlgorithm;

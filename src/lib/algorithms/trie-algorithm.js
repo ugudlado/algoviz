@@ -232,3 +232,5 @@ var TrieAlgorithm = (function () {
 if (typeof module !== "undefined" && module.exports) {
   module.exports = TrieAlgorithm;
 }
+
+export default TrieAlgorithm;

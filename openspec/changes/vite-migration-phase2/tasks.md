@@ -54,10 +54,10 @@
 - [x] P5.3: Migrate Minimax (tic-tac-toe board + game tree)
 - [x] P5.4: Migrate N-Queens (dynamic chessboard + backtracking tree)
 - [x] P5.5: Update Nav + App.tsx routes for advanced pages
-- [ ] P5.6: Quality gates + commit Phase 5
+- [x] P5.6: Quality gates + commit Phase 5
 
 ## Final
 
-- [ ] F.1: Final quality gates pass (lint, format, knip, build)
+- [x] F.1: Final quality gates pass (lint, format, knip, build)
 - [ ] F.2: Remove `bubble-sort-v2.html` and related files (superseded by React)
-- [ ] F.3: Update Home page to link all migrated algorithms (remove "Coming soon")
+- [x] F.3: Update Home page to link all migrated algorithms (remove "Coming soon")
