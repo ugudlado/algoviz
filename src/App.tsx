@@ -33,6 +33,7 @@ import ConvexHull from "./pages/algorithms/ConvexHull";
 import ElevatorScan from "./pages/algorithms/ElevatorScan";
 import Minimax from "./pages/algorithms/Minimax";
 import NQueens from "./pages/algorithms/NQueens";
+import GaleShapley from "./pages/algorithms/GaleShapley";
 
 export default function App() {
   return (
@@ -80,6 +81,7 @@ export default function App() {
         <Route path="/algorithms/elevator-scan" element={<ElevatorScan />} />
         <Route path="/algorithms/minimax" element={<Minimax />} />
         <Route path="/algorithms/n-queens" element={<NQueens />} />
+        <Route path="/algorithms/gale-shapley" element={<GaleShapley />} />
       </Routes>
     </BrowserRouter>
   );

@@ -44,6 +44,7 @@ const NAV_CONFIG: NavCategory[] = [
       { label: "Tarjan's SCC", path: "/algorithms/tarjan" },
       { label: "Topological Sort", path: "/algorithms/topo-sort" },
       { label: "Ford-Fulkerson", path: "/algorithms/ford-fulkerson" },
+      { label: "Gale-Shapley Matching", path: "/algorithms/gale-shapley" },
     ],
   },
   {

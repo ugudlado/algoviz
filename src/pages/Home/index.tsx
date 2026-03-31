@@ -200,6 +200,18 @@ const ALGORITHMS: AlgoCard[] = [
     available: true,
   },
   {
+    name: "Gale-Shapley Matching",
+    path: "/algorithms/gale-shapley",
+    category: "graph",
+    categoryLabel: "Graph",
+    accentVar: "--cat-graph",
+    description:
+      "Stable matching through proposal rounds, tentative holds, and swaps.",
+    complexity: "O(n²)",
+    difficulty: "Advanced",
+    available: true,
+  },
+  {
     name: "Knapsack (0/1)",
     path: "/algorithms/knapsack",
     category: "dp",

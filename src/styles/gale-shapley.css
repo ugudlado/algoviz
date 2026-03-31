@@ -1,0 +1,101 @@
+.gs-fieldset {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.gs-legend {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  padding: 0 0.35rem;
+}
+
+.gs-text-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.gs-text-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+}
+
+.gs-text-grid textarea {
+  min-height: 9rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  padding: 0.55rem;
+  resize: vertical;
+}
+
+.gs-text-grid textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+.gs-pairs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 0.7rem;
+}
+
+.gs-pair-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.6rem;
+  background: var(--bg-tertiary);
+}
+
+.gs-pair-title {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  margin-bottom: 0.2rem;
+}
+
+.gs-pair-value {
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+}
+
+.gs-outcome-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.gs-subtitle {
+  margin: 0 0 0.5rem;
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.gs-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  gap: 0.6rem;
+}
+
+@media (max-width: 900px) {
+  .gs-text-grid,
+  .gs-outcome-grid {
+    grid-template-columns: 1fr;
+  }
+}
