@@ -1,5 +1,5 @@
 import ScanAlgorithmModule from "./scan-algorithm";
-export interface ScanStep {
+interface ScanStep {
   current: number;
   next: number;
   distance: number;

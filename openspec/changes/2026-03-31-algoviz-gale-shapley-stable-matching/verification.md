@@ -20,3 +20,12 @@
 ## Conclusion
 - Feature-level code and tests are complete.
 - Runtime verification is unblocked and completed at service/route level for this cycle.
+
+## BUILD Cycle Addendum (2026-03-31)
+- Re-ran full CLAUDE quality gates in strict order: lint -> test -> format check -> knip.
+- Initial blocker: `knip` failed on exported-but-unused symbols in shared algorithm wrapper/type files.
+- Applied minimal cleanup:
+  - Removed three dead exported utility types in `src/lib/algorithms/module-types.ts`.
+  - Made `NQueensStep` and `ScanStep` interfaces internal to their wrapper files.
+- Post-fix rerun: all quality gates PASS (`knip` returns configuration hints only).
+- Verifier-style check: Gale-Shapley route/page/wrapper/tests remain wired and no critical findings identified.

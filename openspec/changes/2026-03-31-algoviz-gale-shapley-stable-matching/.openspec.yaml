@@ -1,10 +1,10 @@
 schema: feature-tdd
 feature-id: 2026-03-31-algoviz-gale-shapley-stable-matching
-status: in-progress
+status: completed
 category: new-feature
 priority: 9.4
 source: ideator
 created: 2026-03-31
 last-autopilot-run: 2026-03-31
 last-autopilot-result: pass
-last-autopilot-notes: "Quality gates are green; runtime boot blocker fixed and route-level verification completed."
+last-autopilot-notes: "Feature closed: quality gates green, knip dead-export cleanup applied, reflect/diagnose artifacts refreshed, and task marked complete."

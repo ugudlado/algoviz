@@ -1,20 +1,21 @@
-# Diagnose: Consecutive FAILs
+# Diagnose: Cycle 5 Checkpoint
+
+## Trigger
+- Diagnose ran because cycle count reached a multiple-of-5 checkpoint.
 
 ## Pattern
-- `FAIL` verdict persisted across recent cycles.
-- Implementation quality is strong, but workflow compliance remains the limiting dimension.
+- Quality-gate hygiene recovered to green (all required checks pass).
+- Remaining gap is procedural: interaction-level runtime evidence is thinner than desired for a CLEAN verdict.
 
-## Root Causes
-- Missing runtime/UX verification evidence for the interactive page.
-- Full formatting gate (`pnpm run format:check`) is not green at repository scope.
-- Workflow state drift between completion claims and gate evidence.
+## Root Cause
+- Environment/tooling constraints reduced direct browser automation evidence during verification.
+- This created verifier friction despite healthy code/test/lint/format/dead-code outcomes.
 
 ## Immediate Remediation Checklist
-1. Capture runtime verification evidence for Gale-Shapley UI interactions and error paths.
-2. Resolve formatting drift with `pnpm run format` and re-run `pnpm run format:check`.
-3. Re-run full gates (`pnpm test`, `pnpm run lint`, `pnpm run knip`, `pnpm run format:check`).
-4. Update OpenSpec status/result notes after gates are fully green.
+1. Capture browser interaction evidence for the Gale-Shapley page and record it in verification notes.
+2. Keep full gate reruns attached to each pass (`lint`, `test`, `format:check`, `knip`) to prevent state drift.
+3. Re-run verifier after evidence capture and promote PASS to CLEAN when criteria are fully satisfied.
 
 ## Guardrails
-- Do not mark verify complete until all required gate outputs are recorded.
-- Treat missing UX/runtime evidence as a blocking issue.
+- Keep service/route checks as baseline, but do not treat them as a complete substitute for interaction-level validation.
+- Preserve minimal-diff fixes for gate issues (avoid broad refactors during stabilization passes).

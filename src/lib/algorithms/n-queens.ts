@@ -1,5 +1,5 @@
 import NQueensAlgorithmModule from "./n-queens-algorithm";
-export interface NQueensStep {
+interface NQueensStep {
   type: "place" | "conflict" | "backtrack" | "solution";
   row: number;
   col: number;
