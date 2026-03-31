@@ -432,10 +432,20 @@ const LEARNING_PATHS = [
   },
 ];
 
+const HOMEPAGE_VISIBLE_CATEGORIES = new Set([
+  "sorting",
+  "searching",
+  "string",
+  "dp",
+]);
+
 export default function Home() {
   const [query, setQuery] = useState("");
+  const visibleAlgorithms = ALGORITHMS.filter((a) =>
+    HOMEPAGE_VISIBLE_CATEGORIES.has(a.category),
+  );
 
-  const filtered = ALGORITHMS.filter(
+  const filtered = visibleAlgorithms.filter(
     (a) =>
       a.name.toLowerCase().includes(query.toLowerCase()) ||
       a.categoryLabel.toLowerCase().includes(query.toLowerCase()),
@@ -573,8 +583,8 @@ export default function Home() {
             marginBottom: "2rem",
           }}
         >
-          {ALGORITHMS.filter((a) => a.available).length} live ·{" "}
-          {ALGORITHMS.filter((a) => !a.available).length} coming soon
+          {visibleAlgorithms.filter((a) => a.available).length} live ·{" "}
+          {visibleAlgorithms.filter((a) => !a.available).length} coming soon
         </p>
 
         <input
