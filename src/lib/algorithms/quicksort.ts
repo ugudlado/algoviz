@@ -1,5 +1,5 @@
 import QuickSortAlgorithmModule from "./quicksort-algorithm";
-import type { QuickSortAlgorithmModule } from "./module-types";
+import type { QuickSortAlgorithmModule as QuickSortModuleType } from "./module-types";
 
 interface QuickSortStep {
   type: "partition" | "compare" | "swap" | "pivot" | "complete";
@@ -20,7 +20,7 @@ interface QuickSortResult {
 }
 
 const QuickSortAlgorithm =
-  QuickSortAlgorithmModule as QuickSortAlgorithmModule<QuickSortResult>;
+  QuickSortAlgorithmModule as QuickSortModuleType<QuickSortResult>;
 
 export const generateSteps = (
   arr: number[],
