@@ -1,6 +1,7 @@
 import { Nav } from "@/components/Nav";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { LEARNING_PATHS, getTotalSteps } from "@/data/learningPaths";
 
 interface AlgoCard {
   name: string;
@@ -414,24 +415,6 @@ const DIFFICULTY_COLOR: Record<string, string> = {
   Advanced: "#f85149",
 };
 
-const LEARNING_PATHS = [
-  {
-    title: "CS Fundamentals",
-    color: "var(--cat-sorting)",
-    steps: ["Bubble Sort", "Binary Search", "BST Traversal", "Merge Sort"],
-  },
-  {
-    title: "Interview Prep",
-    color: "var(--cat-dp)",
-    steps: ["Quick Sort", "Knapsack (0/1)", "LCS", "Levenshtein Distance"],
-  },
-  {
-    title: "Graph Mastery",
-    color: "var(--cat-graph)",
-    steps: ["Dijkstra", "A* Pathfinding", "Prim's MST", "Kruskal's MST"],
-  },
-];
-
 const HOMEPAGE_VISIBLE_CATEGORIES = new Set([
   "sorting",
   "searching",
@@ -472,7 +455,6 @@ export default function Home() {
           textAlign: "center",
         }}
       >
-
         <div
           style={{
             maxWidth: 760,
@@ -600,7 +582,8 @@ export default function Home() {
                 fontWeight: 600,
                 padding: "0.2rem 0.5rem",
                 borderRadius: 6,
-                border: "1px solid color-mix(in srgb, currentColor 40%, transparent)",
+                border:
+                  "1px solid color-mix(in srgb, currentColor 40%, transparent)",
                 background: "rgba(13,17,23,0.7)",
               }}
             >
@@ -647,7 +630,6 @@ export default function Home() {
             </button>
           </div>
         </div>
-
       </section>
 
       {/* Algorithm Cards Grid */}
@@ -734,22 +716,6 @@ export default function Home() {
           }}
         >
           Learning Paths
-          <span
-            style={{
-              marginLeft: "0.6rem",
-              fontSize: "0.7rem",
-              fontWeight: 600,
-              textTransform: "uppercase",
-              letterSpacing: "0.06em",
-              color: "var(--text-muted)",
-              border: "1px solid var(--border)",
-              borderRadius: 6,
-              padding: "0.18rem 0.45rem",
-              verticalAlign: "middle",
-            }}
-          >
-            Coming soon
-          </span>
         </h2>
         <p
           style={{
@@ -758,8 +724,8 @@ export default function Home() {
             marginBottom: "2rem",
           }}
         >
-          Structured sequences to build understanding step by step. This section
-          is in progress.
+          Follow a narrative to learn algorithms in context — each path connects
+          algorithms through a story.
         </p>
 
         <div
@@ -770,42 +736,79 @@ export default function Home() {
           }}
         >
           {LEARNING_PATHS.map((path) => (
-            <div
-              key={path.title}
+            <Link
+              key={path.slug}
+              to={`/learning-paths/${path.slug}`}
               style={{
+                textDecoration: "none",
+                color: "inherit",
                 background: "var(--bg-secondary)",
                 border: "1px solid var(--border)",
-                borderTop: `3px solid ${path.color}`,
+                borderTop: `3px solid ${path.accentColor}`,
                 borderRadius: 12,
                 padding: "1.5rem",
+                transition: "border-color 0.2s, transform 0.15s",
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.borderColor = path.accentColor;
+                el.style.transform = "translateY(-2px)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.borderColor = "var(--border)";
+                el.style.borderTopColor = path.accentColor;
+                el.style.transform = "";
               }}
             >
-              <h3
+              <div
                 style={{
-                  fontSize: "1rem",
-                  fontWeight: 700,
-                  marginBottom: "1rem",
-                  color: path.color,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.6rem",
+                  marginBottom: "0.5rem",
                 }}
               >
-                {path.title}
-              </h3>
-              <ol
+                <span style={{ fontSize: "1.5rem" }}>{path.icon}</span>
+                <h3
+                  style={{
+                    margin: 0,
+                    fontSize: "1.05rem",
+                    fontWeight: 700,
+                    color: path.accentColor,
+                  }}
+                >
+                  {path.title}
+                </h3>
+              </div>
+              <p
                 style={{
-                  paddingLeft: "1.5rem",
+                  margin: "0 0 1rem",
+                  fontSize: "0.82rem",
                   color: "var(--text-secondary)",
+                  lineHeight: 1.5,
                 }}
               >
-                {path.steps.map((step, i) => (
-                  <li
-                    key={i}
-                    style={{ marginBottom: "0.4rem", fontSize: "0.875rem" }}
-                  >
-                    {step}
-                  </li>
-                ))}
-              </ol>
-            </div>
+                {path.tagline}
+              </p>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  fontSize: "0.75rem",
+                  color: "var(--text-muted)",
+                }}
+              >
+                <span>
+                  {getTotalSteps(path)} algorithms · {path.tiers.length}{" "}
+                  {path.tiers.length === 1 ? "chapter" : "tiers"}
+                </span>
+                <span style={{ color: path.accentColor, fontWeight: 600 }}>
+                  Explore →
+                </span>
+              </div>
+            </Link>
           ))}
         </div>
       </section>
