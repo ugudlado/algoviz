@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
-  "entry": ["*.js", "src/main.tsx"],
+  "entry": ["*.js"],
   "project": ["*.js", "src/**/*.{ts,tsx}"],
   "ignore": ["test-screenshot.js"],
   "ignoreBinaries": ["portless"]

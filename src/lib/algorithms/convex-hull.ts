@@ -19,7 +19,7 @@ export interface ConvexHullStep {
   hullSize: number;
 }
 
-export interface ConvexHullResult {
+interface ConvexHullResult {
   steps: ConvexHullStep[];
   hull: Point[];
   pivot: Point | null;
