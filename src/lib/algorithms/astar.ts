@@ -1,8 +1,5 @@
-// @ts-ignore — IIFE + CommonJS bridge from astar-algorithm.js
-import AStarAlgorithmModule from "./astar-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const AStarAlgorithm: any = AStarAlgorithmModule;
+import AStarAlgorithmModule from "./astar-algorithm";
+import type { RunAlgorithmModule } from "./module-types";
 
 export type AStarCell = [number, number];
 
@@ -38,12 +35,16 @@ interface AStarRunOptions {
   heuristic: "manhattan" | "euclidean";
 }
 
-export function runAStar(options: AStarRunOptions): AStarResult {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return AStarAlgorithm.run(options) as AStarResult;
-}
+type AStarAlgorithmModuleType = RunAlgorithmModule<
+  AStarRunOptions,
+  AStarResult
+> & {
+  runBFS: (options: AStarRunOptions) => AStarResult;
+};
 
-export function runBFS(options: AStarRunOptions): AStarResult {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return AStarAlgorithm.runBFS(options) as AStarResult;
-}
+const AStarAlgorithm = AStarAlgorithmModule as AStarAlgorithmModuleType;
+
+export const runAStar = (options: AStarRunOptions): AStarResult =>
+  AStarAlgorithm.run(options);
+export const runBFS = (options: AStarRunOptions): AStarResult =>
+  AStarAlgorithm.runBFS(options);

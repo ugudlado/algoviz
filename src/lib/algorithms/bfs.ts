@@ -1,8 +1,5 @@
-// @ts-ignore — IIFE + CommonJS bridge from bfs-algorithm.js
-import BFSAlgorithmModule from "./bfs-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const BFSAlgorithm: any = BFSAlgorithmModule;
+import BFSAlgorithmModule from "./bfs-algorithm";
+import type { SearchAlgorithmModule } from "./module-types";
 
 export type BfsCell = [number, number];
 
@@ -28,7 +25,11 @@ interface BfsSearchOptions {
   end: BfsCell;
 }
 
-export function search(options: BfsSearchOptions): BfsSearchResult {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return BFSAlgorithm.search(options) as BfsSearchResult;
-}
+const BFSAlgorithm = BFSAlgorithmModule as SearchAlgorithmModule<
+  [BfsSearchOptions],
+  BfsSearchResult
+>;
+
+export const search = (options: BfsSearchOptions): BfsSearchResult => {
+  return BFSAlgorithm.search(options);
+};

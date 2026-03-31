@@ -1,8 +1,4 @@
-// @ts-ignore
-import TarjanAlgorithmModule from "./tarjan-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const TarjanAlgorithm: any = TarjanAlgorithmModule;
+import TarjanAlgorithmModule from "./tarjan-algorithm";
 
 export interface TarjanEdge {
   from: string;
@@ -31,14 +27,17 @@ interface TarjanPreset {
 
 export type TarjanPresetKey = "classic" | "simpleCycle" | "dag";
 
-export const PRESETS: Record<TarjanPresetKey, TarjanPreset> =
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  TarjanAlgorithm.PRESETS as Record<TarjanPresetKey, TarjanPreset>;
+type TarjanAlgorithmModuleType = {
+  PRESETS: Record<TarjanPresetKey, TarjanPreset>;
+  generateSteps: (nodes: string[], edges: TarjanEdge[]) => TarjanStep[];
+};
 
-export function generateSteps(
+const TarjanAlgorithm = TarjanAlgorithmModule as TarjanAlgorithmModuleType;
+
+export const PRESETS: Record<TarjanPresetKey, TarjanPreset> =
+  TarjanAlgorithm.PRESETS;
+
+export const generateSteps = (
   nodes: string[],
   edges: TarjanEdge[],
-): TarjanStep[] {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return TarjanAlgorithm.generateSteps(nodes, edges) as TarjanStep[];
-}
+): TarjanStep[] => TarjanAlgorithm.generateSteps(nodes, edges);

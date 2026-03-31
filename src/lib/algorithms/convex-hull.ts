@@ -1,8 +1,4 @@
-// @ts-ignore
-import ConvexHullAlgorithmModule from "./convex-hull-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ConvexHullAlgorithm: any = ConvexHullAlgorithmModule;
+import ConvexHullAlgorithmModule from "./convex-hull-algorithm";
 
 export interface Point {
   x: number;
@@ -28,7 +24,12 @@ interface ConvexHullResult {
   sortedIndices: number[];
 }
 
-export function grahamScan(points: Point[]): ConvexHullResult {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return ConvexHullAlgorithm.grahamScan(points) as ConvexHullResult;
-}
+type ConvexHullAlgorithmModuleType = {
+  grahamScan: (points: Point[]) => ConvexHullResult;
+};
+
+const ConvexHullAlgorithm =
+  ConvexHullAlgorithmModule as ConvexHullAlgorithmModuleType;
+
+export const grahamScan = (points: Point[]): ConvexHullResult =>
+  ConvexHullAlgorithm.grahamScan(points);

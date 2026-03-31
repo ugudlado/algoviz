@@ -1,8 +1,4 @@
-// @ts-ignore
-import TrieAlgorithmModule from "./trie-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const TrieAlgorithm: any = TrieAlgorithmModule;
+import TrieAlgorithmModule from "./trie-algorithm";
 
 export interface TrieNode {
   char: string;
@@ -24,20 +20,28 @@ export interface TrieStep {
   word?: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+type TrieAlgorithmModuleType = {
+  createTrie: () => Trie;
+  insert: (trie: Trie, word: string) => { steps: TrieStep[] };
+  search: (trie: Trie, word: string) => { steps: TrieStep[]; found: boolean };
+  prefixQuery: (
+    trie: Trie,
+    prefix: string,
+  ) => { steps: TrieStep[]; words: string[] };
+  getWords: (trie: Trie) => string[];
+};
+
+const TrieAlgorithm = TrieAlgorithmModule as TrieAlgorithmModuleType;
+
 export const createTrie: () => Trie = TrieAlgorithm.createTrie;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const insert: (trie: Trie, word: string) => { steps: TrieStep[] } =
   TrieAlgorithm.insert;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const search: (
   trie: Trie,
   word: string,
 ) => { steps: TrieStep[]; found: boolean } = TrieAlgorithm.search;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const prefixQuery: (
   trie: Trie,
   prefix: string,
 ) => { steps: TrieStep[]; words: string[] } = TrieAlgorithm.prefixQuery;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const getWords: (trie: Trie) => string[] = TrieAlgorithm.getWords;

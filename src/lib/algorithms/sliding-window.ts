@@ -1,8 +1,4 @@
-// @ts-ignore
-import SlidingWindowAlgorithmModule from "./sliding-window-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const SlidingWindowAlgorithm: any = SlidingWindowAlgorithmModule;
+import SlidingWindowAlgorithmModule from "./sliding-window-algorithm";
 
 export interface FixedWindowStep {
   left: number;
@@ -21,18 +17,32 @@ export interface UniqueSubstringStep {
   longestLen: number;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+type SlidingWindowAlgorithmModuleType = {
+  MAX_ARRAY_SIZE: number;
+  MAX_STRING_LENGTH: number;
+  maxSumFixedWindow: (
+    arr: number[],
+    k: number,
+  ) => { maxSum: number; windowStart: number; steps: FixedWindowStep[] };
+  longestUniqueSubstring: (s: string) => {
+    longest: string;
+    start: number;
+    length: number;
+    steps: UniqueSubstringStep[];
+  };
+};
+
+const SlidingWindowAlgorithm =
+  SlidingWindowAlgorithmModule as SlidingWindowAlgorithmModuleType;
+
 export const MAX_ARRAY_SIZE: number = SlidingWindowAlgorithm.MAX_ARRAY_SIZE;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const MAX_STRING_LENGTH: number =
   SlidingWindowAlgorithm.MAX_STRING_LENGTH;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const maxSumFixedWindow: (
   arr: number[],
   k: number,
 ) => { maxSum: number; windowStart: number; steps: FixedWindowStep[] } =
   SlidingWindowAlgorithm.maxSumFixedWindow;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const longestUniqueSubstring: (s: string) => {
   longest: string;
   start: number;

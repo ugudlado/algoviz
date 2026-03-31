@@ -1,8 +1,5 @@
-// @ts-ignore
-import LCSAlgorithmModule from "./lcs-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const LCSAlgorithm: any = LCSAlgorithmModule;
+import LCSAlgorithmModule from "./lcs-algorithm";
+import type { SolveAlgorithmModule } from "./module-types";
 
 export interface LcsStep {
   row: number;
@@ -24,7 +21,9 @@ export interface LcsResult {
   lcsString: string;
 }
 
-export function solve(strA: string, strB: string): LcsResult {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return LCSAlgorithm.solve(strA, strB) as LcsResult;
-}
+type LcsAlgorithmModuleType = SolveAlgorithmModule<[string, string], LcsResult>;
+
+const LCSAlgorithm = LCSAlgorithmModule as LcsAlgorithmModuleType;
+
+export const solve = (strA: string, strB: string): LcsResult =>
+  LCSAlgorithm.solve(strA, strB);

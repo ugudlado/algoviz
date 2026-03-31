@@ -1,8 +1,4 @@
-// @ts-ignore — IIFE + CommonJS bridge from ford-fulkerson-algorithm.js
-import FordFulkersonAlgorithmModule from "./ford-fulkerson-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const FordFulkersonAlgorithm: any = FordFulkersonAlgorithmModule;
+import FordFulkersonAlgorithmModule from "./ford-fulkerson-algorithm";
 
 export interface NodePosition {
   x: number;
@@ -41,25 +37,31 @@ interface MaxFlowResult {
   minCut: MinCut;
 }
 
-export const PRESETS: Record<string, PresetGraph> =
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  FordFulkersonAlgorithm.PRESETS as Record<string, PresetGraph>;
+type FordFulkersonAlgorithmModuleType = {
+  PRESETS: Record<string, PresetGraph>;
+  maxFlow: (
+    graph: Record<string, Record<string, number>>,
+    source: string,
+    sink: string,
+  ) => MaxFlowResult;
+  buildResidual: (
+    graph: Record<string, Record<string, number>>,
+  ) => Record<string, Record<string, number>>;
+};
 
-export function maxFlow(
+const FordFulkersonAlgorithm =
+  FordFulkersonAlgorithmModule as FordFulkersonAlgorithmModuleType;
+
+export const PRESETS: Record<string, PresetGraph> =
+  FordFulkersonAlgorithm.PRESETS;
+
+export const maxFlow = (
   graph: Record<string, Record<string, number>>,
   source: string,
   sink: string,
-): MaxFlowResult {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return FordFulkersonAlgorithm.maxFlow(graph, source, sink) as MaxFlowResult;
-}
+): MaxFlowResult => FordFulkersonAlgorithm.maxFlow(graph, source, sink);
 
-export function buildResidual(
+export const buildResidual = (
   graph: Record<string, Record<string, number>>,
-): Record<string, Record<string, number>> {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return FordFulkersonAlgorithm.buildResidual(graph) as Record<
-    string,
-    Record<string, number>
-  >;
-}
+): Record<string, Record<string, number>> =>
+  FordFulkersonAlgorithm.buildResidual(graph);

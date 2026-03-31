@@ -1,8 +1,4 @@
-// @ts-ignore
-import AVLAlgorithmModule from "./avl-tree-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const AVLAlgorithm: any = AVLAlgorithmModule;
+import AVLAlgorithmModule from "./avl-tree-algorithm";
 
 export interface AVLNode {
   value: number;
@@ -46,19 +42,28 @@ interface AVLInsertResult {
   steps: AVLStep[];
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+type AVLAlgorithmModuleType = {
+  insert: (root: AVLNode | null, value: number) => AVLInsertResult;
+  getLayout: (
+    root: AVLNode | null,
+    width?: number,
+    verticalSpacing?: number,
+  ) => AVLLayout;
+  size: (root: AVLNode | null) => number;
+  height: (node: AVLNode | null) => number;
+  balanceFactor: (node: AVLNode | null) => number;
+};
+
+const AVLAlgorithm = AVLAlgorithmModule as AVLAlgorithmModuleType;
+
 export const insert: (root: AVLNode | null, value: number) => AVLInsertResult =
   AVLAlgorithm.insert;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const getLayout: (
   root: AVLNode | null,
   width?: number,
   verticalSpacing?: number,
 ) => AVLLayout = AVLAlgorithm.getLayout;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const size: (root: AVLNode | null) => number = AVLAlgorithm.size;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const height: (node: AVLNode | null) => number = AVLAlgorithm.height;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const balanceFactor: (node: AVLNode | null) => number =
   AVLAlgorithm.balanceFactor;

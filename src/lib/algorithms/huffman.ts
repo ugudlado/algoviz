@@ -1,8 +1,4 @@
-// @ts-ignore
-import HuffmanAlgorithmModule from "./huffman-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const HuffmanAlgorithm: any = HuffmanAlgorithmModule;
+import HuffmanAlgorithmModule from "./huffman-algorithm";
 
 export interface HuffmanNode {
   char: string | null;
@@ -37,7 +33,11 @@ export interface HuffmanSnapshotsResult {
   decoded: string;
 }
 
-export function getSnapshots(text: string): HuffmanSnapshotsResult {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return HuffmanAlgorithm.getSnapshots(text) as HuffmanSnapshotsResult;
-}
+type HuffmanAlgorithmModuleType = {
+  getSnapshots: (text: string) => HuffmanSnapshotsResult;
+};
+
+const HuffmanAlgorithm = HuffmanAlgorithmModule as HuffmanAlgorithmModuleType;
+
+export const getSnapshots = (text: string): HuffmanSnapshotsResult =>
+  HuffmanAlgorithm.getSnapshots(text);

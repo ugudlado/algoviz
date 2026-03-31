@@ -1,8 +1,4 @@
-// @ts-ignore
-import BloomFilterAlgorithmModule from "./bloom-filter-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const BloomFilterAlgorithm: any = BloomFilterAlgorithmModule;
+import BloomFilterAlgorithmModule from "./bloom-filter-algorithm";
 
 export interface BloomFilter {
   bits: number[];
@@ -12,16 +8,36 @@ export interface BloomFilter {
   insertedWords: Record<string, boolean>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+type BloomFilterAlgorithmModuleType = {
+  createFilter: (m: number, k: number) => BloomFilter;
+  insert: (
+    filter: BloomFilter,
+    word: string,
+  ) => { indices: number[]; alreadyPresent: boolean };
+  query: (
+    filter: BloomFilter,
+    word: string,
+  ) => {
+    indices: number[];
+    allBitsSet: boolean;
+    isKnownInserted: boolean;
+    result: "definite-no" | "probable-yes" | "definite-yes";
+  };
+  getFalsePositiveRate: (filter: BloomFilter) => number;
+  getFillLevel: (filter: BloomFilter) => number;
+  getPasswordPreset: () => string[];
+};
+
+const BloomFilterAlgorithm =
+  BloomFilterAlgorithmModule as BloomFilterAlgorithmModuleType;
+
 export const createFilter: (m: number, k: number) => BloomFilter =
   BloomFilterAlgorithm.createFilter;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const insert: (
   filter: BloomFilter,
   word: string,
 ) => { indices: number[]; alreadyPresent: boolean } =
   BloomFilterAlgorithm.insert;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const query: (
   filter: BloomFilter,
   word: string,
@@ -31,12 +47,9 @@ export const query: (
   isKnownInserted: boolean;
   result: "definite-no" | "probable-yes" | "definite-yes";
 } = BloomFilterAlgorithm.query;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const getFalsePositiveRate: (filter: BloomFilter) => number =
   BloomFilterAlgorithm.getFalsePositiveRate;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const getFillLevel: (filter: BloomFilter) => number =
   BloomFilterAlgorithm.getFillLevel;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const getPasswordPreset: () => string[] =
   BloomFilterAlgorithm.getPasswordPreset;

@@ -1,10 +1,26 @@
-// @ts-ignore
-import ScanAlgorithmModule from "./scan-algorithm.js";
+import ScanAlgorithmModule from "./scan-algorithm";
+export interface ScanStep {
+  current: number;
+  next: number;
+  distance: number;
+  cumulativeDistance: number;
+}
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ScanAlgorithm: any = ScanAlgorithmModule;
+type ScanAlgorithmModuleType = {
+  solve: (
+    requests: number[],
+    startPosition: number,
+    direction: "up" | "down",
+  ) => {
+    order: number[];
+    distances: number[];
+    totalDistance: number;
+    steps: ScanStep[];
+  };
+};
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+const ScanAlgorithm = ScanAlgorithmModule as ScanAlgorithmModuleType;
+
 export const solve: (
   requests: number[],
   startPosition: number,
@@ -13,6 +29,5 @@ export const solve: (
   order: number[];
   distances: number[];
   totalDistance: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  steps: any[];
+  steps: ScanStep[];
 } = ScanAlgorithm.solve;

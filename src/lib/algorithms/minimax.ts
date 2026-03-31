@@ -1,8 +1,4 @@
-// @ts-ignore
-import MinimaxAlgorithmModule from "./minimax-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const MinimaxAlgorithm: any = MinimaxAlgorithmModule;
+import MinimaxAlgorithmModule from "./minimax-algorithm";
 
 export type Cell = "X" | "O" | null;
 
@@ -17,13 +13,31 @@ interface TreeNode {
   children: TreeNode[];
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+type MinimaxAlgorithmModuleType = {
+  checkWinner: (board: Cell[]) => "X" | "O" | "draw" | null;
+  getAvailableMoves: (board: Cell[]) => number[];
+  getBestMove: (
+    board: Cell[],
+    player: "X" | "O",
+    usePruning: boolean,
+  ) => {
+    move: number | null;
+    tree: TreeNode;
+    nodesWithPruning: number;
+    nodesWithoutPruning: number;
+  };
+  findWinLine: (
+    board: Cell[],
+    winner: "X" | "O" | "draw" | null,
+  ) => [number, number, number] | null;
+};
+
+const MinimaxAlgorithm = MinimaxAlgorithmModule as MinimaxAlgorithmModuleType;
+
 export const checkWinner: (board: Cell[]) => "X" | "O" | "draw" | null =
   MinimaxAlgorithm.checkWinner;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const getAvailableMoves: (board: Cell[]) => number[] =
   MinimaxAlgorithm.getAvailableMoves;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const getBestMove: (
   board: Cell[],
   player: "X" | "O",
@@ -35,12 +49,8 @@ export const getBestMove: (
   nodesWithoutPruning: number;
 } = MinimaxAlgorithm.getBestMove;
 
-export function findWinLine(
+export const findWinLine = (
   board: Cell[],
   winner: "X" | "O" | "draw" | null,
-): [number, number, number] | null {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return MinimaxAlgorithm.findWinLine(board, winner) as
-    | [number, number, number]
-    | null;
-}
+): [number, number, number] | null =>
+  MinimaxAlgorithm.findWinLine(board, winner);

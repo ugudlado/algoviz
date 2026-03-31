@@ -1,8 +1,5 @@
-// @ts-ignore
-import RadixSortAlgorithmModule from "./radix-sort-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const RadixSortAlgorithm: any = RadixSortAlgorithmModule;
+import RadixSortAlgorithmModule from "./radix-sort-algorithm";
+import type { SortAlgorithmModule } from "./module-types";
 
 export interface RadixSortStep {
   phase: string;
@@ -20,7 +17,11 @@ interface RadixSortResult {
   maxDigits: number;
 }
 
-export function generateSteps(arr: number[]): RadixSortResult {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return RadixSortAlgorithm.sort(arr) as RadixSortResult;
-}
+const RadixSortAlgorithm = RadixSortAlgorithmModule as SortAlgorithmModule<
+  [number[]],
+  RadixSortResult
+>;
+
+export const generateSteps = (arr: number[]): RadixSortResult => {
+  return RadixSortAlgorithm.sort(arr);
+};

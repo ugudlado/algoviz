@@ -1,8 +1,5 @@
-// @ts-ignore
-import TopoSortAlgorithmModule from "./topo-sort-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const TopoSortAlgorithm: any = TopoSortAlgorithmModule;
+import TopoSortAlgorithmModule from "./topo-sort-algorithm";
+import type { RunAlgorithmModule } from "./module-types";
 
 export interface TopoEdge {
   from: string;
@@ -31,19 +28,22 @@ export interface TopoPreset {
   edges: TopoEdge[];
 }
 
-export const MAX_NODES: number =
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  TopoSortAlgorithm.MAX_NODES as number;
+type TopoSortAlgorithmModuleType = RunAlgorithmModule<
+  { nodes: string[]; edges: TopoEdge[] },
+  TopoSortResult
+> & {
+  MAX_NODES: number;
+  presets: Record<string, TopoPreset>;
+};
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-export const presets: Record<string, TopoPreset> =
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  TopoSortAlgorithm.presets as Record<string, TopoPreset>;
+const TopoSortAlgorithm =
+  TopoSortAlgorithmModule as TopoSortAlgorithmModuleType;
 
-export function run(params: {
+export const MAX_NODES: number = TopoSortAlgorithm.MAX_NODES;
+
+export const presets: Record<string, TopoPreset> = TopoSortAlgorithm.presets;
+
+export const run = (params: {
   nodes: string[];
   edges: TopoEdge[];
-}): TopoSortResult {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return TopoSortAlgorithm.run(params) as TopoSortResult;
-}
+}): TopoSortResult => TopoSortAlgorithm.run(params);

@@ -1,8 +1,4 @@
-// @ts-ignore — IIFE + CommonJS bridge from gale-shapley-algorithm.js
-import GaleShapleyAlgorithmModule from "./gale-shapley-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const GaleShapleyAlgorithm: any = GaleShapleyAlgorithmModule;
+import GaleShapleyAlgorithmModule from "./gale-shapley-algorithm";
 
 interface StableMatchingInput {
   proposers: string[];
@@ -41,13 +37,16 @@ interface StableMatchingResult {
   acceptorOutcome: AcceptorOutcome[];
 }
 
-export const MAX_SIZE: number =
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  GaleShapleyAlgorithm.MAX_SIZE as number;
+type GaleShapleyAlgorithmModuleType = {
+  MAX_SIZE: number;
+  runStableMatching: (input: StableMatchingInput) => StableMatchingResult;
+};
 
-export function runStableMatching(
+const GaleShapleyAlgorithm =
+  GaleShapleyAlgorithmModule as GaleShapleyAlgorithmModuleType;
+
+export const MAX_SIZE: number = GaleShapleyAlgorithm.MAX_SIZE;
+
+export const runStableMatching = (
   input: StableMatchingInput,
-): StableMatchingResult {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return GaleShapleyAlgorithm.runStableMatching(input) as StableMatchingResult;
-}
+): StableMatchingResult => GaleShapleyAlgorithm.runStableMatching(input);

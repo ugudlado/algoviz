@@ -1,8 +1,5 @@
-// @ts-ignore
-import BinarySearchAlgorithmModule from "./binary-search-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const BinarySearchAlgorithm: any = BinarySearchAlgorithmModule;
+import BinarySearchAlgorithmModule from "./binary-search-algorithm";
+import type { SearchAlgorithmModule } from "./module-types";
 
 export interface BinarySearchStep {
   arr: number[];
@@ -23,7 +20,12 @@ interface BinarySearchResult {
   foundIndex: number;
 }
 
-export function search(arr: number[], target: number): BinarySearchResult {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return BinarySearchAlgorithm.search(arr, target) as BinarySearchResult;
-}
+const BinarySearchAlgorithm =
+  BinarySearchAlgorithmModule as SearchAlgorithmModule<
+    [number[], number],
+    BinarySearchResult
+  >;
+
+export const search = (arr: number[], target: number): BinarySearchResult => {
+  return BinarySearchAlgorithm.search(arr, target);
+};

@@ -1,8 +1,4 @@
-// @ts-ignore
-import FloydWarshallAlgorithmModule from "./floyd-warshall-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const FloydWarshallAlgorithm: any = FloydWarshallAlgorithmModule;
+import FloydWarshallAlgorithmModule from "./floyd-warshall-algorithm";
 
 export interface Edge {
   from: number;
@@ -25,33 +21,32 @@ export interface FloydWarshallResult {
   steps: FloydWarshallStep[];
 }
 
-export function createAdjacencyMatrix(
+type FloydWarshallAlgorithmModuleType = {
+  createAdjacencyMatrix: (edges: Edge[], numVertices: number) => number[][];
+  floydWarshall: (adjacencyMatrix: number[][]) => FloydWarshallResult;
+  reconstructPath: (
+    pred: (number | null)[][],
+    source: number,
+    target: number,
+  ) => number[] | null;
+};
+
+const FloydWarshallAlgorithm =
+  FloydWarshallAlgorithmModule as FloydWarshallAlgorithmModuleType;
+
+export const createAdjacencyMatrix = (
   edges: Edge[],
   numVertices: number,
-): number[][] {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return FloydWarshallAlgorithm.createAdjacencyMatrix(
-    edges,
-    numVertices,
-  ) as number[][];
-}
+): number[][] =>
+  FloydWarshallAlgorithm.createAdjacencyMatrix(edges, numVertices);
 
-export function runFloydWarshall(
+export const runFloydWarshall = (
   adjacencyMatrix: number[][],
-): FloydWarshallResult {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return FloydWarshallAlgorithm.floydWarshall(
-    adjacencyMatrix,
-  ) as FloydWarshallResult;
-}
+): FloydWarshallResult => FloydWarshallAlgorithm.floydWarshall(adjacencyMatrix);
 
-export function reconstructPath(
+export const reconstructPath = (
   pred: (number | null)[][],
   source: number,
   target: number,
-): number[] | null {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return FloydWarshallAlgorithm.reconstructPath(pred, source, target) as
-    | number[]
-    | null;
-}
+): number[] | null =>
+  FloydWarshallAlgorithm.reconstructPath(pred, source, target);

@@ -1,8 +1,5 @@
-// @ts-ignore — IIFE + CommonJS bridge from dijkstra-algorithm.js
-import DijkstraAlgorithmModule from "./dijkstra-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const DijkstraAlgorithm: any = DijkstraAlgorithmModule;
+import DijkstraAlgorithmModule from "./dijkstra-algorithm";
+import type { RunAlgorithmModule } from "./module-types";
 
 export const MAX_WEIGHT: number = 999;
 
@@ -45,7 +42,13 @@ interface RunOptions {
   source: string;
 }
 
-export function run(options: RunOptions): DijkstraResult {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return DijkstraAlgorithm.run(options) as DijkstraResult;
-}
+type DijkstraAlgorithmModuleType = RunAlgorithmModule<
+  RunOptions,
+  DijkstraResult
+>;
+
+const DijkstraAlgorithm =
+  DijkstraAlgorithmModule as DijkstraAlgorithmModuleType;
+
+export const run = (options: RunOptions): DijkstraResult =>
+  DijkstraAlgorithm.run(options);

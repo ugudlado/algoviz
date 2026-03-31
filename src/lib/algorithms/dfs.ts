@@ -1,8 +1,5 @@
-// @ts-ignore — IIFE + CommonJS bridge from dfs-algorithm.js
-import DFSAlgorithmModule from "./dfs-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const DFSAlgorithm: any = DFSAlgorithmModule;
+import DFSAlgorithmModule from "./dfs-algorithm";
+import type { SearchAlgorithmModule } from "./module-types";
 
 export type DfsCell = [number, number];
 
@@ -28,7 +25,11 @@ interface DfsSearchOptions {
   end: DfsCell;
 }
 
-export function search(options: DfsSearchOptions): DfsSearchResult {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return DFSAlgorithm.search(options) as DfsSearchResult;
-}
+const DFSAlgorithm = DFSAlgorithmModule as SearchAlgorithmModule<
+  [DfsSearchOptions],
+  DfsSearchResult
+>;
+
+export const search = (options: DfsSearchOptions): DfsSearchResult => {
+  return DFSAlgorithm.search(options);
+};

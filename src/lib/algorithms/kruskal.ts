@@ -1,8 +1,4 @@
-// @ts-ignore
-import KruskalAlgorithmModule from "./kruskal-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const KruskalAlgorithm: any = KruskalAlgorithmModule;
+import KruskalAlgorithmModule from "./kruskal-algorithm";
 
 export interface KruskalEdge {
   u: number;
@@ -27,7 +23,13 @@ interface KruskalResult {
   totalWeight: number;
 }
 
-export function findMST(numNodes: number, edges: KruskalEdge[]): KruskalResult {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return KruskalAlgorithm.findMST(numNodes, edges) as KruskalResult;
-}
+type KruskalAlgorithmModuleType = {
+  findMST: (numNodes: number, edges: KruskalEdge[]) => KruskalResult;
+};
+
+const KruskalAlgorithm = KruskalAlgorithmModule as KruskalAlgorithmModuleType;
+
+export const findMST = (
+  numNodes: number,
+  edges: KruskalEdge[],
+): KruskalResult => KruskalAlgorithm.findMST(numNodes, edges);

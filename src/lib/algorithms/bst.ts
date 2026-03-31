@@ -1,8 +1,4 @@
-// @ts-ignore
-import BSTAlgorithmModule from "./bst-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const BSTAlgorithm: any = BSTAlgorithmModule;
+import BSTAlgorithmModule from "./bst-algorithm";
 
 export interface BSTNode {
   value: number;
@@ -33,35 +29,44 @@ export interface BSTStep {
   visited: number[];
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+type BSTAlgorithmModuleType = {
+  createTree: () => BSTTree;
+  insert: (tree: BSTTree, value: number) => BSTTree;
+  bulkInsert: (tree: BSTTree, values: number[]) => BSTTree;
+  inorder: (tree: BSTTree) => { steps: BSTStep[]; result: number[] };
+  preorder: (tree: BSTTree) => { steps: BSTStep[]; result: number[] };
+  postorder: (tree: BSTTree) => { steps: BSTStep[]; result: number[] };
+  getLayout: (
+    tree: BSTTree,
+    width?: number,
+    verticalSpacing?: number,
+  ) => { nodes: BSTLayoutNode[]; edges: BSTLayoutEdge[] };
+  size: (tree: BSTTree) => number;
+};
+
+const BSTAlgorithm = BSTAlgorithmModule as BSTAlgorithmModuleType;
+
 export const createTree: () => BSTTree = BSTAlgorithm.createTree;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const insert: (tree: BSTTree, value: number) => BSTTree =
   BSTAlgorithm.insert;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const bulkInsert: (tree: BSTTree, values: number[]) => BSTTree =
   BSTAlgorithm.bulkInsert;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const inorder: (tree: BSTTree) => {
   steps: BSTStep[];
   result: number[];
 } = BSTAlgorithm.inorder;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const preorder: (tree: BSTTree) => {
   steps: BSTStep[];
   result: number[];
 } = BSTAlgorithm.preorder;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const postorder: (tree: BSTTree) => {
   steps: BSTStep[];
   result: number[];
 } = BSTAlgorithm.postorder;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const getLayout: (
   tree: BSTTree,
   width?: number,
   verticalSpacing?: number,
 ) => { nodes: BSTLayoutNode[]; edges: BSTLayoutEdge[] } =
   BSTAlgorithm.getLayout;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const size: (tree: BSTTree) => number = BSTAlgorithm.size;

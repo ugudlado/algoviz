@@ -1,8 +1,5 @@
-// @ts-ignore
-import BubbleSortAlgorithmModule from "./bubble-sort-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const BubbleSortAlgorithm: any = BubbleSortAlgorithmModule;
+import BubbleSortAlgorithmModule from "./bubble-sort-algorithm";
+import type { SortAlgorithmModule } from "./module-types";
 
 export interface BubbleSortStep {
   arr: number[];
@@ -22,7 +19,11 @@ interface BubbleSortResult {
   sortedArray: number[];
 }
 
-export function generateSteps(arr: number[]): BubbleSortResult {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return BubbleSortAlgorithm.sort(arr) as BubbleSortResult;
-}
+const BubbleSortAlgorithm = BubbleSortAlgorithmModule as SortAlgorithmModule<
+  [number[]],
+  BubbleSortResult
+>;
+
+export const generateSteps = (arr: number[]): BubbleSortResult => {
+  return BubbleSortAlgorithm.sort(arr);
+};

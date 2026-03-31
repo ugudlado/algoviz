@@ -1,8 +1,4 @@
-// @ts-ignore
-import HeapAlgorithmModule from "./heap-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const HeapAlgorithm: any = HeapAlgorithmModule;
+import HeapAlgorithmModule from "./heap-algorithm";
 
 export interface Heap {
   data: number[];
@@ -25,24 +21,32 @@ export interface HeapStep {
   message: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+type HeapAlgorithmModuleType = {
+  MAX_SIZE: number;
+  createHeap: () => Heap;
+  insert: (
+    heap: Heap,
+    value: number,
+  ) => { steps: HeapStep[]; extracted?: number };
+  extractMin: (heap: Heap) => { steps: HeapStep[]; extracted?: number };
+  peek: (heap: Heap) => number | null;
+  buildHeap: (arr: number[]) => { steps: HeapStep[] };
+  size: (heap: Heap) => number;
+};
+
+const HeapAlgorithm = HeapAlgorithmModule as HeapAlgorithmModuleType;
+
 export const MAX_SIZE: number = HeapAlgorithm.MAX_SIZE;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const createHeap: () => Heap = HeapAlgorithm.createHeap;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const insert: (
   heap: Heap,
   value: number,
 ) => { steps: HeapStep[]; extracted?: number } = HeapAlgorithm.insert;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const extractMin: (heap: Heap) => {
   steps: HeapStep[];
   extracted?: number;
 } = HeapAlgorithm.extractMin;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const peek: (heap: Heap) => number | null = HeapAlgorithm.peek;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const buildHeap: (arr: number[]) => { steps: HeapStep[] } =
   HeapAlgorithm.buildHeap;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const size: (heap: Heap) => number = HeapAlgorithm.size;

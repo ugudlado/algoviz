@@ -1,8 +1,5 @@
-// @ts-ignore
-import QuickSortAlgorithmModule from "./quicksort-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const QuickSortAlgorithm: any = QuickSortAlgorithmModule;
+import QuickSortAlgorithmModule from "./quicksort-algorithm";
+import type { QuickSortAlgorithmModule } from "./module-types";
 
 interface QuickSortStep {
   type: "partition" | "compare" | "swap" | "pivot" | "complete";
@@ -22,15 +19,13 @@ interface QuickSortResult {
   steps: QuickSortStep[];
 }
 
-export function generateSteps(
+const QuickSortAlgorithm =
+  QuickSortAlgorithmModule as QuickSortAlgorithmModule<QuickSortResult>;
+
+export const generateSteps = (
   arr: number[],
   partitionScheme: string = "lomuto",
   pivotStrategy: string = "last",
-): QuickSortResult {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return QuickSortAlgorithm.quickSort(
-    arr,
-    partitionScheme,
-    pivotStrategy,
-  ) as QuickSortResult;
-}
+): QuickSortResult => {
+  return QuickSortAlgorithm.quickSort(arr, partitionScheme, pivotStrategy);
+};

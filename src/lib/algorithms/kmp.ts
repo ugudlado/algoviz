@@ -1,8 +1,4 @@
-// @ts-ignore
-import KMPAlgorithmModule from "./kmp-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const KMPAlgorithm: any = KMPAlgorithmModule;
+import KMPAlgorithmModule from "./kmp-algorithm";
 
 export interface KmpStep {
   textIdx: number;
@@ -27,12 +23,14 @@ interface NaiveResult {
   stepCount: number;
 }
 
-export function kmpSearch(text: string, pattern: string): KmpResult {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return KMPAlgorithm.kmpSearch(text, pattern) as KmpResult;
-}
+type KmpAlgorithmModuleType = {
+  kmpSearch: (text: string, pattern: string) => KmpResult;
+  naiveSearch: (text: string, pattern: string) => NaiveResult;
+};
 
-export function naiveSearch(text: string, pattern: string): NaiveResult {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return KMPAlgorithm.naiveSearch(text, pattern) as NaiveResult;
-}
+const KMPAlgorithm = KMPAlgorithmModule as KmpAlgorithmModuleType;
+
+export const kmpSearch = (text: string, pattern: string): KmpResult =>
+  KMPAlgorithm.kmpSearch(text, pattern);
+export const naiveSearch = (text: string, pattern: string): NaiveResult =>
+  KMPAlgorithm.naiveSearch(text, pattern);

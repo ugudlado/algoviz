@@ -1,8 +1,4 @@
-// @ts-ignore
-import BTreeAlgorithmModule from "./btree-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const BTreeAlgorithm: any = BTreeAlgorithmModule;
+import BTreeAlgorithmModule from "./btree-algorithm";
 
 export interface BTreeNode {
   keys: number[];
@@ -16,10 +12,30 @@ export interface BTreeStep {
   message: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+type BTreeAlgorithmModuleType = {
+  keyCount: (root: BTreeNode | null) => number;
+  insertKey: (
+    root: BTreeNode | null,
+    key: number,
+    t: number,
+    steps?: BTreeStep[],
+  ) => { root: BTreeNode | null; steps: BTreeStep[]; error?: boolean };
+  deleteKey: (
+    root: BTreeNode | null,
+    key: number,
+    t: number,
+    steps?: BTreeStep[],
+  ) => { root: BTreeNode | null; steps: BTreeStep[]; error?: boolean };
+  bulkInsert: (
+    keys: number[],
+    t: number,
+  ) => { root: BTreeNode | null; steps: BTreeStep[] };
+};
+
+const BTreeAlgorithm = BTreeAlgorithmModule as BTreeAlgorithmModuleType;
+
 export const keyCount: (root: BTreeNode | null) => number =
   BTreeAlgorithm.keyCount;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const insertKey: (
   root: BTreeNode | null,
   key: number,
@@ -27,7 +43,6 @@ export const insertKey: (
   steps?: BTreeStep[],
 ) => { root: BTreeNode | null; steps: BTreeStep[]; error?: boolean } =
   BTreeAlgorithm.insertKey;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const deleteKey: (
   root: BTreeNode | null,
   key: number,
@@ -35,7 +50,6 @@ export const deleteKey: (
   steps?: BTreeStep[],
 ) => { root: BTreeNode | null; steps: BTreeStep[]; error?: boolean } =
   BTreeAlgorithm.deleteKey;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const bulkInsert: (
   keys: number[],
   t: number,

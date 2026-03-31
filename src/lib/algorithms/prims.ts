@@ -1,8 +1,4 @@
-// @ts-ignore
-import PrimsAlgorithmModule from "./prims-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const PrimsAlgorithm: any = PrimsAlgorithmModule;
+import PrimsAlgorithmModule from "./prims-algorithm";
 
 export interface PrimsEdge {
   u: number;
@@ -31,22 +27,23 @@ interface PrimsGraph {
   adjacency: Record<number, Array<{ to: number; weight: number }>>;
 }
 
-export function createGraph(numVertices: number): PrimsGraph {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return PrimsAlgorithm.createGraph(numVertices) as PrimsGraph;
-}
+type PrimsAlgorithmModuleType = {
+  createGraph: (numVertices: number) => PrimsGraph;
+  addEdge: (graph: PrimsGraph, u: number, v: number, weight: number) => void;
+  primsMST: (graph: PrimsGraph, startNode: number) => PrimsResult;
+};
 
-export function addEdge(
+const PrimsAlgorithm = PrimsAlgorithmModule as PrimsAlgorithmModuleType;
+
+export const createGraph = (numVertices: number): PrimsGraph =>
+  PrimsAlgorithm.createGraph(numVertices);
+
+export const addEdge = (
   graph: PrimsGraph,
   u: number,
   v: number,
   weight: number,
-): void {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  PrimsAlgorithm.addEdge(graph, u, v, weight);
-}
+): void => PrimsAlgorithm.addEdge(graph, u, v, weight);
 
-export function primsMST(graph: PrimsGraph, startNode: number): PrimsResult {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  return PrimsAlgorithm.primsMST(graph, startNode) as PrimsResult;
-}
+export const primsMST = (graph: PrimsGraph, startNode: number): PrimsResult =>
+  PrimsAlgorithm.primsMST(graph, startNode);

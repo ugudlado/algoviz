@@ -1,8 +1,4 @@
-// @ts-ignore
-import LRUCacheAlgorithmModule from "./lru-cache-algorithm.js";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const LRUCacheAlgorithm: any = LRUCacheAlgorithmModule;
+import LRUCacheAlgorithmModule from "./lru-cache-algorithm";
 
 export interface LRUNode {
   key: string | number;
@@ -35,23 +31,42 @@ export interface LRUStep {
   mapSnapshot: LRUMapEntry[];
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+type LRUCacheAlgorithmModuleType = {
+  createCache: (capacity: number) => LRUCache;
+  putWithSteps: (
+    cache: LRUCache,
+    key: string | number,
+    value: number,
+    steps: LRUStep[],
+  ) => void;
+  getWithSteps: (
+    cache: LRUCache,
+    key: string | number,
+    steps: LRUStep[],
+  ) => void;
+  getBrowserCachePreset: () => Array<{
+    op: string;
+    key: string | number;
+    value?: number;
+  }>;
+};
+
+const LRUCacheAlgorithm =
+  LRUCacheAlgorithmModule as LRUCacheAlgorithmModuleType;
+
 export const createCache: (capacity: number) => LRUCache =
   LRUCacheAlgorithm.createCache;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const putWithSteps: (
   cache: LRUCache,
   key: string | number,
   value: number,
   steps: LRUStep[],
 ) => void = LRUCacheAlgorithm.putWithSteps;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const getWithSteps: (
   cache: LRUCache,
   key: string | number,
   steps: LRUStep[],
 ) => void = LRUCacheAlgorithm.getWithSteps;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 export const getBrowserCachePreset: () => Array<{
   op: string;
   key: string | number;
