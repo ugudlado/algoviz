@@ -1,0 +1,201 @@
+/* Kruskal's MST — Vite+React styles (kr- prefix) */
+
+/* Legend swatches */
+.kr-legend {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.kr-unseen-swatch {
+  background: var(--text-muted);
+}
+
+.kr-considering-swatch {
+  background: #f59e42;
+}
+
+.kr-accepted-swatch {
+  background: #66bb6a;
+}
+
+.kr-rejected-swatch {
+  background: #f44336;
+}
+
+/* Two-column edge lists layout */
+.kr-layout {
+  display: flex;
+  gap: 2rem;
+  margin: 1.2rem 0;
+  flex-wrap: wrap;
+}
+
+.kr-edges-section,
+.kr-mst-section {
+  flex: 1;
+  min-width: 220px;
+}
+
+.kr-section-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.kr-edges-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 48px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+/* Individual edge pill */
+.kr-edge {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.35rem 0.75rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  transition:
+    background 0.18s,
+    color 0.18s,
+    transform 0.18s,
+    border-color 0.18s;
+}
+
+.kr-edge-label {
+  min-width: 52px;
+  font-family: var(--font-mono);
+}
+
+.kr-edge-weight {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-family: var(--font-mono);
+}
+
+/* Edge state variants */
+.kr-edge.kr-considering {
+  background: #f59e42;
+  border-color: #f59e42;
+  color: #111;
+  transform: scale(1.04);
+}
+
+.kr-edge.kr-considering .kr-edge-weight {
+  color: #444;
+}
+
+.kr-edge.kr-accepted {
+  background: rgba(102, 187, 106, 0.18);
+  border-color: #66bb6a;
+  color: #66bb6a;
+}
+
+.kr-edge.kr-accepted .kr-edge-weight {
+  color: #4caf50;
+}
+
+.kr-edge.kr-rejected {
+  background: rgba(244, 67, 54, 0.08);
+  border-color: rgba(244, 67, 54, 0.3);
+  color: #f44336;
+  opacity: 0.7;
+}
+
+.kr-edge.kr-rejected .kr-edge-label {
+  text-decoration: line-through;
+}
+
+.kr-edge.kr-mst-edge {
+  background: rgba(102, 187, 106, 0.15);
+  border-color: #66bb6a;
+  color: #66bb6a;
+}
+
+/* Result message */
+.kr-result {
+  margin-top: 0.75rem;
+  padding: 0.6rem 1rem;
+  background: rgba(102, 187, 106, 0.12);
+  border: 1px solid #66bb6a;
+  border-radius: 6px;
+  color: #66bb6a;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* SVG graph visualization */
+.kr-graph-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0.75rem 0;
+}
+
+.kr-graph-svg {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+/* Graph SVG edge colors */
+.kr-svg-edge {
+  transition:
+    stroke 0.2s,
+    stroke-width 0.2s,
+    opacity 0.2s;
+}
+
+.kr-svg-edge-unseen {
+  stroke: var(--border);
+}
+
+.kr-svg-edge-considering {
+  stroke: #f59e42;
+  stroke-width: 3;
+  filter: drop-shadow(0 0 4px #f59e42aa);
+}
+
+.kr-svg-edge-accepted {
+  stroke: #66bb6a;
+  stroke-width: 3;
+}
+
+.kr-svg-edge-rejected {
+  stroke: #f44336;
+  stroke-width: 1.5;
+  opacity: 0.4;
+  stroke-dasharray: 4 3;
+}
+
+/* Graph SVG nodes */
+.kr-svg-node {
+  transition:
+    fill 0.2s,
+    stroke 0.2s;
+}
+
+.kr-svg-node-default {
+  fill: var(--bg-secondary);
+  stroke: var(--border);
+}
+
+.kr-svg-node-active {
+  fill: var(--cat-graph, #2ea043);
+  stroke: #66bb6a;
+}

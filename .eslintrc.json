@@ -45,7 +45,8 @@
     "no-unused-vars": ["warn", { "varsIgnorePattern": "^InputValidator$" }]
   },
   "ignorePatterns": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ],
   "overrides": [
     {
@@ -58,6 +59,12 @@
       "rules": {
         "no-undef": "error",
         "no-unused-vars": ["warn", { "varsIgnorePattern": "Algorithm$|^levenshteinCompute$" }]
+      }
+    },
+    {
+      "files": ["src/lib/algorithms/*.js"],
+      "parserOptions": {
+        "sourceType": "module"
       }
     },
     {

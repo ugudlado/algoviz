@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HL-138 Option 2 - Mission Control</title>
+    <style>
+      :root {
+        --bg: #0a0f1a;
+        --panel: #0f1728;
+        --text: #dbeafe;
+        --muted: #93a4c3;
+        --accent: #22d3ee;
+        --border: #1e2a43;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: radial-gradient(circle at top, #0d1b34, #070b13);
+        color: var(--text);
+        font-family: Inter, system-ui, sans-serif;
+      }
+      .shell {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        min-height: 100vh;
+      }
+      .controls {
+        padding: 20px;
+        border-right: 1px solid var(--border);
+        background: rgba(5, 10, 19, 0.86);
+      }
+      label {
+        display: block;
+        margin: 12px 0 6px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      input,
+      select {
+        width: 100%;
+      }
+      .view {
+        padding: 18px;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+      .kpi {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .kpi div {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px;
+      }
+      .kpi small {
+        color: var(--muted);
+        display: block;
+      }
+      .stage {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr;
+        gap: 10px;
+      }
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px;
+        min-height: 170px;
+      }
+      .timeline {
+        margin: 0;
+        padding-left: 18px;
+        color: var(--muted);
+      }
+      .timeline li {
+        margin: 6px 0;
+      }
+      .prompt {
+        margin-top: 12px;
+        background: #04070d;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px;
+        font-family: ui-monospace, Menlo, monospace;
+        font-size: 12px;
+        white-space: pre-wrap;
+      }
+      button {
+        margin-top: 8px;
+        background: #0e2436;
+        border: 1px solid var(--border);
+        color: var(--text);
+        border-radius: 8px;
+        padding: 7px 10px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="controls">
+        <h2>Option 2: Mission Control</h2>
+        <p style="color: var(--muted); font-size: 13px">
+          Data-dense cockpit style for side-by-side comparison.
+        </p>
+        <label for="detail">Telemetry detail</label>
+        <input id="detail" type="range" min="1" max="3" value="2" />
+        <label for="accent">Signal color</label>
+        <input id="accent" type="color" value="#22d3ee" />
+        <label for="focus">Primary panel</label>
+        <select id="focus">
+          <option value="compare">Cross-algorithm compare</option>
+          <option value="single">Single-algorithm deep dive</option>
+        </select>
+      </aside>
+      <main class="view">
+        <div class="header">
+          <h3 style="margin: 0">Advanced Algorithm Mission Console</h3>
+          <small style="color: var(--muted)">Realtime teaching signals</small>
+        </div>
+        <section class="kpi">
+          <div><small>Convex Hull</small><strong>Step 14/42</strong></div>
+          <div><small>Elevator SCAN</small><strong>Head @ 74</strong></div>
+          <div><small>Minimax</small><strong>Depth 4</strong></div>
+          <div><small>N-Queens</small><strong>Backtracks 28</strong></div>
+        </section>
+        <section class="stage">
+          <div class="panel">
+            <h4 style="margin: 0 0 8px">Execution Timeline</h4>
+            <ol id="timeline" class="timeline"></ol>
+          </div>
+          <div class="panel">
+            <h4 style="margin: 0 0 8px">Operator Notes</h4>
+            <p id="notes" style="color: var(--muted); margin: 0"></p>
+          </div>
+        </section>
+        <div id="prompt" class="prompt"></div>
+        <button id="copy">Copy Prompt</button>
+        <span id="status" style="color: #4ade80; font-size: 12px"></span>
+      </main>
+    </div>
+    <script>
+      const DEFAULTS = { detail: "2", accent: "#22d3ee", focus: "compare" };
+      const state = { ...DEFAULTS };
+      const promptEl = document.getElementById("prompt");
+      const timelineEl = document.getElementById("timeline");
+      function setTimeline(items) {
+        while (timelineEl.firstChild)
+          timelineEl.removeChild(timelineEl.firstChild);
+        items.forEach((txt) => {
+          const li = document.createElement("li");
+          li.textContent = txt;
+          timelineEl.appendChild(li);
+        });
+      }
+      ["detail", "accent", "focus"].forEach((id) => {
+        document.getElementById(id).addEventListener("input", (e) => {
+          state[id] = e.target.value;
+          updateAll();
+        });
+      });
+      function renderPreview() {
+        document.documentElement.style.setProperty("--accent", state.accent);
+        document
+          .querySelectorAll(".kpi strong")
+          .forEach((el) => (el.style.color = state.accent));
+        if (state.detail === "1") setTimeline(["Input", "Compute", "Output"]);
+        if (state.detail === "2")
+          setTimeline([
+            "Capture input state",
+            "Evaluate frontier candidates",
+            "Commit next step",
+            "Update metrics stream",
+          ]);
+        if (state.detail === "3") {
+          setTimeline([
+            "Input parsed + validated",
+            "Frontier update emitted",
+            "State transition committed",
+            "Invariant checks refreshed",
+            "Watch panel metrics synced",
+          ]);
+        }
+        document.getElementById("notes").textContent =
+          state.focus === "single"
+            ? "Focus mode prioritizes one algorithm at a time with richer local diagnostics."
+            : "Compare mode surfaces all four algorithms in one synchronized command center.";
+      }
+      function updatePrompt() {
+        const lines = [
+          "Create a Mission Control style UI for HL-138 advanced algorithms with a telemetry-first dashboard.",
+        ];
+        if (state.detail !== DEFAULTS.detail)
+          lines.push(`Telemetry detail level: ${state.detail}/3.`);
+        if (state.focus !== DEFAULTS.focus)
+          lines.push(
+            "Use single-algorithm deep dive as the primary panel layout.",
+          );
+        if (state.accent !== DEFAULTS.accent)
+          lines.push(`Signal accent color: ${state.accent}.`);
+        lines.push(
+          "Retain clear educational labels while maximizing comparative insight across all four visualizations.",
+        );
+        promptEl.textContent = lines.join(" ");
+      }
+      function updateAll() {
+        renderPreview();
+        updatePrompt();
+      }
+      document.getElementById("copy").addEventListener("click", async () => {
+        await navigator.clipboard.writeText(promptEl.textContent);
+        const s = document.getElementById("status");
+        s.textContent = "Copied!";
+        setTimeout(() => (s.textContent = ""), 1200);
+      });
+      updateAll();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,87 @@
+/* Trie visualization styles */
+
+.trie-container {
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  overflow-x: auto;
+  min-height: 200px;
+  padding: 0.5rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.trie-empty {
+  align-items: center;
+  justify-content: center;
+  color: #a1a1a1;
+  font-size: 0.82rem;
+}
+
+.trie-container svg {
+  display: block;
+}
+
+.trie-edge {
+  stroke: #30363d;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.trie-edge-active {
+  stroke: #58a6ff;
+  stroke-width: 2;
+}
+
+.trie-node-char {
+  font-size: 13px;
+  font-weight: 700;
+  fill: #c9d1d9;
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  dominant-baseline: middle;
+  text-anchor: middle;
+}
+
+.trie-mode-selector {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.trie-mode-btn {
+  padding: 0.3rem 0.75rem;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  color: #8b949e;
+  font-size: 0.78rem;
+  cursor: pointer;
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.trie-mode-btn:hover {
+  border-color: #58a6ff;
+  color: #58a6ff;
+}
+
+.trie-mode-btn.active {
+  border-color: #58a6ff;
+  color: #58a6ff;
+  background: #0f1f3a;
+}
+
+.trie-step-info {
+  font-size: 0.82rem;
+  color: #a1a1a1;
+  background: #0a0a0a;
+  border: 1px solid #111111;
+  border-radius: 4px;
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 0.75rem;
+  min-height: 36px;
+}

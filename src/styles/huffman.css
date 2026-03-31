@@ -1,0 +1,340 @@
+/* Huffman Coding visualization styles — extends base dark theme from style.css */
+
+/* --- Priority Queue Display --- */
+.huf-queue {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 1rem 0.75rem;
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  min-height: 72px;
+  align-items: center;
+}
+
+.huf-queue-label {
+  font-size: 0.72rem;
+  color: #a1a1a1;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.huf-queue-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #111111;
+  border: 2px solid #30363d;
+  font-size: 0.78rem;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+  position: relative;
+}
+
+.huf-queue-item .huf-char {
+  font-weight: 700;
+  color: #58a6ff;
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.huf-queue-item .huf-freq {
+  font-size: 0.65rem;
+  color: #a1a1a1;
+  margin-top: 1px;
+}
+
+.huf-queue-item.huf-merged {
+  border-color: #d29922;
+  background: #2d2200;
+  box-shadow: 0 0 10px rgba(210, 153, 34, 0.45);
+}
+
+.huf-queue-item.huf-internal-queue {
+  border-color: #8b949e;
+  background: #161b22;
+}
+
+.huf-queue-item.huf-internal-queue .huf-char {
+  color: #8b949e;
+  font-size: 0.7rem;
+}
+
+/* --- Tree SVG Container --- */
+.huf-tree-container {
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  overflow-x: auto;
+  min-height: 200px;
+  padding: 0.5rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.huf-tree-container svg {
+  display: block;
+}
+
+/* --- SVG Tree Elements --- */
+.huf-edge {
+  stroke: #30363d;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.huf-edge-label {
+  font-size: 11px;
+  font-weight: 700;
+  fill: #8b949e;
+  font-family: var(--font-mono, "Fira Mono", monospace);
+}
+
+.huf-edge-label.huf-edge-0 {
+  fill: #58a6ff;
+}
+
+.huf-edge-label.huf-edge-1 {
+  fill: #f0883e;
+}
+
+/* Circle nodes */
+.huf-tree-node {
+  fill: #111111;
+  stroke: #30363d;
+  stroke-width: 2;
+  transition: stroke 0.2s ease;
+}
+
+.huf-leaf-node {
+  fill: #0f2a1a;
+  stroke: #3fb950;
+  stroke-width: 2;
+}
+
+.huf-internal-node {
+  fill: #111111;
+  stroke: #30363d;
+  stroke-width: 2;
+}
+
+.huf-node-text-char {
+  font-size: 12px;
+  font-weight: 700;
+  fill: #3fb950;
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  dominant-baseline: middle;
+  text-anchor: middle;
+}
+
+.huf-node-text-freq {
+  font-size: 10px;
+  fill: #8b949e;
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  dominant-baseline: middle;
+  text-anchor: middle;
+}
+
+.huf-node-text-freq-only {
+  font-size: 12px;
+  font-weight: 700;
+  fill: #8b949e;
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  dominant-baseline: middle;
+  text-anchor: middle;
+}
+
+/* Highlighted merged nodes */
+.huf-node-merged circle,
+circle.huf-node-highlight {
+  stroke: #d29922;
+  fill: #2d2200;
+}
+
+/* --- Encoding Table --- */
+.huf-encoding-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  margin-top: 0.5rem;
+}
+
+.huf-encoding-table th {
+  text-align: left;
+  padding: 0.4rem 0.6rem;
+  color: #a1a1a1;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid #21262d;
+}
+
+.huf-encoding-row {
+  border-bottom: 1px solid #161b22;
+  transition: background 0.15s ease;
+}
+
+.huf-encoding-row:hover {
+  background: #161b22;
+}
+
+.huf-encoding-row td {
+  padding: 0.35rem 0.6rem;
+  color: #c9d1d9;
+}
+
+.huf-encoding-row .huf-col-char {
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  font-weight: 700;
+  color: #3fb950;
+  font-size: 1rem;
+}
+
+.huf-encoding-row .huf-col-code {
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  color: #58a6ff;
+  letter-spacing: 0.08em;
+}
+
+.huf-encoding-row .huf-col-freq {
+  color: #d29922;
+}
+
+.huf-encoding-row .huf-col-bits {
+  color: #a1a1a1;
+}
+
+/* --- Bitstring display --- */
+.huf-bitstring {
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  font-size: 0.78rem;
+  color: #58a6ff;
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 4px;
+  padding: 0.6rem 0.8rem;
+  word-break: break-all;
+  line-height: 1.6;
+  max-height: 80px;
+  overflow-y: auto;
+  margin-top: 0.4rem;
+}
+
+/* --- Compression ratio display --- */
+.huf-compression {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 6px;
+  font-size: 0.82rem;
+}
+
+.huf-compression-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.huf-compression-label {
+  font-size: 0.68rem;
+  color: #a1a1a1;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+.huf-compression-value {
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  font-weight: 700;
+  color: #c9d1d9;
+  font-size: 0.95rem;
+}
+
+.huf-compression-value.huf-savings {
+  color: #3fb950;
+}
+
+/* --- Step action info --- */
+.huf-action-info {
+  font-size: 0.82rem;
+  color: #a1a1a1;
+  background: #0a0a0a;
+  border: 1px solid #111111;
+  border-radius: 4px;
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 0.75rem;
+  min-height: 36px;
+}
+
+/* --- Legend --- */
+.huf-legend {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.78rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+}
+
+.huf-legend .swatch.huf-leaf-swatch {
+  background: #0f2a1a;
+  border: 1px solid #3fb950;
+  border-radius: 50%;
+}
+
+.huf-legend .swatch.huf-internal-swatch {
+  background: #111111;
+  border: 1px solid #30363d;
+  border-radius: 50%;
+}
+
+.huf-legend .swatch.huf-merged-swatch {
+  background: #2d2200;
+  border: 1px solid #d29922;
+  border-radius: 50%;
+}
+
+/* --- Viz section labels --- */
+.huf-section-label {
+  font-size: 0.72rem;
+  color: #a1a1a1;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.4rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+  .huf-queue-item {
+    width: 44px;
+    height: 44px;
+  }
+
+  .huf-queue-item .huf-char {
+    font-size: 0.75rem;
+  }
+
+  .huf-encoding-table {
+    font-size: 0.75rem;
+  }
+
+  .huf-compression {
+    gap: 1rem;
+  }
+}

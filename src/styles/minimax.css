@@ -1,0 +1,27 @@
+.mm-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  max-width: 320px;
+}
+
+.mm-cell {
+  aspect-ratio: 1;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #0d1117;
+  color: #e6edf3;
+  font-size: 2rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.mm-cell:disabled {
+  cursor: default;
+  opacity: 0.8;
+}
+
+.mm-win {
+  border-color: #3fb950;
+  background: #0f2a1a;
+}

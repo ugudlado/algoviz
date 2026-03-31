@@ -1,0 +1,321 @@
+/* Knapsack visualization styles — extends base dark theme from global.css */
+
+/* --- DP Table Container --- */
+.ks-table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.ks-table {
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  min-width: max-content;
+}
+
+/* --- Table Headers --- */
+.ks-table th {
+  background: #111;
+  color: #7d8590;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #21262d;
+  text-align: center;
+  white-space: nowrap;
+  min-width: 36px;
+}
+
+.ks-row-header {
+  background: #0d1117 !important;
+  color: #8b949e !important;
+  font-size: 0.68rem !important;
+  text-align: left !important;
+  padding: 0.3rem 0.6rem !important;
+  white-space: nowrap !important;
+  min-width: 80px !important;
+}
+
+/* --- Table Cells --- */
+.ks-table td {
+  background: #111;
+  color: #c9d1d9;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #21262d;
+  text-align: center;
+  min-width: 36px;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+/* Base state — unfilled cell */
+.ks-table td.ks-empty {
+  background: #0d1117;
+  color: #444;
+}
+
+/* Take decision — green */
+.ks-table td.ks-take {
+  background: #2ea04340;
+  color: #7ee787;
+}
+
+/* Skip decision — slightly lighter than default */
+.ks-table td.ks-skip {
+  background: #111111;
+  color: #c9d1d9;
+}
+
+/* Current cell being processed — white outline */
+.ks-table td.ks-current {
+  outline: 2px solid #fff;
+  outline-offset: -2px;
+  z-index: 1;
+  position: relative;
+}
+
+/* Traceback path — purple outline */
+.ks-table td.ks-traceback {
+  outline: 2px solid #bc8cff;
+  outline-offset: -2px;
+  z-index: 2;
+  position: relative;
+  background: #2d1f6e40;
+}
+
+/* Base row (row 0) */
+.ks-table td.ks-base {
+  background: #0d1117;
+  color: #7d8590;
+}
+
+/* --- Legend --- */
+.ks-legend {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  font-size: 0.78rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ks-legend .swatch.ks-take-swatch {
+  background: #2ea04340;
+  border: 1px solid #3fb950;
+}
+
+.ks-legend .swatch.ks-skip-swatch {
+  background: #111111;
+  border: 1px solid #30363d;
+}
+
+.ks-legend .swatch.ks-current-swatch {
+  background: #111111;
+  border: 2px solid #fff;
+}
+
+.ks-legend .swatch.ks-traceback-swatch {
+  background: #2d1f6e40;
+  border: 2px solid #bc8cff;
+}
+
+/* --- Item Configuration --- */
+.ks-item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.ks-item-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.ks-item-label {
+  font-size: 0.75rem;
+  color: #7d8590;
+  min-width: 44px;
+  font-weight: 600;
+}
+
+.ks-item-row label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  color: #c9d1d9;
+}
+
+.ks-item-row input[type="number"] {
+  width: 60px;
+  padding: 0.2rem 0.4rem;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  color: #c9d1d9;
+  font-size: 0.8rem;
+}
+
+.ks-item-row input[type="number"]:focus {
+  outline: none;
+  border-color: #388bfd;
+}
+
+.ks-btn-remove {
+  background: none;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  color: #7d8590;
+  font-size: 0.75rem;
+  padding: 0.15rem 0.4rem;
+  cursor: pointer;
+  line-height: 1;
+  transition:
+    border-color 0.15s,
+    color 0.15s;
+}
+
+.ks-btn-remove:hover {
+  border-color: #f85149;
+  color: #f85149;
+}
+
+.ks-btn-add-item {
+  background: none;
+  border: 1px dashed #30363d;
+  border-radius: 4px;
+  color: #7d8590;
+  font-size: 0.78rem;
+  padding: 0.3rem 0.75rem;
+  cursor: pointer;
+  width: fit-content;
+  transition:
+    border-color 0.15s,
+    color 0.15s;
+}
+
+.ks-btn-add-item:hover {
+  border-color: #388bfd;
+  color: #388bfd;
+}
+
+.ks-btn-add-item:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* --- Result Panel --- */
+.ks-result {
+  background: #0d1117;
+  border: 1px solid #2ea043;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-top: 0.75rem;
+}
+
+.ks-result-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #7ee787;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ks-result-stats {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.ks-result-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.ks-result-stat-label {
+  font-size: 0.68rem;
+  color: #7d8590;
+}
+
+.ks-result-stat-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #7ee787;
+}
+
+.ks-result-items {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 0.4rem;
+}
+
+.ks-selected-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: #2ea04340;
+  border: 1px solid #3fb950;
+  border-radius: 12px;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.72rem;
+  color: #7ee787;
+}
+
+/* --- Capacity Input --- */
+.ks-capacity-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.ks-capacity-row label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  color: #c9d1d9;
+}
+
+.ks-capacity-row input[type="number"] {
+  width: 72px;
+  padding: 0.25rem 0.5rem;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  color: #c9d1d9;
+  font-size: 0.82rem;
+}
+
+.ks-capacity-row input[type="number"]:focus {
+  outline: none;
+  border-color: #388bfd;
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+  .ks-table th,
+  .ks-table td {
+    font-size: 0.72rem;
+    padding: 0.2rem 0.3rem;
+    min-width: 28px;
+  }
+
+  .ks-row-header {
+    min-width: 60px !important;
+    font-size: 0.6rem !important;
+  }
+
+  .ks-legend {
+    gap: 0.6rem;
+  }
+}

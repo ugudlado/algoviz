@@ -1,0 +1,186 @@
+/* LRU Cache visualization styles */
+
+.lru-list-view {
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.lru-list-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  color: #a1a1a1;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.4rem;
+}
+
+.lru-list-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  min-height: 52px;
+}
+
+.lru-list-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  background: #111111;
+  border: 1.5px solid #30363d;
+  border-radius: 6px;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.lru-list-item.lru-item-hit {
+  border-color: #3fb950;
+  background: #0f2a1a;
+}
+
+.lru-list-item.lru-item-evict {
+  border-color: #f85149;
+  background: #2d0a0a;
+  opacity: 0.6;
+}
+
+.lru-item-key {
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #58a6ff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 48px;
+  text-align: center;
+}
+
+.lru-item-val {
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  font-size: 0.68rem;
+  color: #8b949e;
+  margin-top: 2px;
+}
+
+.lru-evict-label {
+  font-size: 0.72rem;
+  color: #f85149;
+  margin-top: 0.4rem;
+}
+
+.lru-empty {
+  color: #a1a1a1;
+  font-size: 0.82rem;
+}
+
+.lru-map-view {
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.lru-map-title {
+  font-size: 0.72rem;
+  color: #a1a1a1;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+}
+
+.lru-map-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lru-map-entry {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.5rem;
+  background: #111111;
+  border: 1px solid #21262d;
+  border-radius: 4px;
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  font-size: 0.82rem;
+}
+
+.lru-map-entry.lru-map-active {
+  border-color: #58a6ff;
+  background: #0f1f3a;
+}
+
+.lru-map-key {
+  color: #58a6ff;
+  font-weight: 700;
+  min-width: 50px;
+}
+
+.lru-map-arrow {
+  color: #a1a1a1;
+}
+
+.lru-map-val {
+  color: #c9d1d9;
+}
+
+.lru-step-info {
+  font-size: 0.82rem;
+  color: #a1a1a1;
+  background: #0a0a0a;
+  border: 1px solid #111111;
+  border-radius: 4px;
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 0.75rem;
+  min-height: 36px;
+}
+
+.lru-capacity-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.lru-cap-label {
+  font-size: 0.78rem;
+  color: #8b949e;
+}
+
+.lru-cap-btn {
+  padding: 0.25rem 0.5rem;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  color: #8b949e;
+  font-size: 0.75rem;
+  cursor: pointer;
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.lru-cap-btn:hover {
+  border-color: #58a6ff;
+  color: #58a6ff;
+}
+
+.lru-cap-btn.active {
+  border-color: #58a6ff;
+  color: #58a6ff;
+  background: #0f1f3a;
+}

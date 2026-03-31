@@ -1,15 +1,15 @@
-import { useState } from 'react'
+import { useState } from "react";
 
 interface ComplexityPopoverProps {
-  best: string
-  avg: string
-  worst: string
-  space: string
-  bestNote?: string
-  avgNote?: string
-  worstNote?: string
-  spaceNote?: string
-  why?: string
+  best: string;
+  avg: string;
+  worst: string;
+  space: string;
+  bestNote?: string;
+  avgNote?: string;
+  worstNote?: string;
+  spaceNote?: string;
+  why?: string;
 }
 
 export function ComplexityPopover({
@@ -23,23 +23,23 @@ export function ComplexityPopover({
   spaceNote,
   why,
 }: ComplexityPopoverProps) {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   return (
     <div
       className="complexity-badge"
-      style={{ display: 'inline-block' }}
+      style={{ display: "inline-block" }}
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >
       <span
         className="badge badge-accent"
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: "pointer" }}
         onClick={() => setOpen((o) => !o)}
         role="button"
         tabIndex={0}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') setOpen((o) => !o)
+          if (e.key === "Enter" || e.key === " ") setOpen((o) => !o);
         }}
         aria-label="Show complexity details"
       >
@@ -47,7 +47,7 @@ export function ComplexityPopover({
       </span>
 
       {open && (
-        <div className="complexity-popover" style={{ top: '100%', left: 0 }}>
+        <div className="complexity-popover" style={{ top: "100%", left: 0 }}>
           <div className="cp-row">
             <span className="cp-label">Best</span>
             <span className="cp-value">{best}</span>
@@ -77,5 +77,5 @@ export function ComplexityPopover({
         </div>
       )}
     </div>
-  )
+  );
 }

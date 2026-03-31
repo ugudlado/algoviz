@@ -1,0 +1,260 @@
+/* Levenshtein Distance visualization styles — extends base dark theme */
+
+/* --- DP Table Container --- */
+.lev-table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.lev-table {
+  border-collapse: collapse;
+  margin: 0 auto;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+/* --- Table Cells --- */
+.lev-table td,
+.lev-table th {
+  width: 36px;
+  height: 36px;
+  text-align: center;
+  border: 1px solid #1f1f1f;
+  background: #0a0a0a;
+  color: #c9d1d9;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  position: relative;
+  font-size: 0.78rem;
+}
+
+/* Header cells (row/col labels) */
+.lev-table th {
+  background: #111111;
+  color: #a1a1a1;
+  font-weight: 600;
+  font-size: 0.7rem;
+}
+
+/* --- Cell States by operation --- */
+.lev-match {
+  background: #2ea04340 !important;
+  border-color: #3fb950 !important;
+  color: #3fb950 !important;
+  font-weight: 700;
+}
+
+.lev-substitute {
+  background: #d2992040 !important;
+  border-color: #d29920 !important;
+  color: #d29920 !important;
+  font-weight: 700;
+}
+
+.lev-insert {
+  background: #58a6ff30 !important;
+  border-color: #58a6ff !important;
+  color: #58a6ff !important;
+  font-weight: 700;
+}
+
+.lev-delete {
+  background: #f8514930 !important;
+  border-color: #f85149 !important;
+  color: #f85149 !important;
+  font-weight: 700;
+}
+
+/* Unfilled cells */
+.lev-empty {
+  background: #0a0a0a !important;
+  color: #3b3b3b !important;
+}
+
+/* Current cell being computed */
+.lev-current {
+  outline: 2px solid #f5f5f5 !important;
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+/* Traceback path */
+.lev-traceback {
+  outline: 2px solid #bc8cff !important;
+  outline-offset: -2px;
+  box-shadow: inset 0 0 6px rgba(188, 140, 255, 0.25);
+  z-index: 2;
+}
+
+/* Combined traceback + op color */
+.lev-traceback.lev-match {
+  background: #2d1a4d !important;
+  border-color: #bc8cff !important;
+  color: #bc8cff !important;
+}
+
+.lev-traceback.lev-substitute {
+  background: #2d1a4d !important;
+  border-color: #bc8cff !important;
+  color: #bc8cff !important;
+}
+
+.lev-traceback.lev-insert {
+  background: #2d1a4d !important;
+  border-color: #bc8cff !important;
+  color: #bc8cff !important;
+}
+
+.lev-traceback.lev-delete {
+  background: #2d1a4d !important;
+  border-color: #bc8cff !important;
+  color: #bc8cff !important;
+}
+
+/* --- Legend --- */
+.lev-legend {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  font-size: 0.78rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.lev-legend .swatch.lev-match-swatch {
+  background: #2ea04340;
+  border: 1px solid #3fb950;
+}
+
+.lev-legend .swatch.lev-substitute-swatch {
+  background: #d2992040;
+  border: 1px solid #d29920;
+}
+
+.lev-legend .swatch.lev-insert-swatch {
+  background: #58a6ff30;
+  border: 1px solid #58a6ff;
+}
+
+.lev-legend .swatch.lev-delete-swatch {
+  background: #f8514930;
+  border: 1px solid #f85149;
+}
+
+.lev-legend .swatch.lev-current-swatch {
+  background: #111111;
+  border: 2px solid #f5f5f5;
+}
+
+.lev-legend .swatch.lev-traceback-swatch {
+  background: #2d1a4d;
+  border: 1px solid #bc8cff;
+}
+
+/* --- Op badge --- */
+.lev-op-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.lev-op-badge.lev-match {
+  background: #2ea04340;
+  color: #3fb950;
+  border: 1px solid #3fb950;
+}
+
+.lev-op-badge.lev-substitute {
+  background: #d2992040;
+  color: #d29920;
+  border: 1px solid #d29920;
+}
+
+.lev-op-badge.lev-insert {
+  background: #58a6ff30;
+  color: #58a6ff;
+  border: 1px solid #58a6ff;
+}
+
+.lev-op-badge.lev-delete {
+  background: #f8514930;
+  color: #f85149;
+  border: 1px solid #f85149;
+}
+
+/* --- Traceback ops display --- */
+.lev-ops-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+}
+
+.lev-ops-label {
+  font-size: 0.78rem;
+  color: #a1a1a1;
+  font-weight: 600;
+  margin-right: 0.25rem;
+}
+
+/* --- String header row above table --- */
+.lev-string-row {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: #8b949e;
+}
+
+.lev-string-label {
+  font-weight: 600;
+  min-width: 2.5rem;
+  color: #a1a1a1;
+}
+
+.lev-string-char {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 20px;
+  background: #111111;
+  border: 1px solid #1f1f1f;
+  border-radius: 3px;
+  color: #c9d1d9;
+  font-size: 0.75rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+  .lev-table td,
+  .lev-table th {
+    width: 26px;
+    height: 26px;
+    font-size: 0.6rem;
+  }
+
+  .lev-string-char {
+    width: 26px;
+  }
+
+  .lev-legend {
+    gap: 0.6rem;
+    font-size: 0.7rem;
+  }
+}

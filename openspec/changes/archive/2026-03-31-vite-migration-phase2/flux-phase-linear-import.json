@@ -1,0 +1,121 @@
+{
+  "projects": [],
+  "epics": [],
+  "tasks": [
+    {
+      "id": "imp-v2-umbrella",
+      "title": "vite-migration-phase2: Complete Vite+React+TS migration (all phases)",
+      "status": "in_progress",
+      "depends_on": [],
+      "project_id": "m3vyhu1",
+      "priority": 1,
+      "agent": "other",
+      "comments": [
+        {
+          "id": "c-umbrella-linear",
+          "body": "Executor: Cursor\nLinear: HL-134, HL-135, HL-136, HL-137, HL-138 — see .openspec.yaml linear-tickets\nPhase board tasks: imp-v2-p1-srch … imp-v2-p5-adv",
+          "author": "mcp",
+          "created_at": "2026-03-30T18:00:00.000Z"
+        }
+      ],
+      "created_at": "2026-03-30T18:00:00.000Z",
+      "updated_at": "2026-03-30T18:00:00.000Z"
+    },
+    {
+      "id": "imp-v2-p1-srch",
+      "title": "HL-134: Phase 1 — Searching (Binary Search, BFS, DFS + nav)",
+      "status": "in_progress",
+      "depends_on": [],
+      "project_id": "m3vyhu1",
+      "priority": 1,
+      "agent": "other",
+      "comments": [
+        {
+          "id": "c-p1-linear",
+          "body": "Executor: Cursor\nLinear: https://linear.app/home-labs/issue/HL-134\nOpenSpec: vite-migration-phase2 / tasks.md Phase 1\nUmbrella: see .openspec.yaml flux-task-id",
+          "author": "mcp",
+          "created_at": "2026-03-30T18:00:00.000Z"
+        }
+      ],
+      "created_at": "2026-03-30T18:00:00.000Z",
+      "updated_at": "2026-03-30T18:00:00.000Z"
+    },
+    {
+      "id": "imp-v2-p2-grph",
+      "title": "HL-135: Phase 2 — Graph algorithms (8 pages + nav)",
+      "status": "todo",
+      "depends_on": ["imp-v2-p1-srch"],
+      "project_id": "m3vyhu1",
+      "priority": 1,
+      "agent": "other",
+      "comments": [
+        {
+          "id": "c-p2-linear",
+          "body": "Executor: Cursor\nLinear: https://linear.app/home-labs/issue/HL-135\nOpenSpec: vite-migration-phase2 / tasks.md Phase 2\nUnblocks after Phase 1 task is done.",
+          "author": "mcp",
+          "created_at": "2026-03-30T18:00:00.000Z"
+        }
+      ],
+      "created_at": "2026-03-30T18:00:00.000Z",
+      "updated_at": "2026-03-30T18:00:00.000Z"
+    },
+    {
+      "id": "imp-v2-p3-dpstr",
+      "title": "HL-136: Phase 3 — DP + string (5 pages + nav)",
+      "status": "todo",
+      "depends_on": ["imp-v2-p2-grph"],
+      "project_id": "m3vyhu1",
+      "priority": 1,
+      "agent": "other",
+      "comments": [
+        {
+          "id": "c-p3-linear",
+          "body": "Executor: Cursor\nLinear: https://linear.app/home-labs/issue/HL-136\nOpenSpec: vite-migration-phase2 / tasks.md Phase 3",
+          "author": "mcp",
+          "created_at": "2026-03-30T18:00:00.000Z"
+        }
+      ],
+      "created_at": "2026-03-30T18:00:00.000Z",
+      "updated_at": "2026-03-30T18:00:00.000Z"
+    },
+    {
+      "id": "imp-v2-p4-ds",
+      "title": "HL-137: Phase 4 — Data structures (9 pages + nav)",
+      "status": "todo",
+      "depends_on": ["imp-v2-p3-dpstr"],
+      "project_id": "m3vyhu1",
+      "priority": 1,
+      "agent": "other",
+      "comments": [
+        {
+          "id": "c-p4-linear",
+          "body": "Executor: Cursor\nLinear: https://linear.app/home-labs/issue/HL-137\nOpenSpec: vite-migration-phase2 / tasks.md Phase 4",
+          "author": "mcp",
+          "created_at": "2026-03-30T18:00:00.000Z"
+        }
+      ],
+      "created_at": "2026-03-30T18:00:00.000Z",
+      "updated_at": "2026-03-30T18:00:00.000Z"
+    },
+    {
+      "id": "imp-v2-p5-adv",
+      "title": "HL-138: Phase 5 — Advanced (4 pages + nav)",
+      "status": "todo",
+      "depends_on": ["imp-v2-p4-ds"],
+      "project_id": "m3vyhu1",
+      "priority": 1,
+      "agent": "other",
+      "comments": [
+        {
+          "id": "c-p5-linear",
+          "body": "Executor: Cursor\nLinear: https://linear.app/home-labs/issue/HL-138\nOpenSpec: vite-migration-phase2 / tasks.md Phase 5",
+          "author": "mcp",
+          "created_at": "2026-03-30T18:00:00.000Z"
+        }
+      ],
+      "created_at": "2026-03-30T18:00:00.000Z",
+      "updated_at": "2026-03-30T18:00:00.000Z"
+    }
+  ],
+  "blobs": []
+}

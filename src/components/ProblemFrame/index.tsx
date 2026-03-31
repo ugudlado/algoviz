@@ -1,8 +1,8 @@
-import { type ReactNode } from 'react'
+import { type ReactNode } from "react";
 
 interface ProblemFrameProps {
-  title: string
-  children: ReactNode
+  title: string;
+  children: ReactNode;
 }
 
 export function ProblemFrame({ title, children }: ProblemFrameProps) {
@@ -11,5 +11,5 @@ export function ProblemFrame({ title, children }: ProblemFrameProps) {
       <h3>{title}</h3>
       {children}
     </div>
-  )
+  );
 }

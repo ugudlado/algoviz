@@ -1,0 +1,286 @@
+/* --- Tarjan's SCC Styles (Vite + React) --- */
+
+/* Legend */
+.tj-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.2rem;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.tj-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tj-swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  vertical-align: middle;
+}
+
+.tj-swatch-current {
+  background: #f0a50033;
+  border-color: #f0a500;
+}
+
+.tj-swatch-on-stack {
+  background: #1f6feb33;
+  border-color: #58a6ff;
+}
+
+.tj-edge-tree {
+  display: inline-block;
+  width: 18px;
+  height: 3px;
+  background: #3fb950;
+  border-radius: 2px;
+  vertical-align: middle;
+}
+
+.tj-edge-back {
+  display: inline-block;
+  width: 18px;
+  height: 3px;
+  background: #f85149;
+  border-radius: 2px;
+  vertical-align: middle;
+}
+
+.tj-edge-cross {
+  display: inline-block;
+  width: 18px;
+  height: 3px;
+  background: #8b949e;
+  border-radius: 2px;
+  vertical-align: middle;
+}
+
+/* Controls */
+.tj-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tj-preset-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tj-control-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.tj-preset-btn {
+  background: #161b22;
+  color: #c9d1d9;
+  border: 1px solid #30363d;
+  padding: 0.3rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.8rem;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.tj-preset-btn:hover {
+  background: #21262d;
+  border-color: #8b949e;
+}
+
+.tj-preset-btn.tj-preset-active {
+  background: var(--cat-graph, #3fb950);
+  border-color: var(--cat-graph, #3fb950);
+  color: #0d1117;
+  font-weight: 600;
+}
+
+.tj-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tj-btn-primary {
+  background: #238636 !important;
+  border-color: #2ea043 !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.tj-btn-primary:hover:not(:disabled) {
+  background: #2ea043 !important;
+}
+
+.tj-speed-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.tj-speed-row input[type="range"] {
+  width: 100px;
+}
+
+.tj-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted, #6e7681);
+  margin-top: 0.25rem;
+}
+
+/* Info bar */
+.tj-info {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.85rem;
+  color: var(--text-primary, #e6edf3);
+  min-height: 2.5rem;
+  line-height: 1.5;
+}
+
+/* SVG canvas wrapper */
+.tj-svg-wrapper {
+  width: 100%;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: crosshair;
+  position: relative;
+}
+
+.tj-svg-wrapper svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Stack panel */
+.tj-stack-panel {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+}
+
+.tj-stack-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary, #8b949e);
+  margin-bottom: 0.5rem;
+}
+
+.tj-stack-contents {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  min-height: 2rem;
+  align-items: center;
+}
+
+.tj-stack-empty {
+  color: var(--text-muted, #6e7681);
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.tj-stack-node {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.5rem;
+  background: #1f6feb33;
+  border: 1px solid #58a6ff;
+  border-radius: 4px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8rem;
+  color: #58a6ff;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+.tj-stack-node.tj-stack-node-new {
+  background: #f0a50033;
+  border-color: #f0a500;
+  color: #f0a500;
+}
+
+.tj-stack-node.tj-stack-node-scc {
+  background: #3fb95033;
+  border-color: #3fb950;
+  color: #3fb950;
+  font-weight: 700;
+}
+
+/* Stats panel override (graph stats) */
+.tj-stats-panel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+/* Why-text in sidebar */
+.tj-why-text {
+  font-size: 0.85rem;
+  color: var(--text-secondary, #8b949e);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Graph interaction mode toggle */
+.tj-mode-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.tj-mode-btn {
+  background: #161b22;
+  color: #c9d1d9;
+  border: 1px solid #30363d;
+  padding: 0.3rem 0.7rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.78rem;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.tj-mode-btn:hover {
+  background: #21262d;
+  border-color: #8b949e;
+}
+
+.tj-mode-btn.tj-mode-active {
+  background: #1f6feb;
+  border-color: #388bfd;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Temporary drag edge line styling handled inline */

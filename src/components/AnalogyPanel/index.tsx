@@ -1,7 +1,7 @@
-import { type ReactNode } from 'react'
+import { type ReactNode } from "react";
 
 interface AnalogyPanelProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export function AnalogyPanel({ children }: AnalogyPanelProps) {
@@ -9,5 +9,5 @@ export function AnalogyPanel({ children }: AnalogyPanelProps) {
     <div className="analogy">
       <strong>Real-world analogy:</strong> {children}
     </div>
-  )
+  );
 }

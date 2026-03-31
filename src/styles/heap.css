@@ -1,0 +1,109 @@
+/* Min-Heap visualization styles */
+
+.heap-array-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0.75rem;
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  min-height: 60px;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.heap-empty-label {
+  color: #a1a1a1;
+  font-size: 0.82rem;
+}
+
+.heap-array-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 48px;
+  background: #111111;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.heap-array-cell.heap-cell-active {
+  border-color: #58a6ff;
+  background: #0f1f3a;
+}
+
+.heap-array-cell.heap-cell-parent {
+  border-color: #9a4cf0;
+  background: #1a0f2a;
+}
+
+.heap-cell-val {
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #c9d1d9;
+}
+
+.heap-cell-idx {
+  font-size: 0.62rem;
+  color: #8b949e;
+  margin-top: 2px;
+}
+
+.heap-tree-container {
+  background: #0a0a0a;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  overflow-x: auto;
+  min-height: 120px;
+  padding: 0.5rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.heap-tree-container svg {
+  display: block;
+}
+
+.heap-edge {
+  stroke: #30363d;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.heap-node-text {
+  font-size: 12px;
+  font-weight: 700;
+  fill: #c9d1d9;
+  font-family: var(--font-mono, "Fira Mono", monospace);
+  dominant-baseline: middle;
+  text-anchor: middle;
+}
+
+.heap-step-info {
+  font-size: 0.82rem;
+  color: #a1a1a1;
+  background: #0a0a0a;
+  border: 1px solid #111111;
+  border-radius: 4px;
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 0.75rem;
+  min-height: 36px;
+}
+
+.heap-section-label {
+  font-size: 0.72rem;
+  color: #a1a1a1;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.4rem;
+}

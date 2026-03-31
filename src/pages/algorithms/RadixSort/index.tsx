@@ -1,38 +1,50 @@
-import { useState, useCallback } from 'react'
-import { Nav } from '@/components/Nav'
-import { PlaybackController } from '@/components/PlaybackController'
-import { WatchPanel } from '@/components/WatchPanel'
-import { ComplexityPopover } from '@/components/ComplexityPopover'
-import { AnalogyPanel } from '@/components/AnalogyPanel'
-import { ProblemFrame } from '@/components/ProblemFrame'
-import { WhyComplexityPanel } from '@/components/WhyComplexityPanel'
-import { generateSteps, type RadixSortStep } from '@/lib/algorithms/radix-sort'
+import { useState, useCallback } from "react";
+import { Nav } from "@/components/Nav";
+import { PlaybackController } from "@/components/PlaybackController";
+import { WatchPanel } from "@/components/WatchPanel";
+import { ComplexityPopover } from "@/components/ComplexityPopover";
+import { AnalogyPanel } from "@/components/AnalogyPanel";
+import { ProblemFrame } from "@/components/ProblemFrame";
+import { WhyComplexityPanel } from "@/components/WhyComplexityPanel";
+import { generateSteps, type RadixSortStep } from "@/lib/algorithms/radix-sort";
 
-const MAX_SIZE = 16
+const MAX_SIZE = 16;
 
 function randomArray(size: number): number[] {
-  return Array.from({ length: size }, () => Math.floor(Math.random() * 999) + 1)
+  return Array.from(
+    { length: size },
+    () => Math.floor(Math.random() * 999) + 1,
+  );
 }
 
-function BucketsDisplay({ buckets, highlightBucket }: { buckets: number[][]; highlightBucket: number }) {
+function BucketsDisplay({
+  buckets,
+  highlightBucket,
+}: {
+  buckets: number[][];
+  highlightBucket: number;
+}) {
   return (
     <div
       style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(10, 1fr)',
+        display: "grid",
+        gridTemplateColumns: "repeat(10, 1fr)",
         gap: 4,
-        marginTop: '0.5rem',
+        marginTop: "0.5rem",
       }}
     >
       {buckets.map((bucket, i) => (
         <div key={i}>
           <div
             style={{
-              fontSize: '0.65rem',
-              textAlign: 'center',
-              color: i === highlightBucket ? 'var(--cat-sorting)' : 'var(--text-muted)',
+              fontSize: "0.65rem",
+              textAlign: "center",
+              color:
+                i === highlightBucket
+                  ? "var(--cat-sorting)"
+                  : "var(--text-muted)",
               marginBottom: 2,
-              fontFamily: 'var(--font-mono)',
+              fontFamily: "var(--font-mono)",
               fontWeight: i === highlightBucket ? 700 : 400,
             }}
           >
@@ -42,26 +54,28 @@ function BucketsDisplay({ buckets, highlightBucket }: { buckets: number[][]; hig
             style={{
               background:
                 i === highlightBucket
-                  ? 'var(--accent-dim)'
-                  : 'var(--bg-tertiary)',
-              border: `1px solid ${i === highlightBucket ? 'var(--accent)' : 'var(--border)'}`,
+                  ? "var(--accent-dim)"
+                  : "var(--bg-tertiary)",
+              border: `1px solid ${i === highlightBucket ? "var(--accent)" : "var(--border)"}`,
               borderRadius: 4,
               minHeight: 40,
-              padding: '4px 2px',
-              display: 'flex',
-              flexDirection: 'column',
+              padding: "4px 2px",
+              display: "flex",
+              flexDirection: "column",
               gap: 2,
-              alignItems: 'center',
+              alignItems: "center",
             }}
           >
             {bucket.map((val, j) => (
               <span
                 key={j}
                 style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.62rem',
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.62rem",
                   color:
-                    i === highlightBucket ? 'var(--accent)' : 'var(--text-secondary)',
+                    i === highlightBucket
+                      ? "var(--accent)"
+                      : "var(--text-secondary)",
                 }}
               >
                 {val}
@@ -71,86 +85,103 @@ function BucketsDisplay({ buckets, highlightBucket }: { buckets: number[][]; hig
         </div>
       ))}
     </div>
-  )
+  );
 }
 
-function ArrayDisplay({ arr, highlightIdx }: { arr: number[]; highlightIdx: number }) {
+function ArrayDisplay({
+  arr,
+  highlightIdx,
+}: {
+  arr: number[];
+  highlightIdx: number;
+}) {
   return (
-    <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginTop: '0.5rem' }}>
+    <div
+      style={{ display: "flex", gap: 4, flexWrap: "wrap", marginTop: "0.5rem" }}
+    >
       {arr.map((val, i) => (
         <div
           key={i}
           style={{
-            background: i === highlightIdx ? 'var(--cat-sorting)' : 'var(--bg-tertiary)',
-            border: `1px solid ${i === highlightIdx ? 'var(--cat-sorting)' : 'var(--border)'}`,
+            background:
+              i === highlightIdx ? "var(--cat-sorting)" : "var(--bg-tertiary)",
+            border: `1px solid ${i === highlightIdx ? "var(--cat-sorting)" : "var(--border)"}`,
             borderRadius: 4,
-            padding: '4px 8px',
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.75rem',
-            color: i === highlightIdx ? 'var(--bg-primary)' : 'var(--text-secondary)',
-            transition: 'all 0.15s',
+            padding: "4px 8px",
+            fontFamily: "var(--font-mono)",
+            fontSize: "0.75rem",
+            color:
+              i === highlightIdx
+                ? "var(--bg-primary)"
+                : "var(--text-secondary)",
+            transition: "all 0.15s",
           }}
         >
           {val}
         </div>
       ))}
     </div>
-  )
+  );
 }
 
 export default function RadixSort() {
-  const [inputValue, setInputValue] = useState('170, 45, 75, 90, 802, 24, 2, 66')
-  const [steps, setSteps] = useState<RadixSortStep[]>([])
-  const [currentStep, setCurrentStep] = useState(0)
-  const [error, setError] = useState('')
+  const [inputValue, setInputValue] = useState(
+    "170, 45, 75, 90, 802, 24, 2, 66",
+  );
+  const [steps, setSteps] = useState<RadixSortStep[]>([]);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [error, setError] = useState("");
 
   const parseInput = useCallback((raw: string): number[] | null => {
     const nums = raw
       .split(/[,\s]+/)
       .map((s) => s.trim())
       .filter((s) => s.length > 0)
-      .map(Number)
+      .map(Number);
     if (nums.some((n) => isNaN(n) || n < 0 || !Number.isInteger(n))) {
-      setError('Enter valid non-negative integers separated by commas.')
-      return null
+      setError("Enter valid non-negative integers separated by commas.");
+      return null;
     }
     if (nums.length < 2) {
-      setError('Enter at least 2 numbers.')
-      return null
+      setError("Enter at least 2 numbers.");
+      return null;
     }
     if (nums.length > MAX_SIZE) {
-      setError(`Maximum ${MAX_SIZE} numbers.`)
-      return null
+      setError(`Maximum ${MAX_SIZE} numbers.`);
+      return null;
     }
-    setError('')
-    return nums
-  }, [])
+    setError("");
+    return nums;
+  }, []);
 
   const handleVisualize = useCallback(() => {
-    const arr = parseInput(inputValue)
-    if (!arr) return
-    const result = generateSteps(arr)
-    setSteps(result.steps)
-    setCurrentStep(0)
-  }, [inputValue, parseInput])
+    const arr = parseInput(inputValue);
+    if (!arr) return;
+    const result = generateSteps(arr);
+    setSteps(result.steps);
+    setCurrentStep(0);
+  }, [inputValue, parseInput]);
 
   const handleRandom = useCallback(() => {
-    const arr = randomArray(7)
-    setInputValue(arr.join(', '))
-    const result = generateSteps(arr)
-    setSteps(result.steps)
-    setCurrentStep(0)
-  }, [])
+    const arr = randomArray(7);
+    setInputValue(arr.join(", "));
+    const result = generateSteps(arr);
+    setSteps(result.steps);
+    setCurrentStep(0);
+  }, []);
 
-  const step = steps[currentStep]
+  const step = steps[currentStep];
 
   const watchVars = step
     ? [
-        { label: 'phase', value: step.phase },
-        { label: 'digit position', value: step.digitPosition },
-        { label: 'highlight bucket', value: step.highlightBucket >= 0 ? step.highlightBucket : '—' },
+        { label: "phase", value: step.phase },
+        { label: "digit position", value: step.digitPosition },
+        {
+          label: "highlight bucket",
+          value: step.highlightBucket >= 0 ? step.highlightBucket : "—",
+        },
       ]
-    : []
+    : [];
 
   return (
     <div className="algo-page" data-category="sorting">
@@ -186,15 +217,16 @@ export default function RadixSort() {
             <div className="app-section">
               <span className="app-label">Goal</span>
               <p>
-                Sort by processing one digit position at a time (least significant
-                first), using stable counting-sort buckets at each pass.
+                Sort by processing one digit position at a time (least
+                significant first), using stable counting-sort buckets at each
+                pass.
               </p>
             </div>
             <div className="app-section">
               <span className="app-label">Real use cases</span>
               <p>
-                Sorting fixed-length keys (IP addresses, phone numbers, ZIP codes),
-                suffix arrays in bioinformatics, GPU sorting.
+                Sorting fixed-length keys (IP addresses, phone numbers, ZIP
+                codes), suffix arrays in bioinformatics, GPU sorting.
               </p>
             </div>
           </ProblemFrame>
@@ -202,10 +234,10 @@ export default function RadixSort() {
           <WhyComplexityPanel derivation="LSD Radix Sort makes d passes where d = number of digits in the largest number. Each pass is O(n) using counting sort. So total time = O(d × n) = O(nk). For 32-bit integers, k ≤ 10, making this practically O(n). Space O(n + 10) = O(n) for buckets." />
 
           <AnalogyPanel>
-            Think of sorting a pile of postal codes. First sort by the last digit,
-            keeping ties in original order. Then sort by the second-to-last digit.
-            After sorting by each digit from right to left, the whole pile is
-            sorted — no comparisons needed!
+            Think of sorting a pile of postal codes. First sort by the last
+            digit, keeping ties in original order. Then sort by the
+            second-to-last digit. After sorting by each digit from right to
+            left, the whole pile is sorted — no comparisons needed!
           </AnalogyPanel>
 
           <div className="panel">
@@ -233,12 +265,12 @@ export default function RadixSort() {
               <>
                 <div
                   style={{
-                    marginTop: '1rem',
-                    marginBottom: '0.5rem',
-                    fontSize: '0.72rem',
-                    color: 'var(--text-muted)',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.08em',
+                    marginTop: "1rem",
+                    marginBottom: "0.5rem",
+                    fontSize: "0.72rem",
+                    color: "var(--text-muted)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.08em",
                   }}
                 >
                   Current Array
@@ -247,12 +279,12 @@ export default function RadixSort() {
 
                 <div
                   style={{
-                    marginTop: '1rem',
-                    marginBottom: '0.5rem',
-                    fontSize: '0.72rem',
-                    color: 'var(--text-muted)',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.08em',
+                    marginTop: "1rem",
+                    marginBottom: "0.5rem",
+                    fontSize: "0.72rem",
+                    color: "var(--text-muted)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.08em",
                   }}
                 >
                   Buckets (digit position: {step.digitPosition})
@@ -262,7 +294,7 @@ export default function RadixSort() {
                   highlightBucket={step.highlightBucket}
                 />
 
-                <div className="info" style={{ marginTop: '1rem' }}>
+                <div className="info" style={{ marginTop: "1rem" }}>
                   {step.explanation}
                 </div>
 
@@ -284,20 +316,20 @@ export default function RadixSort() {
             <div className="panel-title">Pseudocode (LSD Radix Sort)</div>
             <div className="code-panel">
               {[
-                'function radixSort(arr):',
-                '  maxDigits = digitCount(max(arr))',
-                '  for d = 0 to maxDigits - 1:',
-                '    buckets = [[] * 10]',
-                '    for num in arr:',
-                '      digit = getDigit(num, d)',
-                '      buckets[digit].append(num)',
-                '    arr = flatten(buckets)',
-                '  return arr',
-                '',
-                'getDigit(n, d) = floor(n / 10^d) % 10',
+                "function radixSort(arr):",
+                "  maxDigits = digitCount(max(arr))",
+                "  for d = 0 to maxDigits - 1:",
+                "    buckets = [[] * 10]",
+                "    for num in arr:",
+                "      digit = getDigit(num, d)",
+                "      buckets[digit].append(num)",
+                "    arr = flatten(buckets)",
+                "  return arr",
+                "",
+                "getDigit(n, d) = floor(n / 10^d) % 10",
               ].map((line, idx) => (
                 <span key={idx} className="code-line">
-                  {line || '\u00A0'}
+                  {line || "\u00A0"}
                 </span>
               ))}
             </div>
@@ -305,5 +337,5 @@ export default function RadixSort() {
         </div>
       </div>
     </div>
-  )
+  );
 }
