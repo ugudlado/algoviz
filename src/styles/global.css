@@ -797,6 +797,23 @@ input[type="range"] {
   line-height: 1.45;
 }
 
+.scenario-tooltip {
+  position: absolute;
+  z-index: 1000;
+  left: 0;
+  top: calc(100% + 4px);
+  width: 100%;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-hover);
+  border-radius: 6px;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  line-height: 1.4;
+}
+
 /* --- Problem Framing Panel (shared across all algorithm pages) --- */
 .algo-problem-panel {
   background: var(--bg-secondary);

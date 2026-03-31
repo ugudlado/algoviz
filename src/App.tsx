@@ -36,7 +36,9 @@ import NQueens from "./pages/algorithms/NQueens";
 
 export default function App() {
   return (
-    <BrowserRouter basename="/algoviz">
+    <BrowserRouter
+      basename={import.meta.env.BASE_URL.replace(/\/$/, "") || "/"}
+    >
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/algorithms/bubble-sort" element={<BubbleSort />} />

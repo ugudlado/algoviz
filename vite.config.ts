@@ -5,9 +5,9 @@ import { fileURLToPath } from "url";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [react()],
-  base: "/algoviz/",
+  base: mode === "development" ? "/" : "/algoviz/",
   resolve: {
     alias: {
       "@": resolve(__dirname, "src"),
@@ -16,4 +16,4 @@ export default defineConfig({
   build: {
     outDir: "dist",
   },
-});
+}));
