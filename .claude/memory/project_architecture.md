@@ -1,42 +1,58 @@
 ---
 name: AlgoViz Architecture
-description: Codebase structure, design system, quality gates, and file conventions
+description: Codebase structure, design system, quality gates, and file conventions (post-Vite migration)
 type: project
 ---
 
-**Stack:** Vanilla JavaScript, no framework, no bundler. Served statically. Each algorithm is a standalone set of files.
+**Stack:** React + Vite + TypeScript. Served via GitHub Pages at `/algoviz/`. All algorithm pages are React components. The old vanilla JS/HTML pages have been removed.
 
-**File pattern per algorithm:**
-- `[algo].html` — page structure + nav
-- `[algo].js` — visualization + UI logic (IIFE, const/let)
-- `[algo]-style.css` — algorithm-specific styles (prefixed class names)
-- `[algo]-algorithm.js` — pure algorithm, no DOM (IIFE, var, exports via global)
-- `[algo]-algorithm.test.js` — Node.js tests with `module.exports = { runTests }`
+**File pattern per algorithm page (React):**
+```
+src/pages/algorithms/[Algo]/
+  index.tsx             # React component — consumes algorithm module, renders only
+  index.module.css      # Algorithm-specific styles (prefixed class names)
+src/lib/algorithms/
+  [algo]-algorithm.js   # Pure algorithm, no DOM (IIFE, var, module.exports) — canonical source
+  [algo]-algorithm.test.js  # Node.js tests with module.exports = { runTests }
+  [algo].ts             # TS wrapper — imports .js, re-exports with types for React
+```
 
-**Shared files:**
-- `style.css` — nav bar, dark theme base, G2 design system
-- `complexity-popover.js` — shared popover component with "Why?" derivation sections
-- `input-validator.js` — shared input validation
-- `playback-controller.js` — shared playback controls
+**Algorithm JS file dual-mode contract:**
+- IIFE pattern with `module.exports = AlgoName` guard for Node.js
+- `.ts` wrappers handle Vite/ESM import side
+- **Do NOT add bare `export default` to `.js` files** — it breaks Node.js `require()`. Phase 4 migration added these and had to strip them; rely on `.ts` wrappers.
+
+**Test runner:**
+- `node run-tests.js` at root — finds all `*.test.js` recursively including `src/lib/algorithms/`
+- Tests use CommonJS (`require`), not ESM
+- 729 tests passing as of 2026-03-31
+
+**Shared components (`src/components/`):**
+- Nav, PlaybackController, WatchPanel, ComplexityPopover, AnalogyPanel, ProblemFrame, WhyComplexityPanel
 
 **Design system — G2 Dev-Tool Aesthetic:**
 - Near-black backgrounds: `#030303`, `#0a0a0a`
 - Fonts: Inter (display), JetBrains Mono (code)
 - Per-category accent colors via CSS vars (`--cat-sorting`, `--cat-graph`, etc.)
-- Bubble Sort v2 uses OKLCH color space for warm-tinted near-blacks with category accent
+- Panels use `<fieldset>` + `<legend>` for grouped controls (semantic, no extra CSS)
+- Section panels (WatchPanel, visualization, pseudocode) use fieldset-style floating title styling
 
 **Quality gates:**
-- `pnpm run lint` — ESLint on all .js files
-- `pnpm test` — Node.js tests (run-tests.js runner)
+- `pnpm run lint` — ESLint on all .js/.ts/.tsx files
+- `pnpm test` — Node.js test runner (run-tests.js)
 - `pnpm run format:check` — Prettier
 - `pnpm run knip` — dead code detection
-- NO type-check or build script — skip those in any workflow
+- NO `type-check` script; `build` (`tsc -b && vite build`) is NOT a quality gate
 
-**ESLint config** (`.eslintrc.json`): algorithm files get `node` env + IIFE global assignment suppression. Test files get `node` env. New algorithm globals must be added manually.
+**Vite config:**
+- `base: '/algoviz/'` — GitHub Pages subdirectory
+- `@types/node` devDependency required for path aliases in vite.config.ts
+- Use `fileURLToPath(new URL('.', import.meta.url))` instead of `__dirname` in vite.config.ts
+- Include `vite.config.ts` in tsconfig `include` array
 
-**Nav links:** When adding a new page, EVERY existing .html file must be updated with the nav link. Currently ~36 files.
+**Nav:** Single source of truth in `src/App.tsx` (React Router routes) + `src/components/Nav/index.tsx`. No more per-HTML-file nav duplication.
 
-**Memory system:** `.claude/memory/` in repo root is git-versioned and symlinked from `~/.claude/projects/-Users-spidey-code-algoviz/memory`. Run `pnpm setup` on new machines to create the symlink. Slug formula: absolute repo path with `/` replaced by `-`.
+**Memory system:** `.claude/memory/` in repo root is git-versioned and symlinked from `~/.claude/projects/-Users-spidey-code-algoviz/memory`. Run `pnpm setup` on new machines.
 
-**Why:** Vanilla JS by design — each page works independently, no build step needed. Memory in repo so it's versioned and shareable.
-**How to apply:** Follow the exact 5-file pattern. Never skip real-world analogy panel. Never skip updating all nav links. Run `pnpm setup` after cloning.
+**Why:** React migration for shared components, TypeScript safety, and GitHub Pages CI/CD. Memory in repo so it's versioned and shareable.
+**How to apply:** New algorithm pages: create `src/pages/algorithms/[Algo]/` + TS wrapper in `src/lib/algorithms/`. Algorithm modules stay as vanilla JS (IIFE + module.exports). Components only read display state — never derive visual indicators from raw indices.

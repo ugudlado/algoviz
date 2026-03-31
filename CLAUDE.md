@@ -76,6 +76,9 @@ These rules come from real issues found during code review. Follow them to avoid
 - Clean up timers on reset/page unload (prevent memory leaks)
 - Timer cleanup accuracy: use `clearTimeout` for `setTimeout` timers, `clearInterval` for `setInterval` timers — they are not interchangeable
 
+### Display State Ownership
+- Algorithm modules must compute ALL display state (colors, highlights, sorted boundaries, active indicators) as part of step data. React components and vanilla UI files must only READ display state from the algorithm step — never derive visual indicators from raw indices or state. This prevents stale-state bugs during re-renders. <!-- learned: cycle 2, 2026-03-31 -->
+
 ### Style Consistency
 - Algorithm files: IIFE pattern, `var` for broad compatibility
 - UI files: IIFE pattern, `const`/`let`
@@ -131,6 +134,10 @@ These conventions apply to the Vite+React migration, used for organizing the nex
 - Copy `*-algorithm.js` files to `src/lib/algorithms/`, add ES module wrapper `.ts` files that re-export typed functions
 - Never modify the original algorithm files — preserve them as-is for backward compatibility
 - Wrapper `.ts` files bridge vanilla JS to TypeScript, enabling strict type safety in React components
+
+### React Page Conventions
+- Use `<fieldset>` + `<legend>` for grouped input controls (algorithm parameters, speed settings) — semantic HTML, accessible, built-in visual grouping without extra CSS <!-- learned: cycle 2, 2026-03-31 -->
+- React components consume algorithm step data as read-only — all computation lives in algorithm modules, components only render and dispatch user actions <!-- learned: cycle 2, 2026-03-31 -->
 
 ### Build and Configuration
 - **`@types/node` required**: Always add `@types/node` as devDependency when using `vite.config.ts` with path aliases — needed for `path` module and `__dirname`
