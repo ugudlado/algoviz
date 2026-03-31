@@ -59,5 +59,5 @@
 ## Final
 
 - [x] F.1: Final quality gates pass (lint, format, knip, build)
-- [ ] F.2: Remove `bubble-sort-v2.html` and related files (superseded by React)
+- [x] F.2: Remove `bubble-sort-v2.html` and related files (superseded by React)
 - [x] F.3: Update Home page to link all migrated algorithms (remove "Coming soon")

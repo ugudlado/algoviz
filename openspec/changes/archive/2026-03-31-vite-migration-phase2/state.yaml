@@ -1,0 +1,5 @@
+phase: implement
+step: 12
+step_id: commit-phase
+updated_at: "2026-03-31T05:45:30Z"
+notes: "Phase 5 (HL-138) complete: Convex Hull, Elevator SCAN, Minimax, N-Queens migrated; routes/nav/home updated; quality gates pass. Flux: imp-v2-p5-adv done. Commit: 2d4f4f8 (includes P4+P5)."
