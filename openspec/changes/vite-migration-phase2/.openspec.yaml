@@ -1,0 +1,20 @@
+id: vite-migration-phase2
+title: "Complete Vite+React+TS migration for all algorithm pages"
+schema: feature-rapid
+status: implementing
+created: 2026-03-30
+linear-tickets:
+  - HL-134  # Phase 1: Searching (Done)
+  - HL-135  # Phase 2: Graph (Done)
+  - HL-136  # Phase 3: DP + String (Done)
+  - HL-137  # Phase 4: Data Structures
+  - HL-138  # Phase 5: Advanced
+flux:
+  mode: epic
+  epic-id: 9gxwcgz
+  task-ids:
+    phase-1: xd4ougn  # HL-134 Done
+    phase-2: 4av2o0q  # HL-135 Done
+    phase-3: bxztghl  # HL-136 Done
+    phase-4: kw74n7b  # HL-137 pending
+    phase-5: b1178x6  # HL-138 pending
