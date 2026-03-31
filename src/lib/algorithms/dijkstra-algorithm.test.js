@@ -13,7 +13,9 @@ describe("dijkstra algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-const DijkstraAlgorithm = require("./dijkstra-algorithm.js");
+  const DijkstraAlgorithm =
+    require("./dijkstra-algorithm.js").default ||
+    require("./dijkstra-algorithm.js");
   // --- Basic shortest path ---
   it(() => {
     // A -1-> B -2-> C

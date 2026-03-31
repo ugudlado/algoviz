@@ -370,3 +370,4 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = HuffmanAlgorithm;
 }
 
+export default HuffmanAlgorithm;

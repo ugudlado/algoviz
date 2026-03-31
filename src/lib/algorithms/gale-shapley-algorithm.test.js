@@ -1,8 +1,9 @@
 /**
  * Tests for Gale-Shapley stable matching algorithm.
  */
-const GaleShapleyAlgorithm = require("./gale-shapley-algorithm.js");
-
+const GaleShapleyAlgorithm =
+  require("./gale-shapley-algorithm.js").default ||
+  require("./gale-shapley-algorithm.js");
 function makeCase(namesA, namesB, prefsA, prefsB) {
   return {
     proposers: namesA,

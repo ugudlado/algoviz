@@ -10,7 +10,8 @@ describe("dfs algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-const DFSAlgorithm = require("./dfs-algorithm.js");
+  const DFSAlgorithm =
+    require("./dfs-algorithm.js").default || require("./dfs-algorithm.js");
   // Helper: create a grid of walls (all false)
   function emptyWalls(size) {
     const w = [];

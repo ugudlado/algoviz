@@ -229,3 +229,5 @@ var NQueensAlgorithm = (function () {
   };
 })();
 
+// ESM default export for Vite/React wrappers.
+export default NQueensAlgorithm;

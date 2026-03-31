@@ -10,7 +10,8 @@ describe("bst algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-const BSTAlgorithm = require("./bst-algorithm.js");
+  const BSTAlgorithm =
+    require("./bst-algorithm.js").default || require("./bst-algorithm.js");
   // --- createTree ---
   it(() => {
     const tree = BSTAlgorithm.createTree();

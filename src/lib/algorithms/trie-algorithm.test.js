@@ -10,7 +10,8 @@ describe("trie algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-const TrieAlgorithm = require("./trie-algorithm.js");
+  const TrieAlgorithm =
+    require("./trie-algorithm.js").default || require("./trie-algorithm.js");
   // --- createTrie ---
   it(() => {
     const trie = TrieAlgorithm.createTrie();

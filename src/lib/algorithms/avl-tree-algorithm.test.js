@@ -10,7 +10,9 @@ describe("avl tree algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-var AVLAlgorithm = require("./avl-tree-algorithm.js");
+  var AVLAlgorithm =
+    require("./avl-tree-algorithm.js").default ||
+    require("./avl-tree-algorithm.js");
   // Helper: collect all balance factors from a tree
   function collectBalanceFactors(root) {
     var factors = [];

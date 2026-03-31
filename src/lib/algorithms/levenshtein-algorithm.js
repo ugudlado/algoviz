@@ -104,3 +104,5 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = { levenshteinCompute, tracebackDescription };
 }
 
+// ESM default export for Vite/React wrappers.
+export default { levenshteinCompute, tracebackDescription };

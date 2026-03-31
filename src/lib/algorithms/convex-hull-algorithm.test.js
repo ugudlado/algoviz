@@ -10,7 +10,9 @@ describe("convex hull algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-var ConvexHullAlgorithm = require("./convex-hull-algorithm.js");
+  var ConvexHullAlgorithm =
+    require("./convex-hull-algorithm.js").default ||
+    require("./convex-hull-algorithm.js");
   // --- Helper: sort hull points for comparison (order-independent) ---
   function sortPoints(pts) {
     return pts.slice().sort(function (a, b) {

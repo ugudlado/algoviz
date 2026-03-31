@@ -7,7 +7,9 @@ const path = require("path");
 
 // Load scan-algorithm.js (IIFE that assigns to global var ScanAlgorithm)
 const fs = require("fs");
-const code = fs.readFileSync(path.join(__dirname, "scan-algorithm.js"), "utf8");
+const code = fs
+  .readFileSync(path.join(__dirname, "scan-algorithm.js"), "utf8")
+  .replace(/^export\s+default\s+.*;$/m, "");
 
 // Execute in a context that captures the global
 const vm = require("vm");

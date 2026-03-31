@@ -10,7 +10,9 @@ describe("quicksort algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-const QuickSortAlgorithm = require("./quicksort-algorithm.js");
+  const QuickSortAlgorithm =
+    require("./quicksort-algorithm.js").default ||
+    require("./quicksort-algorithm.js");
   // --- Basic correctness: Lomuto partition ---
   it(() => {
     const result = QuickSortAlgorithm.quickSort([3, 1, 2], "lomuto", "last");

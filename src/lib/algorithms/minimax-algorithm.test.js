@@ -12,7 +12,9 @@ describe("minimax algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-var MinimaxAlgorithm = require("./minimax-algorithm.js");
+  var MinimaxAlgorithm =
+    require("./minimax-algorithm.js").default ||
+    require("./minimax-algorithm.js");
   // ============================================================
   // checkWinner tests
   // ============================================================

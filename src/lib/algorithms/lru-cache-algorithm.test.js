@@ -13,7 +13,9 @@ describe("lru cache algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-const LRUCacheAlgorithm = require("./lru-cache-algorithm.js");
+  const LRUCacheAlgorithm =
+    require("./lru-cache-algorithm.js").default ||
+    require("./lru-cache-algorithm.js");
   // --- createCache ---
   it(() => {
     const cache = LRUCacheAlgorithm.createCache(3);

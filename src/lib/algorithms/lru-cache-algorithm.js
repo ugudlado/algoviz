@@ -319,3 +319,4 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = LRUCacheAlgorithm;
 }
 
+export default LRUCacheAlgorithm;

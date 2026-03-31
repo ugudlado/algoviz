@@ -13,7 +13,9 @@ describe("floyd warshall algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-const FloydWarshallAlgorithm = require("./floyd-warshall-algorithm.js");
+  const FloydWarshallAlgorithm =
+    require("./floyd-warshall-algorithm.js").default ||
+    require("./floyd-warshall-algorithm.js");
   const { floydWarshall, reconstructPath, createAdjacencyMatrix } =
     FloydWarshallAlgorithm;
   // --- createAdjacencyMatrix ---

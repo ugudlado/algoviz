@@ -10,7 +10,8 @@ describe("bfs algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-const BFSAlgorithm = require("./bfs-algorithm.js");
+  const BFSAlgorithm =
+    require("./bfs-algorithm.js").default || require("./bfs-algorithm.js");
   // Helper: create a grid of walls (all false)
   function emptyWalls(size) {
     var w = [];

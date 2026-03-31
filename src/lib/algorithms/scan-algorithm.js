@@ -93,3 +93,5 @@ var ScanAlgorithm = (() => {
 if (typeof module !== "undefined" && module.exports) {
   module.exports = ScanAlgorithm;
 }
+
+export default ScanAlgorithm;

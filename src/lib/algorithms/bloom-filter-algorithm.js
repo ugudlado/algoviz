@@ -193,3 +193,4 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = BloomFilterAlgorithm;
 }
 
+export default BloomFilterAlgorithm;

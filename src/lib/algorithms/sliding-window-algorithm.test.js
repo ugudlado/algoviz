@@ -10,7 +10,9 @@ describe("sliding window algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-const SlidingWindowAlgorithm = require("./sliding-window-algorithm.js");
+  const SlidingWindowAlgorithm =
+    require("./sliding-window-algorithm.js").default ||
+    require("./sliding-window-algorithm.js");
   // ============================================================
   // maxSumFixedWindow tests
   // ============================================================

@@ -10,7 +10,8 @@ describe("astar algorithm", function () {
     expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
-var AStarAlgorithm = require("./astar-algorithm.js");
+  var AStarAlgorithm =
+    require("./astar-algorithm.js").default || require("./astar-algorithm.js");
   // Helper: create key from row,col
   function k(r, c) {
     return r + "," + c;

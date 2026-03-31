@@ -13,7 +13,8 @@ describe("heap algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-const HeapAlgorithm = require("./heap-algorithm.js");
+  const HeapAlgorithm =
+    require("./heap-algorithm.js").default || require("./heap-algorithm.js");
   const { createHeap, insert, extractMin, peek, buildHeap, size, MAX_SIZE } =
     HeapAlgorithm;
   // Helper: verify min-heap property (each parent <= its children)

@@ -261,3 +261,4 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = DijkstraAlgorithm;
 }
 
+export default DijkstraAlgorithm;

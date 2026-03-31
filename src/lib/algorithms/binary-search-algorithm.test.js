@@ -10,7 +10,9 @@ describe("binary search algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-const BinarySearchAlgorithm = require("./binary-search-algorithm.js");
+  const BinarySearchAlgorithm =
+    require("./binary-search-algorithm.js").default ||
+    require("./binary-search-algorithm.js");
   // --- Target found at middle ---
   it(() => {
     const result = BinarySearchAlgorithm.search([1, 3, 5, 7, 9], 5);

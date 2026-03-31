@@ -14,7 +14,9 @@ describe("topo sort algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-const TopoSortAlgorithm = require("./topo-sort-algorithm.js");
+  const TopoSortAlgorithm =
+    require("./topo-sort-algorithm.js").default ||
+    require("./topo-sort-algorithm.js");
   // --- Helper: verify topological order validity ---
   function isValidTopoOrder(nodes, edges, order) {
     if (order.length !== nodes.length) return false;

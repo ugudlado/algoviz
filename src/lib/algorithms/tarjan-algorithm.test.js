@@ -1,8 +1,8 @@
 /**
  * Tests for Tarjan's SCC algorithm.
  */
-const TarjanAlgorithm = require("./tarjan-algorithm.js");
-
+const TarjanAlgorithm =
+  require("./tarjan-algorithm.js").default || require("./tarjan-algorithm.js");
 describe("tarjan algorithm", function () {
   function assert(condition, message) {
     expect(Boolean(condition), message || "Assertion failed").toBe(true);

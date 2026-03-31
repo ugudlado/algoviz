@@ -10,7 +10,9 @@ describe("merge sort algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-const MergeSortAlgorithm = require("./merge-sort-algorithm.js");
+  const MergeSortAlgorithm =
+    require("./merge-sort-algorithm.js").default ||
+    require("./merge-sort-algorithm.js");
   // --- Basic correctness ---
   it(() => {
     const result = MergeSortAlgorithm.sort([3, 1, 2]);

@@ -413,3 +413,5 @@ var GaleShapleyAlgorithm = (function () {
 if (typeof module !== "undefined" && module.exports) {
   module.exports = GaleShapleyAlgorithm;
 }
+
+export default GaleShapleyAlgorithm;

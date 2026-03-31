@@ -13,7 +13,9 @@ describe("union find algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-const UnionFindAlgorithm = require("./union-find-algorithm.js");
+  const UnionFindAlgorithm =
+    require("./union-find-algorithm.js").default ||
+    require("./union-find-algorithm.js");
   const {
     createDSU,
     find,

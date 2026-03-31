@@ -9,7 +9,8 @@ describe("prims algorithm", function () {
     expect(Boolean(condition), message || "Assertion failed").toBe(true);
   }
 
-const PrimsAlgorithm = require("./prims-algorithm.js");
+  const PrimsAlgorithm =
+    require("./prims-algorithm.js").default || require("./prims-algorithm.js");
   // --- createGraph helper ---
   it(() => {
     const g = PrimsAlgorithm.createGraph(3);

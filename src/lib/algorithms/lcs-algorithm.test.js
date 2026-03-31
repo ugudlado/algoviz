@@ -10,8 +10,9 @@ describe("lcs algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-// Load the algorithm module
-  const LCSAlgorithm = require("./lcs-algorithm.js");
+  // Load the algorithm module
+  const LCSAlgorithm =
+    require("./lcs-algorithm.js").default || require("./lcs-algorithm.js");
   // --- Basic correctness ---
   it(() => {
     const result = LCSAlgorithm.solve("ABCBDAB", "BDCAB");

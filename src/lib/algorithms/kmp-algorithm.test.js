@@ -12,7 +12,8 @@ describe("kmp algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-const KMPAlgorithm = require("./kmp-algorithm.js");
+  const KMPAlgorithm =
+    require("./kmp-algorithm.js").default || require("./kmp-algorithm.js");
   // ============================================================
   // buildFailureFunction tests
   // ============================================================

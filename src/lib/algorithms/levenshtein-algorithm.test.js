@@ -1,9 +1,8 @@
 // levenshtein-algorithm.test.js — Tests for Levenshtein algorithm + traceback info
 
-const {
-  levenshteinCompute,
-  tracebackDescription,
-} = require("./levenshtein-algorithm");
+const levenshteinModule = require("./levenshtein-algorithm.js");
+const { levenshteinCompute, tracebackDescription } =
+  levenshteinModule.default || levenshteinModule;
 
 describe("levenshtein algorithm", function () {
   function assert(condition, message) {

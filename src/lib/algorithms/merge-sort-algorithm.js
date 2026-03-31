@@ -208,3 +208,4 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = MergeSortAlgorithm;
 }
 
+export default MergeSortAlgorithm;

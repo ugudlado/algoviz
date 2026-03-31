@@ -10,8 +10,10 @@ describe("knapsack algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-// Load the algorithm module
-  const KnapsackAlgorithm = require("./knapsack-algorithm.js");
+  // Load the algorithm module
+  const KnapsackAlgorithm =
+    require("./knapsack-algorithm.js").default ||
+    require("./knapsack-algorithm.js");
   // --- Basic correctness ---
   it(() => {
     const items = [

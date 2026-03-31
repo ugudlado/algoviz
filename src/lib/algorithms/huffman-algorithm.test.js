@@ -10,7 +10,9 @@ describe("huffman algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-const HuffmanAlgorithm = require("./huffman-algorithm.js");
+  const HuffmanAlgorithm =
+    require("./huffman-algorithm.js").default ||
+    require("./huffman-algorithm.js");
   // --- countFrequencies ---
   it(() => {
     const freq = HuffmanAlgorithm.countFrequencies("aabbc");

@@ -1,7 +1,7 @@
 /**
  */
-const BTreeAlgorithm = require("./btree-algorithm.js");
-
+const BTreeAlgorithm =
+  require("./btree-algorithm.js").default || require("./btree-algorithm.js");
 describe("btree algorithm", function () {
   function assert(condition, message) {
     expect(Boolean(condition), message || "Assertion failed").toBe(true);

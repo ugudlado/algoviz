@@ -10,7 +10,9 @@ describe("n queens algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-var NQueensAlgorithm = require("./n-queens-algorithm.js");
+  var NQueensAlgorithm =
+    require("./n-queens-algorithm.js").default ||
+    require("./n-queens-algorithm.js");
   // --- solveAll: N=1 ---
   it(function () {
     var result = NQueensAlgorithm.solveAll(1);

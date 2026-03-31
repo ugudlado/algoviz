@@ -14,7 +14,9 @@ describe("bloom filter algorithm", function () {
     expect(actual, message || "assertEqual").toEqual(expected);
   }
 
-var BloomFilterAlgorithm = require("./bloom-filter-algorithm.js");
+  var BloomFilterAlgorithm =
+    require("./bloom-filter-algorithm.js").default ||
+    require("./bloom-filter-algorithm.js");
   // --- createFilter ---
   it(function () {
     var filter = BloomFilterAlgorithm.createFilter(32, 3);

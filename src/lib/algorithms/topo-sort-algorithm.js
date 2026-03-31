@@ -235,3 +235,4 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = TopoSortAlgorithm;
 }
 
+export default TopoSortAlgorithm;

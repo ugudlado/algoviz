@@ -456,3 +456,4 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = QuickSortAlgorithm;
 }
 
+export default QuickSortAlgorithm;

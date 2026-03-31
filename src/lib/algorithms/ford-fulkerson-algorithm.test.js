@@ -1,8 +1,9 @@
 /**
  * Tests for Ford-Fulkerson (Edmonds-Karp) max-flow algorithm.
  */
-const FordFulkersonAlgorithm = require("./ford-fulkerson-algorithm.js");
-
+const FordFulkersonAlgorithm =
+  require("./ford-fulkerson-algorithm.js").default ||
+  require("./ford-fulkerson-algorithm.js");
 describe("ford fulkerson algorithm", function () {
   function assert(condition, message) {
     expect(Boolean(condition), message || "Assertion failed").toBe(true);
