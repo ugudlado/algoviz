@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HL-138 Option 1 - Clarity First</title>
+    <style>
+      :root {
+        --bg: #0d1117;
+        --panel: #161b22;
+        --text: #e6edf3;
+        --muted: #8b949e;
+        --accent: #58a6ff;
+        --border: #30363d;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          sans-serif;
+        color: var(--text);
+        background: var(--bg);
+      }
+      .wrap {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        min-height: 100vh;
+      }
+      .controls {
+        padding: 20px;
+        border-right: 1px solid var(--border);
+        background: #11161d;
+      }
+      .section {
+        margin-bottom: 16px;
+      }
+      label {
+        display: block;
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+      input,
+      select {
+        width: 100%;
+      }
+      .preview {
+        padding: 22px;
+      }
+      .toolbar {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 14px;
+      }
+      .chips {
+        display: flex;
+        gap: 8px;
+      }
+      .chip {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 5px 10px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px;
+      }
+      .card h3 {
+        margin: 0 0 8px;
+        font-size: 16px;
+      }
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .bar {
+        height: 7px;
+        border-radius: 999px;
+        margin-top: 12px;
+        background: rgba(88, 166, 255, 0.2);
+      }
+      .bar > span {
+        display: block;
+        height: 100%;
+        width: 65%;
+        border-radius: inherit;
+        background: var(--accent);
+      }
+      .prompt {
+        margin-top: 14px;
+        background: #0b0f14;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 12px;
+        white-space: pre-wrap;
+      }
+      .copy {
+        margin-top: 8px;
+        border: 1px solid var(--border);
+        background: #1f2937;
+        color: var(--text);
+        border-radius: 8px;
+        padding: 7px 10px;
+        cursor: pointer;
+      }
+      .ok {
+        color: #3fb950;
+        font-size: 12px;
+        margin-left: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <aside class="controls">
+        <h2>Option 1: Clarity First</h2>
+        <p style="color: var(--muted); font-size: 13px">
+          Minimal learning-first layout for first-time algorithm students.
+        </p>
+        <div class="section">
+          <label for="density">Information density</label>
+          <input id="density" type="range" min="0" max="100" value="40" />
+        </div>
+        <div class="section">
+          <label for="accent">Accent color</label>
+          <input id="accent" type="color" value="#58a6ff" />
+        </div>
+        <div class="section">
+          <label for="layout">Preview layout</label>
+          <select id="layout">
+            <option value="2">2 columns</option>
+            <option value="1">1 column</option>
+          </select>
+        </div>
+      </aside>
+      <main class="preview">
+        <div class="toolbar">
+          <div class="chips">
+            <span class="chip">Beginner Mode</span>
+            <span class="chip">Step-by-step</span>
+          </div>
+        </div>
+        <section id="cards" class="grid">
+          <article class="card">
+            <h3>Convex Hull</h3>
+            <p>Canvas point plot + hull trace.</p>
+            <div class="bar"><span></span></div>
+          </article>
+          <article class="card">
+            <h3>Elevator / SCAN</h3>
+            <p>Track movement and seek order.</p>
+            <div class="bar"><span></span></div>
+          </article>
+          <article class="card">
+            <h3>Minimax</h3>
+            <p>Tic-tac-toe board + score insight.</p>
+            <div class="bar"><span></span></div>
+          </article>
+          <article class="card">
+            <h3>N-Queens</h3>
+            <p>Backtracking states on board.</p>
+            <div class="bar"><span></span></div>
+          </article>
+        </section>
+        <div id="prompt" class="prompt"></div>
+        <button id="copy" class="copy">Copy Prompt</button
+        ><span id="copied" class="ok"></span>
+      </main>
+    </div>
+    <script>
+      const DEFAULTS = { density: 40, accent: "#58a6ff", layout: "2" };
+      const state = { ...DEFAULTS };
+      const ids = ["density", "accent", "layout"];
+      const cards = document.getElementById("cards");
+      const prompt = document.getElementById("prompt");
+      const copied = document.getElementById("copied");
+      ids.forEach((id) => {
+        document.getElementById(id).addEventListener("input", (e) => {
+          state[id] = e.target.value;
+          updateAll();
+        });
+      });
+      function renderPreview() {
+        document.documentElement.style.setProperty("--accent", state.accent);
+        cards.style.gridTemplateColumns =
+          state.layout === "1" ? "1fr" : "repeat(2, minmax(0, 1fr))";
+        const dense = Number(state.density);
+        document.querySelectorAll(".card").forEach((card) => {
+          card.style.padding = `${10 + Math.round((100 - dense) / 10)}px`;
+          card.querySelector("p").style.display = dense > 70 ? "none" : "block";
+        });
+      }
+      function updatePrompt() {
+        const parts = [
+          "Create Phase 5 advanced algorithm pages in a clarity-first educational layout.",
+        ];
+        if (state.density !== String(DEFAULTS.density)) {
+          parts.push(
+            `Use ${state.density < 50 ? "spacious" : "compact"} card density (${state.density}/100).`,
+          );
+        }
+        if (state.accent !== DEFAULTS.accent) {
+          parts.push(`Set accent color to ${state.accent}.`);
+        }
+        if (state.layout !== DEFAULTS.layout) {
+          parts.push(
+            `Switch algorithm dashboard preview to a single-column flow.`,
+          );
+        }
+        parts.push(
+          "Prioritize guided steps, plain language labels, and strong readability over visual complexity.",
+        );
+        prompt.textContent = parts.join(" ");
+      }
+      function updateAll() {
+        renderPreview();
+        updatePrompt();
+      }
+      document.getElementById("copy").addEventListener("click", async () => {
+        await navigator.clipboard.writeText(prompt.textContent);
+        copied.textContent = "Copied!";
+        setTimeout(() => (copied.textContent = ""), 1200);
+      });
+      updateAll();
+    </script>
+  </body>
+</html>
