@@ -460,8 +460,6 @@ body:has(.content-grid) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1rem;
-  padding-top: 1rem;
 }
 
 .playback-btns {
