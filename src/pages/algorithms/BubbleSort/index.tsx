@@ -63,7 +63,7 @@ function ArrayBars({ step, maxVal }: { step: BubbleSortStep; maxVal: number }) {
         display: "flex",
         alignItems: "flex-end",
         gap: 4,
-        height: 200,
+        height: 280,
         padding: "0 0.5rem",
       }}
     >
@@ -72,7 +72,7 @@ function ArrayBars({ step, maxVal }: { step: BubbleSortStep; maxVal: number }) {
           sortedBoundary > 0 && idx >= arr.length - sortedBoundary;
         const isComparing = idx === ci || idx === cj;
 
-        let bg = "var(--text-muted)";
+        let bg = "#3a3a3a";
         if (isSorted) bg = "var(--cat-graph)";
         if (isComparing) bg = "var(--cat-sorting)";
 
@@ -171,7 +171,6 @@ export default function BubbleSort() {
   const [error, setError] = useState("");
   const [maxVal, setMaxVal] = useState(100);
   const [activeScenario, setActiveScenario] = useState<string | null>(null);
-  const [tooltipId, setTooltipId] = useState<string | null>(null);
 
   const runArray = useCallback((arr: number[]) => {
     const result = generateSteps(arr);
@@ -312,80 +311,86 @@ export default function BubbleSort() {
 
           {/* Visualization panel */}
           <div className="panel">
-            {/* Legend + playback at top */}
+            {/* Legend row — above the chart */}
             <div
               style={{
                 display: "flex",
+                gap: "1.25rem",
                 alignItems: "center",
-                justifyContent: "space-between",
-                flexWrap: "wrap",
-                gap: "0.5rem",
+                fontSize: "0.8rem",
+                color: "var(--text-secondary)",
+                marginBottom: "1rem",
+              }}
+            >
+              <span>
+                <span
+                  className="swatch"
+                  style={{
+                    background: "var(--cat-sorting)",
+                    borderColor: "var(--cat-sorting)",
+                  }}
+                />
+                Comparing
+              </span>
+              <span>
+                <span
+                  className="swatch"
+                  style={{
+                    background: "var(--cat-graph)",
+                    borderColor: "var(--cat-graph)",
+                  }}
+                />
+                Sorted
+              </span>
+              <span>
+                <span
+                  className="swatch"
+                  style={{
+                    background: "#3a3a3a",
+                    borderColor: "#3a3a3a",
+                  }}
+                />
+                Unsorted
+              </span>
+            </div>
+
+            {/* Framed chart stage */}
+            <div
+              style={{
+                background: "#080808",
+                border: "1px solid var(--border)",
+                borderRadius: 8,
+                padding: "1rem 0.5rem 0.5rem",
                 marginBottom: "0.75rem",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  gap: "1rem",
-                  alignItems: "center",
-                  fontSize: "0.82rem",
-                  color: "var(--text-secondary)",
-                }}
-              >
-                <span>
-                  <span
-                    className="swatch"
-                    style={{
-                      background: "var(--cat-sorting)",
-                      borderColor: "var(--cat-sorting)",
-                    }}
-                  />
-                  Comparing
-                </span>
-                <span>
-                  <span
-                    className="swatch"
-                    style={{
-                      background: "var(--cat-graph)",
-                      borderColor: "var(--cat-graph)",
-                    }}
-                  />
-                  Sorted
-                </span>
-                <span>
-                  <span
-                    className="swatch"
-                    style={{
-                      background: "var(--text-muted)",
-                      borderColor: "var(--text-muted)",
-                    }}
-                  />
-                  Unsorted
-                </span>
-              </div>
-              {steps.length > 0 && (
-                <PlaybackController
-                  steps={steps}
-                  currentStep={currentStep}
-                  onStep={setCurrentStep}
-                  onReset={() => setCurrentStep(0)}
-                />
+              {step ? (
+                <ArrayBars step={step} maxVal={maxVal} />
+              ) : (
+                <div style={{ height: 280 }} />
               )}
             </div>
-
-            {/* Bars */}
-            {step && <ArrayBars step={step} maxVal={maxVal} />}
 
             {/* Explanation */}
             <div
               className="info"
-              style={{ marginTop: "0.75rem", minHeight: "1.5em" }}
+              style={{ marginBottom: "0.75rem", minHeight: "1.5em" }}
             >
               {step?.explanation ?? ""}
             </div>
 
+            {/* Playback bar — full width below chart */}
+            {steps.length > 0 && (
+              <PlaybackController
+                steps={steps}
+                currentStep={currentStep}
+                onStep={setCurrentStep}
+                onReset={() => setCurrentStep(0)}
+              />
+            )}
+
             {/* Custom input */}
-            <div className="controls" style={{ marginTop: "1rem" }}>
+            <div className="controls" style={{ marginTop: "1.25rem" }}>
               <div className="inputs">
                 <label htmlFor="bs-input">Custom array</label>
                 <input
@@ -396,7 +401,7 @@ export default function BubbleSort() {
                   onKeyDown={(e) => {
                     if (e.key === "Enter") parseAndRun(inputValue);
                   }}
-                  placeholder="e.g. 8, 3, 5, 1"
+                  placeholder="e.g. 8, 3, 5 — Enter or Run"
                   maxLength={100}
                 />
               </div>
@@ -442,42 +447,38 @@ export default function BubbleSort() {
                 gap: "0.4rem",
               }}
             >
-              <div
-                style={{ position: "relative", display: "inline-block" }}
-                onMouseEnter={() => setTooltipId("random")}
-                onMouseLeave={() => setTooltipId(null)}
-              >
+              {SCENARIOS.map((s) => (
                 <button
-                  style={{ width: "100%", textAlign: "left" }}
-                  className={activeScenario === "random" ? "btn-primary" : ""}
-                  onClick={handleRandom}
-                >
-                  Random
-                </button>
-                {tooltipId === "random" && (
-                  <div className="scenario-tooltip">
-                    Standard unordered array — average-case performance.
-                  </div>
-                )}
-              </div>
-              {SCENARIOS.slice(1).map((s) => (
-                <div
                   key={s.id}
-                  style={{ position: "relative", display: "inline-block" }}
-                  onMouseEnter={() => setTooltipId(s.id)}
-                  onMouseLeave={() => setTooltipId(null)}
+                  style={{
+                    width: "100%",
+                    textAlign: "left",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "0.15rem",
+                    padding: "0.5rem 0.75rem",
+                    height: "auto",
+                  }}
+                  className={activeScenario === s.id ? "btn-primary" : ""}
+                  onClick={
+                    s.id === "random" ? handleRandom : () => handleScenario(s)
+                  }
                 >
-                  <button
-                    style={{ width: "100%", textAlign: "left" }}
-                    className={activeScenario === s.id ? "btn-primary" : ""}
-                    onClick={() => handleScenario(s)}
-                  >
+                  <span style={{ fontWeight: 600, fontSize: "0.85rem" }}>
                     {s.label}
-                  </button>
-                  {tooltipId === s.id && (
-                    <div className="scenario-tooltip">{s.tooltip}</div>
-                  )}
-                </div>
+                  </span>
+                  <span
+                    style={{
+                      fontSize: "0.72rem",
+                      opacity: 0.7,
+                      fontWeight: 400,
+                      whiteSpace: "normal",
+                      lineHeight: 1.35,
+                    }}
+                  >
+                    {s.tooltip}
+                  </span>
+                </button>
               ))}
             </div>
           </div>
