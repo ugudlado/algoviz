@@ -96,7 +96,10 @@ export default function ConvexHullPage() {
 
   return (
     <div className="algo-page" data-category="advanced">
-      <Nav currentCategory="advanced" />
+      <Nav
+        currentCategory="advanced"
+        algorithmProgressPath="/algorithms/convex-hull"
+      />
       <div className="page-header">
         <div className="title-group">
           <h1>Convex Hull (Graham Scan)</h1>

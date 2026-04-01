@@ -706,7 +706,10 @@ export default function FloydWarshall() {
 
   return (
     <div className="algo-page" data-category="graph">
-      <Nav currentCategory="graph" />
+      <Nav
+        currentCategory="graph"
+        algorithmProgressPath="/algorithms/floyd-warshall"
+      />
 
       {/* Page Header */}
       <div className="page-header">

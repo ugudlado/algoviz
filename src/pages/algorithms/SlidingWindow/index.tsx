@@ -224,7 +224,10 @@ export default function SlidingWindowPage() {
 
   return (
     <div className="algo-page" data-category="ds">
-      <Nav currentCategory="ds" />
+      <Nav
+        currentCategory="ds"
+        algorithmProgressPath="/algorithms/sliding-window"
+      />
 
       <div className="page-header">
         <div className="title-group">

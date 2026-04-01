@@ -251,7 +251,10 @@ export default function BloomFilterPage() {
 
   return (
     <div className="algo-page" data-category="ds">
-      <Nav currentCategory="ds" />
+      <Nav
+        currentCategory="ds"
+        algorithmProgressPath="/algorithms/bloom-filter"
+      />
 
       <div className="page-header">
         <div className="title-group">

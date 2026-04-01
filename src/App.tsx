@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import LearningPathDetail from "./pages/LearningPathDetail";
+import Settings from "./pages/Settings";
 import BubbleSort from "./pages/algorithms/BubbleSort";
 import MergeSort from "./pages/algorithms/MergeSort";
 import QuickSort from "./pages/algorithms/QuickSort";
@@ -43,6 +44,7 @@ export default function App() {
     >
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/settings" element={<Settings />} />
         <Route path="/learning-paths/:slug" element={<LearningPathDetail />} />
         <Route path="/algorithms/bubble-sort" element={<BubbleSort />} />
         <Route path="/algorithms/merge-sort" element={<MergeSort />} />

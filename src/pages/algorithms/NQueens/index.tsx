@@ -64,7 +64,10 @@ export default function NQueensPage() {
 
   return (
     <div className="algo-page" data-category="advanced">
-      <Nav currentCategory="advanced" />
+      <Nav
+        currentCategory="advanced"
+        algorithmProgressPath="/algorithms/n-queens"
+      />
       <div className="page-header">
         <div className="title-group">
           <h1>N-Queens (Backtracking)</h1>

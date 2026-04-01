@@ -290,7 +290,7 @@ export default function MinHeapPage() {
 
   return (
     <div className="algo-page" data-category="ds">
-      <Nav currentCategory="ds" />
+      <Nav currentCategory="ds" algorithmProgressPath="/algorithms/min-heap" />
 
       <div className="page-header">
         <div className="title-group">

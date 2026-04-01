@@ -402,7 +402,10 @@ export default function HuffmanPage() {
 
   return (
     <div className="algo-page" data-category="string">
-      <Nav currentCategory="string" />
+      <Nav
+        currentCategory="string"
+        algorithmProgressPath="/algorithms/huffman"
+      />
 
       <div className="page-header">
         <div className="title-group">

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAlgovizProgress } from "@/contexts/AlgovizProgressContext";
 
 interface NavItem {
   label: string;
@@ -104,9 +105,27 @@ const NAV_CONFIG: NavCategory[] = [
 
 interface NavProps {
   currentCategory?: string;
+  /** When set (algorithm pages), show mark-complete control in the nav bar */
+  algorithmProgressPath?: string;
 }
 
-export function Nav({ currentCategory }: NavProps) {
+function NavAlgorithmProgress({ path }: { path: string }) {
+  const { isAlgorithmComplete, toggleAlgorithmComplete } = useAlgovizProgress();
+  const done = isAlgorithmComplete(path);
+  return (
+    <button
+      type="button"
+      className="nav-algo-progress-btn"
+      onClick={() => toggleAlgorithmComplete(path)}
+      aria-pressed={done}
+      aria-label={done ? "Mark as not completed" : "Mark as completed"}
+    >
+      {done ? "Completed" : "Mark as completed"}
+    </button>
+  );
+}
+
+export function Nav({ currentCategory, algorithmProgressPath }: NavProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [openCategory, setOpenCategory] = useState<string | null>(null);
@@ -209,6 +228,12 @@ export function Nav({ currentCategory }: NavProps) {
           AV
         </span>
         AlgoViz
+      </Link>
+      <Link
+        to="/settings"
+        className={`nav-settings-link${location.pathname === "/settings" ? " nav-settings-link--active" : ""}`}
+      >
+        Settings
       </Link>
       <div className="nav-search-wrap">
         <input
@@ -319,6 +344,10 @@ export function Nav({ currentCategory }: NavProps) {
           </div>
         );
       })}
+
+      {algorithmProgressPath && (
+        <NavAlgorithmProgress path={algorithmProgressPath} />
+      )}
 
       <button
         className="nav-hamburger"

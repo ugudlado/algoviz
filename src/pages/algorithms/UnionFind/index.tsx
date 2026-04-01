@@ -261,7 +261,10 @@ export default function UnionFindPage() {
 
   return (
     <div className="algo-page" data-category="ds">
-      <Nav currentCategory="ds" />
+      <Nav
+        currentCategory="ds"
+        algorithmProgressPath="/algorithms/union-find"
+      />
 
       <div className="page-header">
         <div className="title-group">

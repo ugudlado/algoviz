@@ -195,7 +195,10 @@ export default function GaleShapleyPage() {
 
   return (
     <div className="algo-page" data-category="graph">
-      <Nav currentCategory="graph" />
+      <Nav
+        currentCategory="graph"
+        algorithmProgressPath="/algorithms/gale-shapley"
+      />
       <div className="page-header">
         <div className="title-group">
           <h1>Gale-Shapley Stable Matching</h1>

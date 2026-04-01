@@ -375,7 +375,10 @@ export default function KruskalPage() {
 
   return (
     <div className="algo-page" data-category="graph">
-      <Nav currentCategory="graph" />
+      <Nav
+        currentCategory="graph"
+        algorithmProgressPath="/algorithms/kruskal"
+      />
 
       <div className="page-header">
         <div className="title-group">

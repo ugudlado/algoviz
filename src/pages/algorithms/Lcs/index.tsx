@@ -259,7 +259,7 @@ export default function LcsPage() {
 
   return (
     <div className="algo-page" data-category="dp">
-      <Nav currentCategory="dp" />
+      <Nav currentCategory="dp" algorithmProgressPath="/algorithms/lcs" />
 
       <div className="page-header">
         <div className="title-group">
