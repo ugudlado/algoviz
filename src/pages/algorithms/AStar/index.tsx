@@ -515,7 +515,10 @@ export default function AStarPage() {
 
   return (
     <div className="algo-page" data-category="graph">
-      <Nav currentCategory="graph" />
+      <Nav
+        currentCategory="graph"
+        algorithmProgressPath="/algorithms/astar-pathfinding"
+      />
 
       <div className="page-header">
         <div className="title-group">

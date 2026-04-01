@@ -235,7 +235,10 @@ export default function MergeSort() {
 
   return (
     <div className="algo-page" data-category="sorting">
-      <Nav currentCategory="sorting" />
+      <Nav
+        currentCategory="sorting"
+        algorithmProgressPath="/algorithms/merge-sort"
+      />
 
       <div className="page-header">
         <div className="title-group">

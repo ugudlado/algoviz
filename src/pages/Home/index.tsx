@@ -1,7 +1,8 @@
 import { Nav } from "@/components/Nav";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useAlgovizProgress } from "@/contexts/AlgovizProgressContext";
 import { LEARNING_PATHS, getTotalSteps } from "@/data/learningPaths";
+import { useState, type CSSProperties } from "react";
+import { Link } from "react-router-dom";
 
 interface AlgoCard {
   name: string;
@@ -422,7 +423,37 @@ const HOMEPAGE_VISIBLE_CATEGORIES = new Set([
   "dp",
 ]);
 
+function LearningPathProgressBar({
+  pct,
+  accentColor,
+}: {
+  pct: number;
+  accentColor: string;
+}) {
+  return (
+    <div
+      style={{
+        height: 5,
+        borderRadius: 3,
+        background: "var(--border)",
+        overflow: "hidden",
+        marginTop: "0.65rem",
+      }}
+    >
+      <div
+        style={{
+          height: "100%",
+          width: `${pct}%`,
+          background: accentColor,
+          transition: "width 0.25s ease-out",
+        }}
+      />
+    </div>
+  );
+}
+
 export default function Home() {
+  const { getPathStats } = useAlgovizProgress();
   const [query, setQuery] = useState("");
   const visibleAlgorithms = ALGORITHMS.filter((a) =>
     HOMEPAGE_VISIBLE_CATEGORIES.has(a.category),
@@ -721,7 +752,7 @@ export default function Home() {
           style={{
             color: "var(--text-muted)",
             fontSize: "0.9rem",
-            marginBottom: "2rem",
+            marginBottom: "0.35rem",
           }}
         >
           Follow a narrative to learn algorithms in context — each path connects
@@ -735,81 +766,85 @@ export default function Home() {
             gap: "1.5rem",
           }}
         >
-          {LEARNING_PATHS.map((path) => (
-            <Link
-              key={path.slug}
-              to={`/learning-paths/${path.slug}`}
-              style={{
-                textDecoration: "none",
-                color: "inherit",
-                background: "var(--bg-secondary)",
-                border: "1px solid var(--border)",
-                borderTop: `3px solid ${path.accentColor}`,
-                borderRadius: 12,
-                padding: "1.5rem",
-                transition: "border-color 0.2s, transform 0.15s",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLAnchorElement;
-                el.style.borderColor = path.accentColor;
-                el.style.transform = "translateY(-2px)";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLAnchorElement;
-                el.style.borderColor = "var(--border)";
-                el.style.borderTopColor = path.accentColor;
-                el.style.transform = "";
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.6rem",
-                  marginBottom: "0.5rem",
-                }}
+          {LEARNING_PATHS.map((path) => {
+            const { completed, total, pct } = getPathStats(path);
+            const unit =
+              path.slug === "algorithm-detective" ? "cases" : "chapters";
+            return (
+              <Link
+                key={path.slug}
+                className="home-learning-path-card"
+                to={`/learning-paths/${path.slug}`}
+                style={
+                  {
+                    ["--path-accent"]: path.accentColor,
+                  } as CSSProperties
+                }
               >
-                <span style={{ fontSize: "1.5rem" }}>{path.icon}</span>
-                <h3
+                <div
                   style={{
-                    margin: 0,
-                    fontSize: "1.05rem",
-                    fontWeight: 700,
-                    color: path.accentColor,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.6rem",
+                    marginBottom: "0.5rem",
                   }}
                 >
-                  {path.title}
-                </h3>
-              </div>
-              <p
-                style={{
-                  margin: "0 0 1rem",
-                  fontSize: "0.82rem",
-                  color: "var(--text-secondary)",
-                  lineHeight: 1.5,
-                }}
-              >
-                {path.tagline}
-              </p>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  fontSize: "0.75rem",
-                  color: "var(--text-muted)",
-                }}
-              >
-                <span>
-                  {getTotalSteps(path)} algorithms · {path.tiers.length}{" "}
-                  {path.tiers.length === 1 ? "chapter" : "tiers"}
-                </span>
-                <span style={{ color: path.accentColor, fontWeight: 600 }}>
-                  Explore →
-                </span>
-              </div>
-            </Link>
-          ))}
+                  <span style={{ fontSize: "1.5rem" }}>{path.icon}</span>
+                  <h3
+                    style={{
+                      margin: 0,
+                      fontSize: "1.05rem",
+                      fontWeight: 700,
+                      color: path.accentColor,
+                    }}
+                  >
+                    {path.title}
+                  </h3>
+                </div>
+                <p
+                  style={{
+                    margin: "0 0 0.75rem",
+                    fontSize: "0.82rem",
+                    color: "var(--text-secondary)",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {path.tagline}
+                </p>
+                <div
+                  style={{
+                    fontSize: "0.72rem",
+                    color: "var(--text-muted)",
+                    marginBottom: "0.15rem",
+                  }}
+                >
+                  {completed} / {total} {unit} complete
+                </div>
+                <LearningPathProgressBar
+                  pct={pct}
+                  accentColor={path.accentColor}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    fontSize: "0.75rem",
+                    color: "var(--text-muted)",
+                    marginTop: "0.65rem",
+                  }}
+                >
+                  <span>
+                    {getTotalSteps(path)} algorithms · {path.tiers.length}{" "}
+                    {path.tiers.length === 1 ? "chapter" : "tiers"}
+                  </span>
+                  <span style={{ color: path.accentColor, fontWeight: 600 }}>
+                    Explore →
+                  </span>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </section>
     </div>
@@ -817,6 +852,9 @@ export default function Home() {
 }
 
 function AlgoCard({ algo }: { algo: AlgoCard }) {
+  const { isAlgorithmComplete, toggleAlgorithmComplete } = useAlgovizProgress();
+  const done = algo.available && isAlgorithmComplete(algo.path);
+
   const content = (
     <div
       style={{
@@ -901,7 +939,7 @@ function AlgoCard({ algo }: { algo: AlgoCard }) {
         {algo.description}
       </p>
 
-      {/* Complexity + badge */}
+      {/* Complexity */}
       <div
         style={{
           display: "flex",
@@ -933,24 +971,39 @@ function AlgoCard({ algo }: { algo: AlgoCard }) {
             Coming soon
           </span>
         )}
-        {algo.available && (
-          <span
-            style={{
-              fontSize: "0.72rem",
-              color: `var(${algo.accentVar})`,
-              fontWeight: 500,
+      </div>
+
+      {algo.available && (
+        <div className="algo-card-footer">
+          <button
+            type="button"
+            className="algo-card-status-btn"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleAlgorithmComplete(algo.path);
             }}
+            aria-pressed={done}
+            title={done ? "Completed — click to unmark" : "Mark as completed"}
+            aria-label={done ? "Mark as not completed" : "Mark as completed"}
+          >
+            <span className="algo-card-status-led" aria-hidden />
+            {done ? "Done" : "Todo"}
+          </button>
+          <span
+            className="algo-card-visualize-hint"
+            style={{ color: `var(${algo.accentVar})` }}
           >
             Visualize →
           </span>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 
   if (algo.available) {
     return (
-      <Link to={algo.path} style={{ textDecoration: "none" }}>
+      <Link to={algo.path} style={{ textDecoration: "none", display: "block" }}>
         {content}
       </Link>
     );

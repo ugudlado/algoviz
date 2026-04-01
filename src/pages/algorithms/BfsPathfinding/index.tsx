@@ -309,7 +309,10 @@ export default function BfsPathfindingPage() {
 
   return (
     <div className="algo-page" data-category="searching">
-      <Nav currentCategory="searching" />
+      <Nav
+        currentCategory="searching"
+        algorithmProgressPath="/algorithms/bfs-pathfinding"
+      />
 
       <div className="page-header">
         <div className="title-group">

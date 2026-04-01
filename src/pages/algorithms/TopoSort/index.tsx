@@ -526,7 +526,10 @@ export default function TopoSort() {
 
   return (
     <div className="algo-page" data-category="graph">
-      <Nav currentCategory="graph" />
+      <Nav
+        currentCategory="graph"
+        algorithmProgressPath="/algorithms/topo-sort"
+      />
 
       <div className="page-header">
         <div className="title-group">

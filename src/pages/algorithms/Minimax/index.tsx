@@ -145,7 +145,10 @@ export default function MinimaxPage() {
 
   return (
     <div className="algo-page" data-category="advanced">
-      <Nav currentCategory="advanced" />
+      <Nav
+        currentCategory="advanced"
+        algorithmProgressPath="/algorithms/minimax"
+      />
       <div className="page-header">
         <div className="title-group">
           <h1>Minimax (Tic-Tac-Toe)</h1>

@@ -145,7 +145,10 @@ export default function QuickSort() {
 
   return (
     <div className="algo-page" data-category="sorting">
-      <Nav currentCategory="sorting" />
+      <Nav
+        currentCategory="sorting"
+        algorithmProgressPath="/algorithms/quicksort"
+      />
 
       <div className="page-header">
         <div className="title-group">

@@ -500,7 +500,10 @@ export default function FordFulkersonPage() {
 
   return (
     <div className="algo-page" data-category="graph">
-      <Nav currentCategory="graph" />
+      <Nav
+        currentCategory="graph"
+        algorithmProgressPath="/algorithms/ford-fulkerson"
+      />
 
       {/* Page Header */}
       <div className="page-header">

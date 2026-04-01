@@ -498,7 +498,10 @@ export default function DijkstraPage() {
 
   return (
     <div className="algo-page" data-category="graph">
-      <Nav currentCategory="graph" />
+      <Nav
+        currentCategory="graph"
+        algorithmProgressPath="/algorithms/dijkstra"
+      />
 
       <div className="page-header">
         <div className="title-group">

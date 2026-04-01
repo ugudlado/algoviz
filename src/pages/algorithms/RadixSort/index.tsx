@@ -185,7 +185,10 @@ export default function RadixSort() {
 
   return (
     <div className="algo-page" data-category="sorting">
-      <Nav currentCategory="sorting" />
+      <Nav
+        currentCategory="sorting"
+        algorithmProgressPath="/algorithms/radix-sort"
+      />
 
       <div className="page-header">
         <div className="title-group">

@@ -3,5 +3,9 @@
   "entry": ["*.js"],
   "project": ["*.js", "src/**/*.{ts,tsx}"],
   "ignore": ["test-screenshot.js"],
-  "ignoreBinaries": ["portless"]
+  "ignoreBinaries": ["portless"],
+  "ignoreExportsUsedInFile": {
+    "interface": true,
+    "type": true
+  }
 }

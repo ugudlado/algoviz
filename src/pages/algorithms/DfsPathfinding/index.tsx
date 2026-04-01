@@ -335,7 +335,10 @@ export default function DfsPathfindingPage() {
 
   return (
     <div className="algo-page" data-category="searching">
-      <Nav currentCategory="searching" />
+      <Nav
+        currentCategory="searching"
+        algorithmProgressPath="/algorithms/dfs-pathfinding"
+      />
 
       <div className="page-header">
         <div className="title-group">

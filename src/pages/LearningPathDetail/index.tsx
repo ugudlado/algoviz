@@ -1,4 +1,6 @@
 import { Nav } from "@/components/Nav";
+import { useAlgovizProgress } from "@/contexts/AlgovizProgressContext";
+import { useEffect, type CSSProperties } from "react";
 import { Link, useParams, Navigate } from "react-router-dom";
 import {
   getPathBySlug,
@@ -14,111 +16,96 @@ const TIER_BADGE_COLORS: Record<string, string> = {
   Chapters: "#58a6ff",
 };
 
-function StepCard({ step, index }: { step: PathStep; index: number }) {
+function ProgressBar({ pct, color }: { pct: number; color: string }) {
   return (
-    <Link
-      to={step.algorithmPath}
+    <div
+      role="progressbar"
+      aria-valuenow={pct}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-label={`Path progress, ${pct} percent`}
       style={{
-        display: "block",
-        textDecoration: "none",
-        color: "inherit",
-        background: "var(--bg-secondary)",
-        border: "1px solid var(--border)",
-        borderRadius: 12,
-        padding: "1.25rem",
-        transition: "border-color 0.2s, transform 0.15s",
-      }}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget as HTMLAnchorElement;
-        el.style.borderColor = "var(--accent)";
-        el.style.transform = "translateY(-2px)";
-      }}
-      onMouseLeave={(e) => {
-        const el = e.currentTarget as HTMLAnchorElement;
-        el.style.borderColor = "var(--border)";
-        el.style.transform = "";
+        height: 6,
+        borderRadius: 3,
+        background: "var(--border)",
+        overflow: "hidden",
+        maxWidth: 360,
+        marginTop: "0.75rem",
       }}
     >
       <div
         style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "0.75rem",
-          marginBottom: "0.75rem",
+          height: "100%",
+          width: `${pct}%`,
+          background: color,
+          transition: "width 0.25s ease-out",
         }}
-      >
-        <span
-          style={{
-            width: 28,
-            height: 28,
-            borderRadius: "50%",
-            background: "rgba(88,166,255,0.12)",
-            border: "1px solid rgba(88,166,255,0.3)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "0.78rem",
-            fontWeight: 700,
-            color: "#58a6ff",
-            flexShrink: 0,
-          }}
+      />
+    </div>
+  );
+}
+
+function StepCard({
+  step,
+  index,
+  completed,
+  onToggle,
+  tierAccent,
+}: {
+  step: PathStep;
+  index: number;
+  completed: boolean;
+  onToggle: () => void;
+  tierAccent: string;
+}) {
+  return (
+    <article
+      className={`lp-step-card${completed ? " lp-step-card--complete" : ""}`}
+      style={{ ["--lp-tier-accent"]: tierAccent } as CSSProperties}
+    >
+      <div className="lp-step-card-top">
+        <button
+          type="button"
+          className="lp-step-check"
+          onClick={onToggle}
+          aria-pressed={completed}
+          title={
+            completed
+              ? "Marked complete — click to unmark"
+              : "Mark as completed"
+          }
+          aria-label={completed ? "Mark as not completed" : "Mark as completed"}
         >
-          {index + 1}
-        </span>
-        <h3
-          style={{
-            margin: 0,
-            fontSize: "1rem",
-            fontWeight: 700,
-            color: "var(--text-primary)",
-          }}
-        >
-          {step.name}
-        </h3>
+          {completed ? <span aria-hidden>✓</span> : null}
+        </button>
+        <div className="lp-step-head">
+          <span className="lp-step-num" aria-hidden>
+            {index + 1}
+          </span>
+          <h3 className="lp-step-title">{step.name}</h3>
+        </div>
       </div>
-      <p
-        style={{
-          margin: "0 0 0.75rem",
-          fontSize: "0.85rem",
-          color: "var(--text-secondary)",
-          lineHeight: 1.55,
-        }}
-      >
-        {step.narrative}
-      </p>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "0.5rem",
-          fontSize: "0.75rem",
-          color: "var(--text-muted)",
-        }}
-      >
-        <span
-          style={{
-            padding: "0.15rem 0.5rem",
-            borderRadius: 6,
-            border: "1px solid var(--border)",
-            background: "rgba(13,17,23,0.7)",
-          }}
-        >
-          📍 {step.setting}
-        </span>
-        <span style={{ marginLeft: "auto", color: "var(--accent)" }}>
+      <p className="lp-step-body">{step.narrative}</p>
+      <div className="lp-step-foot">
+        <span className="lp-step-setting">📍 {step.setting}</span>
+        <Link className="lp-step-open" to={step.algorithmPath}>
           Open visualization →
-        </span>
+        </Link>
       </div>
-    </Link>
+    </article>
   );
 }
 
 function TierSection({
   tier,
   globalOffset,
+  isAlgorithmComplete,
+  toggleAlgorithmComplete,
 }: {
   tier: PathTier;
   globalOffset: number;
+  isAlgorithmComplete: (algorithmPath: string) => boolean;
+  toggleAlgorithmComplete: (algorithmPath: string) => void;
 }) {
   const badgeColor = TIER_BADGE_COLORS[tier.name] ?? "#58a6ff";
 
@@ -172,7 +159,14 @@ function TierSection({
         }}
       >
         {tier.steps.map((step, i) => (
-          <StepCard key={step.id} step={step} index={globalOffset + i} />
+          <StepCard
+            key={step.id}
+            step={step}
+            index={globalOffset + i}
+            tierAccent={badgeColor}
+            completed={isAlgorithmComplete(step.algorithmPath)}
+            onToggle={() => toggleAlgorithmComplete(step.algorithmPath)}
+          />
         ))}
       </div>
     </section>
@@ -182,12 +176,25 @@ function TierSection({
 export default function LearningPathDetail() {
   const { slug } = useParams<{ slug: string }>();
   const path = slug ? getPathBySlug(slug) : undefined;
+  const {
+    getPathStats,
+    isAlgorithmComplete,
+    toggleAlgorithmComplete,
+    recordPathVisit,
+    clearPathMetaForSlug,
+  } = useAlgovizProgress();
+
+  useEffect(() => {
+    if (path?.slug) recordPathVisit(path.slug);
+  }, [path?.slug, recordPathVisit]);
 
   if (!path) {
     return <Navigate to="/" replace />;
   }
 
   const totalSteps = getTotalSteps(path);
+  const { completed, pct } = getPathStats(path);
+  const unitLabel = path.slug === "algorithm-detective" ? "cases" : "chapters";
   let offset = 0;
 
   return (
@@ -205,7 +212,6 @@ export default function LearningPathDetail() {
           padding: "0 2rem",
         }}
       >
-        {/* Header */}
         <Link
           to="/#learning-paths"
           style={{
@@ -254,6 +260,43 @@ export default function LearningPathDetail() {
           >
             {path.description}
           </p>
+          <p
+            style={{
+              margin: "1rem 0 0",
+              fontSize: "0.85rem",
+              color: "var(--text-muted)",
+            }}
+          >
+            Progress is saved per visualization (algorithm page). Steps here
+            share the same completion state as the home grid and nav control.
+          </p>
+          <div
+            style={{
+              fontSize: "0.82rem",
+              color: "var(--text-secondary)",
+              marginTop: "0.35rem",
+            }}
+          >
+            {completed} / {totalSteps} {unitLabel} complete ({pct}%)
+          </div>
+          <ProgressBar pct={pct} color={path.accentColor} />
+          <div style={{ marginTop: "0.85rem" }}>
+            <button
+              type="button"
+              className="learning-path-meta-btn"
+              onClick={() => {
+                if (
+                  window.confirm(
+                    "Clear last-visited metadata for this path only? Your algorithm completions stay — they are global.",
+                  )
+                ) {
+                  clearPathMetaForSlug(path.slug);
+                }
+              }}
+            >
+              Reset path visit time
+            </button>
+          </div>
           <div
             style={{
               display: "flex",
@@ -290,10 +333,15 @@ export default function LearningPathDetail() {
           </div>
         </div>
 
-        {/* Tiers */}
         {path.tiers.map((tier) => {
           const section = (
-            <TierSection key={tier.name} tier={tier} globalOffset={offset} />
+            <TierSection
+              key={tier.name}
+              tier={tier}
+              globalOffset={offset}
+              isAlgorithmComplete={isAlgorithmComplete}
+              toggleAlgorithmComplete={toggleAlgorithmComplete}
+            />
           );
           offset += tier.steps.length;
           return section;

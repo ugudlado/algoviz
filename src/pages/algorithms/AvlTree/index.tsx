@@ -215,7 +215,7 @@ export default function AvlTreePage() {
 
   return (
     <div className="algo-page" data-category="ds">
-      <Nav currentCategory="ds" />
+      <Nav currentCategory="ds" algorithmProgressPath="/algorithms/avl-tree" />
 
       <div className="page-header">
         <div className="title-group">

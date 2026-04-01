@@ -317,7 +317,10 @@ export default function BinarySearchPage() {
 
   return (
     <div className="algo-page" data-category="searching">
-      <Nav currentCategory="searching" />
+      <Nav
+        currentCategory="searching"
+        algorithmProgressPath="/algorithms/binary-search"
+      />
 
       <div className="page-header">
         <div className="title-group">

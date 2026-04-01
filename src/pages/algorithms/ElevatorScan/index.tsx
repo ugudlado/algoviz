@@ -78,7 +78,10 @@ export default function ElevatorScanPage() {
 
   return (
     <div className="algo-page" data-category="advanced">
-      <Nav currentCategory="advanced" />
+      <Nav
+        currentCategory="advanced"
+        algorithmProgressPath="/algorithms/elevator-scan"
+      />
       <div className="page-header">
         <div className="title-group">
           <h1>Elevator (SCAN) Scheduling</h1>

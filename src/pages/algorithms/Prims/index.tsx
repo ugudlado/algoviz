@@ -531,7 +531,10 @@ export default function PrimsPage() {
 
   return (
     <div className="algo-page" data-category="graph">
-      <Nav currentCategory="graph" />
+      <Nav
+        currentCategory="graph"
+        algorithmProgressPath="/algorithms/prims-mst"
+      />
 
       <div className="page-header">
         <div className="title-group">

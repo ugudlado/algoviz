@@ -610,7 +610,7 @@ export default function TarjanPage() {
 
   return (
     <div className="algo-page" data-category="graph">
-      <Nav currentCategory="graph" />
+      <Nav currentCategory="graph" algorithmProgressPath="/algorithms/tarjan" />
 
       {/* Page header */}
       <div className="page-header">

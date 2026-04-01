@@ -286,7 +286,7 @@ export default function KnapsackPage() {
 
   return (
     <div className="algo-page" data-category="dp">
-      <Nav currentCategory="dp" />
+      <Nav currentCategory="dp" algorithmProgressPath="/algorithms/knapsack" />
 
       <div className="page-header">
         <div className="title-group">

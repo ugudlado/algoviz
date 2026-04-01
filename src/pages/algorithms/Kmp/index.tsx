@@ -291,7 +291,7 @@ export default function KmpPage() {
 
   return (
     <div className="algo-page" data-category="string">
-      <Nav currentCategory="string" />
+      <Nav currentCategory="string" algorithmProgressPath="/algorithms/kmp" />
 
       <div className="page-header">
         <div className="title-group">

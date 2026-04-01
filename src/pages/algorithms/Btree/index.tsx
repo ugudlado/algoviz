@@ -302,7 +302,7 @@ export default function BtreePage() {
 
   return (
     <div className="algo-page" data-category="ds">
-      <Nav currentCategory="ds" />
+      <Nav currentCategory="ds" algorithmProgressPath="/algorithms/btree" />
 
       <div className="page-header">
         <div className="title-group">

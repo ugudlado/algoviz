@@ -292,7 +292,10 @@ export default function LevenshteinPage() {
 
   return (
     <div className="algo-page" data-category="dp">
-      <Nav currentCategory="dp" />
+      <Nav
+        currentCategory="dp"
+        algorithmProgressPath="/algorithms/levenshtein"
+      />
 
       <div className="page-header">
         <div className="title-group">
