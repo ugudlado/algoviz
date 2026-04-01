@@ -37,7 +37,7 @@ interface AlgorithmProgressSummary {
 function computeAlgorithmProgressSummary(
   algorithms: Record<string, AlgorithmProgressEntry>,
 ): AlgorithmProgressSummary {
-  const totalAlgos = ALGORITHM_ROUTE_PATHS.length;
+  const totalAlgos: number = ALGORITHM_ROUTE_PATHS.length;
   let completedCount = 0;
   let earliest: string | null = null;
   let latest: string | null = null;
