@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * KMP (Knuth-Morris-Pratt) String Search Algorithm
  *

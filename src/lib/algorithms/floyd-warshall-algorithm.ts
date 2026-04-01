@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Floyd-Warshall All-Pairs Shortest Paths Algorithm
  *

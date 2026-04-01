@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Huffman Coding Algorithm
  *

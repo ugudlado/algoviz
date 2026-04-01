@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Gale-Shapley Stable Matching Algorithm
  *

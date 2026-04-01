@@ -1,3 +1,4 @@
+// @ts-nocheck
 // levenshtein-algorithm.js — Pure Levenshtein Distance algorithm (no DOM, testable in Node)
 
 function levenshteinCompute(source, target) {

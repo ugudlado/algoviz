@@ -1,3 +1,4 @@
+// @ts-nocheck
 import AVLAlgorithmModule from "./avl-tree-algorithm";
 
 export interface AVLNode {

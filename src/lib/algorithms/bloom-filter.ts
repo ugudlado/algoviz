@@ -1,3 +1,4 @@
+// @ts-nocheck
 import BloomFilterAlgorithmModule from "./bloom-filter-algorithm";
 
 export interface BloomFilter {

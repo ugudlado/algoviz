@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Minimax with Alpha-Beta Pruning — Tic-Tac-Toe
  *

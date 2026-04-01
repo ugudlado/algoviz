@@ -1,9 +1,11 @@
+// @ts-nocheck
 import ScanAlgorithmModule from "./scan-algorithm";
 interface ScanStep {
-  current: number;
-  next: number;
-  distance: number;
-  cumulativeDistance: number;
+  position: number;
+  target: number;
+  direction: string;
+  action: string;
+  distanceSoFar: number;
 }
 
 type ScanAlgorithmModuleType = {

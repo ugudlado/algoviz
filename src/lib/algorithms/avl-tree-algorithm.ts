@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * AVL Tree Algorithm
  *

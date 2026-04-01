@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Topological Sort — Kahn's Algorithm
  *

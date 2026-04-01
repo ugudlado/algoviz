@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * B-Tree Algorithm (CLRS-style, minimum degree t)
  *

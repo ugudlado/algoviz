@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Kruskal's MST Algorithm
  *

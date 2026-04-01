@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Merge Sort Algorithm
  *

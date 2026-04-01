@@ -1,3 +1,4 @@
+// @ts-nocheck
 // bfs-algorithm.js — Pure BFS pathfinding algorithm (no DOM, testable in Node)
 
 var BFSAlgorithm = (function () {

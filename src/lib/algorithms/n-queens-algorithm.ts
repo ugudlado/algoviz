@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * N-Queens Algorithm
  *

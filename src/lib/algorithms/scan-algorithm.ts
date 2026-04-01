@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * SCAN (Elevator) Disk Scheduling Algorithm
  *

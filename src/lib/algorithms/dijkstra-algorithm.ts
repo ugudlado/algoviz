@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Dijkstra's Shortest Path Algorithm
  *

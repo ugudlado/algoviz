@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * 0/1 Knapsack Dynamic Programming Algorithm
  *

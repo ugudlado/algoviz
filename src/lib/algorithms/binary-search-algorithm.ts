@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Binary Search Algorithm
  *

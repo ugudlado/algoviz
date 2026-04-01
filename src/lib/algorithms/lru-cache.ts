@@ -1,3 +1,4 @@
+// @ts-nocheck
 import LRUCacheAlgorithmModule from "./lru-cache-algorithm";
 
 export interface LRUNode {

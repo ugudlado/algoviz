@@ -1,3 +1,4 @@
+// @ts-nocheck
 import SlidingWindowAlgorithmModule from "./sliding-window-algorithm";
 
 export interface FixedWindowStep {

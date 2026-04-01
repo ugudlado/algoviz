@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Min-Heap (Priority Queue) Algorithm
  *

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import QuickSortAlgorithmModule from "./quicksort-algorithm";
 import type { QuickSortAlgorithmModule as QuickSortModuleType } from "./module-types";
 

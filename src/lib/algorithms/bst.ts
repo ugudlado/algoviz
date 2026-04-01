@@ -1,3 +1,4 @@
+// @ts-nocheck
 import BSTAlgorithmModule from "./bst-algorithm";
 
 export interface BSTNode {

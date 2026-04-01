@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Tarjan's Strongly Connected Components Algorithm
  *

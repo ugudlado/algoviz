@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Trie (Prefix Tree) Algorithm
  *

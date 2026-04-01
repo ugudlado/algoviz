@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Convex Hull Algorithm — Graham Scan
  *

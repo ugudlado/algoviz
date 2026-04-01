@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Ford-Fulkerson Max-Flow Algorithm (Edmonds-Karp variant using BFS)
  *

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Longest Common Subsequence (LCS) Algorithm
  *

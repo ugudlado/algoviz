@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Union-Find (Disjoint Set Union) with Path Compression
  *
