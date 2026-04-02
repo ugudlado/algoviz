@@ -234,25 +234,28 @@ export function Nav({ algorithmProgressPath }: NavProps) {
 
         <Link
           to="/#learning-paths"
-          className={`nav-category-btn${location.pathname.startsWith("/learning-paths") ? " current-category" : ""}`}
+          className={`nav-link${location.pathname.startsWith("/learning-paths") ? " nav-link--active" : ""}`}
         >
           Learning Paths
         </Link>
         <Link
           to="/algorithms"
-          className={`nav-category-btn${location.pathname === "/algorithms" ? " current-category" : ""}`}
+          className={`nav-link${location.pathname === "/algorithms" ? " nav-link--active" : ""}`}
         >
           Algorithms
         </Link>
         <Link
           to="/settings"
-          className={`nav-category-btn${location.pathname === "/settings" ? " current-category" : ""}`}
+          className={`nav-link nav-link--util${location.pathname === "/settings" ? " nav-link--active" : ""}`}
         >
           Settings
         </Link>
 
         {algorithmProgressPath && (
-          <NavAlgorithmProgress path={algorithmProgressPath} />
+          <>
+            <span className="nav-divider" aria-hidden />
+            <NavAlgorithmProgress path={algorithmProgressPath} />
+          </>
         )}
 
         <button
