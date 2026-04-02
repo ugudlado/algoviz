@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AlgorithmsBrowse from "./pages/AlgorithmsBrowse";
 import Home from "./pages/Home";
 import LearningPathDetail from "./pages/LearningPathDetail";
 import Settings from "./pages/Settings";
@@ -44,6 +45,7 @@ export default function App() {
     >
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/algorithms" element={<AlgorithmsBrowse />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/learning-paths/:slug" element={<LearningPathDetail />} />
         <Route path="/algorithms/bubble-sort" element={<BubbleSort />} />

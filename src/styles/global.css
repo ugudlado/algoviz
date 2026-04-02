@@ -837,6 +837,24 @@ body {
   font-weight: 600;
 }
 
+.algo-nav .nav-top-link {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.algo-nav .nav-top-link:hover {
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+}
+.algo-nav .nav-top-link--active {
+  color: var(--accent);
+  font-weight: 600;
+}
+
 /* Home catalog: footer “instrument strip” — TODO/DONE reads like a lab log, not a sticker */
 .algo-card-footer {
   display: flex;
@@ -2014,5 +2032,203 @@ input[type="range"] {
   .stat {
     padding: 0.4rem 0.8rem;
     min-width: 60px;
+  }
+}
+
+/* === Algorithms Browse Page === */
+
+.algobrowse-tabs {
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.algobrowse-tabs::-webkit-scrollbar {
+  display: none;
+}
+.algobrowse-tab {
+  background: none;
+  border: none;
+  padding: 0.55rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 6px;
+  white-space: nowrap;
+  transition:
+    color 0.15s,
+    background 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.algobrowse-tab:hover {
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+}
+.algobrowse-tab--active {
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+  border-bottom: 2px solid var(--accent);
+}
+.algobrowse-tab-count {
+  font-size: 0.68rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+}
+
+.algobrowse-filters {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.algobrowse-search {
+  flex: 1;
+  min-width: 200px;
+  max-width: 360px;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+}
+.algobrowse-search:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.algobrowse-select {
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+.algobrowse-select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.algobrowse-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    transform 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  height: 100%;
+}
+
+/* === Story Context Banner (algorithm pages from learning path) === */
+
+.algostory-banner {
+  background: linear-gradient(
+    135deg,
+    var(--bg-secondary) 0%,
+    rgba(13, 17, 23, 0.95) 100%
+  );
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--algostory-accent, var(--accent));
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.algostory-banner-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.algostory-banner-path {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--algostory-accent, var(--accent));
+}
+.algostory-banner-setting {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.algostory-banner-narrative {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  font-style: italic;
+}
+.algostory-banner-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+.algostory-banner-nav a {
+  font-size: 0.78rem;
+  color: var(--algostory-accent, var(--accent));
+  text-decoration: none;
+  font-weight: 600;
+}
+.algostory-banner-nav a:hover {
+  text-decoration: underline;
+}
+
+/* === Learning Path Lesson Summary Cards === */
+
+.lp-lesson-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 0.5rem;
+}
+.lp-lesson-section {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+.lp-lesson-icon {
+  flex-shrink: 0;
+  font-size: 0.9rem;
+  margin-top: 0.1rem;
+}
+.lp-lesson-label {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.15rem;
+}
+.lp-lesson-text {
+  color: var(--text-secondary);
+}
+
+@media (max-width: 640px) {
+  .algobrowse-filters {
+    flex-direction: column;
+  }
+  .algobrowse-search {
+    max-width: 100%;
   }
 }

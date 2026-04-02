@@ -51,13 +51,17 @@ function StepCard({
   completed,
   onToggle,
   tierAccent,
+  pathSlug,
 }: {
   step: PathStep;
   index: number;
   completed: boolean;
   onToggle: () => void;
   tierAccent: string;
+  pathSlug: string;
 }) {
+  const vizLink = `${step.algorithmPath}?lp=${pathSlug}&step=${step.id}`;
+
   return (
     <article
       className={`lp-step-card${completed ? " lp-step-card--complete" : ""}`}
@@ -85,10 +89,40 @@ function StepCard({
           <h3 className="lp-step-title">{step.name}</h3>
         </div>
       </div>
-      <p className="lp-step-body">{step.narrative}</p>
+
+      <div className="lp-lesson-sections">
+        <div className="lp-lesson-section">
+          <span className="lp-lesson-icon" aria-hidden>
+            📖
+          </span>
+          <div>
+            <div className="lp-lesson-label">Story</div>
+            <div className="lp-lesson-text">{step.narrative}</div>
+          </div>
+        </div>
+        <div className="lp-lesson-section">
+          <span className="lp-lesson-icon" aria-hidden>
+            🌍
+          </span>
+          <div>
+            <div className="lp-lesson-label">Real-World Analogy</div>
+            <div className="lp-lesson-text">{step.analogy}</div>
+          </div>
+        </div>
+        <div className="lp-lesson-section">
+          <span className="lp-lesson-icon" aria-hidden>
+            💡
+          </span>
+          <div>
+            <div className="lp-lesson-label">Key Takeaway</div>
+            <div className="lp-lesson-text">{step.takeaway}</div>
+          </div>
+        </div>
+      </div>
+
       <div className="lp-step-foot">
         <span className="lp-step-setting">📍 {step.setting}</span>
-        <Link className="lp-step-open" to={step.algorithmPath}>
+        <Link className="lp-step-open" to={vizLink}>
           Open visualization →
         </Link>
       </div>
@@ -101,11 +135,13 @@ function TierSection({
   globalOffset,
   isAlgorithmComplete,
   toggleAlgorithmComplete,
+  pathSlug,
 }: {
   tier: PathTier;
   globalOffset: number;
   isAlgorithmComplete: (algorithmPath: string) => boolean;
   toggleAlgorithmComplete: (algorithmPath: string) => void;
+  pathSlug: string;
 }) {
   const badgeColor = TIER_BADGE_COLORS[tier.name] ?? "#58a6ff";
 
@@ -164,6 +200,7 @@ function TierSection({
             step={step}
             index={globalOffset + i}
             tierAccent={badgeColor}
+            pathSlug={pathSlug}
             completed={isAlgorithmComplete(step.algorithmPath)}
             onToggle={() => toggleAlgorithmComplete(step.algorithmPath)}
           />
@@ -341,6 +378,7 @@ export default function LearningPathDetail() {
               globalOffset={offset}
               isAlgorithmComplete={isAlgorithmComplete}
               toggleAlgorithmComplete={toggleAlgorithmComplete}
+              pathSlug={path.slug}
             />
           );
           offset += tier.steps.length;
