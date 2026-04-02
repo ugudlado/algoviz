@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { PlaybackController } from "@/components/PlaybackController";
 import { WatchPanel } from "@/components/WatchPanel";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
@@ -500,10 +501,7 @@ export default function FordFulkersonPage() {
 
   return (
     <div className="algo-page" data-category="graph">
-      <Nav
-        currentCategory="graph"
-        algorithmProgressPath="/algorithms/ford-fulkerson"
-      />
+      <Nav showStoryBanner />
 
       {/* Page Header */}
       <div className="page-header">
@@ -541,6 +539,7 @@ export default function FordFulkersonPage() {
             <span className="ff-swatch ff-swatch-saturated" /> Saturated
           </span>
         </div>
+        <AlgorithmComplete />
       </div>
 
       {/* Two-column layout */}

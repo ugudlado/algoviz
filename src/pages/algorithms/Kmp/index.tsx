@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { PlaybackController } from "@/components/PlaybackController";
 import { WatchPanel } from "@/components/WatchPanel";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
@@ -291,7 +292,7 @@ export default function KmpPage() {
 
   return (
     <div className="algo-page" data-category="string">
-      <Nav currentCategory="string" algorithmProgressPath="/algorithms/kmp" />
+      <Nav showStoryBanner />
 
       <div className="page-header">
         <div className="title-group">
@@ -325,6 +326,7 @@ export default function KmpPage() {
             <span className="swatch kmp-current-swatch" /> Current
           </span>
         </div>
+        <AlgorithmComplete />
       </div>
 
       <div className="content-grid">

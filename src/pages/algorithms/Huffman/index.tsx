@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { PlaybackController } from "@/components/PlaybackController";
 import { WatchPanel } from "@/components/WatchPanel";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
@@ -402,10 +403,7 @@ export default function HuffmanPage() {
 
   return (
     <div className="algo-page" data-category="string">
-      <Nav
-        currentCategory="string"
-        algorithmProgressPath="/algorithms/huffman"
-      />
+      <Nav showStoryBanner />
 
       <div className="page-header">
         <div className="title-group">
@@ -436,6 +434,7 @@ export default function HuffmanPage() {
             <span className="swatch huf-merged-swatch" /> Just merged
           </span>
         </div>
+        <AlgorithmComplete />
       </div>
 
       <div className="content-grid">

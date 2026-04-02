@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
 import { AnalogyPanel } from "@/components/AnalogyPanel";
 import { ProblemFrame } from "@/components/ProblemFrame";
@@ -309,10 +310,7 @@ export default function BfsPathfindingPage() {
 
   return (
     <div className="algo-page" data-category="searching">
-      <Nav
-        currentCategory="searching"
-        algorithmProgressPath="/algorithms/bfs-pathfinding"
-      />
+      <Nav showStoryBanner />
 
       <div className="page-header">
         <div className="title-group">
@@ -355,6 +353,7 @@ export default function BfsPathfindingPage() {
             <span className="swatch bfs-path" /> Path
           </span>
         </div>
+        <AlgorithmComplete />
       </div>
 
       <div className="content-grid">

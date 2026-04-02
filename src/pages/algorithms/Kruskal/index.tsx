@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { PlaybackController } from "@/components/PlaybackController";
 import { WatchPanel } from "@/components/WatchPanel";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
@@ -375,10 +376,7 @@ export default function KruskalPage() {
 
   return (
     <div className="algo-page" data-category="graph">
-      <Nav
-        currentCategory="graph"
-        algorithmProgressPath="/algorithms/kruskal"
-      />
+      <Nav showStoryBanner />
 
       <div className="page-header">
         <div className="title-group">
@@ -413,6 +411,7 @@ export default function KruskalPage() {
             <span className="swatch kr-rejected-swatch" /> Rejected (Cycle)
           </span>
         </div>
+        <AlgorithmComplete />
       </div>
 
       <div className="content-grid">

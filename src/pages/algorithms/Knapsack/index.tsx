@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { PlaybackController } from "@/components/PlaybackController";
 import { WatchPanel } from "@/components/WatchPanel";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
@@ -286,7 +287,7 @@ export default function KnapsackPage() {
 
   return (
     <div className="algo-page" data-category="dp">
-      <Nav currentCategory="dp" algorithmProgressPath="/algorithms/knapsack" />
+      <Nav showStoryBanner />
 
       <div className="page-header">
         <div className="title-group">
@@ -320,6 +321,7 @@ export default function KnapsackPage() {
             <span className="swatch ks-traceback-swatch" /> Traceback
           </span>
         </div>
+        <AlgorithmComplete />
       </div>
 
       <div className="content-grid">

@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { PlaybackController } from "@/components/PlaybackController";
 import { WatchPanel } from "@/components/WatchPanel";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
@@ -261,10 +262,7 @@ export default function UnionFindPage() {
 
   return (
     <div className="algo-page" data-category="ds">
-      <Nav
-        currentCategory="ds"
-        algorithmProgressPath="/algorithms/union-find"
-      />
+      <Nav showStoryBanner />
 
       <div className="page-header">
         <div className="title-group">
@@ -298,6 +296,7 @@ export default function UnionFindPage() {
             </button>
           ))}
         </div>
+        <AlgorithmComplete />
       </div>
 
       <div className="content-grid">

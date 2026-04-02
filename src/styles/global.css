@@ -5,16 +5,16 @@
 
 /* --- Design Tokens --- */
 :root {
-  /* G2 palette — near-black */
+  /* G2 palette — near-black with readable contrast */
   --bg-primary: #030303;
-  --bg-secondary: #0a0a0a;
-  --bg-tertiary: #111111;
-  --bg-input: #141414;
-  --border: #1f1f1f;
-  --border-hover: #333333;
+  --bg-secondary: #0d0d0d;
+  --bg-tertiary: #151515;
+  --bg-input: #181818;
+  --border: #2a2a2a;
+  --border-hover: #404040;
   --text-primary: #f5f5f5;
-  --text-secondary: #a1a1a1;
-  --text-muted: #666666;
+  --text-secondary: #b0b0b0;
+  --text-muted: #808080;
 
   /* Category accents */
   --cat-sorting: #f0883e;
@@ -197,9 +197,15 @@ body {
 
 .algo-nav .nav-search-wrap {
   position: relative;
-  min-width: 220px;
-  width: min(360px, 36vw);
-  margin-right: 0.6rem;
+  flex: 1;
+  max-width: 320px;
+}
+
+.algo-nav .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: auto;
 }
 
 .algo-nav .nav-search-input {
@@ -433,6 +439,27 @@ body {
   border-left-color: var(--path-accent);
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.home-browse-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  transition:
+    border-color 0.2s,
+    transform 0.15s;
+}
+.home-browse-cta:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
 }
 
 .settings-page {
@@ -837,6 +864,33 @@ body {
   font-weight: 600;
 }
 
+.algo-nav .nav-link {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 0.3rem 0.45rem;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+.algo-nav .nav-link:hover {
+  color: var(--text-primary);
+}
+.algo-nav .nav-link--active {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+.algo-nav .nav-link--util {
+  font-size: 0.75rem;
+}
+.algo-nav .nav-divider {
+  width: 1px;
+  height: 16px;
+  background: var(--border);
+  margin: 0 0.15rem;
+  flex-shrink: 0;
+}
+
 /* Home catalog: footer “instrument strip” — TODO/DONE reads like a lab log, not a sticker */
 .algo-card-footer {
   display: flex;
@@ -1189,6 +1243,47 @@ body {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+}
+
+.algo-complete-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
+  white-space: nowrap;
+}
+.algo-complete-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+}
+.algo-complete-btn[aria-pressed="true"] {
+  color: #3fb950;
+  border-color: color-mix(in srgb, #3fb950 40%, transparent);
+}
+.algo-complete-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  font-size: 0.65rem;
+  line-height: 1;
+}
+.algo-complete-btn[aria-pressed="true"] .algo-complete-check {
+  border-color: #3fb950;
+  background: color-mix(in srgb, #3fb950 15%, transparent);
 }
 
 h1 {
@@ -2014,5 +2109,203 @@ input[type="range"] {
   .stat {
     padding: 0.4rem 0.8rem;
     min-width: 60px;
+  }
+}
+
+/* === Algorithms Browse Page === */
+
+.algobrowse-tabs {
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.algobrowse-tabs::-webkit-scrollbar {
+  display: none;
+}
+.algobrowse-tab {
+  background: none;
+  border: none;
+  padding: 0.55rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 6px;
+  white-space: nowrap;
+  transition:
+    color 0.15s,
+    background 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.algobrowse-tab:hover {
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+}
+.algobrowse-tab--active {
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+  border-bottom: 2px solid var(--accent);
+}
+.algobrowse-tab-count {
+  font-size: 0.68rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+}
+
+.algobrowse-filters {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.algobrowse-search {
+  flex: 1;
+  min-width: 200px;
+  max-width: 360px;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+}
+.algobrowse-search:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.algobrowse-select {
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+.algobrowse-select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.algobrowse-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    transform 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  height: 100%;
+}
+
+/* === Story Context Banner (algorithm pages from learning path) === */
+
+.algostory-banner {
+  background: linear-gradient(
+    135deg,
+    var(--bg-secondary) 0%,
+    rgba(13, 17, 23, 0.95) 100%
+  );
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--algostory-accent, var(--accent));
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.algostory-banner-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.algostory-banner-path {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--algostory-accent, var(--accent));
+}
+.algostory-banner-setting {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.algostory-banner-narrative {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  font-style: italic;
+}
+.algostory-banner-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+.algostory-banner-nav a {
+  font-size: 0.78rem;
+  color: var(--algostory-accent, var(--accent));
+  text-decoration: none;
+  font-weight: 600;
+}
+.algostory-banner-nav a:hover {
+  text-decoration: underline;
+}
+
+/* === Learning Path Lesson Summary Cards === */
+
+.lp-lesson-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 0.5rem;
+}
+.lp-lesson-section {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+.lp-lesson-icon {
+  flex-shrink: 0;
+  font-size: 0.9rem;
+  margin-top: 0.1rem;
+}
+.lp-lesson-label {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.15rem;
+}
+.lp-lesson-text {
+  color: var(--text-secondary);
+}
+
+@media (max-width: 640px) {
+  .algobrowse-filters {
+    flex-direction: column;
+  }
+  .algobrowse-search {
+    max-width: 100%;
   }
 }

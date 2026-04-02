@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { PlaybackController } from "@/components/PlaybackController";
 import { WatchPanel } from "@/components/WatchPanel";
 import {
@@ -248,10 +249,7 @@ export default function BubbleSort() {
 
   return (
     <div className="algo-page" data-category="sorting">
-      <Nav
-        currentCategory="sorting"
-        algorithmProgressPath="/algorithms/bubble-sort"
-      />
+      <Nav showStoryBanner />
 
       <div className="page-header">
         <div className="title-group">
@@ -276,6 +274,7 @@ export default function BubbleSort() {
             />
           </div>
         </div>
+        <AlgorithmComplete />
       </div>
 
       <div className="content-grid">

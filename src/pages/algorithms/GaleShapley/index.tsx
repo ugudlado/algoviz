@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { PlaybackController } from "@/components/PlaybackController";
 import { WatchPanel } from "@/components/WatchPanel";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
@@ -195,10 +196,7 @@ export default function GaleShapleyPage() {
 
   return (
     <div className="algo-page" data-category="graph">
-      <Nav
-        currentCategory="graph"
-        algorithmProgressPath="/algorithms/gale-shapley"
-      />
+      <Nav showStoryBanner />
       <div className="page-header">
         <div className="title-group">
           <h1>Gale-Shapley Stable Matching</h1>
@@ -217,6 +215,7 @@ export default function GaleShapleyPage() {
             />
           </div>
         </div>
+        <AlgorithmComplete />
       </div>
 
       <div className="content-grid">

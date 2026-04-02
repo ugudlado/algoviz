@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo, useEffect } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { PlaybackController } from "@/components/PlaybackController";
 import { WatchPanel } from "@/components/WatchPanel";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
@@ -317,10 +318,7 @@ export default function BinarySearchPage() {
 
   return (
     <div className="algo-page" data-category="searching">
-      <Nav
-        currentCategory="searching"
-        algorithmProgressPath="/algorithms/binary-search"
-      />
+      <Nav showStoryBanner />
 
       <div className="page-header">
         <div className="title-group">
@@ -360,6 +358,7 @@ export default function BinarySearchPage() {
             <span className="swatch bsrch-target-swatch" /> Target
           </span>
         </div>
+        <AlgorithmComplete />
       </div>
 
       <div className="content-grid">

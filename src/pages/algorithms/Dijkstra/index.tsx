@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
 import { AnalogyPanel } from "@/components/AnalogyPanel";
 import { ProblemFrame } from "@/components/ProblemFrame";
@@ -498,10 +499,7 @@ export default function DijkstraPage() {
 
   return (
     <div className="algo-page" data-category="graph">
-      <Nav
-        currentCategory="graph"
-        algorithmProgressPath="/algorithms/dijkstra"
-      />
+      <Nav showStoryBanner />
 
       <div className="page-header">
         <div className="title-group">
@@ -541,6 +539,7 @@ export default function DijkstraPage() {
             <span className="swatch dijk-shortest-sw" /> Shortest Path
           </span>
         </div>
+        <AlgorithmComplete />
       </div>
 
       <div className="content-grid">
