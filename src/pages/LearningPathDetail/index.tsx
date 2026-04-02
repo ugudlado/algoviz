@@ -25,12 +25,11 @@ function ProgressBar({ pct, color }: { pct: number; color: string }) {
       aria-valuemax={100}
       aria-label={`Path progress, ${pct} percent`}
       style={{
-        height: 6,
-        borderRadius: 3,
+        height: 4,
+        borderRadius: 2,
         background: "var(--border)",
         overflow: "hidden",
-        maxWidth: 360,
-        marginTop: "0.75rem",
+        maxWidth: 320,
       }}
     >
       <div
@@ -86,35 +85,54 @@ function StepCard({
           <span className="lp-step-num" aria-hidden>
             {index + 1}
           </span>
-          <h3 className="lp-step-title">{step.name}</h3>
+          <h3 className="lp-step-title">
+            {step.name}
+            <span
+              style={{
+                fontSize: "0.72rem",
+                color: "var(--text-muted)",
+                fontWeight: 400,
+                marginLeft: "0.5rem",
+              }}
+            >
+              {step.setting}
+            </span>
+          </h3>
         </div>
       </div>
 
-      <div className="lp-lesson-sections">
-        <div className="lp-lesson-section">
-          <span className="lp-lesson-icon" aria-hidden>
-            📖
-          </span>
-          <div>
-            <div className="lp-lesson-label">Story</div>
-            <div className="lp-lesson-text">{step.narrative}</div>
-          </div>
-        </div>
-        <div className="lp-lesson-section">
-          <span className="lp-lesson-icon" aria-hidden>
-            💡
-          </span>
-          <div>
-            <div className="lp-lesson-label">Key Takeaway</div>
-            <div className="lp-lesson-text">{step.takeaway}</div>
-          </div>
-        </div>
-      </div>
+      <p
+        style={{
+          margin: "0.35rem 0 0.5rem",
+          fontSize: "0.85rem",
+          color: "var(--text-secondary)",
+          lineHeight: 1.55,
+          fontStyle: "italic",
+          paddingLeft: "2.1rem",
+        }}
+      >
+        {step.narrative}
+      </p>
+
+      <p
+        style={{
+          margin: "0 0 0.5rem",
+          fontSize: "0.8rem",
+          color: "var(--text-muted)",
+          lineHeight: 1.5,
+          paddingLeft: "2.1rem",
+          borderLeft: `2px solid color-mix(in srgb, ${tierAccent} 30%, transparent)`,
+          marginLeft: "2.1rem",
+          paddingTop: "0.15rem",
+          paddingBottom: "0.15rem",
+        }}
+      >
+        {step.takeaway}
+      </p>
 
       <div className="lp-step-foot">
-        <span className="lp-step-setting">📍 {step.setting}</span>
         <Link className="lp-step-open" to={vizLink}>
-          Open visualization →
+          {completed ? "Review →" : "Begin chapter →"}
         </Link>
       </div>
     </article>
@@ -137,19 +155,19 @@ function TierSection({
   const badgeColor = TIER_BADGE_COLORS[tier.name] ?? "#58a6ff";
 
   return (
-    <section style={{ marginBottom: "2.5rem" }}>
+    <section style={{ marginBottom: "2rem" }}>
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          gap: "0.75rem",
-          marginBottom: "0.5rem",
+          gap: "0.6rem",
+          marginBottom: "0.35rem",
         }}
       >
         <h2
           style={{
             margin: 0,
-            fontSize: "1.25rem",
+            fontSize: "1.1rem",
             fontWeight: 700,
             color: badgeColor,
           }}
@@ -158,31 +176,27 @@ function TierSection({
         </h2>
         <span
           style={{
-            fontSize: "0.72rem",
-            padding: "0.18rem 0.5rem",
-            borderRadius: 6,
-            border: `1px solid color-mix(in srgb, ${badgeColor} 40%, transparent)`,
-            color: badgeColor,
-            fontWeight: 600,
+            fontSize: "0.7rem",
+            color: "var(--text-muted)",
           }}
         >
-          {tier.steps.length} {tier.steps.length === 1 ? "case" : "cases"}
+          {tier.steps.length} {tier.steps.length === 1 ? "step" : "steps"}
         </span>
       </div>
       <p
         style={{
           color: "var(--text-muted)",
-          fontSize: "0.85rem",
-          marginBottom: "1.25rem",
+          fontSize: "0.82rem",
+          marginBottom: "1rem",
         }}
       >
         {tier.description}
       </p>
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
-          gap: "1rem",
+          display: "flex",
+          flexDirection: "column",
+          gap: "0.75rem",
         }}
       >
         {tier.steps.map((step, i) => (
@@ -209,7 +223,6 @@ export default function LearningPathDetail() {
     isAlgorithmComplete,
     toggleAlgorithmComplete,
     recordPathVisit,
-    clearPathMetaForSlug,
   } = useAlgovizProgress();
 
   useEffect(() => {
@@ -235,8 +248,8 @@ export default function LearningPathDetail() {
 
       <div
         style={{
-          maxWidth: 1000,
-          margin: "6rem auto 4rem",
+          maxWidth: 720,
+          margin: "5rem auto 4rem",
           padding: "0 2rem",
         }}
       >
@@ -244,31 +257,30 @@ export default function LearningPathDetail() {
           to="/#learning-paths"
           style={{
             color: "var(--text-muted)",
-            fontSize: "0.82rem",
+            fontSize: "0.78rem",
             textDecoration: "none",
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "0.3rem",
-            marginBottom: "1.5rem",
+            marginBottom: "1rem",
+            display: "inline-block",
           }}
         >
-          ← Back to Learning Paths
+          ← Learning Paths
         </Link>
 
-        <div style={{ marginBottom: "2.5rem" }}>
+        {/* Compact header */}
+        <div style={{ marginBottom: "2rem" }}>
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "0.75rem",
-              marginBottom: "0.5rem",
+              gap: "0.6rem",
+              marginBottom: "0.35rem",
             }}
           >
-            <span style={{ fontSize: "2rem" }}>{path.icon}</span>
+            <span style={{ fontSize: "1.5rem" }}>{path.icon}</span>
             <h1
               style={{
                 margin: 0,
-                fontSize: "clamp(1.5rem, 3vw, 2rem)",
+                fontSize: "clamp(1.3rem, 3vw, 1.75rem)",
                 fontWeight: 800,
                 letterSpacing: "-0.03em",
                 color: "var(--text-primary)",
@@ -279,86 +291,33 @@ export default function LearningPathDetail() {
           </div>
           <p
             style={{
-              margin: "0.5rem 0 0",
-              fontSize: "1rem",
+              margin: "0.25rem 0 0.75rem",
+              fontSize: "0.88rem",
               color: "var(--text-secondary)",
-              lineHeight: 1.6,
-              maxWidth: 700,
             }}
           >
-            {path.description}
+            {path.tagline}
           </p>
-          <p
-            style={{
-              margin: "1rem 0 0",
-              fontSize: "0.85rem",
-              color: "var(--text-muted)",
-            }}
-          >
-            Progress is saved per visualization (algorithm page). Steps here
-            share the same completion state as the home grid and nav control.
-          </p>
-          <div
-            style={{
-              fontSize: "0.82rem",
-              color: "var(--text-secondary)",
-              marginTop: "0.35rem",
-            }}
-          >
-            {completed} / {totalSteps} {unitLabel} complete ({pct}%)
-          </div>
-          <ProgressBar pct={pct} color={path.accentColor} />
-          <div style={{ marginTop: "0.85rem" }}>
-            <button
-              type="button"
-              className="learning-path-meta-btn"
-              onClick={() => {
-                if (
-                  window.confirm(
-                    "Clear last-visited metadata for this path only? Your algorithm completions stay — they are global.",
-                  )
-                ) {
-                  clearPathMetaForSlug(path.slug);
-                }
-              }}
-            >
-              Reset path visit time
-            </button>
-          </div>
           <div
             style={{
               display: "flex",
+              alignItems: "center",
               gap: "0.75rem",
-              marginTop: "1rem",
-              flexWrap: "wrap",
+              marginBottom: "0.35rem",
             }}
           >
             <span
               style={{
                 fontSize: "0.78rem",
-                padding: "0.25rem 0.6rem",
-                borderRadius: 6,
-                border: "1px solid var(--border)",
                 color: "var(--text-muted)",
-                background: "rgba(13,17,23,0.7)",
               }}
             >
-              {totalSteps} algorithms
-            </span>
-            <span
-              style={{
-                fontSize: "0.78rem",
-                padding: "0.25rem 0.6rem",
-                borderRadius: 6,
-                border: "1px solid var(--border)",
-                color: "var(--text-muted)",
-                background: "rgba(13,17,23,0.7)",
-              }}
-            >
-              {path.tiers.length}{" "}
-              {path.tiers.length === 1 ? "chapter" : "tiers"}
+              {completed > 0
+                ? `${completed} / ${totalSteps} ${unitLabel} complete`
+                : `${totalSteps} ${unitLabel}`}
             </span>
           </div>
+          <ProgressBar pct={pct} color={path.accentColor} />
         </div>
 
         {path.tiers.map((tier) => {
