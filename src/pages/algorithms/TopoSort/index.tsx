@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { PlaybackController } from "@/components/PlaybackController";
 import { WatchPanel } from "@/components/WatchPanel";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
@@ -526,10 +527,7 @@ export default function TopoSort() {
 
   return (
     <div className="algo-page" data-category="graph">
-      <Nav
-        currentCategory="graph"
-        algorithmProgressPath="/algorithms/topo-sort"
-      />
+      <Nav showStoryBanner />
 
       <div className="page-header">
         <div className="title-group">
@@ -566,6 +564,7 @@ export default function TopoSort() {
             <span className="topo-swatch topo-swatch-default" /> Pending
           </span>
         </div>
+        <AlgorithmComplete />
       </div>
 
       <div className="content-grid">

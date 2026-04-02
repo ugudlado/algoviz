@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
 import { AnalogyPanel } from "@/components/AnalogyPanel";
 import { ProblemFrame } from "@/components/ProblemFrame";
@@ -531,10 +532,7 @@ export default function PrimsPage() {
 
   return (
     <div className="algo-page" data-category="graph">
-      <Nav
-        currentCategory="graph"
-        algorithmProgressPath="/algorithms/prims-mst"
-      />
+      <Nav showStoryBanner />
 
       <div className="page-header">
         <div className="title-group">
@@ -599,6 +597,7 @@ export default function PrimsPage() {
             Candidate
           </span>
         </div>
+        <AlgorithmComplete />
       </div>
 
       <div className="content-grid">

@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { WatchPanel } from "@/components/WatchPanel";
 import { PlaybackController } from "@/components/PlaybackController";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
@@ -145,10 +146,7 @@ export default function MinimaxPage() {
 
   return (
     <div className="algo-page" data-category="advanced">
-      <Nav
-        currentCategory="advanced"
-        algorithmProgressPath="/algorithms/minimax"
-      />
+      <Nav showStoryBanner />
       <div className="page-header">
         <div className="title-group">
           <h1>Minimax (Tic-Tac-Toe)</h1>
@@ -167,6 +165,7 @@ export default function MinimaxPage() {
             />
           </div>
         </div>
+        <AlgorithmComplete />
       </div>
       <div className="content-grid">
         <div className="main-column">

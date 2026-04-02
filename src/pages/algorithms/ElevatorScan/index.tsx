@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { PlaybackController } from "@/components/PlaybackController";
 import { WatchPanel } from "@/components/WatchPanel";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
@@ -78,10 +79,7 @@ export default function ElevatorScanPage() {
 
   return (
     <div className="algo-page" data-category="advanced">
-      <Nav
-        currentCategory="advanced"
-        algorithmProgressPath="/algorithms/elevator-scan"
-      />
+      <Nav showStoryBanner />
       <div className="page-header">
         <div className="title-group">
           <h1>Elevator (SCAN) Scheduling</h1>
@@ -100,6 +98,7 @@ export default function ElevatorScanPage() {
             />
           </div>
         </div>
+        <AlgorithmComplete />
       </div>
       <div className="content-grid">
         <div className="main-column">

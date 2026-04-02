@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { PlaybackController } from "@/components/PlaybackController";
 import { WatchPanel } from "@/components/WatchPanel";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
@@ -224,10 +225,7 @@ export default function SlidingWindowPage() {
 
   return (
     <div className="algo-page" data-category="ds">
-      <Nav
-        currentCategory="ds"
-        algorithmProgressPath="/algorithms/sliding-window"
-      />
+      <Nav showStoryBanner />
 
       <div className="page-header">
         <div className="title-group">
@@ -263,6 +261,7 @@ export default function SlidingWindowPage() {
             Longest Unique
           </button>
         </div>
+        <AlgorithmComplete />
       </div>
 
       <div className="content-grid">

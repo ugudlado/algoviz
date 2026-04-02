@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { PlaybackController } from "@/components/PlaybackController";
 import { WatchPanel } from "@/components/WatchPanel";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
@@ -64,10 +65,7 @@ export default function NQueensPage() {
 
   return (
     <div className="algo-page" data-category="advanced">
-      <Nav
-        currentCategory="advanced"
-        algorithmProgressPath="/algorithms/n-queens"
-      />
+      <Nav showStoryBanner />
       <div className="page-header">
         <div className="title-group">
           <h1>N-Queens (Backtracking)</h1>
@@ -86,6 +84,7 @@ export default function NQueensPage() {
             />
           </div>
         </div>
+        <AlgorithmComplete />
       </div>
       <div className="content-grid">
         <div className="main-column">

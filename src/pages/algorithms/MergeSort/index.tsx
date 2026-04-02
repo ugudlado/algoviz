@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { PlaybackController } from "@/components/PlaybackController";
 import { WatchPanel } from "@/components/WatchPanel";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
@@ -235,10 +236,7 @@ export default function MergeSort() {
 
   return (
     <div className="algo-page" data-category="sorting">
-      <Nav
-        currentCategory="sorting"
-        algorithmProgressPath="/algorithms/merge-sort"
-      />
+      <Nav showStoryBanner />
 
       <div className="page-header">
         <div className="title-group">
@@ -258,6 +256,7 @@ export default function MergeSort() {
             />
           </div>
         </div>
+        <AlgorithmComplete />
       </div>
 
       <div className="content-grid">

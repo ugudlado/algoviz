@@ -197,9 +197,15 @@ body {
 
 .algo-nav .nav-search-wrap {
   position: relative;
-  min-width: 180px;
-  width: min(260px, 28vw);
-  margin-right: 0.5rem;
+  flex: 1;
+  max-width: 320px;
+}
+
+.algo-nav .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: auto;
 }
 
 .algo-nav .nav-search-input {
@@ -1245,6 +1251,47 @@ body {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+}
+
+.algo-complete-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
+  white-space: nowrap;
+}
+.algo-complete-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+}
+.algo-complete-btn[aria-pressed="true"] {
+  color: #3fb950;
+  border-color: color-mix(in srgb, #3fb950 40%, transparent);
+}
+.algo-complete-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  font-size: 0.65rem;
+  line-height: 1;
+}
+.algo-complete-btn[aria-pressed="true"] .algo-complete-check {
+  border-color: #3fb950;
+  background: color-mix(in srgb, #3fb950 15%, transparent);
 }
 
 h1 {

@@ -6,6 +6,7 @@ import {
   type MouseEvent,
 } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { PlaybackController } from "@/components/PlaybackController";
 import { WatchPanel } from "@/components/WatchPanel";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
@@ -610,7 +611,7 @@ export default function TarjanPage() {
 
   return (
     <div className="algo-page" data-category="graph">
-      <Nav currentCategory="graph" algorithmProgressPath="/algorithms/tarjan" />
+      <Nav showStoryBanner />
 
       {/* Page header */}
       <div className="page-header">
@@ -648,6 +649,7 @@ export default function TarjanPage() {
             <span className="tj-edge-cross" /> Cross edge
           </div>
         </div>
+        <AlgorithmComplete />
       </div>
 
       {/* Content */}

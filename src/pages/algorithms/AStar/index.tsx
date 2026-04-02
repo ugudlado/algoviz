@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
 import { AnalogyPanel } from "@/components/AnalogyPanel";
 import { ProblemFrame } from "@/components/ProblemFrame";
@@ -515,10 +516,7 @@ export default function AStarPage() {
 
   return (
     <div className="algo-page" data-category="graph">
-      <Nav
-        currentCategory="graph"
-        algorithmProgressPath="/algorithms/astar-pathfinding"
-      />
+      <Nav showStoryBanner />
 
       <div className="page-header">
         <div className="title-group">
@@ -564,6 +562,7 @@ export default function AStarPage() {
             <span className="swatch astar-path" /> Path
           </span>
         </div>
+        <AlgorithmComplete />
       </div>
 
       <div className="content-grid">

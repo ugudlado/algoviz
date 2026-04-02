@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { WatchPanel } from "@/components/WatchPanel";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
 import { AnalogyPanel } from "@/components/AnalogyPanel";
@@ -706,10 +707,7 @@ export default function FloydWarshall() {
 
   return (
     <div className="algo-page" data-category="graph">
-      <Nav
-        currentCategory="graph"
-        algorithmProgressPath="/algorithms/floyd-warshall"
-      />
+      <Nav showStoryBanner />
 
       {/* Page Header */}
       <div className="page-header">
@@ -730,6 +728,7 @@ export default function FloydWarshall() {
             />
           </div>
         </div>
+        <AlgorithmComplete />
       </div>
 
       {/* Two-column layout */}

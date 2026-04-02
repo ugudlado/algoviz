@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { Nav } from "@/components/Nav";
+import { AlgorithmComplete } from "@/components/AlgorithmComplete";
 import { PlaybackController } from "@/components/PlaybackController";
 import { WatchPanel } from "@/components/WatchPanel";
 import { ComplexityPopover } from "@/components/ComplexityPopover";
@@ -259,7 +260,7 @@ export default function LcsPage() {
 
   return (
     <div className="algo-page" data-category="dp">
-      <Nav currentCategory="dp" algorithmProgressPath="/algorithms/lcs" />
+      <Nav showStoryBanner />
 
       <div className="page-header">
         <div className="title-group">
@@ -293,6 +294,7 @@ export default function LcsPage() {
             <span className="swatch lcs-traceback-swatch" /> Traceback
           </span>
         </div>
+        <AlgorithmComplete />
       </div>
 
       <div className="content-grid">

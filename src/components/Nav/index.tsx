@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAlgovizProgress } from "@/contexts/AlgovizProgressContext";
 import { StoryBanner } from "@/components/StoryBanner";
 
 interface NavItem {
@@ -86,28 +85,11 @@ const SEARCH_INDEX: { label: string; items: NavItem[] }[] = [
 ];
 
 interface NavProps {
-  currentCategory?: string;
-  /** When set (algorithm pages), show mark-complete control in the nav bar */
-  algorithmProgressPath?: string;
+  /** When true, show the story banner below the nav (algorithm pages only) */
+  showStoryBanner?: boolean;
 }
 
-function NavAlgorithmProgress({ path }: { path: string }) {
-  const { isAlgorithmComplete, toggleAlgorithmComplete } = useAlgovizProgress();
-  const done = isAlgorithmComplete(path);
-  return (
-    <button
-      type="button"
-      className="nav-algo-progress-btn"
-      onClick={() => toggleAlgorithmComplete(path)}
-      aria-pressed={done}
-      aria-label={done ? "Mark as not completed" : "Mark as completed"}
-    >
-      {done ? "Completed" : "Mark as completed"}
-    </button>
-  );
-}
-
-export function Nav({ algorithmProgressPath }: NavProps) {
+export function Nav({ showStoryBanner }: NavProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const location = useLocation();
@@ -232,31 +214,26 @@ export function Nav({ algorithmProgressPath }: NavProps) {
           )}
         </div>
 
-        <Link
-          to="/#learning-paths"
-          className={`nav-link${location.pathname.startsWith("/learning-paths") ? " nav-link--active" : ""}`}
-        >
-          Learning Paths
-        </Link>
-        <Link
-          to="/algorithms"
-          className={`nav-link${location.pathname === "/algorithms" ? " nav-link--active" : ""}`}
-        >
-          Algorithms
-        </Link>
-        <Link
-          to="/settings"
-          className={`nav-link nav-link--util${location.pathname === "/settings" ? " nav-link--active" : ""}`}
-        >
-          Settings
-        </Link>
-
-        {algorithmProgressPath && (
-          <>
-            <span className="nav-divider" aria-hidden />
-            <NavAlgorithmProgress path={algorithmProgressPath} />
-          </>
-        )}
+        <div className="nav-links">
+          <Link
+            to="/#learning-paths"
+            className={`nav-link${location.pathname.startsWith("/learning-paths") ? " nav-link--active" : ""}`}
+          >
+            Learning Paths
+          </Link>
+          <Link
+            to="/algorithms"
+            className={`nav-link${location.pathname === "/algorithms" ? " nav-link--active" : ""}`}
+          >
+            Algorithms
+          </Link>
+          <Link
+            to="/settings"
+            className={`nav-link nav-link--util${location.pathname === "/settings" ? " nav-link--active" : ""}`}
+          >
+            Settings
+          </Link>
+        </div>
 
         <button
           className="nav-hamburger"
@@ -266,7 +243,7 @@ export function Nav({ algorithmProgressPath }: NavProps) {
           ☰
         </button>
       </nav>
-      {algorithmProgressPath && <StoryBanner />}
+      {showStoryBanner && <StoryBanner />}
     </>
   );
 }
