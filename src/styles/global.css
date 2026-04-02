@@ -435,6 +435,27 @@ body {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
+.home-browse-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  transition:
+    border-color 0.2s,
+    transform 0.15s;
+}
+.home-browse-cta:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
+}
+
 .settings-page {
   max-width: 720px;
   margin: 0 auto;

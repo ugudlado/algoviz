@@ -8,20 +8,14 @@ interface NavItem {
   path: string;
 }
 
-interface NavCategory {
-  label: string;
-  category: string;
-  items: NavItem[];
-}
-
 interface SearchItem extends NavItem {
   categoryLabel: string;
 }
 
-const NAV_CONFIG: NavCategory[] = [
+/** Algorithm data used only for search — not rendered as nav dropdowns. */
+const SEARCH_INDEX: { label: string; items: NavItem[] }[] = [
   {
     label: "Sorting",
-    category: "sorting",
     items: [
       { label: "Bubble Sort", path: "/algorithms/bubble-sort" },
       { label: "Merge Sort", path: "/algorithms/merge-sort" },
@@ -31,16 +25,15 @@ const NAV_CONFIG: NavCategory[] = [
   },
   {
     label: "Searching",
-    category: "searching",
     items: [
       { label: "Binary Search", path: "/algorithms/binary-search" },
       { label: "BFS Pathfinding", path: "/algorithms/bfs-pathfinding" },
       { label: "DFS Pathfinding", path: "/algorithms/dfs-pathfinding" },
+      { label: "Sliding Window", path: "/algorithms/sliding-window" },
     ],
   },
   {
     label: "Graph",
-    category: "graph",
     items: [
       { label: "Dijkstra", path: "/algorithms/dijkstra" },
       { label: "A* Pathfinding", path: "/algorithms/astar-pathfinding" },
@@ -55,7 +48,6 @@ const NAV_CONFIG: NavCategory[] = [
   },
   {
     label: "DP",
-    category: "dp",
     items: [
       { label: "Knapsack (0/1)", path: "/algorithms/knapsack" },
       { label: "LCS", path: "/algorithms/lcs" },
@@ -64,7 +56,6 @@ const NAV_CONFIG: NavCategory[] = [
   },
   {
     label: "String",
-    category: "string",
     items: [
       { label: "KMP Search", path: "/algorithms/kmp" },
       { label: "Huffman Coding", path: "/algorithms/huffman" },
@@ -72,7 +63,6 @@ const NAV_CONFIG: NavCategory[] = [
   },
   {
     label: "Data Structures",
-    category: "ds",
     items: [
       { label: "AVL Tree", path: "/algorithms/avl-tree" },
       { label: "BST Traversal", path: "/algorithms/bst-traversal" },
@@ -82,12 +72,10 @@ const NAV_CONFIG: NavCategory[] = [
       { label: "Bloom Filter", path: "/algorithms/bloom-filter" },
       { label: "Trie", path: "/algorithms/trie" },
       { label: "Union-Find", path: "/algorithms/union-find" },
-      { label: "Sliding Window", path: "/algorithms/sliding-window" },
     ],
   },
   {
-    label: "More",
-    category: "advanced",
+    label: "Advanced",
     items: [
       { label: "Convex Hull", path: "/algorithms/convex-hull" },
       { label: "Elevator (SCAN)", path: "/algorithms/elevator-scan" },
@@ -119,20 +107,16 @@ function NavAlgorithmProgress({ path }: { path: string }) {
   );
 }
 
-export function Nav({ currentCategory, algorithmProgressPath }: NavProps) {
+export function Nav({ algorithmProgressPath }: NavProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [openCategory, setOpenCategory] = useState<string | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
-  const closeTimerRef = useRef<number | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const searchableItems = useMemo<SearchItem[]>(
     () =>
-      NAV_CONFIG.flatMap((category) =>
-        category.items
-          .filter((item) => item.path.startsWith("/"))
-          .map((item) => ({ ...item, categoryLabel: category.label })),
+      SEARCH_INDEX.flatMap((group) =>
+        group.items.map((item) => ({ ...item, categoryLabel: group.label })),
       ),
     [],
   );
@@ -155,14 +139,6 @@ export function Nav({ currentCategory, algorithmProgressPath }: NavProps) {
   );
 
   useEffect(() => {
-    return () => {
-      if (closeTimerRef.current !== null) {
-        window.clearTimeout(closeTimerRef.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
     function handleShortcut(event: KeyboardEvent) {
       const isCommandK = (event.metaKey || event.ctrlKey) && event.key === "k";
       if (!isCommandK) {
@@ -177,25 +153,9 @@ export function Nav({ currentCategory, algorithmProgressPath }: NavProps) {
     return () => window.removeEventListener("keydown", handleShortcut);
   }, []);
 
-  function cancelCategoryClose() {
-    if (closeTimerRef.current !== null) {
-      window.clearTimeout(closeTimerRef.current);
-      closeTimerRef.current = null;
-    }
-  }
-
-  function scheduleCategoryClose() {
-    cancelCategoryClose();
-    closeTimerRef.current = window.setTimeout(() => {
-      setOpenCategory(null);
-    }, 320);
-  }
-
   function closeSearchAndMenu() {
-    cancelCategoryClose();
     setQuery("");
     setIsOpen(false);
-    setOpenCategory(null);
   }
 
   return (
@@ -220,30 +180,13 @@ export function Nav({ currentCategory, algorithmProgressPath }: NavProps) {
           </span>
           AlgoViz
         </Link>
-        <Link
-          to="/#learning-paths"
-          className={`nav-top-link${location.pathname.startsWith("/learning-paths") ? " nav-top-link--active" : ""}`}
-        >
-          Learning Paths
-        </Link>
-        <Link
-          to="/algorithms"
-          className={`nav-top-link${location.pathname === "/algorithms" ? " nav-top-link--active" : ""}`}
-        >
-          Algorithms
-        </Link>
-        <Link
-          to="/settings"
-          className={`nav-settings-link${location.pathname === "/settings" ? " nav-settings-link--active" : ""}`}
-        >
-          Settings
-        </Link>
+
         <div className="nav-search-wrap">
           <input
             ref={searchInputRef}
             type="search"
             className="nav-search-input"
-            placeholder="Search algorithms..."
+            placeholder="Search algorithms... (⌘K)"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             onKeyDown={(event) => {
@@ -289,61 +232,24 @@ export function Nav({ currentCategory, algorithmProgressPath }: NavProps) {
           )}
         </div>
 
-        {NAV_CONFIG.map((cat) => {
-          const isCurrent = cat.category === currentCategory;
-          return (
-            <div
-              key={cat.label}
-              className={`nav-category${openCategory === cat.label ? " open" : ""}`}
-              onMouseEnter={() => {
-                cancelCategoryClose();
-                setOpenCategory(cat.label);
-              }}
-              onMouseLeave={scheduleCategoryClose}
-            >
-              <button
-                className={`nav-category-btn${isCurrent ? " current-category" : ""}`}
-                onClick={() =>
-                  setOpenCategory((previous) =>
-                    previous === cat.label ? null : cat.label,
-                  )
-                }
-                aria-expanded={openCategory === cat.label}
-              >
-                {cat.label}
-              </button>
-              <div
-                className="nav-dropdown"
-                onMouseEnter={cancelCategoryClose}
-                onMouseLeave={scheduleCategoryClose}
-              >
-                {cat.items.map((item) => {
-                  const isActive = location.pathname === item.path;
-                  const isInternalLink = item.path.startsWith("/");
-                  return isInternalLink ? (
-                    <Link
-                      key={item.path}
-                      to={item.path}
-                      className={isActive ? "active" : ""}
-                      onClick={() => setOpenCategory(null)}
-                    >
-                      {item.label}
-                    </Link>
-                  ) : (
-                    <a
-                      key={item.path}
-                      href={item.path}
-                      className={isActive ? "active" : ""}
-                      onClick={() => setOpenCategory(null)}
-                    >
-                      {item.label}
-                    </a>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })}
+        <Link
+          to="/#learning-paths"
+          className={`nav-category-btn${location.pathname.startsWith("/learning-paths") ? " current-category" : ""}`}
+        >
+          Learning Paths
+        </Link>
+        <Link
+          to="/algorithms"
+          className={`nav-category-btn${location.pathname === "/algorithms" ? " current-category" : ""}`}
+        >
+          Algorithms
+        </Link>
+        <Link
+          to="/settings"
+          className={`nav-category-btn${location.pathname === "/settings" ? " current-category" : ""}`}
+        >
+          Settings
+        </Link>
 
         {algorithmProgressPath && (
           <NavAlgorithmProgress path={algorithmProgressPath} />

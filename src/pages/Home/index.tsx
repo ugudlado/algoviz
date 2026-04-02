@@ -1,21 +1,9 @@
 import { Nav } from "@/components/Nav";
 import { useAlgovizProgress } from "@/contexts/AlgovizProgressContext";
-import {
-  ALGORITHMS,
-  DIFFICULTY_COLOR,
-  getSpaceComplexity,
-  type AlgoCard,
-} from "@/data/algorithms";
+import { ALGORITHMS, DIFFICULTY_COLOR, type AlgoCard } from "@/data/algorithms";
 import { LEARNING_PATHS, getTotalSteps } from "@/data/learningPaths";
 import { useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
-
-const HOMEPAGE_VISIBLE_CATEGORIES = new Set([
-  "sorting",
-  "searching",
-  "string",
-  "dp",
-]);
 
 function LearningPathProgressBar({
   pct,
@@ -31,7 +19,7 @@ function LearningPathProgressBar({
         borderRadius: 3,
         background: "var(--border)",
         overflow: "hidden",
-        marginTop: "0.65rem",
+        marginTop: "0.5rem",
       }}
     >
       <div
@@ -48,9 +36,7 @@ function LearningPathProgressBar({
 
 export default function Home() {
   const { getPathStats } = useAlgovizProgress();
-  const spotlightCandidates = ALGORITHMS.filter(
-    (a) => a.available && HOMEPAGE_VISIBLE_CATEGORIES.has(a.category),
-  );
+  const spotlightCandidates = ALGORITHMS.filter((a) => a.available);
   const [spotlightAlgorithm, setSpotlightAlgorithm] = useState(() =>
     pickRandomAlgorithm(spotlightCandidates),
   );
@@ -63,25 +49,23 @@ export default function Home() {
     >
       <Nav />
 
-      {/* Hero */}
+      {/* Spotlight */}
       <section
         style={{
           maxWidth: 1200,
-          margin: "6rem auto 4rem",
+          margin: "5rem auto 2.5rem",
           padding: "0 2rem",
           textAlign: "center",
         }}
       >
         <div
           style={{
-            maxWidth: 760,
+            maxWidth: 680,
             margin: "0 auto",
             border: "1px solid var(--border)",
-            borderRadius: 16,
-            background:
-              "repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 34px), linear-gradient(180deg, rgba(22,27,34,0.95) 0%, rgba(13,17,23,0.95) 100%)",
-            boxShadow: "0 16px 36px rgba(0,0,0,0.28)",
-            padding: "1.45rem",
+            borderRadius: 12,
+            background: "var(--bg-secondary)",
+            padding: "1.5rem",
             textAlign: "left",
             position: "relative",
             overflow: "hidden",
@@ -91,43 +75,82 @@ export default function Home() {
             aria-hidden="true"
             style={{
               position: "absolute",
-              inset: 0,
-              borderLeft: `4px solid var(${spotlightAlgorithm.accentVar})`,
-              borderRadius: 16,
-              pointerEvents: "none",
+              top: 0,
+              left: 0,
+              bottom: 0,
+              width: 3,
+              background: `var(${spotlightAlgorithm.accentVar})`,
             }}
           />
-          <p
+          <div
             style={{
-              margin: 0,
-              fontSize: "0.75rem",
-              letterSpacing: "0.06em",
-              textTransform: "uppercase",
-              fontWeight: 700,
-              color: "var(--text-muted)",
-              fontFamily: "var(--font-mono)",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "0.5rem",
             }}
           >
-            Algorithm Spotlight
-          </p>
+            <p
+              style={{
+                margin: 0,
+                fontSize: "0.7rem",
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+                fontWeight: 700,
+                color: "var(--text-muted)",
+                fontFamily: "var(--font-mono)",
+              }}
+            >
+              Algorithm Spotlight
+            </p>
+            <div
+              style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}
+            >
+              <span
+                style={{
+                  fontSize: "0.68rem",
+                  color: `var(${spotlightAlgorithm.accentVar})`,
+                  fontWeight: 600,
+                }}
+              >
+                {spotlightAlgorithm.categoryLabel}
+              </span>
+              <span
+                style={{
+                  width: 3,
+                  height: 3,
+                  borderRadius: "50%",
+                  background: "var(--text-muted)",
+                }}
+              />
+              <span
+                style={{
+                  fontSize: "0.68rem",
+                  color: DIFFICULTY_COLOR[spotlightAlgorithm.difficulty],
+                  fontWeight: 600,
+                }}
+              >
+                {spotlightAlgorithm.difficulty}
+              </span>
+            </div>
+          </div>
           <h2
             style={{
-              margin: "0.55rem 0 0.35rem",
-              fontSize: "clamp(1.3rem, 2vw, 1.75rem)",
-              lineHeight: 1.12,
-              letterSpacing: "-0.03em",
+              margin: "0 0 0.4rem",
+              fontSize: "clamp(1.2rem, 2vw, 1.5rem)",
+              lineHeight: 1.15,
+              letterSpacing: "-0.02em",
               color: "var(--text-primary)",
-              position: "relative",
             }}
           >
             {spotlightAlgorithm.name}
           </h2>
           <p
             style={{
-              margin: "0 0 1rem",
+              margin: "0 0 0.5rem",
               color: "var(--text-secondary)",
               lineHeight: 1.55,
-              maxWidth: 620,
+              fontSize: "0.88rem",
             }}
           >
             {spotlightAlgorithm.description}
@@ -135,95 +158,29 @@ export default function Home() {
           <p
             style={{
               margin: "0 0 1rem",
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.72rem",
               color: "var(--text-muted)",
-              fontSize: "0.82rem",
-              fontStyle: "italic",
             }}
           >
-            {getSpotlightReason(spotlightAlgorithm.category)}
+            {spotlightAlgorithm.complexity} time
           </p>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.75rem",
-              flexWrap: "wrap",
-              marginBottom: "1.15rem",
-            }}
-          >
-            <span
-              style={{
-                fontSize: "0.72rem",
-                padding: "0.22rem 0.6rem",
-                borderRadius: 6,
-                color: `var(${spotlightAlgorithm.accentVar})`,
-                border: `1px solid color-mix(in srgb, var(${spotlightAlgorithm.accentVar}) 50%, var(--border))`,
-                background: "rgba(13,17,23,0.85)",
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "0.04em",
-              }}
-            >
-              {spotlightAlgorithm.categoryLabel}
-            </span>
-            <span
-              style={{
-                fontFamily: "var(--font-mono)",
-                color: "var(--text-secondary)",
-                fontSize: "0.78rem",
-                padding: "0.2rem 0.5rem",
-                borderRadius: 6,
-                border: "1px solid var(--border)",
-                background: "rgba(13,17,23,0.7)",
-              }}
-            >
-              Time: {spotlightAlgorithm.complexity}
-            </span>
-            <span
-              style={{
-                fontFamily: "var(--font-mono)",
-                color: "var(--text-secondary)",
-                fontSize: "0.78rem",
-                padding: "0.2rem 0.5rem",
-                borderRadius: 6,
-                border: "1px solid var(--border)",
-                background: "rgba(13,17,23,0.7)",
-              }}
-            >
-              Space: {getSpaceComplexity(spotlightAlgorithm.name)}
-            </span>
-            <span
-              style={{
-                color: DIFFICULTY_COLOR[spotlightAlgorithm.difficulty],
-                fontSize: "0.78rem",
-                fontWeight: 600,
-                padding: "0.2rem 0.5rem",
-                borderRadius: 6,
-                border:
-                  "1px solid color-mix(in srgb, currentColor 40%, transparent)",
-                background: "rgba(13,17,23,0.7)",
-              }}
-            >
-              {spotlightAlgorithm.difficulty}
-            </span>
-          </div>
-          <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap" }}>
             <Link
               to={spotlightAlgorithm.path}
               style={{
-                padding: "0.65rem 1.15rem",
-                borderRadius: 8,
+                padding: "0.55rem 1rem",
+                borderRadius: 6,
                 fontWeight: 600,
-                fontSize: "0.9rem",
+                fontSize: "0.85rem",
                 cursor: "pointer",
                 textDecoration: "none",
-                background: "var(--accent)",
-                color: "#00131f",
-                border: "1px solid rgba(0,0,0,0.18)",
-                boxShadow: "0 2px 0 rgba(0,0,0,0.24)",
+                background: `var(${spotlightAlgorithm.accentVar})`,
+                color: "#000",
+                border: "none",
               }}
             >
-              Run this algorithm →
+              Visualize →
             </Link>
             <button
               type="button"
@@ -233,17 +190,17 @@ export default function Home() {
                 );
               }}
               style={{
-                padding: "0.65rem 1.15rem",
-                borderRadius: 8,
+                padding: "0.55rem 1rem",
+                borderRadius: 6,
                 fontWeight: 600,
-                fontSize: "0.9rem",
+                fontSize: "0.85rem",
                 cursor: "pointer",
-                background: "rgba(13,17,23,0.72)",
-                color: "var(--text-primary)",
+                background: "transparent",
+                color: "var(--text-muted)",
                 border: "1px solid var(--border)",
               }}
             >
-              Pick another challenge
+              Shuffle
             </button>
           </div>
         </div>
@@ -254,16 +211,16 @@ export default function Home() {
         id="learning-paths"
         style={{
           maxWidth: 1200,
-          margin: "0 auto 4rem",
+          margin: "0 auto 2.5rem",
           padding: "0 2rem",
           width: "100%",
         }}
       >
         <h2
           style={{
-            fontSize: "1.5rem",
+            fontSize: "1.25rem",
             fontWeight: 700,
-            marginBottom: "0.5rem",
+            marginBottom: "0.25rem",
             letterSpacing: "-0.02em",
           }}
         >
@@ -272,25 +229,26 @@ export default function Home() {
         <p
           style={{
             color: "var(--text-muted)",
-            fontSize: "0.9rem",
-            marginBottom: "0.35rem",
+            fontSize: "0.85rem",
+            marginBottom: "1rem",
           }}
         >
-          Follow a narrative to learn algorithms in context — each path connects
-          algorithms through a story.
+          Learn algorithms through story-driven challenges.
         </p>
 
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
-            gap: "1.5rem",
+            gridTemplateColumns: "repeat(auto-fill, minmax(400px, 1fr))",
+            gap: "1.25rem",
           }}
         >
           {LEARNING_PATHS.map((path) => {
             const { completed, total, pct } = getPathStats(path);
             const unit =
               path.slug === "algorithm-detective" ? "cases" : "chapters";
+            const allSteps = path.tiers.flatMap((t) => t.steps);
+            const previewSteps = allSteps.slice(0, 3);
             return (
               <Link
                 key={path.slug}
@@ -307,10 +265,10 @@ export default function Home() {
                     display: "flex",
                     alignItems: "center",
                     gap: "0.6rem",
-                    marginBottom: "0.5rem",
+                    marginBottom: "0.35rem",
                   }}
                 >
-                  <span style={{ fontSize: "1.5rem" }}>{path.icon}</span>
+                  <span style={{ fontSize: "1.4rem" }}>{path.icon}</span>
                   <h3
                     style={{
                       margin: 0,
@@ -324,7 +282,7 @@ export default function Home() {
                 </div>
                 <p
                   style={{
-                    margin: "0 0 0.75rem",
+                    margin: "0 0 0.65rem",
                     fontSize: "0.82rem",
                     color: "var(--text-secondary)",
                     lineHeight: 1.5,
@@ -332,14 +290,60 @@ export default function Home() {
                 >
                   {path.tagline}
                 </p>
+
+                {/* Step preview */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "0.3rem",
+                    marginBottom: "0.65rem",
+                  }}
+                >
+                  {previewSteps.map((step, i) => (
+                    <div
+                      key={step.id}
+                      style={{
+                        fontSize: "0.75rem",
+                        color: "var(--text-muted)",
+                        display: "flex",
+                        gap: "0.4rem",
+                      }}
+                    >
+                      <span
+                        style={{
+                          color: "var(--text-muted)",
+                          fontFamily: "var(--font-mono)",
+                          minWidth: "1.2rem",
+                        }}
+                      >
+                        {i + 1}.
+                      </span>
+                      <span>{step.name}</span>
+                    </div>
+                  ))}
+                  {allSteps.length > 3 && (
+                    <span
+                      style={{
+                        fontSize: "0.72rem",
+                        color: "var(--text-muted)",
+                        paddingLeft: "1.6rem",
+                      }}
+                    >
+                      +{allSteps.length - 3} more
+                    </span>
+                  )}
+                </div>
+
                 <div
                   style={{
                     fontSize: "0.72rem",
                     color: "var(--text-muted)",
-                    marginBottom: "0.15rem",
                   }}
                 >
-                  {completed} / {total} {unit} complete
+                  {completed > 0
+                    ? `${completed} / ${total} ${unit} complete`
+                    : `${total} ${unit} · Start your journey`}
                 </div>
                 <LearningPathProgressBar
                   pct={pct}
@@ -352,7 +356,7 @@ export default function Home() {
                     alignItems: "center",
                     fontSize: "0.75rem",
                     color: "var(--text-muted)",
-                    marginTop: "0.65rem",
+                    marginTop: "0.5rem",
                   }}
                 >
                   <span>
@@ -360,7 +364,7 @@ export default function Home() {
                     {path.tiers.length === 1 ? "chapter" : "tiers"}
                   </span>
                   <span style={{ color: path.accentColor, fontWeight: 600 }}>
-                    Explore →
+                    {completed > 0 ? "Continue →" : "Start →"}
                   </span>
                 </div>
               </Link>
@@ -373,39 +377,13 @@ export default function Home() {
       <section
         style={{
           maxWidth: 1200,
-          margin: "0 auto 6rem",
+          margin: "0 auto 4rem",
           padding: "0 2rem",
           width: "100%",
           textAlign: "center",
         }}
       >
-        <Link
-          to="/algorithms"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            padding: "0.85rem 2rem",
-            borderRadius: 10,
-            fontWeight: 700,
-            fontSize: "1rem",
-            textDecoration: "none",
-            background: "var(--bg-secondary)",
-            color: "var(--text-primary)",
-            border: "1px solid var(--border)",
-            transition: "border-color 0.2s, transform 0.15s",
-          }}
-          onMouseEnter={(e) => {
-            const el = e.currentTarget;
-            el.style.borderColor = "var(--accent)";
-            el.style.transform = "translateY(-2px)";
-          }}
-          onMouseLeave={(e) => {
-            const el = e.currentTarget;
-            el.style.borderColor = "var(--border)";
-            el.style.transform = "";
-          }}
-        >
+        <Link to="/algorithms" className="home-browse-cta">
           Browse all {ALGORITHMS.length} algorithms →
         </Link>
       </section>
@@ -426,19 +404,4 @@ function pickRandomAlgorithm(
   const pool = candidates.length > 0 ? candidates : algorithms;
   const randomIndex = Math.floor(Math.random() * pool.length);
   return pool[randomIndex];
-}
-
-function getSpotlightReason(category: string): string {
-  switch (category) {
-    case "sorting":
-      return "Why this pick: great for building intuition about step-by-step state changes.";
-    case "searching":
-      return "Why this pick: ideal for learning how to shrink a problem space efficiently.";
-    case "dp":
-      return "Why this pick: helps you see overlapping subproblems and reuse in action.";
-    case "string":
-      return "Why this pick: useful for interview-style pattern matching practice.";
-    default:
-      return "Why this pick: strong visual signal-to-concept ratio for quick learning.";
-  }
 }

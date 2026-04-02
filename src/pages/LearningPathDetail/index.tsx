@@ -102,15 +102,6 @@ function StepCard({
         </div>
         <div className="lp-lesson-section">
           <span className="lp-lesson-icon" aria-hidden>
-            🌍
-          </span>
-          <div>
-            <div className="lp-lesson-label">Real-World Analogy</div>
-            <div className="lp-lesson-text">{step.analogy}</div>
-          </div>
-        </div>
-        <div className="lp-lesson-section">
-          <span className="lp-lesson-icon" aria-hidden>
             💡
           </span>
           <div>
