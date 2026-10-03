@@ -14,3 +14,7 @@ README_IDEATION.md
 .claude/metrics.jsonl
 .tmp
 tsconfig.tsbuildinfo
+.agents/skills/
+.claude/settings.local.json
+.claude/skills/find-skills
+.claude/skills/shadcn
