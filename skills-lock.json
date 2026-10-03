@@ -49,12 +49,6 @@
       "skillPath": "roles/ideator/SKILL.md",
       "computedHash": "edbf82a4d93d4b6b50ee91a0e3841d9ff37a5eb36d9fe8fb11ba0105ab2da5bb"
     },
-    "scratchpad": {
-      "source": "ugudlado/skills",
-      "sourceType": "github",
-      "skillPath": "utils/scratchpad/SKILL.md",
-      "computedHash": "ac509170c6eff9412b1d2d3e089cd47efffca069efc72a1d72e76a4477f62f75"
-    },
     "shadcn": {
       "source": "shadcn/ui",
       "sourceType": "github",
